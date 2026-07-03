@@ -2,7 +2,7 @@
 
 <section class="main-product page-padding section-spacing">
   {%- if section.settings.show_breadcrumb -%}
-    <nav class="breadcrumb" aria-label="{{ 'accessibility.breadcrumb' | t }}">
+    <nav class="breadcrumb reveal" aria-label="{{ 'accessibility.breadcrumb' | t }}">
       <a href="{{ routes.all_products_collection_url }}" class="breadcrumb__link">{{ 'general.breadcrumb.shop' | t }}</a>
       {%- if collection -%}
         <span class="breadcrumb__separator" aria-hidden="true">&gt;</span>
@@ -19,7 +19,7 @@
       {%- assign product_images = product.media | where: 'media_type', 'image' -%}
       {%- if product_images.size > 0 -%}
         {%- for media in product_images -%}
-          <div class="main-product__media-item" style="--ratio: {{ section.settings.media_ratio }};">
+          <div class="main-product__media-item reveal" style="--ratio: {{ section.settings.media_ratio }};">
             {{-
               media
               | image_url: width: 1500

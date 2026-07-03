@@ -1,5 +1,5 @@
 <footer class="site-footer page-padding">
-  <div class="site-footer__inner">
+  <div class="site-footer__inner reveal">
     <div class="site-footer__mark" aria-hidden="true">
       {%- if section.settings.mark_image -%}
         {{-
@@ -30,9 +30,18 @@
         {%- case block.type -%}
           {%- when 'menu' -%}
             {%- capture links_label -%}{{ 'sections.footer.links_label' | t }}{%- endcapture -%}
+            {%- liquid
+              # Give each column a distinct accessible name so the two footer
+              # nav landmarks aren't ambiguous when their headings are blank.
+              if block.settings.heading != blank
+                assign col_label = block.settings.heading
+              else
+                assign col_label = links_label | append: ' ' | append: forloop.index
+              endif
+            -%}
             <nav
               class="site-footer__col"
-              aria-label="{{ block.settings.heading | default: links_label }}"
+              aria-label="{{ col_label | strip }}"
               {{ block.shopify_attributes }}
             >
               {%- if block.settings.heading != blank -%}

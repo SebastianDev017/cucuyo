@@ -1,3 +1,11 @@
 extends: theme-check:all
 ignore:
   - node_modules/**
+
+# The motion layer deliberately self-hosts GSAP + ScrollTrigger + Lenis in
+# assets/ (no runtime CDN, per project requirement). GSAP (~71KB) exceeds the
+# default 10KB compressed JS guideline, so the threshold is raised to
+# accommodate the vendored library. (Motion.js was dropped — GSAP now covers
+# accordion + add-to-cart too.) Revisit if the JS budget becomes a concern.
+AssetSizeJavaScript:
+  threshold_in_bytes: 100000

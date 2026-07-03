@@ -23,7 +23,7 @@
 
   <div class="hero__content page-padding">
     {%- if section.settings.heading != blank -%}
-      <{{ heading_tag }} class="hero__heading">{{ section.settings.heading | escape | newline_to_br }}</{{ heading_tag }}>
+      <{{ heading_tag }} class="hero__heading reveal">{{ section.settings.heading | escape | newline_to_br }}</{{ heading_tag }}>
     {%- endif -%}
     {%- if section.settings.link_label != blank and section.settings.link != blank -%}
       <a href="{{ section.settings.link }}" class="hero__link text-link">{{ section.settings.link_label }}</a>

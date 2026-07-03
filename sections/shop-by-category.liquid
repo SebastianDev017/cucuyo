@@ -1,0 +1,93 @@
+<section class="category page-padding section-spacing">
+  {%- if section.settings.heading != blank -%}
+    <h2 class="category__heading section-heading reveal">{{ section.settings.heading }}</h2>
+  {%- endif -%}
+
+  <ul class="category__grid" role="list" style="--grid-columns: {{ section.settings.columns }};">
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'category' -%}
+          <li class="category__item reveal" {{ block.shopify_attributes }}>
+            <a href="{{ block.settings.link | default: '#' }}" class="category__link">
+              <div class="category__media">
+                {%- if block.settings.image -%}
+                  {{-
+                    block.settings.image
+                    | image_url: width: 900
+                    | image_tag:
+                      widths: '300, 450, 600, 900',
+                      sizes: '(min-width: 990px) 22vw, 45vw',
+                      class: 'category__image',
+                      loading: 'lazy'
+                  -}}
+                {%- else -%}
+                  {{ 'collection-1' | placeholder_svg_tag: 'category__image placeholder-svg' }}
+                {%- endif -%}
+              </div>
+              <span class="category__label">{{ block.settings.label }}</span>
+            </a>
+          </li>
+      {%- endcase -%}
+    {%- endfor -%}
+  </ul>
+</section>
+
+{% schema %}
+{
+  "name": "Shop by category",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop by category"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Columns on desktop",
+      "min": 3,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Tableware"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "Shop by category",
+      "blocks": [
+        { "type": "category", "settings": { "label": "Tableware" } },
+        { "type": "category", "settings": { "label": "Lighting" } },
+        { "type": "category", "settings": { "label": "Storage" } },
+        { "type": "category", "settings": { "label": "Linens" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

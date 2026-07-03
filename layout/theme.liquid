@@ -62,6 +62,10 @@
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
     <script src="{{ 'theme.js' | asset_url }}" defer></script>
+    <script src="{{ 'gsap.min.js' | asset_url }}" defer></script>
+    <script src="{{ 'ScrollTrigger.min.js' | asset_url }}" defer></script>
+    <script src="{{ 'lenis.min.js' | asset_url }}" defer></script>
+    <script src="{{ 'cucuyo-motion.js' | asset_url }}" defer></script>
     <script>
       (function () {
         if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -69,7 +73,7 @@
         root.classList.add('motion-ready');
         window.setTimeout(function () {
           if (!window.__cucuyoMotionReady) root.classList.add('motion-fallback');
-        }, 1500);
+        }, 2000);
       })();
     </script>
 
@@ -79,6 +83,10 @@
   <body class="template-{{ template.name | handle }}">
     <a class="skip-link" href="#MainContent">{{ 'accessibility.skip_to_content' | t }}</a>
 
+    {%- if template.name == 'product' -%}
+      <div class="scroll-progress" data-scroll-progress aria-hidden="true"></div>
+    {%- endif -%}
+
     {% sections 'header-group' %}
 
     <main id="MainContent" class="main-content" role="main" tabindex="-1">
@@ -87,14 +95,5 @@
 
     {% sections 'footer-group' %}
 
-    <script type="module">
-      import { inView, animate } from "{{ 'motion.min.js' | asset_url }}";
-      window.__cucuyoMotionReady = true;
-      if (document.documentElement.classList.contains('motion-ready')) {
-        inView('.reveal', function (element) {
-          animate(element, { opacity: [0, 1] }, { duration: 0.7, easing: 'ease-out' });
-        });
-      }
-    </script>
   </body>
 </html>

@@ -50,7 +50,9 @@ Everything display-level is UPPERCASE with wide tracking. Body/microcopy is the 
 | Logo | Serif | 24px → 20px | 500 | 0.18em | 1 | UPPER |
 | Section heading ("YOU MAY ALSO LIKE") | Serif | 13px | 500 | 0.18em | 1.5 | UPPER |
 | Product tabs (Designer \| Materials \| Care) | Serif | 15px | 500 | 0.12em | 1.4 | UPPER |
-| Sidebar nav / Cart | Serif | 11px | 500 | 0.18em | 1.9 | UPPER |
+| Sidebar nav — top level (SHOP / ABOUT / ARCHIVE / SALE) | Serif | 13px | 500 | 0.18em | 1.9 | UPPER |
+| Sidebar nav — subcategory (indented under SHOP) | Serif | 10px | 500 | 0.14em | 1.9 | UPPER, `--color-ink-soft` |
+| Cart | Serif | 11px | 500 | 0.18em | 1.9 | UPPER |
 | Card title | Serif | 12px | 500 | 0.14em | 1.5 | UPPER |
 | Body / descriptions | Sans | 14px | 400 | 0.01em | 1.65 | Sentence |
 | Caption (editorial tips) | Sans | 12px | 400 | 0.02em | 1.55 | Sentence |
@@ -97,7 +99,7 @@ Ratios become customizer `select` settings with these as defaults.
 ```
 
 - **Header:** 3-zone grid `[1fr auto 1fr]` — logo dead-center, `CART (N)` right. No bottom border. Padding-block ~28px.
-- **Sidebar nav (desktop):** sticky under header, `--sidebar-width: 200px`. Hierarchy: top-level items (SHOP, ABOUT, ARCHIVE, SALE, SEARCH); SHOP's subcategories (ART / OBJECT, TABLEWARE, STORAGE, LIGHTING, FURNITURE, MIRRORS, RUGS, LINENS, ALL) indented 16px, always visible (as in mockup). Built from a Shopify `linklist` so Jenn manages it from Navigation.
+- **Sidebar nav (desktop):** a full-page-height cream rail (`--sidebar-width: 200px`) — absolutely positioned against `<body>` so it spans the whole document, not the viewport — with the nav content sticky under the header. **Two-level type scale (see §2):** top-level items (SHOP, ABOUT, ARCHIVE, SALE, SEARCH) at 13px; SHOP's subcategories (ART / OBJECT, TABLEWARE, STORAGE, LIGHTING, FURNITURE, MIRRORS, RUGS, LINENS, ALL) indented 16px and notably smaller (10px, `--color-ink-soft`), always visible (as in mockup). Built from a Shopify `linklist` so Jenn manages it from Navigation.
 - **Mobile <1024px:** sidebar becomes off-canvas drawer, hamburger at header-left. Zero-radius drawer, same nav.
 - **Content:** `--page-width: 1360px` max, page padding `clamp(20px, 4vw, 48px)`. Full-bleed sections (banner) escape the sidebar offset and span the viewport.
 - **Grid:** 3 columns desktop / 2 tablet / 1 mobile, 24px gap.

@@ -18,16 +18,9 @@
             "heading": "",
             "menu": "footer-2"
           }
-        },
-        "column_3": {
-          "type": "menu",
-          "settings": {
-            "heading": "",
-            "menu": "footer-3"
-          }
         }
       },
-      "block_order": ["column_1", "column_2", "column_3"]
+      "block_order": ["column_1", "column_2"]
     }
   },
   "order": ["footer"]

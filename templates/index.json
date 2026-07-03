@@ -9,6 +9,20 @@
  */
 {
   "sections": {
+    "shop_by_category": {
+      "type": "shop-by-category",
+      "settings": {
+        "heading": "Shop by category",
+        "columns": 4
+      },
+      "blocks": {
+        "c1": { "type": "category", "settings": { "label": "Tableware" } },
+        "c2": { "type": "category", "settings": { "label": "Lighting" } },
+        "c3": { "type": "category", "settings": { "label": "Storage" } },
+        "c4": { "type": "category", "settings": { "label": "Linens" } }
+      },
+      "block_order": ["c1", "c2", "c3", "c4"]
+    },
     "featured_top": {
       "type": "featured-collection",
       "settings": {
@@ -48,6 +62,16 @@
       },
       "block_order": ["e1", "e2", "e3"]
     },
+    "brand_story": {
+      "type": "brand-story",
+      "settings": {
+        "media_position": "left",
+        "kicker": "Our craft",
+        "heading": "Made by hand,\nmeant to last",
+        "body": "<p>Every piece is sourced from makers who work slowly and deliberately — favouring natural materials, honest texture, and the quiet imperfection of the handmade.</p>",
+        "link_label": "Read our story"
+      }
+    },
     "banner": {
       "type": "hero",
       "settings": {
@@ -63,17 +87,36 @@
     "featured_bottom": {
       "type": "featured-collection",
       "settings": {
-        "heading": "You may also like",
+        "heading": "New arrivals",
         "collection": "",
         "products_to_show": 3,
         "columns": 3
       }
+    },
+    "instagram": {
+      "type": "instagram-grid",
+      "settings": {
+        "heading": "From the studio",
+        "handle": "@cucuyohome",
+        "columns": 5
+      },
+      "blocks": {
+        "p1": { "type": "photo" },
+        "p2": { "type": "photo" },
+        "p3": { "type": "photo" },
+        "p4": { "type": "photo" },
+        "p5": { "type": "photo" }
+      },
+      "block_order": ["p1", "p2", "p3", "p4", "p5"]
     }
   },
   "order": [
+    "shop_by_category",
     "featured_top",
     "editorial",
+    "brand_story",
     "banner",
-    "featured_bottom"
+    "featured_bottom",
+    "instagram"
   ]
 }

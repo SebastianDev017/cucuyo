@@ -1,0 +1,90 @@
+<section class="story page-padding section-spacing story--{{ section.settings.media_position }}">
+  <div class="story__media">
+    {%- if section.settings.image -%}
+      {{-
+        section.settings.image
+        | image_url: width: 1400
+        | image_tag:
+          widths: '600, 900, 1200, 1400',
+          sizes: '(min-width: 990px) 48vw, 92vw',
+          class: 'story__image clip-reveal',
+          loading: 'lazy'
+      -}}
+    {%- else -%}
+      {{ 'lifestyle-2' | placeholder_svg_tag: 'story__image clip-reveal placeholder-svg' }}
+    {%- endif -%}
+  </div>
+
+  <div class="story__content reveal">
+    {%- if section.settings.kicker != blank -%}
+      <p class="story__kicker label">{{ section.settings.kicker }}</p>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h2 class="story__heading">{{ section.settings.heading | escape | newline_to_br }}</h2>
+    {%- endif -%}
+    {%- if section.settings.body != blank -%}
+      <div class="story__body rte">{{ section.settings.body }}</div>
+    {%- endif -%}
+    {%- if section.settings.link_label != blank and section.settings.link != blank -%}
+      <a href="{{ section.settings.link }}" class="story__link text-link">{{ section.settings.link_label }}</a>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Brand story",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "media_position",
+      "label": "Image position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "default": "Our craft"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Made by hand,\nmeant to last"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body",
+      "default": "<p>Every piece is sourced from makers who work slowly and deliberately — favouring natural materials, honest texture, and the quiet imperfection of the handmade.</p>"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Link label",
+      "default": "Read our story"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brand story"
+    }
+  ]
+}
+{% endschema %}

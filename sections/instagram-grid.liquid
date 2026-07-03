@@ -1,0 +1,101 @@
+<section class="instagram page-padding section-spacing">
+  <div class="instagram__header">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="instagram__heading section-heading reveal">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.handle != blank -%}
+      <a href="{{ section.settings.handle_url | default: '#' }}" class="instagram__handle label reveal">{{ section.settings.handle }}</a>
+    {%- endif -%}
+  </div>
+
+  <ul class="instagram__grid" role="list" style="--grid-columns: {{ section.settings.columns }};">
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'photo' -%}
+          <li class="instagram__item reveal" {{ block.shopify_attributes }}>
+            <a href="{{ block.settings.link | default: '#' }}" class="instagram__link"{% if block.settings.link != blank %} target="_blank" rel="noopener"{% endif %}>
+              {%- if block.settings.image -%}
+                {{-
+                  block.settings.image
+                  | image_url: width: 700
+                  | image_tag:
+                    widths: '250, 400, 550, 700',
+                    sizes: '(min-width: 990px) 20vw, 45vw',
+                    class: 'instagram__image',
+                    loading: 'lazy'
+                -}}
+              {%- else -%}
+                {{ 'image' | placeholder_svg_tag: 'instagram__image placeholder-svg' }}
+              {%- endif -%}
+            </a>
+          </li>
+      {%- endcase -%}
+    {%- endfor -%}
+  </ul>
+</section>
+
+{% schema %}
+{
+  "name": "Instagram grid",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "From the studio"
+    },
+    {
+      "type": "text",
+      "id": "handle",
+      "label": "Handle",
+      "default": "@cucuyohome"
+    },
+    {
+      "type": "url",
+      "id": "handle_url",
+      "label": "Handle link"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Columns on desktop",
+      "min": 3,
+      "max": 6,
+      "step": 1,
+      "default": 5
+    }
+  ],
+  "blocks": [
+    {
+      "type": "photo",
+      "name": "Photo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Instagram grid",
+      "blocks": [
+        { "type": "photo" },
+        { "type": "photo" },
+        { "type": "photo" },
+        { "type": "photo" },
+        { "type": "photo" }
+      ]
+    }
+  ]
+}
+{% endschema %}

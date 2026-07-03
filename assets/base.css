@@ -13,6 +13,8 @@
   --text-logo: clamp(1.25rem, 2vw, 1.5rem);
   --text-section-heading: 0.8125rem;
   --text-nav: 0.6875rem;
+  --text-nav-top: 0.8125rem; /* sidebar top-level (SHOP, ABOUT…) — larger */
+  --text-nav-sub: 0.625rem; /* sidebar subcategory (indented) — notably smaller */
   --text-card-title: 0.75rem;
   --text-small: 0.75rem;
   --text-label: 0.6875rem;
@@ -122,6 +124,9 @@ body {
   color: var(--color-ink);
   background: var(--color-background);
   overflow-x: clip;
+  /* Positioned so the full-page-height sidebar rail measures against the
+     document, not the viewport. */
+  position: relative;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -326,7 +331,8 @@ a {
    -------------------------------------------------------------------------- */
 
 .site-header-wrapper {
-  position: relative;
+  /* Intentionally not positioned: the sidebar rail below is absolutely
+     positioned against <body> so it spans the full document height. */
   background: var(--color-background);
 }
 
@@ -402,10 +408,16 @@ a {
 }
 
 @media (min-width: 990px) {
+  /* Full-page-height rail: absolutely positioned against <body> (position:
+     relative), so it spans the whole document from below the header down to
+     the footer — not just the viewport. The footer paints over its lower
+     portion via a higher z-index, and both share the cream background, so the
+     rail reads as one continuous left margin the full length of the page. */
   .site-sidebar {
     display: block;
     position: absolute;
-    top: 100%;
+    top: var(--header-height);
+    bottom: 0;
     left: 0;
     z-index: 4;
     width: var(--sidebar-width);
@@ -413,17 +425,13 @@ a {
     background: var(--color-background);
   }
 
-  /* Keep the fixed rail opaque and full-height so navigation stays legible
-     over full-bleed sections (e.g. the olive banner) while scrolling. */
-  .site-sidebar--sticky {
-    height: calc(100dvh - var(--header-height));
-    max-height: none;
-  }
-
-  .site-sidebar--sticky {
-    position: fixed;
-    top: var(--header-height);
-    max-height: calc(100dvh - var(--header-height));
+  /* Sticky variant: the rail already spans the page; only the nav content
+     sticks in view as you scroll. Bounded by the rail, it tucks away as the
+     footer arrives, and scrolls internally on short viewports. */
+  .site-sidebar--sticky .nav-list {
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-l));
+    max-height: calc(100dvh - var(--header-height) - var(--space-l) * 2);
     overflow-y: auto;
   }
 }
@@ -437,7 +445,7 @@ a {
 .nav-list__link {
   font-family: var(--font-display-family);
   font-weight: var(--font-display-weight);
-  font-size: var(--text-nav);
+  font-size: var(--text-nav-top);
   letter-spacing: var(--tracking-wide);
   line-height: 1.9;
   text-transform: uppercase;
@@ -453,6 +461,15 @@ a {
 
 .nav-list__link.is-active {
   color: var(--color-heading);
+}
+
+/* Two-level hierarchy: SHOP's subcategories read notably smaller and softer
+   than the top-level items, indented under their parent (as in the mockup and
+   the Atelier reference). Applies to both the desktop rail and mobile drawer. */
+.nav-list__link--sub {
+  font-size: var(--text-nav-sub);
+  letter-spacing: 0.14em;
+  color: var(--color-ink-soft);
 }
 
 .nav-list__sub {
@@ -1307,11 +1324,27 @@ html.motion-ready .reveal {
 
 html.motion-fallback .reveal {
   opacity: 1 !important;
+  transform: none !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
   html.motion-ready .reveal {
     opacity: 1;
+  }
+}
+
+/* Clip-path wipe (brand-story image): same safety gating as .reveal. */
+html.motion-ready .clip-reveal {
+  clip-path: inset(0 0 100% 0);
+}
+
+html.motion-fallback .clip-reveal {
+  clip-path: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.motion-ready .clip-reveal {
+    clip-path: none;
   }
 }
 
@@ -1331,4 +1364,246 @@ html.motion-fallback .reveal {
 .site-footer__link:hover,
 .site-footer__link:focus-visible {
   background-size: 100% 1px;
+}
+
+/* Header: subtle hairline appears once the page is scrolled. */
+.site-header-wrapper {
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.4s ease;
+}
+
+.site-header-wrapper.is-scrolled {
+  border-bottom-color: var(--color-border);
+}
+
+/* PDP scroll-progress: a thin accent rule that fills as you read. */
+.scroll-progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 2px;
+  z-index: 60;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  pointer-events: none;
+}
+
+/* Product tab panels crossfade in on switch (JS toggles [hidden]). */
+@keyframes cucuyo-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+html.motion-ready .product-notes__panel:not([hidden]) {
+  animation: cucuyo-fade-in 0.35s ease;
+}
+
+/* Newsletter field focus — gentle emphasis. */
+.newsletter-form .field {
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.newsletter-form .field:focus {
+  background: var(--color-background);
+}
+
+/* Nav drawer: slide in with a backdrop fade (reduced to instant under
+   prefers-reduced-motion by the global transition reset). */
+.nav-drawer {
+  transform: translateX(-100%);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), overlay 0.4s allow-discrete,
+    display 0.4s allow-discrete;
+}
+
+.nav-drawer[open] {
+  transform: translateX(0);
+}
+
+@starting-style {
+  .nav-drawer[open] {
+    transform: translateX(-100%);
+  }
+}
+
+.nav-drawer::backdrop {
+  opacity: 0;
+  transition: opacity 0.4s ease, overlay 0.4s allow-discrete, display 0.4s allow-discrete;
+}
+
+.nav-drawer[open]::backdrop {
+  opacity: 1;
+}
+
+@starting-style {
+  .nav-drawer[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Shop by category
+   -------------------------------------------------------------------------- */
+
+.category__heading {
+  margin-bottom: var(--space-l);
+}
+
+.category__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-l) var(--space-m);
+}
+
+@media (min-width: 750px) {
+  .category__grid {
+    grid-template-columns: repeat(var(--grid-columns, 4), 1fr);
+  }
+}
+
+.category__link {
+  display: block;
+  text-decoration: none;
+}
+
+.category__media {
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  background: var(--color-surface);
+}
+
+.category__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s ease;
+}
+
+.category__link:hover .category__image {
+  transform: scale(1.04);
+}
+
+.category__label {
+  display: block;
+  margin-top: var(--space-s);
+  font-family: var(--font-display-family);
+  font-weight: var(--font-display-weight);
+  font-size: var(--text-card-title);
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+/* --------------------------------------------------------------------------
+   Brand story
+   -------------------------------------------------------------------------- */
+
+.story {
+  display: grid;
+  gap: var(--space-l);
+}
+
+@media (min-width: 990px) {
+  .story {
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(40px, 6vw, 96px);
+    align-items: center;
+  }
+
+  .story--right .story__media {
+    order: 2;
+  }
+}
+
+.story__media {
+  aspect-ratio: 4/5;
+  overflow: hidden;
+  background: var(--color-surface);
+}
+
+.story__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.story__kicker {
+  margin-bottom: var(--space-s);
+}
+
+.story__heading {
+  font-size: var(--text-h1);
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+  line-height: 1.35;
+  color: var(--color-heading);
+}
+
+.story__body {
+  max-width: 46ch;
+  margin-top: var(--space-m);
+  font-size: var(--text-body-size);
+}
+
+.story__link {
+  display: inline-block;
+  margin-top: var(--space-m);
+}
+
+/* --------------------------------------------------------------------------
+   Instagram grid
+   -------------------------------------------------------------------------- */
+
+.instagram__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-s) var(--space-m);
+  margin-bottom: var(--space-l);
+}
+
+.instagram__handle {
+  text-decoration: none;
+  color: var(--color-heading);
+}
+
+.instagram__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-xs);
+}
+
+@media (min-width: 750px) {
+  .instagram__grid {
+    grid-template-columns: repeat(var(--grid-columns, 5), 1fr);
+  }
+}
+
+.instagram__link {
+  display: block;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: var(--color-surface);
+}
+
+.instagram__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.3s ease;
+}
+
+.instagram__link:hover .instagram__image {
+  opacity: 0.88;
+}
+
+/* Editorial image gets a touch of extra width, centred, so the subtle
+   horizontal parallax has room to drift without exposing an edge. */
+.editorial__image {
+  width: 108%;
+  margin-inline-start: -4%;
 }
