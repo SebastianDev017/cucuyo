@@ -66,6 +66,10 @@
     "sold_out": "Sold out",
     "unavailable": "Unavailable",
     "select_variant": "Select variant",
-    "from_price": "From {{ price }}"
+    "from_price": "From {{ price }}",
+    "notes": "Notes"
+  },
+  "onboarding": {
+    "product_title": "Example product"
   }
 }

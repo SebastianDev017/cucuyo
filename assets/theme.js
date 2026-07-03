@@ -86,9 +86,43 @@
     });
   }
 
+  /* NOTES tabs: role=tablist with roving tabindex + arrow-key navigation.
+     Without JS every panel is visible, so content is never hidden. */
+  function initTabs() {
+    document.querySelectorAll('[data-tabs]').forEach(function (root) {
+      var tabs = Array.prototype.slice.call(root.querySelectorAll('[role="tab"]'));
+      if (tabs.length < 2) return;
+
+      function select(tab) {
+        tabs.forEach(function (t) {
+          var selected = t === tab;
+          t.setAttribute('aria-selected', selected ? 'true' : 'false');
+          t.tabIndex = selected ? 0 : -1;
+          var panel = document.getElementById(t.getAttribute('aria-controls'));
+          if (panel) panel.hidden = !selected;
+        });
+      }
+
+      tabs.forEach(function (tab, index) {
+        tab.addEventListener('click', function () {
+          select(tab);
+        });
+        tab.addEventListener('keydown', function (event) {
+          var dir = event.key === 'ArrowRight' ? 1 : event.key === 'ArrowLeft' ? -1 : 0;
+          if (!dir) return;
+          event.preventDefault();
+          var next = tabs[(index + dir + tabs.length) % tabs.length];
+          select(next);
+          next.focus();
+        });
+      });
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     trackHeaderHeight();
     initDrawer();
     initProductForms();
+    initTabs();
   });
 })();

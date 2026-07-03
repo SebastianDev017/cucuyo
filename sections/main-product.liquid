@@ -126,6 +126,40 @@
           ]
         </script>
       </div>
+
+      {%- assign tab_blocks = section.blocks | where: 'type', 'tab' -%}
+      {%- if tab_blocks.size > 0 -%}
+        <div class="product-notes" data-tabs>
+          <p class="product-notes__label label">{{ 'products.notes' | t }}</p>
+          <div class="product-notes__tablist" role="tablist" aria-label="{{ 'products.notes' | t }}">
+            {%- for block in tab_blocks -%}
+              <button
+                type="button"
+                class="product-notes__tab"
+                role="tab"
+                id="Tab-{{ section.id }}-{{ forloop.index }}"
+                aria-controls="Panel-{{ section.id }}-{{ forloop.index }}"
+                aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+                {% unless forloop.first %}tabindex="-1"{% endunless %}
+                {{ block.shopify_attributes }}
+              >
+                {{ block.settings.title }}
+              </button>
+            {%- endfor -%}
+          </div>
+          {%- for block in tab_blocks -%}
+            <div
+              class="product-notes__panel rte"
+              role="tabpanel"
+              id="Panel-{{ section.id }}-{{ forloop.index }}"
+              aria-labelledby="Tab-{{ section.id }}-{{ forloop.index }}"
+              {% unless forloop.first %}hidden{% endunless %}
+            >
+              {{ block.settings.content }}
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
     </div>
   </div>
 </section>
@@ -185,8 +219,26 @@
           "default": "<p>Share your shipping and returns policy here.</p>"
         }
       ]
+    },
+    {
+      "type": "tab",
+      "name": "Notes tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Tab title",
+          "default": "Designer"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+          "default": "<p>Share designer or maker notes for this piece.</p>"
+        }
+      ]
     }
   ],
-  "max_blocks": 6
+  "max_blocks": 9
 }
 {% endschema %}

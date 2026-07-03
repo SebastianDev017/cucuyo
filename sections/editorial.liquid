@@ -1,0 +1,91 @@
+<section class="editorial page-padding section-spacing">
+  <div class="editorial__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="editorial__heading section-heading">{{ section.settings.heading | escape | newline_to_br }}</h2>
+    {%- endif -%}
+
+    <div class="editorial__track">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'item' -%}
+            <figure class="editorial__item reveal" {{ block.shopify_attributes }}>
+              <div class="editorial__media">
+                {%- if block.settings.image -%}
+                  {{-
+                    block.settings.image
+                    | image_url: width: 1200
+                    | image_tag:
+                      widths: '400, 600, 800, 1200',
+                      sizes: '(min-width: 990px) 40vw, 80vw',
+                      class: 'editorial__image',
+                      loading: 'lazy'
+                  -}}
+                {%- else -%}
+                  {{ 'lifestyle-1' | placeholder_svg_tag: 'editorial__image placeholder-svg' }}
+                {%- endif -%}
+              </div>
+              {%- if block.settings.caption != blank -%}
+                <figcaption class="editorial__caption">
+                  {%- if block.settings.number != blank -%}
+                    <span class="editorial__number">{{ block.settings.number }}</span>
+                  {%- endif -%}
+                  <span class="editorial__text">{{ block.settings.caption }}</span>
+                </figcaption>
+              {%- endif -%}
+            </figure>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Editorial styling",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Ideas on how\nto style"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Styling image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Number",
+          "default": "1"
+        },
+        {
+          "type": "textarea",
+          "id": "caption",
+          "label": "Caption",
+          "default": "Use on your nightstand. Pairs well with a big white flower. Cut stems to around 6\" and add around 5-6 large flowers."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Editorial styling",
+      "blocks": [
+        { "type": "item" },
+        { "type": "item", "settings": { "number": "2", "caption": "Group with objects of different heights for an easy, collected tablescape." } },
+        { "type": "item", "settings": { "number": "3", "caption": "Let it stand alone on a shelf — the silhouette is the statement." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

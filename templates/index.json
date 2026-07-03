@@ -1,11 +1,33 @@
 {
   "sections": {
-    "hero": {
+    "featured_top": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "Shop",
+        "products_to_show": 3,
+        "columns": 3
+      }
+    },
+    "editorial": {
+      "type": "editorial"
+    },
+    "banner": {
       "type": "hero",
       "settings": {
-        "heading_tag": "h1"
+        "style": "accent",
+        "heading_tag": "h1",
+        "height": "medium",
+        "full_bleed": true
+      }
+    },
+    "featured_bottom": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "You may also like",
+        "products_to_show": 3,
+        "columns": 3
       }
     }
   },
-  "order": ["hero"]
+  "order": ["featured_top", "editorial", "banner", "featured_bottom"]
 }

@@ -1,0 +1,72 @@
+<section class="featured page-padding section-spacing">
+  {%- if section.settings.heading != blank -%}
+    <h2 class="featured__heading section-heading">{{ section.settings.heading }}</h2>
+  {%- endif -%}
+
+  {%- assign featured = section.settings.collection -%}
+  {%- if featured != blank and featured.products.size > 0 -%}
+    <ul class="product-grid" role="list" style="--grid-columns: {{ section.settings.columns }};">
+      {%- for product in featured.products limit: section.settings.products_to_show -%}
+        <li class="product-grid__item">
+          {% render 'product-card', product: product %}
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- else -%}
+    <ul class="product-grid" role="list" style="--grid-columns: {{ section.settings.columns }};">
+      {%- for i in (1..section.settings.columns) -%}
+        <li class="product-grid__item">
+          <article class="product-card">
+            <div class="product-card__media">
+              {{ 'product-1' | placeholder_svg_tag: 'product-card__image placeholder-svg' }}
+            </div>
+            <h3 class="product-card__title">{{ 'onboarding.product_title' | t }}</h3>
+          </article>
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Featured collection",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "You may also like"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products to show",
+      "min": 3,
+      "max": 12,
+      "step": 3,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Columns on desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured collection"
+    }
+  ]
+}
+{% endschema %}

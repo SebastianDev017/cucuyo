@@ -16,10 +16,46 @@
             "title": "Ask a question",
             "content": "<p>Tell customers how to reach you with questions about this piece.</p>"
           }
+        },
+        "designer": {
+          "type": "tab",
+          "settings": {
+            "title": "Designer",
+            "content": "<p>A handmade pottery vase with a bold brick-red finish. Crafted by skilled artisans, the piece features an organic silhouette and a raw, textured surface that nods to wabi-sabi design.</p>"
+          }
+        },
+        "materials": {
+          "type": "tab",
+          "settings": {
+            "title": "Materials",
+            "content": "<p>Stoneware clay, hand-thrown and finished with a matte reactive glaze. Small variations in tone and texture are inherent to the making.</p>"
+          }
+        },
+        "care": {
+          "type": "tab",
+          "settings": {
+            "title": "Care",
+            "content": "<p>Wipe gently with a soft, dry cloth. Avoid harsh cleaners, abrasive sponges, or prolonged exposure to water. For decorative use, we recommend a watertight liner or vessel before adding water.</p>"
+          }
         }
       },
-      "block_order": ["shipping", "ask"]
+      "block_order": ["shipping", "ask", "designer", "materials", "care"]
+    },
+    "editorial": {
+      "type": "editorial"
+    },
+    "banner": {
+      "type": "hero",
+      "settings": {
+        "style": "accent",
+        "heading_tag": "h2",
+        "height": "medium",
+        "full_bleed": true
+      }
+    },
+    "related": {
+      "type": "related-products"
     }
   },
-  "order": ["main"]
+  "order": ["main", "editorial", "banner", "related"]
 }

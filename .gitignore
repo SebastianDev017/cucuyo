@@ -9,6 +9,10 @@
 # Packaged theme builds
 *.zip
 
+# Local visual-QA harness + Playwright artifacts (not part of the theme)
+_preview/
+.playwright-mcp/
+
 # Dependencies
 node_modules/
 
