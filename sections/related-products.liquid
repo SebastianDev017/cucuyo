@@ -1,10 +1,11 @@
 {%- liquid
+  assign limit = section.settings.products_to_show
+  assign min_size = limit | plus: 1
   assign source = product.collections.first
-  if source == blank or source.products.size < 2
+  if source == blank or source.products.size < min_size
     assign source = collections.all
   endif
   assign related = source.products | where: 'available', true
-  assign limit = section.settings.products_to_show
 -%}
 
 <section class="featured page-padding section-spacing">

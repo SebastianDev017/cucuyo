@@ -91,13 +91,9 @@
       import { inView, animate } from "{{ 'motion.min.js' | asset_url }}";
       window.__cucuyoMotionReady = true;
       if (document.documentElement.classList.contains('motion-ready')) {
-        inView(
-          '.reveal',
-          function (element) {
-            animate(element, { opacity: [0, 1] }, { duration: 0.7, easing: 'ease-out' });
-          },
-          { margin: '0px 0px -10% 0px' }
-        );
+        inView('.reveal', function (element) {
+          animate(element, { opacity: [0, 1] }, { duration: 0.7, easing: 'ease-out' });
+        });
       }
     </script>
   </body>
