@@ -478,7 +478,9 @@ a {
   gap: 4px;
   margin-top: 6px;
   margin-bottom: var(--space-s);
-  padding-inline-start: var(--space-s);
+  /* Indent via margin, not padding: the `ul[role='list'] { padding: 0 }` reset
+     (higher specificity) would otherwise flatten a padding-based indent. */
+  margin-inline-start: var(--space-s);
 }
 
 /* --------------------------------------------------------------------------
