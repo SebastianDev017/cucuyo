@@ -44,19 +44,23 @@
   try {
     gsap.registerPlugin(ScrollTrigger);
 
-    /* ---- Lenis smooth scroll, driven by the GSAP ticker ---- */
-    if (window.Lenis) {
+    /* ---- Lenis smooth scroll, driven by the GSAP ticker so Lenis and
+       ScrollTrigger share ONE rAF loop (two loops would double-advance Lenis).
+       Config copied verbatim from the Atelier reference (assets/gsap-init.js)
+       so the feel is identical. Skipped in the theme editor, where Lenis fights
+       the editor's own scroll. ---- */
+    var inEditor = !!(window.Shopify && window.Shopify.designMode);
+    if (window.Lenis && !inEditor) {
       var lenis = new window.Lenis({
-        duration: 1.05,
-        easing: function (t) {
-          return 1 - Math.pow(1 - t, 3);
-        },
-        smoothWheel: true
+        duration: 1.1,
+        easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
+        smoothWheel: true,
+        wheelMultiplier: 0.9,
+        touchMultiplier: 1.5,
+        infinite: false
       });
       lenis.on('scroll', ScrollTrigger.update);
-      gsap.ticker.add(function (time) {
-        lenis.raf(time * 1000);
-      });
+      gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
       gsap.ticker.lagSmoothing(0);
       window.CucuyoLenis = lenis;
     }

@@ -1114,6 +1114,14 @@ a {
   overflow-x: auto;
   scroll-snap-type: x proximity;
   padding-bottom: var(--space-s);
+  /* Native horizontal drag, scrollbar hidden (Atelier's technique) — the
+     right-bleeding 5:4 cards are the scroll affordance, not a browser bar. */
+  scrollbar-width: none; /* Firefox */
+  -webkit-overflow-scrolling: touch; /* iOS momentum */
+}
+
+.editorial__track::-webkit-scrollbar {
+  display: none; /* WebKit / Blink */
 }
 
 @media (min-width: 990px) {
