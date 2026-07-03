@@ -1,0 +1,22 @@
+{
+  "name": "Footer",
+  "type": "footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "column_1": {
+          "type": "menu"
+        },
+        "column_2": {
+          "type": "menu"
+        },
+        "column_3": {
+          "type": "menu"
+        }
+      },
+      "block_order": ["column_1", "column_2", "column_3"]
+    }
+  },
+  "order": ["footer"]
+}

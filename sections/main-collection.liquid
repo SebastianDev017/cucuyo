@@ -1,0 +1,54 @@
+<section class="main-collection page-padding section-spacing">
+  <header class="main-collection__header">
+    <h1 class="main-collection__title">{{ collection.title }}</h1>
+    {%- if collection.description != blank -%}
+      <div class="main-collection__description rte">{{ collection.description }}</div>
+    {%- endif -%}
+  </header>
+
+  {%- paginate collection.products by section.settings.products_per_page -%}
+    {%- if collection.products.size > 0 -%}
+      <ul class="product-grid" role="list" style="--grid-columns: {{ section.settings.columns }};">
+        {%- for product in collection.products -%}
+          <li class="product-grid__item">
+            {% render 'product-card', product: product %}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- else -%}
+      <p class="main-collection__empty">{{ 'collections.empty' | t }}</p>
+    {%- endif -%}
+
+    {%- if paginate.pages > 1 -%}
+      <div class="pagination-wrapper">
+        {{ paginate | default_pagination }}
+      </div>
+    {%- endif -%}
+  {%- endpaginate -%}
+</section>
+
+{% schema %}
+{
+  "name": "Collection page",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Products per page",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Columns on desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,25 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "shipping": {
+          "type": "accordion",
+          "settings": {
+            "title": "Shipping & returns",
+            "content": "<p>Share your shipping and returns policy here.</p>"
+          }
+        },
+        "ask": {
+          "type": "accordion",
+          "settings": {
+            "title": "Ask a question",
+            "content": "<p>Tell customers how to reach you with questions about this piece.</p>"
+          }
+        }
+      },
+      "block_order": ["shipping", "ask"]
+    }
+  },
+  "order": ["main"]
+}

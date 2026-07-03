@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="{{ settings.color_background }}">
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    <title>
+      {{- page_title -}}
+      {%- if current_tags %} &ndash; tagged &quot;{{ current_tags | join: ', ' }}&quot;{% endif -%}
+      {%- if current_page != 1 %} &ndash; {{ 'general.pagination.page' | t: page: current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+
+    {% liquid
+      assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bolder'
+      assign display_font_scale = settings.display_scale | divided_by: 100.0
+    %}
+
+    <style>
+      {{ settings.type_display_font | font_face: font_display: 'swap' }}
+      {{ settings.type_body_font | font_face: font_display: 'swap' }}
+      {% if body_font_bold %}{{ body_font_bold | font_face: font_display: 'swap' }}{% endif %}
+
+      :root {
+        --color-background: {{ settings.color_background }};
+        --color-surface: {{ settings.color_surface }};
+        --color-ink: {{ settings.color_ink }};
+        --color-heading: {{ settings.color_heading }};
+        --color-ink-soft: {{ settings.color_ink_soft }};
+        --color-border: {{ settings.color_border }};
+        --color-accent: {{ settings.color_accent }};
+        --color-accent-hover: {{ settings.color_accent_hover }};
+        --color-on-accent: {{ settings.color_on_accent }};
+
+        --font-display-family: {{ settings.type_display_font.family }}, {{ settings.type_display_font.fallback_families }};
+        --font-display-weight: {{ settings.type_display_font.weight }};
+        --font-display-style: {{ settings.type_display_font.style }};
+        --font-body-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+        --font-body-weight: {{ settings.type_body_font.weight }};
+        --font-body-style: {{ settings.type_body_font.style }};
+        {% if body_font_bold %}--font-body-weight-bold: {{ body_font_bold.weight }};{% else %}--font-body-weight-bold: 600;{% endif %}
+
+        --display-scale: {{ display_font_scale }};
+        --text-body-size: {{ settings.body_size }}px;
+
+        --page-width: {{ settings.page_width }}px;
+        --sidebar-width: {{ settings.sidebar_width }}px;
+        --section-spacing: {{ settings.section_spacing }}px;
+        --card-ratio: {{ settings.card_aspect_ratio }};
+      }
+    </style>
+
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'theme.js' | asset_url }}" defer></script>
+
+    {{ content_for_header }}
+  </head>
+
+  <body class="template-{{ template.name | handle }}">
+    <a class="skip-link" href="#MainContent">{{ 'accessibility.skip_to_content' | t }}</a>
+
+    {% sections 'header-group' %}
+
+    <main id="MainContent" class="main-content" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+  </body>
+</html>

@@ -1,0 +1,144 @@
+<footer class="site-footer page-padding">
+  <div class="site-footer__inner">
+    <div class="site-footer__mark" aria-hidden="true">
+      {%- if section.settings.mark_image -%}
+        {{-
+          section.settings.mark_image
+          | image_url: width: 240
+          | image_tag: widths: '120, 240', sizes: '120px', class: 'site-footer__mark-image', alt: ''
+        -}}
+      {%- else -%}
+        {%- liquid
+          assign mark_source = section.settings.mark_text | default: shop.name
+          assign mark = mark_source | downcase | remove: ' '
+          assign mark_length = mark.size
+        -%}
+        {%- if mark_length > 0 -%}
+          {%- assign mark_rows = mark_length | plus: 2 | divided_by: 3 | minus: 1 -%}
+          <span class="site-footer__mark-text">
+            {%- for i in (0..mark_rows) -%}
+              {%- assign mark_offset = i | times: 3 -%}
+              <span class="site-footer__mark-row">{{ mark | slice: mark_offset, 3 }}</span>
+            {%- endfor -%}
+          </span>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+
+    <div class="site-footer__columns">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'menu' -%}
+            {%- capture links_label -%}{{ 'sections.footer.links_label' | t }}{%- endcapture -%}
+            <nav
+              class="site-footer__col"
+              aria-label="{{ block.settings.heading | default: links_label }}"
+              {{ block.shopify_attributes }}
+            >
+              {%- if block.settings.heading != blank -%}
+                <h2 class="site-footer__col-heading">{{ block.settings.heading }}</h2>
+              {%- endif -%}
+              {%- if block.settings.menu != blank -%}
+                <ul class="site-footer__links" role="list">
+                  {%- for link in block.settings.menu.links -%}
+                    <li><a href="{{ link.url }}" class="site-footer__link">{{ link.title }}</a></li>
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+            </nav>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.show_newsletter -%}
+      <div class="site-footer__newsletter">
+        {% form 'customer', class: 'newsletter-form' %}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          {%- if form.posted_successfully? -%}
+            <p class="newsletter-form__success" role="status">{{ 'general.newsletter.success' | t }}</p>
+          {%- else -%}
+            {{ form.errors | default_errors }}
+            <div class="newsletter-form__row">
+              <label class="visually-hidden" for="NewsletterEmail">{{ 'general.newsletter.email' | t }}</label>
+              <input
+                id="NewsletterEmail"
+                class="field"
+                type="email"
+                name="contact[email]"
+                value="{{ form.email }}"
+                required
+                autocomplete="email"
+                placeholder="{{ 'general.newsletter.email' | t }}"
+              >
+              <button type="submit" class="button">{{ 'general.newsletter.submit' | t }}</button>
+            </div>
+          {%- endif -%}
+        {% endform %}
+        {%- if section.settings.newsletter_note != blank -%}
+          <p class="site-footer__note">{{ section.settings.newsletter_note }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "class": "section-footer",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Brand mark"
+    },
+    {
+      "type": "image_picker",
+      "id": "mark_image",
+      "label": "Mark image",
+      "info": "Leave empty to display the store name as a stacked wordmark"
+    },
+    {
+      "type": "text",
+      "id": "mark_text",
+      "label": "Stacked wordmark text",
+      "info": "Falls back to the store name when empty"
+    },
+    {
+      "type": "header",
+      "content": "Newsletter"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_newsletter",
+      "label": "Show newsletter signup",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "newsletter_note",
+      "label": "Newsletter note",
+      "default": "Sign up to our newsletter to receive exclusive offers."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Link column",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu",
+          "default": "footer"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4
+}
+{% endschema %}

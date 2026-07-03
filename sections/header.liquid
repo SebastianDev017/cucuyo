@@ -1,0 +1,108 @@
+<div class="site-header-wrapper">
+  <header class="site-header page-padding">
+    <button
+      class="site-header__burger"
+      type="button"
+      data-drawer-open
+      aria-controls="NavDrawer"
+      aria-expanded="false"
+    >
+      <span class="visually-hidden">{{ 'accessibility.open_menu' | t }}</span>
+      <svg width="20" height="14" viewBox="0 0 20 14" fill="none" aria-hidden="true" focusable="false">
+        <path d="M0 1h20M0 7h20M0 13h20" stroke="currentColor" stroke-width="1"/>
+      </svg>
+    </button>
+
+    <a href="{{ routes.root_url }}" class="site-header__logo" style="--logo-width: {{ section.settings.logo_width }}px;">
+      {%- if section.settings.logo -%}
+        {{-
+          section.settings.logo
+          | image_url: width: 480
+          | image_tag:
+            widths: '160, 240, 360, 480',
+            sizes: '(min-width: 750px) 240px, 160px',
+            class: 'site-header__logo-image',
+            alt: shop.name
+        -}}
+      {%- else -%}
+        <span class="site-header__logo-text">{{ shop.name }}</span>
+      {%- endif -%}
+    </a>
+
+    <a href="{{ routes.cart_url }}" class="site-header__cart">
+      {{ 'sections.header.cart' | t }} (<span data-cart-count>{{ cart.item_count }}</span>)
+    </a>
+  </header>
+
+  <nav
+    class="site-sidebar{% if section.settings.sticky_sidebar %} site-sidebar--sticky{% endif %}"
+    aria-label="{{ 'accessibility.primary_navigation' | t }}"
+  >
+    {% render 'nav-list', menu: section.settings.menu, show_search: section.settings.show_search_link %}
+  </nav>
+
+  <dialog class="nav-drawer" id="NavDrawer" aria-label="{{ 'accessibility.primary_navigation' | t }}">
+    <div class="nav-drawer__inner">
+      <button class="nav-drawer__close" type="button" data-drawer-close>
+        <span class="visually-hidden">{{ 'accessibility.close' | t }}</span>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" focusable="false">
+          <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1"/>
+        </svg>
+      </button>
+      {% render 'nav-list', menu: section.settings.menu, show_search: section.settings.show_search_link %}
+    </div>
+  </dialog>
+</div>
+
+{% schema %}
+{
+  "name": "Header",
+  "class": "section-header",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image",
+      "info": "Leave empty to display the store name as text"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Logo width",
+      "min": 80,
+      "max": 240,
+      "step": 10,
+      "unit": "px",
+      "default": 140
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Sidebar menu",
+      "default": "main-menu",
+      "info": "Sub-items render indented and always expanded, as in the design"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search_link",
+      "label": "Show search link",
+      "default": true,
+      "info": "Adds a Search link at the end of the sidebar"
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky_sidebar",
+      "label": "Sticky sidebar on desktop",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

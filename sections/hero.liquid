@@ -1,0 +1,128 @@
+{%- liquid
+  assign heading_tag = section.settings.heading_tag | default: 'h2'
+-%}
+<section
+  class="hero hero--{{ section.settings.style }} hero--{{ section.settings.height }}{% if section.settings.full_bleed %} full-bleed{% endif %}"
+>
+  {%- if section.settings.style == 'image' -%}
+    {%- if section.settings.image -%}
+      {{-
+        section.settings.image
+        | image_url: width: 2400
+        | image_tag:
+          widths: '750, 1100, 1500, 1900, 2400',
+          sizes: '100vw',
+          class: 'hero__image',
+          loading: 'eager',
+          fetchpriority: 'high'
+      -}}
+    {%- else -%}
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'hero__image placeholder-svg' }}
+    {%- endif -%}
+  {%- endif -%}
+
+  <div class="hero__content page-padding">
+    {%- if section.settings.heading != blank -%}
+      <{{ heading_tag }} class="hero__heading">{{ section.settings.heading | escape | newline_to_br }}</{{ heading_tag }}>
+    {%- endif -%}
+    {%- if section.settings.link_label != blank and section.settings.link != blank -%}
+      <a href="{{ section.settings.link }}" class="hero__link text-link">{{ section.settings.link_label }}</a>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero banner",
+  "settings": [
+    {
+      "type": "select",
+      "id": "style",
+      "label": "Style",
+      "options": [
+        {
+          "value": "accent",
+          "label": "Statement (accent color)"
+        },
+        {
+          "value": "image",
+          "label": "Image"
+        }
+      ],
+      "default": "accent",
+      "info": "Statement shows serif text over the accent color, as in the design"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "Only used with the Image style"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "A collection of distinctive décor, artisan-made pieces, and timeless finds sourced from around the world."
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading tag",
+      "options": [
+        {
+          "value": "h1",
+          "label": "H1 (use once per page)"
+        },
+        {
+          "value": "h2",
+          "label": "H2"
+        }
+      ],
+      "default": "h2",
+      "info": "Set to H1 when this is the main banner on a page with no other H1"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Link label"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link"
+    },
+    {
+      "type": "select",
+      "id": "height",
+      "label": "Height",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_bleed",
+      "label": "Full width",
+      "default": true,
+      "info": "Span the entire viewport, escaping the sidebar offset"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero banner"
+    }
+  ]
+}
+{% endschema %}

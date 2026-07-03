@@ -1,0 +1,192 @@
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+
+<section class="main-product page-padding section-spacing">
+  {%- if section.settings.show_breadcrumb -%}
+    <nav class="breadcrumb" aria-label="{{ 'accessibility.breadcrumb' | t }}">
+      <a href="{{ routes.all_products_collection_url }}" class="breadcrumb__link">{{ 'general.breadcrumb.shop' | t }}</a>
+      {%- if collection -%}
+        <span class="breadcrumb__separator" aria-hidden="true">&gt;</span>
+        <a href="{{ collection.url }}" class="breadcrumb__link">{{ collection.title }}</a>
+      {%- elsif product.collections.first -%}
+        <span class="breadcrumb__separator" aria-hidden="true">&gt;</span>
+        <a href="{{ product.collections.first.url }}" class="breadcrumb__link">{{ product.collections.first.title }}</a>
+      {%- endif -%}
+    </nav>
+  {%- endif -%}
+
+  <div class="main-product__grid">
+    <div class="main-product__media">
+      {%- assign product_images = product.media | where: 'media_type', 'image' -%}
+      {%- if product_images.size > 0 -%}
+        {%- for media in product_images -%}
+          <div class="main-product__media-item" style="--ratio: {{ section.settings.media_ratio }};">
+            {{-
+              media
+              | image_url: width: 1500
+              | image_tag:
+                widths: '550, 750, 1100, 1500',
+                sizes: '(min-width: 990px) 45vw, 92vw',
+                class: 'main-product__image',
+                loading: 'lazy'
+            -}}
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        <div class="main-product__media-item" style="--ratio: {{ section.settings.media_ratio }};">
+          {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="main-product__info">
+      {%- if section.settings.show_vendor and product.vendor != blank -%}
+        <p class="main-product__vendor label">{{ product.vendor }}</p>
+      {%- endif -%}
+
+      <h1 class="main-product__title">{{ product.title }}</h1>
+
+      {%- if product.description != blank -%}
+        <div class="main-product__description rte">{{ product.description }}</div>
+      {%- endif -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <div class="main-product__accordions">
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'accordion' -%}
+                <details class="accordion" {{ block.shopify_attributes }}>
+                  <summary class="accordion__summary">
+                    <span>{{ block.settings.title }}</span>
+                    <svg class="accordion__caret" width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true" focusable="false">
+                      <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1"/>
+                    </svg>
+                  </summary>
+                  <div class="accordion__content rte">{{ block.settings.content }}</div>
+                </details>
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      <div
+        class="main-product__form"
+        data-product-form
+        data-add-template="{{ 'products.add_to_cart_with_price' | t: price: '[PRICE]' | escape }}"
+        data-sold-out-text="{{ 'products.sold_out' | t | escape }}"
+        data-unavailable-text="{{ 'products.unavailable' | t | escape }}"
+      >
+        {%- form 'product', product, class: 'product-form' -%}
+          {%- if product.variants.size > 1 -%}
+            <label class="visually-hidden" for="Variants-{{ section.id }}">{{ 'products.select_variant' | t }}</label>
+            <select id="Variants-{{ section.id }}" name="id" class="field main-product__variant-select" data-variant-select>
+              {%- for variant in product.variants -%}
+                <option
+                  value="{{ variant.id }}"
+                  {% if variant == current_variant %}
+                    selected
+                  {% endif %}
+                  {% unless variant.available %}
+                    disabled
+                  {% endunless %}
+                >
+                  {{ variant.title }}
+                  {%- unless variant.available %} — {{ 'products.sold_out' | t }}{% endunless %}
+                </option>
+              {%- endfor -%}
+            </select>
+          {%- else -%}
+            <input type="hidden" name="id" value="{{ current_variant.id }}">
+          {%- endif -%}
+          <button
+            type="submit"
+            class="button button--atc"
+            data-add-button
+            {% unless current_variant.available %}
+              disabled
+            {% endunless %}
+          >
+            {%- if current_variant.available -%}
+              {%- assign current_price = current_variant.price | money -%}
+              {{ 'products.add_to_cart_with_price' | t: price: current_price }}
+            {%- else -%}
+              {{ 'products.sold_out' | t }}
+            {%- endif -%}
+          </button>
+        {%- endform -%}
+
+        <script type="application/json" data-variant-data>
+          [
+            {%- for variant in product.variants -%}
+              {
+                "id": {{ variant.id | json }},
+                "available": {{ variant.available | json }},
+                "price": {{ variant.price | money | json }}
+              }{% unless forloop.last %},{% endunless %}
+            {%- endfor -%}
+          ]
+        </script>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product page",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_breadcrumb",
+      "label": "Show breadcrumb",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "media_ratio",
+      "label": "Image aspect ratio",
+      "options": [
+        {
+          "value": "3/4",
+          "label": "Portrait 3:4"
+        },
+        {
+          "value": "4/5",
+          "label": "Portrait 4:5"
+        },
+        {
+          "value": "1/1",
+          "label": "Square"
+        }
+      ],
+      "default": "3/4"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "accordion",
+      "name": "Accordion",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Shipping & returns"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+          "default": "<p>Share your shipping and returns policy here.</p>"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6
+}
+{% endschema %}

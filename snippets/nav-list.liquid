@@ -1,0 +1,48 @@
+{% doc %}
+  Renders the hierarchical navigation list used by the desktop sidebar and the
+  mobile drawer. Top-level links with children render an always-expanded,
+  indented sub-list (per the approved mockup).
+
+  @param {object} menu - A linklist object (e.g. section.settings.menu)
+  @param {boolean} [show_search] - Append a fixed Search link at the end
+  @example
+  {% render 'nav-list', menu: section.settings.menu, show_search: true %}
+{% enddoc %}
+
+<ul class="nav-list" role="list">
+  {%- for link in menu.links -%}
+    <li class="nav-list__item">
+      <a
+        href="{{ link.url }}"
+        class="nav-list__link{% if link.active or link.child_active %} is-active{% endif %}"
+        {% if link.current %}
+          aria-current="page"
+        {% endif %}
+      >
+        {{- link.title -}}
+      </a>
+      {%- if link.links != blank -%}
+        <ul class="nav-list__sub" role="list">
+          {%- for child in link.links -%}
+            <li class="nav-list__item nav-list__item--sub">
+              <a
+                href="{{ child.url }}"
+                class="nav-list__link nav-list__link--sub{% if child.active or child.child_active %} is-active{% endif %}"
+                {% if child.current %}
+                  aria-current="page"
+                {% endif %}
+              >
+                {{- child.title -}}
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </li>
+  {%- endfor -%}
+  {%- if show_search -%}
+    <li class="nav-list__item">
+      <a href="{{ routes.search_url }}" class="nav-list__link">{{ 'general.search.title' | t }}</a>
+    </li>
+  {%- endif -%}
+</ul>

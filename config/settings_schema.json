@@ -1,0 +1,214 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Cucuyo",
+    "theme_version": "0.1.0",
+    "theme_author": "SebastianDev017",
+    "theme_documentation_url": "https://github.com/SebastianDev017/cucuyo",
+    "theme_support_url": "https://github.com/SebastianDev017/cucuyo/issues"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Core palette"
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Background",
+        "default": "#F5EFE3",
+        "info": "Cream page background"
+      },
+      {
+        "type": "color",
+        "id": "color_surface",
+        "label": "Surface",
+        "default": "#FCF8EF",
+        "info": "Inputs and subtle panels"
+      },
+      {
+        "type": "color",
+        "id": "color_ink",
+        "label": "Text",
+        "default": "#3E3629",
+        "info": "Primary text: logo, navigation, product titles"
+      },
+      {
+        "type": "color",
+        "id": "color_heading",
+        "label": "Headings",
+        "default": "#7D6633",
+        "info": "Bronze section headings, tabs and footer links"
+      },
+      {
+        "type": "color",
+        "id": "color_ink_soft",
+        "label": "Muted text",
+        "default": "#6E6450",
+        "info": "Descriptions, captions and breadcrumbs"
+      },
+      {
+        "type": "color",
+        "id": "color_border",
+        "label": "Borders",
+        "default": "#D9CFB8",
+        "info": "Thin divider lines"
+      },
+      {
+        "type": "header",
+        "content": "Accent"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Accent",
+        "default": "#7F6222",
+        "info": "Olive/bronze — banners and buttons"
+      },
+      {
+        "type": "color",
+        "id": "color_accent_hover",
+        "label": "Accent hover",
+        "default": "#6A5119",
+        "info": "Buttons on hover"
+      },
+      {
+        "type": "color",
+        "id": "color_on_accent",
+        "label": "Text on accent",
+        "default": "#F6F0E1",
+        "info": "Cream text over the accent color"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Display serif",
+        "info": "Logo, headings, navigation and banners"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_display_font",
+        "label": "Display font",
+        "default": "cormorant_n5"
+      },
+      {
+        "type": "range",
+        "id": "display_scale",
+        "label": "Display size scale",
+        "min": 90,
+        "max": 120,
+        "step": 5,
+        "unit": "%",
+        "default": 100
+      },
+      {
+        "type": "header",
+        "content": "Body sans",
+        "info": "Descriptions, labels and buttons"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_body_font",
+        "label": "Body font",
+        "default": "assistant_n4"
+      },
+      {
+        "type": "range",
+        "id": "body_size",
+        "label": "Base body size",
+        "min": 12,
+        "max": 17,
+        "step": 1,
+        "unit": "px",
+        "default": 14
+      }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon",
+        "info": "Recommended 32 x 32 px .png"
+      },
+      {
+        "type": "range",
+        "id": "page_width",
+        "label": "Page width",
+        "min": 1200,
+        "max": 1600,
+        "step": 20,
+        "unit": "px",
+        "default": 1360
+      },
+      {
+        "type": "range",
+        "id": "sidebar_width",
+        "label": "Sidebar width",
+        "min": 160,
+        "max": 260,
+        "step": 10,
+        "unit": "px",
+        "default": 200,
+        "info": "Left navigation column on desktop"
+      },
+      {
+        "type": "range",
+        "id": "section_spacing",
+        "label": "Section spacing",
+        "min": 48,
+        "max": 128,
+        "step": 8,
+        "unit": "px",
+        "default": 96,
+        "info": "Vertical space between sections"
+      }
+    ]
+  },
+  {
+    "name": "Product cards",
+    "settings": [
+      {
+        "type": "select",
+        "id": "card_aspect_ratio",
+        "label": "Image aspect ratio",
+        "options": [
+          {
+            "value": "4/5",
+            "label": "Portrait 4:5"
+          },
+          {
+            "value": "1/1",
+            "label": "Square"
+          },
+          {
+            "value": "3/4",
+            "label": "Portrait 3:4"
+          }
+        ],
+        "default": "4/5"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_price",
+        "label": "Show price on cards",
+        "default": false,
+        "info": "The approved mockup hides prices on product cards"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_vendor",
+        "label": "Show vendor on cards",
+        "default": false
+      }
+    ]
+  }
+]

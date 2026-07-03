@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "heading_tag": "h1"
+      }
+    }
+  },
+  "order": ["hero"]
+}

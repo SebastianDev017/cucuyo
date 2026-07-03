@@ -1,0 +1,71 @@
+{
+  "accessibility": {
+    "skip_to_content": "Skip to content",
+    "open_menu": "Open menu",
+    "close": "Close",
+    "primary_navigation": "Primary navigation",
+    "breadcrumb": "Breadcrumb"
+  },
+  "general": {
+    "pagination": {
+      "page": "Page {{ page }}"
+    },
+    "breadcrumb": {
+      "shop": "Shop"
+    },
+    "search": {
+      "title": "Search",
+      "placeholder": "Search our store",
+      "submit": "Search",
+      "results_with_count": {
+        "one": "{{ count }} result",
+        "other": "{{ count }} results"
+      },
+      "no_results": "No results found for \"{{ terms }}\". Try a different search."
+    },
+    "newsletter": {
+      "email": "Email",
+      "submit": "Subscribe",
+      "success": "Thanks for subscribing."
+    },
+    "password": {
+      "label": "Password",
+      "submit": "Enter"
+    },
+    "404": {
+      "title": "Page not found",
+      "text": "The page you were looking for doesn't exist or has been moved.",
+      "link": "Back to home"
+    }
+  },
+  "sections": {
+    "header": {
+      "cart": "Cart"
+    },
+    "footer": {
+      "links_label": "Footer links"
+    }
+  },
+  "cart": {
+    "title": "Your cart",
+    "empty": "Your cart is currently empty.",
+    "continue_shopping": "Continue shopping",
+    "remove": "Remove",
+    "quantity": "Quantity",
+    "update": "Update cart",
+    "subtotal": "Subtotal",
+    "taxes_note": "Taxes and shipping calculated at checkout.",
+    "checkout": "Checkout"
+  },
+  "collections": {
+    "empty": "No products found in this collection."
+  },
+  "products": {
+    "add_to_cart": "Add to cart",
+    "add_to_cart_with_price": "Add to cart — {{ price }}",
+    "sold_out": "Sold out",
+    "unavailable": "Unavailable",
+    "select_variant": "Select variant",
+    "from_price": "From {{ price }}"
+  }
+}
