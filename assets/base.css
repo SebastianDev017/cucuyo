@@ -410,6 +410,14 @@ a {
     z-index: 4;
     width: var(--sidebar-width);
     padding: var(--space-l) var(--space-s) var(--space-l) var(--page-padding);
+    background: var(--color-background);
+  }
+
+  /* Keep the fixed rail opaque and full-height so navigation stays legible
+     over full-bleed sections (e.g. the olive banner) while scrolling. */
+  .site-sidebar--sticky {
+    height: calc(100dvh - var(--header-height));
+    max-height: none;
   }
 
   .site-sidebar--sticky {

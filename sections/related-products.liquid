@@ -1,5 +1,9 @@
 {%- liquid
-  assign related = product.collections.first.products | where: 'available', true
+  assign source = product.collections.first
+  if source == blank or source.products.size < 2
+    assign source = collections.all
+  endif
+  assign related = source.products | where: 'available', true
   assign limit = section.settings.products_to_show
 -%}
 

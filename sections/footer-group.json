@@ -6,13 +6,25 @@
       "type": "footer",
       "blocks": {
         "column_1": {
-          "type": "menu"
+          "type": "menu",
+          "settings": {
+            "heading": "",
+            "menu": "footer"
+          }
         },
         "column_2": {
-          "type": "menu"
+          "type": "menu",
+          "settings": {
+            "heading": "",
+            "menu": "footer-2"
+          }
         },
         "column_3": {
-          "type": "menu"
+          "type": "menu",
+          "settings": {
+            "heading": "",
+            "menu": "footer-3"
+          }
         }
       },
       "block_order": ["column_1", "column_2", "column_3"]

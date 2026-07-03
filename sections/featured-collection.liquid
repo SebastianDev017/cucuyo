@@ -3,7 +3,12 @@
     <h2 class="featured__heading section-heading">{{ section.settings.heading }}</h2>
   {%- endif -%}
 
-  {%- assign featured = section.settings.collection -%}
+  {%- liquid
+    assign featured = section.settings.collection
+    if featured == blank or featured.products.size == 0
+      assign featured = collections.all
+    endif
+  -%}
   {%- if featured != blank and featured.products.size > 0 -%}
     <ul class="product-grid" role="list" style="--grid-columns: {{ section.settings.columns }};">
       {%- for product in featured.products limit: section.settings.products_to_show -%}

@@ -9,7 +9,31 @@
       }
     },
     "editorial": {
-      "type": "editorial"
+      "type": "editorial",
+      "blocks": {
+        "e1": {
+          "type": "item",
+          "settings": {
+            "number": "1",
+            "caption": "Use on your nightstand. Pairs well with a big white flower. Cut stems to around 6\" and add around 5-6 large flowers."
+          }
+        },
+        "e2": {
+          "type": "item",
+          "settings": {
+            "number": "2",
+            "caption": "Group with objects of different heights for an easy, collected tablescape."
+          }
+        },
+        "e3": {
+          "type": "item",
+          "settings": {
+            "number": "3",
+            "caption": "Let it stand alone on a shelf — the silhouette is the statement."
+          }
+        }
+      },
+      "block_order": ["e1", "e2", "e3"]
     },
     "banner": {
       "type": "hero",
