@@ -61,10 +61,16 @@
       window.CucuyoLenis = lenis;
     }
 
-    /* ---- Generic reveal: fade + gentle rise, staggered per group ---- */
+    /* ---- Generic reveal: fade + gentle rise, staggered per group ----
+       start: 'top bottom' fires the moment any part of an element enters the
+       viewport. This is deliberate: a higher line (e.g. 'top 88%') can never be
+       crossed by an element anchored at the very bottom of the page (the footer
+       sits at ~90% of the viewport at max scroll), which would leave it hidden
+       forever. 'top bottom' guarantees every element that becomes visible is
+       revealed, and reveals above-the-fold content immediately on load. */
     gsap.set('.reveal', { opacity: 0, y: 16 });
     ScrollTrigger.batch('.reveal', {
-      start: 'top 88%',
+      start: 'top bottom',
       once: true,
       onEnter: function (batch) {
         gsap.to(batch, {
