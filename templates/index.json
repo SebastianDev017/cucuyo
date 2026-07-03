@@ -1,15 +1,28 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "featured_top": {
       "type": "featured-collection",
       "settings": {
         "heading": "Shop",
+        "collection": "frontpage",
         "products_to_show": 3,
         "columns": 3
       }
     },
     "editorial": {
       "type": "editorial",
+      "settings": {
+        "heading": "Ideas on how\nto style"
+      },
       "blocks": {
         "e1": {
           "type": "item",
@@ -39,7 +52,10 @@
       "type": "hero",
       "settings": {
         "style": "accent",
+        "heading": "A collection of distinctive décor, artisan-made pieces, and timeless finds sourced from around the world.",
         "heading_tag": "h1",
+        "link_label": "",
+        "link": "",
         "height": "medium",
         "full_bleed": true
       }
@@ -48,10 +64,16 @@
       "type": "featured-collection",
       "settings": {
         "heading": "You may also like",
+        "collection": "",
         "products_to_show": 3,
         "columns": 3
       }
     }
   },
-  "order": ["featured_top", "editorial", "banner", "featured_bottom"]
+  "order": [
+    "featured_top",
+    "editorial",
+    "banner",
+    "featured_bottom"
+  ]
 }
