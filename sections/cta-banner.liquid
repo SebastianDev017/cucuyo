@@ -1,0 +1,65 @@
+{%- comment -%}
+  CTA banner — a full-bleed band in the accent brown (the Subscribe tone) with
+  cream type and a single button. Built for the service-side of Cucuyo:
+  interior design consultations, the trade program, appointments.
+{%- endcomment -%}
+
+<section class="cta-banner">
+  <div class="cta-banner__inner">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="cta-banner__eyebrow type-label">{{ section.settings.eyebrow | escape }}</p>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h2 class="cta-banner__heading">{{ section.settings.heading | escape | newline_to_br }}</h2>
+    {%- endif -%}
+    {%- if section.settings.body != blank -%}
+      <p class="cta-banner__body">{{ section.settings.body | escape }}</p>
+    {%- endif -%}
+    {%- if section.settings.link_label != blank and section.settings.link != blank -%}
+      <a href="{{ section.settings.link }}" class="button button--on-accent">{{ section.settings.link_label | escape }}</a>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CTA banner",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Interior design"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Rooms composed with the\nsame quiet intention"
+    },
+    {
+      "type": "text",
+      "id": "body",
+      "label": "Body",
+      "default": "Full-service interior design and a trade program for professionals."
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Button label",
+      "default": "Book an appointment"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "CTA banner"
+    }
+  ]
+}
+{% endschema %}

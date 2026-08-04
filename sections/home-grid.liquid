@@ -1,13 +1,22 @@
 {%- comment -%}
-  Card grid — Figma: rows of 2 or 3 full-bleed image cards (756:957 ratio)
+  Featured collection — Figma: rows of full-bleed image cards (756:957 ratio)
   separated by hairline gaps (or flush for the two-up editorial pair), each
   with a small-caps label overlaid bottom-left. A card can point at a product
   (image + title + link come from it) or use a picked/draft image with a
-  manual label. Collapses to a single column on mobile.
+  manual label. Columns: 2-5 on desktop, 1-2 on mobile.
+  (`columns` is the legacy pre-range setting, honored as a fallback so
+  templates saved before the rename keep their layout.)
 {%- endcomment -%}
+{%- liquid
+  assign cols_desktop = section.settings.columns_desktop | default: section.settings.columns | default: 3
+  assign cols_mobile = section.settings.columns_mobile | default: 1
+-%}
 
 <section class="home-grid">
-  <div class="card-grid card-grid--{{ section.settings.columns }}{% if section.settings.flush %} card-grid--flush{% endif %}">
+  <div
+    class="card-grid{% if section.settings.flush %} card-grid--flush{% endif %}"
+    style="--cols-desktop: {{ cols_desktop }}; --cols-mobile: {{ cols_mobile }};"
+  >
     {%- for block in section.blocks -%}
       {%- liquid
         assign card_product = block.settings.product
@@ -64,18 +73,26 @@
 
 {% schema %}
 {
-  "name": "Card grid",
+  "name": "Featured collection",
   "tag": "section",
   "settings": [
     {
-      "type": "select",
-      "id": "columns",
+      "type": "range",
+      "id": "columns_desktop",
       "label": "Columns (desktop)",
-      "options": [
-        { "value": "2", "label": "2" },
-        { "value": "3", "label": "3" }
-      ],
-      "default": "3"
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "columns_mobile",
+      "label": "Columns (mobile)",
+      "min": 1,
+      "max": 2,
+      "step": 1,
+      "default": 1
     },
     {
       "type": "checkbox",
@@ -85,7 +102,7 @@
       "info": "The two-up editorial pair sits flush in the design"
     }
   ],
-  "max_blocks": 6,
+  "max_blocks": 10,
   "blocks": [
     {
       "type": "card",
@@ -136,7 +153,7 @@
   ],
   "presets": [
     {
-      "name": "Card grid",
+      "name": "Featured collection",
       "blocks": [
         { "type": "card" },
         { "type": "card" },

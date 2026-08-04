@@ -1,57 +1,96 @@
 {%- comment -%}
-  Header — Figma: transparent overlay on the homepage hero with the wordmark
-  centered top and a stacked two-group nav in the top-left corner (menu links
-  + search / account / cart). On inner pages it renders solid on the cream
-  background with the nav in a centered row. No JS required.
-{%- endcomment -%}
-{%- liquid
-  assign overlay = false
-  if template.name == 'index' and section.settings.overlay_on_home
-    assign overlay = true
-  endif
--%}
+  Header — one unified behavior on every template (spartan-shop.com reference,
+  inspected live): position fixed at the top, solid white background, and NO
+  transitions of any kind — no background fade, no color or font change on
+  scroll, no hover animation on links at any level.
 
-<header class="site-header {% if overlay %}site-header--overlay{% else %}site-header--solid{% endif %}">
+  Structure mirrors the reference and the Figma grouping: primary menu stacked
+  top-left, wordmark centered, utilities (search / account / cart) stacked
+  top-right. Menu items with children open a native <details> dropdown — an
+  absolutely positioned solid-white panel that supports a third level
+  (SHOP > category > sub), all legible on white. No JS required; the panel
+  does not change the measured header height, so content never jumps.
+{%- endcomment -%}
+
+<header class="site-header">
+  <nav class="site-header__nav site-header__nav--primary" aria-label="{{ 'accessibility.primary_navigation' | t }}">
+    <ul class="site-header__list" role="list">
+      {%- for link in section.settings.menu.links -%}
+        <li class="site-header__item">
+          {%- if link.links != blank -%}
+            <details class="nav-drop">
+              <summary class="site-header__link nav-drop__summary">
+                {{- link.title -}}
+              </summary>
+              <div class="nav-drop__panel">
+                <ul class="nav-drop__groups" role="list">
+                  {%- for child in link.links -%}
+                    <li class="nav-drop__group">
+                      <a
+                        href="{{ child.url }}"
+                        class="nav-drop__link"
+                        {% if child.current %}
+                          aria-current="page"
+                        {% endif %}
+                      >
+                        {{- child.title -}}
+                      </a>
+                      {%- if child.links != blank -%}
+                        <ul class="nav-drop__sub" role="list">
+                          {%- for grandchild in child.links -%}
+                            <li>
+                              <a
+                                href="{{ grandchild.url }}"
+                                class="nav-drop__sublink"
+                                {% if grandchild.current %}
+                                  aria-current="page"
+                                {% endif %}
+                              >
+                                {{- grandchild.title -}}
+                              </a>
+                            </li>
+                          {%- endfor -%}
+                        </ul>
+                      {%- endif -%}
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              </div>
+            </details>
+          {%- else -%}
+            <a
+              href="{{ link.url }}"
+              class="site-header__link"
+              {% if link.current %}
+                aria-current="page"
+              {% endif %}
+            >
+              {{- link.title -}}
+            </a>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </nav>
+
   <a href="{{ routes.root_url }}" class="site-header__logo">
     {{- section.settings.wordmark | default: shop.name -}}
   </a>
 
-  <nav class="site-header__nav" aria-label="{{ 'accessibility.primary_navigation' | t }}">
-    <div class="site-header__nav-inner">
-      {%- if section.settings.menu != blank -%}
-        <ul class="site-header__nav-list" role="list">
-          {%- for link in section.settings.menu.links -%}
-            <li>
-              <a
-                href="{{ link.url }}"
-                class="site-header__link"
-                {% if link.current %}
-                  aria-current="page"
-                {% endif %}
-              >
-                {{- link.title -}}
-              </a>
-            </li>
-          {%- endfor -%}
-        </ul>
-      {%- endif -%}
-
-      <ul class="site-header__nav-list" role="list">
-        {%- if section.settings.show_search -%}
-          <li><a href="{{ routes.search_url }}" class="site-header__link">{{ 'general.search.title' | t }}</a></li>
-        {%- endif -%}
-        {%- if section.settings.show_account and shop.customer_accounts_enabled -%}
-          <li><a href="{{ routes.account_url }}" class="site-header__link">{{ 'sections.header.account' | t }}</a></li>
-        {%- endif -%}
-        <li>
-          <a href="{{ routes.cart_url }}" class="site-header__link">
-            {{ 'sections.header.cart' | t }}
-            <span class="visually-hidden">({{ cart.item_count }})</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </nav>
+  <ul class="site-header__list site-header__list--utilities" role="list">
+    {%- if section.settings.show_search -%}
+      <li><a href="{{ routes.search_url }}" class="site-header__link">{{ 'general.search.title' | t }}</a></li>
+    {%- endif -%}
+    {%- if section.settings.show_account and shop.customer_accounts_enabled -%}
+      <li><a href="{{ routes.account_url }}" class="site-header__link">{{ 'sections.header.account' | t }}</a></li>
+    {%- endif -%}
+    <li>
+      <a href="{{ routes.cart_url }}" class="site-header__link">
+        {{ 'sections.header.cart' | t }}
+        <span class="visually-hidden">({{ cart.item_count }})</span>
+      </a>
+    </li>
+  </ul>
 </header>
 
 {% schema %}
@@ -70,14 +109,8 @@
       "type": "link_list",
       "id": "menu",
       "label": "Menu",
-      "default": "main-menu"
-    },
-    {
-      "type": "checkbox",
-      "id": "overlay_on_home",
-      "label": "Transparent overlay on the homepage",
-      "default": true,
-      "info": "Lays the header over the hero images, as in the design"
+      "default": "main-menu",
+      "info": "Items with nested links open a dropdown panel (up to 3 levels)"
     },
     {
       "type": "checkbox",

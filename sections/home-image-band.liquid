@@ -1,27 +1,48 @@
 {%- comment -%}
-  Full-bleed image band — Figma: a single full-width lifestyle image
-  (1512×835) between the card grids. Optional link.
+  Highlighted content — a full-bleed lifestyle moment between the grids
+  (Figma: 1512×835). Takes a hosted video (muted, looping, plays inline) or
+  an image; the draft asset fills in while neither is selected. Optional link.
 {%- endcomment -%}
 
 <section class="image-band">
   {%- if section.settings.link != blank -%}<a href="{{ section.settings.link }}">{%- endif -%}
-  {% render 'draft-image',
-    image: section.settings.image,
-    draft_asset: section.settings.draft_asset,
-    img_class: 'image-band__media',
-    sizes: '100vw',
-    alt: section.settings.alt_text,
-    asset_width: 1512,
-    asset_height: 835
-  %}
+  {%- if section.settings.video -%}
+    {{-
+      section.settings.video
+      | video_tag:
+        class: 'image-band__media',
+        image_size: '1600x',
+        autoplay: true,
+        loop: true,
+        muted: true,
+        controls: false,
+        playsinline: true
+    -}}
+  {%- else -%}
+    {% render 'draft-image',
+      image: section.settings.image,
+      draft_asset: section.settings.draft_asset,
+      img_class: 'image-band__media',
+      sizes: '100vw',
+      alt: section.settings.alt_text,
+      asset_width: 1512,
+      asset_height: 835
+    %}
+  {%- endif -%}
   {%- if section.settings.link != blank -%}</a>{%- endif -%}
 </section>
 
 {% schema %}
 {
-  "name": "Image band",
+  "name": "Highlighted content",
   "tag": "section",
   "settings": [
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video",
+      "info": "Plays muted on a loop. Takes priority over the image."
+    },
     {
       "type": "image_picker",
       "id": "image",
@@ -31,13 +52,13 @@
       "type": "text",
       "id": "draft_asset",
       "label": "Draft asset filename",
-      "info": "Theme asset shown while no image is selected (design draft)"
+      "info": "Theme asset shown while no video or image is selected (design draft)"
     },
     {
       "type": "text",
       "id": "alt_text",
-      "label": "Image description",
-      "info": "Describes the image for screen readers"
+      "label": "Media description",
+      "info": "Describes the image or video for screen readers"
     },
     {
       "type": "url",
@@ -47,7 +68,7 @@
   ],
   "presets": [
     {
-      "name": "Image band"
+      "name": "Highlighted content"
     }
   ]
 }

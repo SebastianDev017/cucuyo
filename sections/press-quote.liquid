@@ -1,0 +1,75 @@
+{%- comment -%}
+  Press quote — an "as seen in" moment (the Figma features Florida Design):
+  a large PersonaTRIAL pull-quote with a small-caps attribution, plus an
+  optional row of publication names set in type (no logo images needed).
+{%- endcomment -%}
+
+<section class="quote">
+  <div class="quote__inner">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="quote__eyebrow type-label">{{ section.settings.eyebrow | escape }}</p>
+    {%- endif -%}
+    {%- if section.settings.quote != blank -%}
+      <blockquote class="quote__text">
+        {{ section.settings.quote | escape | newline_to_br }}
+        {%- if section.settings.attribution != blank -%}
+          <cite class="quote__attribution type-label">{{ section.settings.attribution | escape }}</cite>
+        {%- endif -%}
+      </blockquote>
+    {%- endif -%}
+    {%- if section.blocks.size > 0 -%}
+      <ul class="quote__publications" role="list">
+        {%- for block in section.blocks -%}
+          <li class="quote__publication type-label" {{ block.shopify_attributes }}>{{ block.settings.name | escape }}</li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Press quote",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "As seen in"
+    },
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "Quote",
+      "default": "A design dispatch from the makers\nshaping the modern interior."
+    },
+    {
+      "type": "text",
+      "id": "attribution",
+      "label": "Attribution",
+      "default": "Florida Design"
+    }
+  ],
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "type": "publication",
+      "name": "Publication",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Publication"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Press quote"
+    }
+  ]
+}
+{% endschema %}

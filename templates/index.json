@@ -80,7 +80,9 @@
       ],
       "settings": {
         "columns": "3",
-        "flush": false
+        "flush": false,
+        "columns_desktop": 3,
+        "columns_mobile": 1
       }
     },
     "band": {
@@ -121,7 +123,9 @@
       ],
       "settings": {
         "columns": "2",
-        "flush": true
+        "flush": true,
+        "columns_desktop": 2,
+        "columns_mobile": 1
       }
     },
     "grid_two": {
@@ -165,7 +169,9 @@
       ],
       "settings": {
         "columns": "3",
-        "flush": false
+        "flush": false,
+        "columns_desktop": 3,
+        "columns_mobile": 1
       }
     }
   },

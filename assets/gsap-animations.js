@@ -10,12 +10,10 @@
 (function () {
   'use strict';
 
-  /* Hero + header intro — gentle fade on first paint */
+  /* Hero intro — gentle fade on first paint. The header is deliberately
+     untouched: the fixed white nav renders instantly with no fade of any kind. */
   function initIntro() {
-    var logo = document.querySelector('.site-header__logo');
-    var nav = document.querySelector('.site-header__nav');
     var heroCells = gsap.utils.toArray('.home-hero__cell');
-
     if (heroCells.length) {
       gsap.from(heroCells, {
         opacity: 0,
@@ -23,12 +21,6 @@
         ease: 'power2.out',
         stagger: 0.12
       });
-    }
-    if (logo) {
-      gsap.from(logo, { opacity: 0, y: -10, duration: 0.9, ease: 'power2.out', delay: 0.25 });
-    }
-    if (nav) {
-      gsap.from(nav, { opacity: 0, duration: 0.9, ease: 'power2.out', delay: 0.4 });
     }
   }
 
