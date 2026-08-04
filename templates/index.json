@@ -46,6 +46,7 @@
           "type": "card",
           "settings": {
             "product": "",
+            "image": "shopify://shop_images/0e56ad7548bcfd72562b54a81622d4d111df7fcf.png",
             "draft_asset": "figma-prod-ojo-de-libre.jpg",
             "label": "Ojo de\nLibre Vase",
             "label_tone": "dark",
@@ -87,6 +88,7 @@
     "band": {
       "type": "home-image-band",
       "settings": {
+        "video": "shopify://files/videos/watermarked_preview.mp4",
         "draft_asset": "figma-band-flamingos.jpg",
         "alt_text": "Flock of flamingos wading through a tropical lagoon",
         "link": ""
