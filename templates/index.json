@@ -79,10 +79,10 @@
         "card_ball"
       ],
       "settings": {
-        "columns": "3",
-        "flush": false,
         "columns_desktop": 3,
-        "columns_mobile": 1
+        "columns_mobile": 1,
+        "columns": "3",
+        "flush": false
       }
     },
     "band": {
@@ -122,10 +122,10 @@
         "duo_beaded"
       ],
       "settings": {
-        "columns": "2",
-        "flush": true,
         "columns_desktop": 2,
-        "columns_mobile": 1
+        "columns_mobile": 1,
+        "columns": "2",
+        "flush": true
       }
     },
     "grid_two": {
@@ -168,10 +168,10 @@
         "card_ghost_2"
       ],
       "settings": {
-        "columns": "3",
-        "flush": false,
         "columns_desktop": 3,
-        "columns_mobile": 1
+        "columns_mobile": 1,
+        "columns": "3",
+        "flush": false
       }
     }
   },
