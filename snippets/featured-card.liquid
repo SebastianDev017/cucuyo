@@ -1,0 +1,78 @@
+{% doc %}
+  One card of the Featured collection grid. Shared by the section's main
+  block loop and its auto-fill loop (leftover cells in the last row are
+  filled by cycling the section's own cards).
+
+  @param {object} block - the card block (settings: product, image,
+    draft_asset, label, label_tone, link)
+  @param {boolean} [is_filler] - true when this card is an auto-fill repeat:
+    skips shopify_attributes and hides it from assistive tech / tab order so
+    screen readers and keyboards don't hit duplicate links
+  @example
+  {% render 'featured-card', block: block %}
+{% enddoc %}
+
+{%- liquid
+  assign card_product = block.settings.product
+  assign card_label = block.settings.label
+  assign card_url = block.settings.link
+  if card_product and card_label == blank
+    assign card_label = card_product.title
+  endif
+  if card_product and card_url == blank
+    assign card_url = card_product.url
+  endif
+-%}
+{%- if card_url != blank -%}
+  <a
+    href="{{ card_url }}"
+    class="image-card{% if is_filler %} image-card--filler{% endif %}"
+    {% if is_filler %}
+      aria-hidden="true" tabindex="-1"
+    {% else %}
+      {{ block.shopify_attributes }}
+    {% endif %}
+  >
+{%- else -%}
+  <div
+    class="image-card{% if is_filler %} image-card--filler{% endif %}"
+    {% if is_filler %}
+      aria-hidden="true"
+    {% else %}
+      {{ block.shopify_attributes }}
+    {% endif %}
+  >
+{%- endif -%}
+
+{%- if block.settings.image == blank and card_product.featured_media -%}
+  {{-
+    card_product.featured_media
+    | image_url: width: 1200
+    | image_tag:
+      widths: '400, 700, 1000, 1200',
+      sizes: '(min-width: 750px) 33vw, 100vw',
+      class: 'image-card__media',
+      alt: card_label,
+      loading: 'lazy'
+  -}}
+{%- else -%}
+  {% render 'draft-image',
+    image: block.settings.image,
+    draft_asset: block.settings.draft_asset,
+    img_class: 'image-card__media',
+    sizes: '(min-width: 750px) 33vw, 100vw',
+    alt: card_label
+  %}
+{%- endif -%}
+
+{%- if card_label != blank -%}
+  <span class="image-card__label{% if block.settings.label_tone == 'light' %} image-card__label--light{% endif %}">
+    {{- card_label | escape | newline_to_br -}}
+  </span>
+{%- endif -%}
+
+{%- if card_url != blank -%}
+  </a>
+{%- else -%}
+  </div>
+{%- endif -%}

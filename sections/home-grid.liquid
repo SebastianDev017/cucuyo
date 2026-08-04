@@ -4,12 +4,24 @@
   with a small-caps label overlaid bottom-left. A card can point at a product
   (image + title + link come from it) or use a picked/draft image with a
   manual label. Columns: 2-5 on desktop, 1-2 on mobile.
+
+  AUTO-FILL: when the cards don't complete the last row, the leftover cells
+  are filled by cycling the section's own cards from the start, so the grid
+  never shows an empty gap. Fillers are decorative (aria-hidden, untabbable).
+
   (`columns` is the legacy pre-range setting, honored as a fallback so
   templates saved before the rename keep their layout.)
 {%- endcomment -%}
 {%- liquid
   assign cols_desktop = section.settings.columns_desktop | default: section.settings.columns | default: 3
   assign cols_mobile = section.settings.columns_mobile | default: 1
+  assign total = section.blocks.size
+  assign cols_num = cols_desktop | plus: 0
+  assign remainder = total | modulo: cols_num
+  assign fillers = 0
+  if remainder > 0 and total > 0
+    assign fillers = cols_num | minus: remainder
+  endif
 -%}
 
 <section class="home-grid">
@@ -18,56 +30,15 @@
     style="--cols-desktop: {{ cols_desktop }}; --cols-mobile: {{ cols_mobile }};"
   >
     {%- for block in section.blocks -%}
-      {%- liquid
-        assign card_product = block.settings.product
-        assign card_label = block.settings.label
-        assign card_url = block.settings.link
-        if card_product and card_label == blank
-          assign card_label = card_product.title
-        endif
-        if card_product and card_url == blank
-          assign card_url = card_product.url
-        endif
-      -%}
-      {%- if card_url != blank -%}
-        <a href="{{ card_url }}" class="image-card" {{ block.shopify_attributes }}>
-      {%- else -%}
-        <div class="image-card" {{ block.shopify_attributes }}>
-      {%- endif -%}
-
-      {%- if block.settings.image == blank and card_product.featured_media -%}
-        {{-
-          card_product.featured_media
-          | image_url: width: 1200
-          | image_tag:
-            widths: '400, 700, 1000, 1200',
-            sizes: '(min-width: 750px) 33vw, 100vw',
-            class: 'image-card__media',
-            alt: card_label,
-            loading: 'lazy'
-        -}}
-      {%- else -%}
-        {% render 'draft-image',
-          image: block.settings.image,
-          draft_asset: block.settings.draft_asset,
-          img_class: 'image-card__media',
-          sizes: '(min-width: 750px) 33vw, 100vw',
-          alt: card_label
-        %}
-      {%- endif -%}
-
-      {%- if card_label != blank -%}
-        <span class="image-card__label{% if block.settings.label_tone == 'light' %} image-card__label--light{% endif %}">
-          {{- card_label | escape | newline_to_br -}}
-        </span>
-      {%- endif -%}
-
-      {%- if card_url != blank -%}
-        </a>
-      {%- else -%}
-        </div>
-      {%- endif -%}
+      {% render 'featured-card', block: block %}
     {%- endfor -%}
+
+    {%- if fillers > 0 -%}
+      {%- for i in (1..fillers) -%}
+        {%- assign filler_index = i | minus: 1 | modulo: total -%}
+        {% render 'featured-card', block: section.blocks[filler_index], is_filler: true %}
+      {%- endfor -%}
+    {%- endif -%}
   </div>
 </section>
 

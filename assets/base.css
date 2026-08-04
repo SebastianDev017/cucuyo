@@ -335,6 +335,14 @@ body:not(.template-index) .site-header__link {
   text-decoration: none;
 }
 
+/* Auto-fill repeats only make sense at desktop column counts — on mobile
+   they would stack as duplicate full-width cards. */
+@media (max-width: 749px) {
+  .image-card--filler {
+    display: none;
+  }
+}
+
 .image-card__media {
   width: 100%;
   height: 100%;
