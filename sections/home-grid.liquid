@@ -1,0 +1,148 @@
+{%- comment -%}
+  Card grid — Figma: rows of 2 or 3 full-bleed image cards (756:957 ratio)
+  separated by hairline gaps (or flush for the two-up editorial pair), each
+  with a small-caps label overlaid bottom-left. A card can point at a product
+  (image + title + link come from it) or use a picked/draft image with a
+  manual label. Collapses to a single column on mobile.
+{%- endcomment -%}
+
+<section class="home-grid">
+  <div class="card-grid card-grid--{{ section.settings.columns }}{% if section.settings.flush %} card-grid--flush{% endif %}">
+    {%- for block in section.blocks -%}
+      {%- liquid
+        assign card_product = block.settings.product
+        assign card_label = block.settings.label
+        assign card_url = block.settings.link
+        if card_product and card_label == blank
+          assign card_label = card_product.title
+        endif
+        if card_product and card_url == blank
+          assign card_url = card_product.url
+        endif
+      -%}
+      {%- if card_url != blank -%}
+        <a href="{{ card_url }}" class="image-card" {{ block.shopify_attributes }}>
+      {%- else -%}
+        <div class="image-card" {{ block.shopify_attributes }}>
+      {%- endif -%}
+
+      {%- if block.settings.image == blank and card_product.featured_media -%}
+        {{-
+          card_product.featured_media
+          | image_url: width: 1200
+          | image_tag:
+            widths: '400, 700, 1000, 1200',
+            sizes: '(min-width: 750px) 33vw, 100vw',
+            class: 'image-card__media',
+            alt: card_label,
+            loading: 'lazy'
+        -}}
+      {%- else -%}
+        {% render 'draft-image',
+          image: block.settings.image,
+          draft_asset: block.settings.draft_asset,
+          img_class: 'image-card__media',
+          sizes: '(min-width: 750px) 33vw, 100vw',
+          alt: card_label
+        %}
+      {%- endif -%}
+
+      {%- if card_label != blank -%}
+        <span class="image-card__label{% if block.settings.label_tone == 'light' %} image-card__label--light{% endif %}">
+          {{- card_label | escape | newline_to_br -}}
+        </span>
+      {%- endif -%}
+
+      {%- if card_url != blank -%}
+        </a>
+      {%- else -%}
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Card grid",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "columns",
+      "label": "Columns (desktop)",
+      "options": [
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" }
+      ],
+      "default": "3"
+    },
+    {
+      "type": "checkbox",
+      "id": "flush",
+      "label": "Flush (no gap)",
+      "default": false,
+      "info": "The two-up editorial pair sits flush in the design"
+    }
+  ],
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product",
+          "info": "Supplies the image, label, and link when set"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Overrides the product image"
+        },
+        {
+          "type": "text",
+          "id": "draft_asset",
+          "label": "Draft asset filename",
+          "info": "Theme asset shown while no image or product is selected"
+        },
+        {
+          "type": "textarea",
+          "id": "label",
+          "label": "Label",
+          "info": "Small caps, bottom-left. Falls back to the product title."
+        },
+        {
+          "type": "select",
+          "id": "label_tone",
+          "label": "Label tone",
+          "options": [
+            { "value": "dark", "label": "Dark" },
+            { "value": "light", "label": "Light" }
+          ],
+          "default": "dark"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link",
+          "info": "Overrides the product link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Card grid",
+      "blocks": [
+        { "type": "card" },
+        { "type": "card" },
+        { "type": "card" }
+      ]
+    }
+  ]
+}
+{% endschema %}

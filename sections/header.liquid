@@ -1,58 +1,58 @@
-<div class="site-header-wrapper">
-  <header class="site-header page-padding">
-    <button
-      class="site-header__burger"
-      type="button"
-      data-drawer-open
-      aria-controls="NavDrawer"
-      aria-expanded="false"
-    >
-      <span class="visually-hidden">{{ 'accessibility.open_menu' | t }}</span>
-      <svg width="20" height="14" viewBox="0 0 20 14" fill="none" aria-hidden="true" focusable="false">
-        <path d="M0 1h20M0 7h20M0 13h20" stroke="currentColor" stroke-width="1"/>
-      </svg>
-    </button>
+{%- comment -%}
+  Header — Figma: transparent overlay on the homepage hero with the wordmark
+  centered top and a stacked two-group nav in the top-left corner (menu links
+  + search / account / cart). On inner pages it renders solid on the cream
+  background with the nav in a centered row. No JS required.
+{%- endcomment -%}
+{%- liquid
+  assign overlay = false
+  if template.name == 'index' and section.settings.overlay_on_home
+    assign overlay = true
+  endif
+-%}
 
-    <a href="{{ routes.root_url }}" class="site-header__logo" style="--logo-width: {{ section.settings.logo_width }}px;">
-      {%- if section.settings.logo -%}
-        {{-
-          section.settings.logo
-          | image_url: width: 480
-          | image_tag:
-            widths: '160, 240, 360, 480',
-            sizes: '(min-width: 750px) 240px, 160px',
-            class: 'site-header__logo-image',
-            alt: shop.name
-        -}}
-      {%- else -%}
-        <span class="site-header__logo-text">{{ shop.name }}</span>
+<header class="site-header {% if overlay %}site-header--overlay{% else %}site-header--solid{% endif %}">
+  <a href="{{ routes.root_url }}" class="site-header__logo">
+    {{- section.settings.wordmark | default: shop.name -}}
+  </a>
+
+  <nav class="site-header__nav" aria-label="{{ 'accessibility.primary_navigation' | t }}">
+    <div class="site-header__nav-inner">
+      {%- if section.settings.menu != blank -%}
+        <ul class="site-header__nav-list" role="list">
+          {%- for link in section.settings.menu.links -%}
+            <li>
+              <a
+                href="{{ link.url }}"
+                class="site-header__link"
+                {% if link.current %}
+                  aria-current="page"
+                {% endif %}
+              >
+                {{- link.title -}}
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
       {%- endif -%}
-    </a>
 
-    <a href="{{ routes.cart_url }}" class="site-header__cart">
-      {{ 'sections.header.cart' | t }} (<span data-cart-count>{{ cart.item_count }}</span>)
-    </a>
-  </header>
-
-  <nav
-    class="site-sidebar{% if section.settings.sticky_sidebar %} site-sidebar--sticky{% endif %}"
-    aria-label="{{ 'accessibility.primary_navigation' | t }}"
-  >
-    {% render 'nav-list', menu: section.settings.menu, show_search: section.settings.show_search_link %}
-  </nav>
-
-  <dialog class="nav-drawer" id="NavDrawer" aria-label="{{ 'accessibility.primary_navigation' | t }}">
-    <div class="nav-drawer__inner">
-      <button class="nav-drawer__close" type="button" data-drawer-close>
-        <span class="visually-hidden">{{ 'accessibility.close' | t }}</span>
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" focusable="false">
-          <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1"/>
-        </svg>
-      </button>
-      {% render 'nav-list', menu: section.settings.menu, show_search: section.settings.show_search_link %}
+      <ul class="site-header__nav-list" role="list">
+        {%- if section.settings.show_search -%}
+          <li><a href="{{ routes.search_url }}" class="site-header__link">{{ 'general.search.title' | t }}</a></li>
+        {%- endif -%}
+        {%- if section.settings.show_account and shop.customer_accounts_enabled -%}
+          <li><a href="{{ routes.account_url }}" class="site-header__link">{{ 'sections.header.account' | t }}</a></li>
+        {%- endif -%}
+        <li>
+          <a href="{{ routes.cart_url }}" class="site-header__link">
+            {{ 'sections.header.cart' | t }}
+            <span class="visually-hidden">({{ cart.item_count }})</span>
+          </a>
+        </li>
+      </ul>
     </div>
-  </dialog>
-</div>
+  </nav>
+</header>
 
 {% schema %}
 {
@@ -60,47 +60,35 @@
   "class": "section-header",
   "settings": [
     {
-      "type": "header",
-      "content": "Logo"
-    },
-    {
-      "type": "image_picker",
-      "id": "logo",
-      "label": "Logo image",
-      "info": "Leave empty to display the store name as text"
-    },
-    {
-      "type": "range",
-      "id": "logo_width",
-      "label": "Logo width",
-      "min": 80,
-      "max": 240,
-      "step": 10,
-      "unit": "px",
-      "default": 140
-    },
-    {
-      "type": "header",
-      "content": "Navigation"
+      "type": "text",
+      "id": "wordmark",
+      "label": "Wordmark",
+      "default": "CUCUYO HOME",
+      "info": "Rendered in PersonaTRIAL. Leave as the brand wordmark."
     },
     {
       "type": "link_list",
       "id": "menu",
-      "label": "Sidebar menu",
-      "default": "main-menu",
-      "info": "Sub-items render indented and always expanded, as in the design"
+      "label": "Menu",
+      "default": "main-menu"
     },
     {
       "type": "checkbox",
-      "id": "show_search_link",
-      "label": "Show search link",
+      "id": "overlay_on_home",
+      "label": "Transparent overlay on the homepage",
       "default": true,
-      "info": "Adds a Search link at the end of the sidebar"
+      "info": "Lays the header over the hero images, as in the design"
     },
     {
       "type": "checkbox",
-      "id": "sticky_sidebar",
-      "label": "Sticky sidebar on desktop",
+      "id": "show_search",
+      "label": "Show search link",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_account",
+      "label": "Show account link",
       "default": true
     }
   ]

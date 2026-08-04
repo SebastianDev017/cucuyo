@@ -1,27 +1,22 @@
-<footer class="site-footer page-padding">
-  <div class="site-footer__inner reveal">
+{%- comment -%}
+  Footer — Figma: circular lowercase mark on the left, three columns of
+  lowercase links, newsletter (bordered email field + accent Subscribe button
+  + microcopy note) on the right. Columns are menu-driven; until the menus
+  exist in Admin, each column falls back to its draft labels (one per line)
+  so the layout always matches the design.
+{%- endcomment -%}
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
     <div class="site-footer__mark" aria-hidden="true">
       {%- if section.settings.mark_image -%}
         {{-
           section.settings.mark_image
           | image_url: width: 240
-          | image_tag: widths: '120, 240', sizes: '120px', class: 'site-footer__mark-image', alt: ''
+          | image_tag: widths: '120, 240', sizes: '96px', alt: ''
         -}}
       {%- else -%}
-        {%- liquid
-          assign mark_source = section.settings.mark_text | default: shop.name
-          assign mark = mark_source | downcase | remove: ' '
-          assign mark_length = mark.size
-        -%}
-        {%- if mark_length > 0 -%}
-          {%- assign mark_rows = mark_length | plus: 2 | divided_by: 3 | minus: 1 -%}
-          <span class="site-footer__mark-text">
-            {%- for i in (0..mark_rows) -%}
-              {%- assign mark_offset = i | times: 3 -%}
-              <span class="site-footer__mark-row">{{ mark | slice: mark_offset, 3 }}</span>
-            {%- endfor -%}
-          </span>
-        {%- endif -%}
+        <img src="{{ 'figma-footer-mark.png' | asset_url }}" width="162" height="145" alt="" loading="lazy">
       {%- endif -%}
     </div>
 
@@ -31,29 +26,28 @@
           {%- when 'menu' -%}
             {%- capture links_label -%}{{ 'sections.footer.links_label' | t }}{%- endcapture -%}
             {%- liquid
-              # Give each column a distinct accessible name so the two footer
-              # nav landmarks aren't ambiguous when their headings are blank.
               if block.settings.heading != blank
                 assign col_label = block.settings.heading
               else
                 assign col_label = links_label | append: ' ' | append: forloop.index
               endif
             -%}
-            <nav
-              class="site-footer__col"
-              aria-label="{{ col_label | strip }}"
-              {{ block.shopify_attributes }}
-            >
-              {%- if block.settings.heading != blank -%}
-                <h2 class="site-footer__col-heading">{{ block.settings.heading }}</h2>
-              {%- endif -%}
-              {%- if block.settings.menu != blank -%}
-                <ul class="site-footer__links" role="list">
+            <nav class="site-footer__col" aria-label="{{ col_label | strip }}" {{ block.shopify_attributes }}>
+              <ul class="site-footer__links" role="list">
+                {%- if block.settings.menu != blank -%}
                   {%- for link in block.settings.menu.links -%}
                     <li><a href="{{ link.url }}" class="site-footer__link">{{ link.title }}</a></li>
                   {%- endfor -%}
-                </ul>
-              {%- endif -%}
+                {%- else -%}
+                  {%- assign fallback_lines = block.settings.fallback_links | newline_to_br | split: '<br />' -%}
+                  {%- for line in fallback_lines -%}
+                    {%- assign label = line | strip -%}
+                    {%- if label != blank -%}
+                      <li><a href="#" class="site-footer__link">{{ label }}</a></li>
+                    {%- endif -%}
+                  {%- endfor -%}
+                {%- endif -%}
+              </ul>
             </nav>
         {%- endcase -%}
       {%- endfor -%}
@@ -97,24 +91,10 @@
   "class": "section-footer",
   "settings": [
     {
-      "type": "header",
-      "content": "Brand mark"
-    },
-    {
       "type": "image_picker",
       "id": "mark_image",
-      "label": "Mark image",
-      "info": "Leave empty to display the store name as a stacked wordmark"
-    },
-    {
-      "type": "text",
-      "id": "mark_text",
-      "label": "Stacked wordmark text",
-      "info": "Falls back to the store name when empty"
-    },
-    {
-      "type": "header",
-      "content": "Newsletter"
+      "label": "Brand mark",
+      "info": "The circular lowercase mark. Falls back to the draft asset when empty."
     },
     {
       "type": "checkbox",
@@ -137,13 +117,19 @@
         {
           "type": "text",
           "id": "heading",
-          "label": "Heading"
+          "label": "Accessible name",
+          "info": "Not displayed — names this column for screen readers"
         },
         {
           "type": "link_list",
           "id": "menu",
-          "label": "Menu",
-          "default": "footer"
+          "label": "Menu"
+        },
+        {
+          "type": "textarea",
+          "id": "fallback_links",
+          "label": "Draft labels",
+          "info": "One label per line. Shown only while no menu is selected."
         }
       ]
     }

@@ -1,0 +1,61 @@
+{%- comment -%}
+  Bridges theme settings to the CSS custom properties consumed by base.css.
+  Fonts are SELF-HOSTED (Figma spec): PersonaTRIAL Medium for headings/labels,
+  Junction (light/regular/bold) for body — loaded via @font-face from assets,
+  never font_picker. PersonaTRIAL ships a limited charset (A-Z a-z 0-9 . , -),
+  so Junction follows it in the heading stack for per-glyph fallback.
+
+  Color settings return a Color drop that `default` does NOT treat as blank,
+  so each token uses an explicit blank check (Atelier pattern) — a concrete
+  hex is always emitted and never resolves nil on a fresh GitHub-synced theme.
+{%- endcomment -%}
+{% style %}
+  @font-face {
+    font-family: 'PersonaTRIAL';
+    src: url('{{ 'persona-medium.woff2' | asset_url }}') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Junction';
+    src: url('{{ 'junction-light.woff2' | asset_url }}') format('woff2');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Junction';
+    src: url('{{ 'junction-regular.woff2' | asset_url }}') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Junction';
+    src: url('{{ 'junction-bold.woff2' | asset_url }}') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  :root {
+    --font-heading: 'PersonaTRIAL', 'Junction', 'Optima', 'Segoe UI', sans-serif;
+    --font-heading-weight: 500;
+    --font-body: 'Junction', 'Helvetica Neue', Arial, sans-serif;
+
+    --color-bg: {% if settings.color_background != blank %}{{ settings.color_background }}{% else %}#F9F6F2{% endif %};
+    --color-ink: {% if settings.color_ink != blank %}{{ settings.color_ink }}{% else %}#302C2C{% endif %};
+    --color-accent: {% if settings.color_accent != blank %}{{ settings.color_accent }}{% else %}#623827{% endif %};
+    --color-on-accent: {% if settings.color_on_accent != blank %}{{ settings.color_on_accent }}{% else %}#F9F6F2{% endif %};
+    --color-muted: {% if settings.color_muted != blank %}{{ settings.color_muted }}{% else %}#8A6F5E{% endif %};
+    --color-border: {% if settings.color_border != blank %}{{ settings.color_border }}{% else %}#D9CFC4{% endif %};
+    --color-on-image: #F9F6F2;
+
+    --page-margin: {{ settings.page_margin | default: 40 }}px;
+    --grid-gap: {{ settings.grid_gap | default: 4 }}px;
+
+    --heading-scale: {{ settings.heading_scale | default: 100 | divided_by: 100.0 }};
+    --body-scale: {{ settings.body_scale | default: 100 | divided_by: 100.0 }};
+  }
+{% endstyle %}

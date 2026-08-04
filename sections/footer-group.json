@@ -8,19 +8,29 @@
         "column_1": {
           "type": "menu",
           "settings": {
-            "heading": "",
-            "menu": "footer"
+            "heading": "Company",
+            "menu": "",
+            "fallback_links": "contact\nabout\ninterior design\ninstagram"
           }
         },
         "column_2": {
           "type": "menu",
           "settings": {
-            "heading": "",
-            "menu": "footer-2"
+            "heading": "Orders",
+            "menu": "",
+            "fallback_links": "shipping\nreturn policy\nFAQ's\ntrade program"
+          }
+        },
+        "column_3": {
+          "type": "menu",
+          "settings": {
+            "heading": "Legal",
+            "menu": "",
+            "fallback_links": "Privacy\nCookies\nterms of service\nappointments"
           }
         }
       },
-      "block_order": ["column_1", "column_2"]
+      "block_order": ["column_1", "column_2", "column_3"]
     }
   },
   "order": ["footer"]

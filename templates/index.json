@@ -1,122 +1,128 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
-    "shop_by_category": {
-      "type": "shop-by-category",
-      "settings": {
-        "heading": "Shop by category",
-        "columns": 4
-      },
+    "hero": {
+      "type": "home-hero",
       "blocks": {
-        "c1": { "type": "category", "settings": { "label": "Tableware" } },
-        "c2": { "type": "category", "settings": { "label": "Lighting" } },
-        "c3": { "type": "category", "settings": { "label": "Storage" } },
-        "c4": { "type": "category", "settings": { "label": "Linens" } }
-      },
-      "block_order": ["c1", "c2", "c3", "c4"]
-    },
-    "featured_top": {
-      "type": "featured-collection",
-      "settings": {
-        "heading": "Shop",
-        "collection": "frontpage",
-        "products_to_show": 3,
-        "columns": 3
-      }
-    },
-    "editorial": {
-      "type": "editorial",
-      "settings": {
-        "heading": "Ideas on how\nto style"
-      },
-      "blocks": {
-        "e1": {
-          "type": "item",
+        "hero_left": {
+          "type": "image",
           "settings": {
-            "number": "1",
-            "caption": "Use on your nightstand. Pairs well with a big white flower. Cut stems to around 6\" and add around 5-6 large flowers."
+            "draft_asset": "figma-hero-left.jpg",
+            "label": "Petra\nVase",
+            "label_tone": "light"
           }
         },
-        "e2": {
-          "type": "item",
+        "hero_right": {
+          "type": "image",
           "settings": {
-            "number": "2",
-            "caption": "Group with objects of different heights for an easy, collected tablescape."
-          }
-        },
-        "e3": {
-          "type": "item",
-          "settings": {
-            "number": "3",
-            "caption": "Let it stand alone on a shelf — the silhouette is the statement."
+            "draft_asset": "figma-hero-right.jpg",
+            "label": "",
+            "label_tone": "light"
           }
         }
       },
-      "block_order": ["e1", "e2", "e3"]
+      "block_order": ["hero_left", "hero_right"]
     },
-    "brand_story": {
-      "type": "brand-story",
-      "settings": {
-        "media_position": "left",
-        "kicker": "Our craft",
-        "heading": "Made by hand,\nmeant to last",
-        "body": "<p>Every piece is sourced from makers who work slowly and deliberately — favouring natural materials, honest texture, and the quiet imperfection of the handmade.</p>",
-        "link_label": "Read our story"
-      }
-    },
-    "banner": {
-      "type": "hero",
-      "settings": {
-        "style": "accent",
-        "heading": "A collection of distinctive décor, artisan-made pieces, and timeless finds sourced from around the world.",
-        "heading_tag": "h1",
-        "link_label": "",
-        "link": "",
-        "height": "medium",
-        "full_bleed": true
-      }
-    },
-    "featured_bottom": {
-      "type": "featured-collection",
-      "settings": {
-        "heading": "New arrivals",
-        "collection": "",
-        "products_to_show": 3,
-        "columns": 3
-      }
-    },
-    "instagram": {
-      "type": "instagram-grid",
-      "settings": {
-        "heading": "From the studio",
-        "handle": "@cucuyohome",
-        "columns": 5
-      },
+    "grid_one": {
+      "type": "home-grid",
       "blocks": {
-        "p1": { "type": "photo" },
-        "p2": { "type": "photo" },
-        "p3": { "type": "photo" },
-        "p4": { "type": "photo" },
-        "p5": { "type": "photo" }
+        "card_ojo": {
+          "type": "card",
+          "settings": {
+            "draft_asset": "figma-prod-ojo-de-libre.jpg",
+            "label": "Ojo de\nLibre Vase",
+            "label_tone": "dark"
+          }
+        },
+        "card_ghost": {
+          "type": "card",
+          "settings": {
+            "draft_asset": "figma-prod-ghost-plate.jpg",
+            "label": "Ghost\nChecker Plate",
+            "label_tone": "dark"
+          }
+        },
+        "card_ball": {
+          "type": "card",
+          "settings": {
+            "draft_asset": "figma-prod-ball-boy.jpg",
+            "label": "Ball Boy\nBowl",
+            "label_tone": "dark"
+          }
+        }
       },
-      "block_order": ["p1", "p2", "p3", "p4", "p5"]
+      "block_order": ["card_ojo", "card_ghost", "card_ball"],
+      "settings": {
+        "columns": "3",
+        "flush": false
+      }
+    },
+    "band": {
+      "type": "home-image-band",
+      "settings": {
+        "draft_asset": "figma-band-flamingos.jpg",
+        "alt_text": "Flock of flamingos wading through a tropical lagoon"
+      }
+    },
+    "editorial_duo": {
+      "type": "home-grid",
+      "blocks": {
+        "duo_wabi": {
+          "type": "card",
+          "settings": {
+            "draft_asset": "figma-edit-wabi-sabi.jpg",
+            "label": "Wabi Sabi\nVase",
+            "label_tone": "dark"
+          }
+        },
+        "duo_beaded": {
+          "type": "card",
+          "settings": {
+            "draft_asset": "figma-edit-beaded.jpg",
+            "label": "Beaded\nPlates",
+            "label_tone": "light"
+          }
+        }
+      },
+      "block_order": ["duo_wabi", "duo_beaded"],
+      "settings": {
+        "columns": "2",
+        "flush": true
+      }
+    },
+    "grid_two": {
+      "type": "home-grid",
+      "blocks": {
+        "card_wabi_vase": {
+          "type": "card",
+          "settings": {
+            "draft_asset": "figma-prod-wabi-vase.jpg",
+            "label": "Wabi Sabi\nVase",
+            "label_tone": "dark"
+          }
+        },
+        "card_ziggy": {
+          "type": "card",
+          "settings": {
+            "draft_asset": "figma-prod-ziggy-stool.jpg",
+            "label": "Ziggy Rattan\nCounter Stool",
+            "label_tone": "dark"
+          }
+        },
+        "card_ghost_2": {
+          "type": "card",
+          "settings": {
+            "draft_asset": "figma-prod-ghost-plate-2.jpg",
+            "label": "Ghost\nChecker Plate",
+            "label_tone": "dark"
+          }
+        }
+      },
+      "block_order": ["card_wabi_vase", "card_ziggy", "card_ghost_2"],
+      "settings": {
+        "columns": "3",
+        "flush": false
+      }
     }
   },
-  "order": [
-    "shop_by_category",
-    "featured_top",
-    "editorial",
-    "brand_story",
-    "banner",
-    "featured_bottom",
-    "instagram"
-  ]
+  "order": ["hero", "grid_one", "band", "editorial_duo", "grid_two"]
 }

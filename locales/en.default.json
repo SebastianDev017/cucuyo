@@ -40,7 +40,8 @@
   },
   "sections": {
     "header": {
-      "cart": "Cart"
+      "cart": "Cart",
+      "account": "Account"
     },
     "footer": {
       "links_label": "Footer links"

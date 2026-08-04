@@ -1,0 +1,86 @@
+{%- comment -%}
+  Home hero — Figma: two full-bleed images side by side, flush (756×957 each),
+  with the transparent header overlaid on top and an optional small-caps label
+  in a corner of each image (e.g. "PETRA VASE"). Stacks on mobile.
+{%- endcomment -%}
+
+<section class="home-hero">
+  <div class="home-hero__grid">
+    {%- for block in section.blocks -%}
+      <div class="home-hero__cell" {{ block.shopify_attributes }}>
+        {%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}" class="home-hero__link">{%- endif -%}
+        {% render 'draft-image',
+          image: block.settings.image,
+          draft_asset: block.settings.draft_asset,
+          img_class: 'home-hero__media',
+          sizes: '(min-width: 750px) 50vw, 100vw',
+          alt: block.settings.label,
+          loading: 'eager'
+        %}
+        {%- if block.settings.label != blank -%}
+          <span class="home-hero__label{% if block.settings.label_tone == 'light' %} home-hero__label--light{% endif %}">
+            {{- block.settings.label | escape | newline_to_br -}}
+          </span>
+        {%- endif -%}
+        {%- if block.settings.link != blank -%}</a>{%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Home hero",
+  "tag": "section",
+  "max_blocks": 2,
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "draft_asset",
+          "label": "Draft asset filename",
+          "info": "Theme asset shown while no image is selected (design draft)"
+        },
+        {
+          "type": "textarea",
+          "id": "label",
+          "label": "Label",
+          "info": "Small caps label, bottom-left (e.g. the featured product name)"
+        },
+        {
+          "type": "select",
+          "id": "label_tone",
+          "label": "Label tone",
+          "options": [
+            { "value": "dark", "label": "Dark" },
+            { "value": "light", "label": "Light" }
+          ],
+          "default": "light"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Home hero",
+      "blocks": [
+        { "type": "image" },
+        { "type": "image" }
+      ]
+    }
+  ]
+}
+{% endschema %}

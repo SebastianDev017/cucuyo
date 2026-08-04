@@ -1,0 +1,46 @@
+{% doc %}
+  Renders a section/block image with a three-step fallback:
+  1. the merchant-picked image (image_picker),
+  2. a named draft asset from the theme's assets (Figma export crops used
+     while the design is in draft/approval),
+  3. a neutral placeholder block.
+
+  @param {object} [image] - image_picker value
+  @param {string} [draft_asset] - asset filename, e.g. "figma-hero-left.jpg"
+  @param {string} img_class - class for the <img> (and placeholder <div>)
+  @param {string} [sizes] - responsive sizes attribute for the picked image
+  @param {string} [alt] - alt text
+  @param {string} [loading] - "lazy" (default) or "eager"
+  @param {number} [asset_width] - intrinsic width of the draft asset (default 756)
+  @param {number} [asset_height] - intrinsic height of the draft asset (default 957)
+  @example
+  {% render 'draft-image', image: block.settings.image, draft_asset: block.settings.draft_asset, img_class: 'image-card__media', alt: block.settings.label %}
+{% enddoc %}
+
+{%- liquid
+  assign load = loading | default: 'lazy'
+  assign alt_text = alt | default: ''
+-%}
+{%- if image -%}
+  {{-
+    image
+    | image_url: width: 1600
+    | image_tag:
+      widths: '600, 900, 1200, 1600',
+      sizes: sizes,
+      class: img_class,
+      alt: alt_text,
+      loading: load
+  -}}
+{%- elsif draft_asset != blank -%}
+  <img
+    src="{{ draft_asset | asset_url }}"
+    class="{{ img_class }}"
+    alt="{{ alt_text }}"
+    loading="{{ load }}"
+    width="{{ asset_width | default: 756 }}"
+    height="{{ asset_height | default: 957 }}"
+  >
+{%- else -%}
+  <div class="{{ img_class }} {{ img_class }}--placeholder" aria-hidden="true"></div>
+{%- endif -%}

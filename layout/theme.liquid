@@ -1,99 +1,57 @@
 <!doctype html>
-<html lang="{{ request.locale.iso_code }}">
+<html class="no-js" lang="{{ request.locale.iso_code }}">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="{{ settings.color_background }}">
-    <link rel="canonical" href="{{ canonical_url }}">
+    <script>
+      document.documentElement.classList.remove('no-js');
+      document.documentElement.classList.add('js');
+    </script>
 
-    <title>
-      {{- page_title -}}
-      {%- if current_tags %} &ndash; tagged &quot;{{ current_tags | join: ', ' }}&quot;{% endif -%}
-      {%- if current_page != 1 %} &ndash; {{ 'general.pagination.page' | t: page: current_page }}{% endif -%}
-      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
-    </title>
+    {% render 'meta-tags' %}
+    {% render 'css-variables' %}
 
-    {% if page_description %}
-      <meta name="description" content="{{ page_description | escape }}">
-    {% endif %}
-
+    {%- comment -%}
+      Always emit a favicon so the browser never 404s on /favicon.ico
+      (Atelier pattern): merchant favicon when set, inline SVG mark otherwise.
+    {%- endcomment -%}
     {%- if settings.favicon != blank -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+      <link rel="apple-touch-icon" href="{{ settings.favicon | image_url: width: 180, height: 180 }}">
+    {%- else -%}
+      <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%23623827'/%3E%3C/svg%3E">
     {%- endif -%}
 
-    {% liquid
-      assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bolder'
-      assign display_font_scale = settings.display_scale | divided_by: 100.0
-    %}
-
-    <style>
-      {{ settings.type_display_font | font_face: font_display: 'swap' }}
-      {{ settings.type_body_font | font_face: font_display: 'swap' }}
-      {% if body_font_bold %}{{ body_font_bold | font_face: font_display: 'swap' }}{% endif %}
-
-      :root {
-        --color-background: {{ settings.color_background }};
-        --color-surface: {{ settings.color_surface }};
-        --color-ink: {{ settings.color_ink }};
-        --color-heading: {{ settings.color_heading }};
-        --color-ink-soft: {{ settings.color_ink_soft }};
-        --color-border: {{ settings.color_border }};
-        --color-accent: {{ settings.color_accent }};
-        --color-accent-hover: {{ settings.color_accent_hover }};
-        --color-on-accent: {{ settings.color_on_accent }};
-
-        --font-display-family: {{ settings.type_display_font.family }}, {{ settings.type_display_font.fallback_families }};
-        --font-display-weight: {{ settings.type_display_font.weight }};
-        --font-display-style: {{ settings.type_display_font.style }};
-        --font-body-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
-        --font-body-weight: {{ settings.type_body_font.weight }};
-        --font-body-style: {{ settings.type_body_font.style }};
-        {% if body_font_bold %}--font-body-weight-bold: {{ body_font_bold.weight }};{% else %}--font-body-weight-bold: 600;{% endif %}
-
-        --display-scale: {{ display_font_scale }};
-        --text-body-size: {{ settings.body_size }}px;
-
-        --page-width: {{ settings.page_width }}px;
-        --sidebar-width: {{ settings.sidebar_width }}px;
-        --section-spacing: {{ settings.section_spacing }}px;
-        --card-ratio: {{ settings.card_aspect_ratio }};
-      }
-    </style>
-
     {{ 'base.css' | asset_url | stylesheet_tag }}
-    <script src="{{ 'theme.js' | asset_url }}" defer></script>
-    <script src="{{ 'gsap.min.js' | asset_url }}" defer></script>
-    <script src="{{ 'ScrollTrigger.min.js' | asset_url }}" defer></script>
-    <script src="{{ 'lenis.min.js' | asset_url }}" defer></script>
-    <script src="{{ 'cucuyo-motion.js' | asset_url }}" defer></script>
-    <script>
-      (function () {
-        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-        var root = document.documentElement;
-        root.classList.add('motion-ready');
-        window.setTimeout(function () {
-          if (!window.__cucuyoMotionReady) root.classList.add('motion-fallback');
-        }, 2000);
-      })();
-    </script>
 
     {{ content_for_header }}
   </head>
 
-  <body class="template-{{ template.name | handle }}">
-    <a class="skip-link" href="#MainContent">{{ 'accessibility.skip_to_content' | t }}</a>
-
-    {%- if template.name == 'product' -%}
-      <div class="scroll-progress" data-scroll-progress aria-hidden="true"></div>
-    {%- endif -%}
+  <body
+    class="template-{{ request.page_type | handle }}"
+    data-scroll-animations="{{ settings.enable_scroll_animations }}"
+    data-smooth-scroll="{{ settings.enable_smooth_scroll }}"
+  >
+    <a class="skip-link" href="#main-content">{{ 'accessibility.skip_to_content' | t }}</a>
 
     {% sections 'header-group' %}
 
-    <main id="MainContent" class="main-content" role="main" tabindex="-1">
+    <main id="main-content" tabindex="-1">
       {{ content_for_layout }}
     </main>
 
     {% sections 'footer-group' %}
 
+    <script src="{{ 'theme.js' | asset_url }}" defer></script>
+    {%- comment -%}
+      GSAP 3.13 motion stack — self-hosted, never CDN. Deferred scripts execute
+      in order, so gsap-init runs after the libraries are defined. All motion
+      is fully gated behind prefers-reduced-motion inside gsap-animations.js,
+      and initial states are set by GSAP at init (no CSS pre-hiding), so
+      content is always visible without JS or under reduced motion.
+    {%- endcomment -%}
+    <script src="{{ 'lenis.min.js' | asset_url }}" defer></script>
+    <script src="{{ 'gsap.min.js' | asset_url }}" defer></script>
+    <script src="{{ 'ScrollTrigger.min.js' | asset_url }}" defer></script>
+    <script src="{{ 'gsap-init.js' | asset_url }}" defer></script>
+    <script src="{{ 'gsap-animations.js' | asset_url }}" defer></script>
   </body>
 </html>
