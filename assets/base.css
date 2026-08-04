@@ -153,28 +153,30 @@ a {
 }
 
 /* --------------------------------------------------------------------------
-   Header — one behavior everywhere (spartan-shop.com reference): fixed at the
-   top, solid white, and deliberately WITHOUT transitions — no background
-   fade, no color/font change on scroll, no hover animation on any level.
+   Header — fixed overlay with NO background (Figma): the nav floats over the
+   hero, all links stacked on the left, wordmark centered, light text. It
+   stays fixed while scrolling and deliberately has ZERO transitions — no
+   background fade, no color/font change, no hover animation on any level.
+   Only the open dropdown panel paints solid white so sublinks stay legible.
    -------------------------------------------------------------------------- */
 
 .site-header {
   position: fixed;
   inset: 0 0 auto 0;
   z-index: 50;
-  background: #FFFFFF;
-  padding: 20px var(--page-margin) 22px;
+  background: transparent;
+  pointer-events: none; /* the transparent strip must not block the page */
 }
 
-/* Content clears the fixed header (theme.js keeps --header-height accurate) */
-body {
-  padding-top: var(--header-height, 128px);
+.site-header a,
+.site-header summary {
+  pointer-events: auto;
 }
 
 .site-header__logo {
   position: absolute;
   left: 50%;
-  top: 24px;
+  top: 28px;
   transform: translateX(-50%);
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight, 500);
@@ -183,8 +185,18 @@ body {
   text-transform: uppercase;
   line-height: 1;
   text-decoration: none;
-  color: var(--color-ink);
+  color: var(--color-on-image);
   white-space: nowrap;
+  pointer-events: auto;
+}
+
+/* All links live in one stacked column top-left (Figma): the primary menu
+   group first, then the utilities group below it. */
+.site-header__nav--primary {
+  position: absolute;
+  top: 40px;
+  left: var(--page-margin);
+  pointer-events: none;
 }
 
 .site-header__list {
@@ -192,11 +204,8 @@ body {
   flex-direction: column;
 }
 
-.site-header__list--utilities {
-  position: absolute;
-  top: 20px;
-  right: var(--page-margin);
-  align-items: flex-end;
+.site-header__list + .site-header__list {
+  margin-top: 26px;
 }
 
 .site-header__link {
@@ -208,11 +217,23 @@ body {
   text-transform: uppercase;
   line-height: 2;
   text-decoration: none;
-  color: var(--color-ink);
+  color: var(--color-on-image);
   cursor: pointer;
 }
 
-/* Dropdown (native <details>) — solid white panel, up to 3 menu levels */
+/* Inner pages (cream, pre-redesign): same fixed transparent header, ink text
+   so it stays legible — a static per-template color, never a transition. */
+body:not(.template-index) .site-header__logo,
+body:not(.template-index) .site-header__link {
+  color: var(--color-ink);
+}
+
+/* Dropdown (native <details>) — a compact solid-white card below the link,
+   so nested levels (SHOP > category > sub) stay legible over any imagery. */
+.nav-drop {
+  position: relative;
+}
+
 .nav-drop__summary {
   list-style: none;
 }
@@ -225,17 +246,18 @@ body {
 
 .nav-drop__panel {
   position: absolute;
-  inset: 100% 0 auto 0;
+  top: 100%;
+  left: 0;
+  min-width: 260px;
   background: #FFFFFF;
-  padding: 24px var(--page-margin) 32px;
-  border-top: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
+  padding: 20px 24px 24px;
+  border: 1px solid var(--color-border);
 }
 
 .nav-drop__groups {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px 56px;
+  flex-direction: column;
+  gap: 14px;
 }
 
 .nav-drop__link {
@@ -267,12 +289,12 @@ body {
 }
 
 @media (max-width: 749px) {
-  .site-header {
-    padding: 14px var(--page-margin) 16px;
+  .site-header__logo {
+    top: 18px;
   }
 
-  .site-header__logo {
-    top: 16px;
+  .site-header__nav--primary {
+    top: 54px;
   }
 
   .site-header__link {
@@ -280,9 +302,8 @@ body {
     line-height: 1.9;
   }
 
-  .nav-drop__groups {
-    flex-direction: column;
-    gap: 14px;
+  .site-header__list + .site-header__list {
+    margin-top: 14px;
   }
 }
 
@@ -798,7 +819,8 @@ body {
    -------------------------------------------------------------------------- */
 
 body:not(.template-index) main {
-  padding: 48px var(--page-margin) 96px;
+  /* Top padding clears the fixed overlay nav's stacked left column */
+  padding: 250px var(--page-margin) 96px;
   max-width: 1100px;
   margin-inline: auto;
 }

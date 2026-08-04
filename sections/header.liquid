@@ -1,15 +1,12 @@
 {%- comment -%}
-  Header — one unified behavior on every template (spartan-shop.com reference,
-  inspected live): position fixed at the top, solid white background, and NO
-  transitions of any kind — no background fade, no color or font change on
-  scroll, no hover animation on links at any level.
-
-  Structure mirrors the reference and the Figma grouping: primary menu stacked
-  top-left, wordmark centered, utilities (search / account / cart) stacked
-  top-right. Menu items with children open a native <details> dropdown — an
-  absolutely positioned solid-white panel that supports a third level
-  (SHOP > category > sub), all legible on white. No JS required; the panel
-  does not change the measured header height, so content never jumps.
+  Header — fixed overlay with NO background (Figma): all links stacked in one
+  column top-left (primary menu group, then search / account / cart below),
+  wordmark centered, light text over the hero. It stays fixed while scrolling
+  (spartan-shop.com behavior, inspected live) and has NO transitions of any
+  kind — no background fade, no color/font change, no hover animation on any
+  level. Menu items with children open a native <details> dropdown — a
+  compact solid-white card that supports a third level (SHOP > category >
+  sub) legibly. No JS required.
 {%- endcomment -%}
 
 <header class="site-header">
@@ -71,26 +68,26 @@
         </li>
       {%- endfor -%}
     </ul>
+
+    <ul class="site-header__list site-header__list--utilities" role="list">
+      {%- if section.settings.show_search -%}
+        <li><a href="{{ routes.search_url }}" class="site-header__link">{{ 'general.search.title' | t }}</a></li>
+      {%- endif -%}
+      {%- if section.settings.show_account and shop.customer_accounts_enabled -%}
+        <li><a href="{{ routes.account_url }}" class="site-header__link">{{ 'sections.header.account' | t }}</a></li>
+      {%- endif -%}
+      <li>
+        <a href="{{ routes.cart_url }}" class="site-header__link">
+          {{ 'sections.header.cart' | t }}
+          <span class="visually-hidden">({{ cart.item_count }})</span>
+        </a>
+      </li>
+    </ul>
   </nav>
 
   <a href="{{ routes.root_url }}" class="site-header__logo">
     {{- section.settings.wordmark | default: shop.name -}}
   </a>
-
-  <ul class="site-header__list site-header__list--utilities" role="list">
-    {%- if section.settings.show_search -%}
-      <li><a href="{{ routes.search_url }}" class="site-header__link">{{ 'general.search.title' | t }}</a></li>
-    {%- endif -%}
-    {%- if section.settings.show_account and shop.customer_accounts_enabled -%}
-      <li><a href="{{ routes.account_url }}" class="site-header__link">{{ 'sections.header.account' | t }}</a></li>
-    {%- endif -%}
-    <li>
-      <a href="{{ routes.cart_url }}" class="site-header__link">
-        {{ 'sections.header.cart' | t }}
-        <span class="visually-hidden">({{ cart.item_count }})</span>
-      </a>
-    </li>
-  </ul>
 </header>
 
 {% schema %}
