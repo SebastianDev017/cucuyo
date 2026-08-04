@@ -8,7 +8,7 @@
         "column_1": {
           "type": "menu",
           "settings": {
-            "heading": "Company",
+            "heading": "About",
             "menu": "",
             "fallback_links": "contact\nabout\ninterior design\ninstagram"
           }
@@ -16,7 +16,7 @@
         "column_2": {
           "type": "menu",
           "settings": {
-            "heading": "Orders",
+            "heading": "Customer care",
             "menu": "",
             "fallback_links": "shipping\nreturn policy\nFAQ's\ntrade program"
           }
@@ -24,7 +24,7 @@
         "column_3": {
           "type": "menu",
           "settings": {
-            "heading": "Legal",
+            "heading": "Policies",
             "menu": "",
             "fallback_links": "Privacy\nCookies\nterms of service\nappointments"
           }
