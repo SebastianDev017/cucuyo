@@ -228,64 +228,27 @@ body:not(.template-index) .site-header__link {
   color: var(--color-ink);
 }
 
-/* Dropdown (native <details>) — a compact solid-white card below the link,
-   so nested levels (SHOP > category > sub) stay legible over any imagery. */
-.nav-drop {
-  position: relative;
+/* Nested menu levels — ALWAYS expanded and indented under their parent
+   (no dropdowns, nothing on click), up to three levels deep. Indent uses
+   margin (the ul[role='list'] padding reset would flatten padding). */
+.site-header__sub {
+  margin-inline-start: 18px;
 }
 
-.nav-drop__summary {
-  list-style: none;
+.site-header__sub--deep {
+  margin-inline-start: 16px;
 }
 
-.nav-drop__summary::-webkit-details-marker,
-.nav-drop__summary::marker {
-  display: none;
-  content: '';
+.site-header__link--sub {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  line-height: 1.9;
 }
 
-.nav-drop__panel {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  min-width: 260px;
-  background: #FFFFFF;
-  padding: 20px 24px 24px;
-  border: 1px solid var(--color-border);
-}
-
-.nav-drop__groups {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.nav-drop__link {
-  display: inline-block;
-  font-family: var(--font-heading);
-  font-weight: var(--font-heading-weight, 500);
-  font-size: 0.8125rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  line-height: 2;
-  text-decoration: none;
-  color: var(--color-ink);
-}
-
-.nav-drop__sub {
-  margin-top: 2px;
-}
-
-.nav-drop__sublink {
-  display: inline-block;
-  font-family: var(--font-heading);
-  font-weight: var(--font-heading-weight, 500);
+.site-header__link--deep {
   font-size: 0.6875rem;
   letter-spacing: 0.1em;
-  text-transform: uppercase;
   line-height: 1.9;
-  text-decoration: none;
-  color: var(--color-ink);
 }
 
 @media (max-width: 749px) {

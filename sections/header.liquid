@@ -4,9 +4,9 @@
   wordmark centered, light text over the hero. It stays fixed while scrolling
   (spartan-shop.com behavior, inspected live) and has NO transitions of any
   kind — no background fade, no color/font change, no hover animation on any
-  level. Menu items with children open a native <details> dropdown — a
-  compact solid-white card that supports a third level (SHOP > category >
-  sub) legibly. No JS required.
+  level. Nested menu items render ALWAYS EXPANDED, indented under their
+  parent (no dropdowns, nothing on click) — up to three levels
+  (SHOP > category > sub). No JS required.
 {%- endcomment -%}
 
 <header class="site-header">
@@ -14,56 +14,48 @@
     <ul class="site-header__list" role="list">
       {%- for link in section.settings.menu.links -%}
         <li class="site-header__item">
+          <a
+            href="{{ link.url }}"
+            class="site-header__link"
+            {% if link.current %}
+              aria-current="page"
+            {% endif %}
+          >
+            {{- link.title -}}
+          </a>
           {%- if link.links != blank -%}
-            <details class="nav-drop">
-              <summary class="site-header__link nav-drop__summary">
-                {{- link.title -}}
-              </summary>
-              <div class="nav-drop__panel">
-                <ul class="nav-drop__groups" role="list">
-                  {%- for child in link.links -%}
-                    <li class="nav-drop__group">
-                      <a
-                        href="{{ child.url }}"
-                        class="nav-drop__link"
-                        {% if child.current %}
-                          aria-current="page"
-                        {% endif %}
-                      >
-                        {{- child.title -}}
-                      </a>
-                      {%- if child.links != blank -%}
-                        <ul class="nav-drop__sub" role="list">
-                          {%- for grandchild in child.links -%}
-                            <li>
-                              <a
-                                href="{{ grandchild.url }}"
-                                class="nav-drop__sublink"
-                                {% if grandchild.current %}
-                                  aria-current="page"
-                                {% endif %}
-                              >
-                                {{- grandchild.title -}}
-                              </a>
-                            </li>
-                          {%- endfor -%}
-                        </ul>
-                      {%- endif -%}
-                    </li>
-                  {%- endfor -%}
-                </ul>
-              </div>
-            </details>
-          {%- else -%}
-            <a
-              href="{{ link.url }}"
-              class="site-header__link"
-              {% if link.current %}
-                aria-current="page"
-              {% endif %}
-            >
-              {{- link.title -}}
-            </a>
+            <ul class="site-header__sub" role="list">
+              {%- for child in link.links -%}
+                <li>
+                  <a
+                    href="{{ child.url }}"
+                    class="site-header__link site-header__link--sub"
+                    {% if child.current %}
+                      aria-current="page"
+                    {% endif %}
+                  >
+                    {{- child.title -}}
+                  </a>
+                  {%- if child.links != blank -%}
+                    <ul class="site-header__sub site-header__sub--deep" role="list">
+                      {%- for grandchild in child.links -%}
+                        <li>
+                          <a
+                            href="{{ grandchild.url }}"
+                            class="site-header__link site-header__link--deep"
+                            {% if grandchild.current %}
+                              aria-current="page"
+                            {% endif %}
+                          >
+                            {{- grandchild.title -}}
+                          </a>
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                  {%- endif -%}
+                </li>
+              {%- endfor -%}
+            </ul>
           {%- endif -%}
         </li>
       {%- endfor -%}
@@ -107,7 +99,7 @@
       "id": "menu",
       "label": "Menu",
       "default": "main-menu",
-      "info": "Items with nested links open a dropdown panel (up to 3 levels)"
+      "info": "Nested links render always expanded, indented under their parent (up to 3 levels)"
     },
     {
       "type": "checkbox",
