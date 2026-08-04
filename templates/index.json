@@ -80,8 +80,7 @@
       ],
       "settings": {
         "columns_desktop": 3,
-        "columns_mobile": 1,
-        "columns": "3",
+        "columns_mobile": "1",
         "flush": false
       }
     },
@@ -123,8 +122,7 @@
       ],
       "settings": {
         "columns_desktop": 2,
-        "columns_mobile": 1,
-        "columns": "2",
+        "columns_mobile": "1",
         "flush": true
       }
     },
@@ -169,8 +167,7 @@
       ],
       "settings": {
         "columns_desktop": 3,
-        "columns_mobile": 1,
-        "columns": "3",
+        "columns_mobile": "1",
         "flush": false
       }
     }
