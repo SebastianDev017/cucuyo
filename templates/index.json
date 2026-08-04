@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -6,21 +15,29 @@
         "hero_left": {
           "type": "image",
           "settings": {
+            "image": "shopify://shop_images/496c1727798bf88926ad6f8feed984e76a7ad2a0_1.png",
             "draft_asset": "figma-hero-left.jpg",
             "label": "Petra\nVase",
-            "label_tone": "light"
+            "label_tone": "light",
+            "link": ""
           }
         },
         "hero_right": {
           "type": "image",
           "settings": {
+            "image": "shopify://shop_images/d7214cd48e81a21ea05cbe2b5037a08a06060704.png",
             "draft_asset": "figma-hero-right.jpg",
             "label": "",
-            "label_tone": "light"
+            "label_tone": "light",
+            "link": ""
           }
         }
       },
-      "block_order": ["hero_left", "hero_right"]
+      "block_order": [
+        "hero_left",
+        "hero_right"
+      ],
+      "settings": {}
     },
     "grid_one": {
       "type": "home-grid",
@@ -28,29 +45,39 @@
         "card_ojo": {
           "type": "card",
           "settings": {
+            "product": "",
             "draft_asset": "figma-prod-ojo-de-libre.jpg",
             "label": "Ojo de\nLibre Vase",
-            "label_tone": "dark"
+            "label_tone": "dark",
+            "link": ""
           }
         },
         "card_ghost": {
           "type": "card",
           "settings": {
+            "product": "",
             "draft_asset": "figma-prod-ghost-plate.jpg",
             "label": "Ghost\nChecker Plate",
-            "label_tone": "dark"
+            "label_tone": "dark",
+            "link": ""
           }
         },
         "card_ball": {
           "type": "card",
           "settings": {
+            "product": "",
             "draft_asset": "figma-prod-ball-boy.jpg",
             "label": "Ball Boy\nBowl",
-            "label_tone": "dark"
+            "label_tone": "dark",
+            "link": ""
           }
         }
       },
-      "block_order": ["card_ojo", "card_ghost", "card_ball"],
+      "block_order": [
+        "card_ojo",
+        "card_ghost",
+        "card_ball"
+      ],
       "settings": {
         "columns": "3",
         "flush": false
@@ -60,7 +87,8 @@
       "type": "home-image-band",
       "settings": {
         "draft_asset": "figma-band-flamingos.jpg",
-        "alt_text": "Flock of flamingos wading through a tropical lagoon"
+        "alt_text": "Flock of flamingos wading through a tropical lagoon",
+        "link": ""
       }
     },
     "editorial_duo": {
@@ -69,21 +97,28 @@
         "duo_wabi": {
           "type": "card",
           "settings": {
+            "product": "",
             "draft_asset": "figma-edit-wabi-sabi.jpg",
             "label": "Wabi Sabi\nVase",
-            "label_tone": "light"
+            "label_tone": "light",
+            "link": ""
           }
         },
         "duo_beaded": {
           "type": "card",
           "settings": {
+            "product": "",
             "draft_asset": "figma-edit-beaded.jpg",
             "label": "Beaded\nPlates",
-            "label_tone": "light"
+            "label_tone": "light",
+            "link": ""
           }
         }
       },
-      "block_order": ["duo_wabi", "duo_beaded"],
+      "block_order": [
+        "duo_wabi",
+        "duo_beaded"
+      ],
       "settings": {
         "columns": "2",
         "flush": true
@@ -95,34 +130,50 @@
         "card_wabi_vase": {
           "type": "card",
           "settings": {
+            "product": "",
             "draft_asset": "figma-prod-wabi-vase.jpg",
             "label": "Wabi Sabi\nVase",
-            "label_tone": "dark"
+            "label_tone": "dark",
+            "link": ""
           }
         },
         "card_ziggy": {
           "type": "card",
           "settings": {
+            "product": "",
             "draft_asset": "figma-prod-ziggy-stool.jpg",
             "label": "Ziggy Rattan\nCounter Stool",
-            "label_tone": "dark"
+            "label_tone": "dark",
+            "link": ""
           }
         },
         "card_ghost_2": {
           "type": "card",
           "settings": {
+            "product": "",
             "draft_asset": "figma-prod-ghost-plate-2.jpg",
             "label": "Ghost\nChecker Plate",
-            "label_tone": "dark"
+            "label_tone": "dark",
+            "link": ""
           }
         }
       },
-      "block_order": ["card_wabi_vase", "card_ziggy", "card_ghost_2"],
+      "block_order": [
+        "card_wabi_vase",
+        "card_ziggy",
+        "card_ghost_2"
+      ],
       "settings": {
         "columns": "3",
         "flush": false
       }
     }
   },
-  "order": ["hero", "grid_one", "band", "editorial_duo", "grid_two"]
+  "order": [
+    "hero",
+    "grid_one",
+    "band",
+    "editorial_duo",
+    "grid_two"
+  ]
 }
