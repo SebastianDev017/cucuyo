@@ -85,6 +85,7 @@
     },
     "band": {
       "type": "home-image-band",
+      "disabled": true,
       "settings": {
         "draft_asset": "figma-band-flamingos.jpg",
         "alt_text": "Flock of flamingos wading through a tropical lagoon",
@@ -119,6 +120,7 @@
         "duo_wabi",
         "duo_beaded"
       ],
+      "disabled": true,
       "settings": {
         "columns": "2",
         "flush": true
@@ -163,6 +165,7 @@
         "card_ziggy",
         "card_ghost_2"
       ],
+      "disabled": true,
       "settings": {
         "columns": "3",
         "flush": false
