@@ -102,6 +102,7 @@
           "type": "card",
           "settings": {
             "product": "",
+            "image": "shopify://shop_images/Captura_de_pantalla_2026-08-04_193117.png",
             "draft_asset": "figma-edit-wabi-sabi.jpg",
             "label": "Wabi Sabi\nVase",
             "label_tone": "light",
@@ -112,6 +113,7 @@
           "type": "card",
           "settings": {
             "product": "",
+            "image": "shopify://shop_images/bcb439cbcb9a5b3ed0361d966e0edac99e5f5fb1.png",
             "draft_asset": "figma-edit-beaded.jpg",
             "label": "Beaded\nPlates",
             "label_tone": "light",
