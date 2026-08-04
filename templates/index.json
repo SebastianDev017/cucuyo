@@ -67,6 +67,7 @@
           "type": "card",
           "settings": {
             "product": "",
+            "image": "shopify://shop_images/4ea817ecb78e09ed6d26e33749c11e1dced6a44d.jpg",
             "draft_asset": "figma-prod-ball-boy.jpg",
             "label": "Ball Boy\nBowl",
             "label_tone": "dark",
