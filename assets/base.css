@@ -229,13 +229,17 @@ body:not(.template-index) .site-header__link {
 }
 
 /* Nested menu levels — ALWAYS expanded and indented under their parent
-   (no dropdowns, nothing on click), up to three levels deep. Indent uses
-   margin (the ul[role='list'] padding reset would flatten padding). */
-.site-header__sub {
+   (no dropdowns, nothing on click), up to three levels deep. Each nested
+   <ul>'s margin is relative to ITS parent, so depth accumulates: level 1
+   sits 18px in from level 0, level 2 another 16px in from level 1.
+   The selectors carry `.site-header__nav--primary` for specificity (0,2,0):
+   the `ul[role='list']` reset (0,1,1) zeroes margins and would otherwise
+   flatten every level to the same left edge. */
+.site-header__nav--primary .site-header__sub {
   margin-inline-start: 18px;
 }
 
-.site-header__sub--deep {
+.site-header__nav--primary .site-header__sub--deep {
   margin-inline-start: 16px;
 }
 
