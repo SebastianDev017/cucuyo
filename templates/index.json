@@ -138,6 +138,7 @@
           "type": "card",
           "settings": {
             "product": "",
+            "image": "shopify://shop_images/6d30c681f98859a3240157a53c2e680f7d90ddbf.jpg",
             "draft_asset": "figma-prod-wabi-vase.jpg",
             "label": "Wabi Sabi\nVase",
             "label_tone": "dark",
@@ -148,6 +149,7 @@
           "type": "card",
           "settings": {
             "product": "",
+            "image": "shopify://shop_images/0981f2fa9f897e69b6c456be1a85cad5032d773b.png",
             "draft_asset": "figma-prod-ziggy-stool.jpg",
             "label": "Ziggy Rattan\nCounter Stool",
             "label_tone": "dark",
