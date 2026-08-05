@@ -57,6 +57,7 @@
           "type": "card",
           "settings": {
             "product": "",
+            "image": "shopify://shop_images/db61882d79c9b2d3daa4dfeaa370ff9173b64610_1.jpg",
             "draft_asset": "figma-prod-ghost-plate.jpg",
             "label": "Ghost\nChecker Plate",
             "label_tone": "dark",
