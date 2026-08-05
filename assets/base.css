@@ -252,6 +252,14 @@ body:not(.template-index) .site-header__burger {
   color: var(--color-ink);
 }
 
+/* On every page except home the wordmark centers on the CONTENT AREA's axis
+   (between the sidebar gutter and the page margin — the same bounds the
+   grids and headings use), not the viewport. Home keeps the full-viewport
+   center. The mobile bar (<768px) overrides this further down. */
+body:not(.template-index) .site-header__logo {
+  left: calc(var(--sidebar-gutter) + (100% - var(--sidebar-gutter) - var(--page-margin)) / 2);
+}
+
 /* Nested menu levels — ALWAYS expanded and indented under their parent
    (no dropdowns, nothing on click), up to three levels deep. Each nested
    <ul>'s margin is relative to ITS parent, so depth accumulates: level 1
@@ -1107,6 +1115,39 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
 
 .rte a {
   color: inherit;
+}
+
+/* Justified gallery — every product image after the hero, full content
+   width below the product block. Fixed-height rows (merchant range
+   setting): each image's basis comes from its own aspect ratio at the row
+   height, and flex-grow distributes the leftover proportionally so every
+   row lands edge to edge; object-fit absorbs the difference as a slight
+   horizontal crop. Rendered only when the product has 2+ images. */
+.pdp-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--grid-gap);
+  margin-top: var(--grid-gap);
+}
+
+.pdp-gallery__item {
+  height: var(--gallery-row, 320px);
+  flex-grow: calc(var(--ar, 1) * 1000);
+  flex-basis: calc(var(--gallery-row, 320px) * var(--ar, 1));
+  min-width: 0;
+  overflow: clip;
+}
+
+.pdp-gallery__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 749px) {
+  .pdp-gallery__item {
+    height: calc(var(--gallery-row, 320px) * 0.7);
+  }
 }
 
 /* Accordions — 1px accent hairlines above and below each row, small-caps
