@@ -7,17 +7,29 @@
 <section class="image-band">
   {%- if section.settings.link != blank -%}<a href="{{ section.settings.link }}">{%- endif -%}
   {%- if section.settings.video -%}
-    {{-
-      section.settings.video
-      | video_tag:
-        class: 'image-band__media',
-        image_size: '1600x',
-        autoplay: true,
-        loop: true,
-        muted: true,
-        controls: false,
-        playsinline: true
-    -}}
+    {%- comment -%}
+      Hand-written <video> instead of video_tag so iOS/WebKit sees the bare
+      boolean attributes it expects for muted inline autoplay. theme.js adds
+      a declarative-first retry (property muted + play() on view/bfcache)
+      for the WebKit cases that ignore the attributes alone.
+    {%- endcomment -%}
+    <video
+      class="image-band__media"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+      poster="{{ section.settings.video.preview_image | image_url: width: 1600 }}"
+      {% if section.settings.alt_text != blank %}
+        aria-label="{{ section.settings.alt_text | escape }}"
+      {% endif %}
+      data-autoplay-video
+    >
+      {%- for source in section.settings.video.sources -%}
+        <source src="{{ source.url }}" type="{{ source.mime_type }}">
+      {%- endfor -%}
+    </video>
   {%- else -%}
     {% render 'draft-image',
       image: section.settings.image,

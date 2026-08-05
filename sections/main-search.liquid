@@ -1,4 +1,13 @@
-<section class="main-search page-padding section-spacing">
+{%- comment -%}
+  Search page — same visual treatment as the collection template: the shared
+  editable-columns card grid, the same name + price cards (no variant UI),
+  same spacing and pagination. Differences by design: results come from
+  search.results (products render as cards, pages/articles as quiet bordered
+  tiles), and there is NO oversized lead slot — that only makes sense with a
+  collection's curated sort order. The search form itself is untouched.
+{%- endcomment -%}
+
+<section class="main-search">
   <h1 class="main-search__title">{{ 'general.search.title' | t }}</h1>
 
   <form action="{{ routes.search_url }}" method="get" role="search" class="search-form">
@@ -15,34 +24,31 @@
   </form>
 
   {%- if search.performed -%}
-    {%- paginate search.results by 12 -%}
+    {%- paginate search.results by section.settings.results_per_page -%}
       {%- if search.results.size > 0 -%}
-        <p class="main-search__count label">
+        <p class="main-search__count">
           {{ 'general.search.results_with_count' | t: count: search.results_count }}
         </p>
-        <ul class="product-grid" role="list" style="--grid-columns: 3;">
+        <div
+          class="card-grid collection-grid"
+          style="--cols-desktop: {{ section.settings.columns_desktop }}; --cols-mobile: {{ section.settings.columns_mobile }};"
+        >
           {%- for item in search.results -%}
-            <li class="product-grid__item">
-              {%- if item.object_type == 'product' -%}
-                {% render 'product-card', product: item %}
-              {%- else -%}
-                <a href="{{ item.url }}" class="search-result">
-                  <p class="search-result__type label">{{ item.object_type }}</p>
-                  <h3 class="search-result__title">{{ item.title }}</h3>
-                </a>
-              {%- endif -%}
-            </li>
+            {%- if item.object_type == 'product' -%}
+              {% render 'product-card', product: item %}
+            {%- else -%}
+              <a href="{{ item.url }}" class="search-result">
+                <p class="search-result__type">{{ item.object_type }}</p>
+                <h3 class="search-result__title">{{ item.title }}</h3>
+              </a>
+            {%- endif -%}
           {%- endfor -%}
-        </ul>
+        </div>
       {%- else -%}
         <p class="main-search__empty">{{ 'general.search.no_results' | t: terms: search.terms }}</p>
       {%- endif -%}
 
-      {%- if paginate.pages > 1 -%}
-        <div class="pagination-wrapper">
-          {{ paginate | default_pagination }}
-        </div>
-      {%- endif -%}
+      {% render 'pagination', paginate: paginate %}
     {%- endpaginate -%}
   {%- endif -%}
 </section>
@@ -50,6 +56,35 @@
 {% schema %}
 {
   "name": "Search page",
-  "settings": []
+  "settings": [
+    {
+      "type": "range",
+      "id": "results_per_page",
+      "label": "Results per page",
+      "min": 12,
+      "max": 48,
+      "step": 4,
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns (desktop)",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns (mobile)",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "1"
+    }
+  ]
 }
 {% endschema %}

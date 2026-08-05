@@ -1,0 +1,31 @@
+{% doc %}
+  Centered pagination shared by collection and search: Previous / page
+  numbers (current in accent) / Next. Renders nothing with a single page.
+  paginate.parts titles are strings, so the current page is matched against
+  a stringified current_page.
+
+  @param {paginate} paginate - the paginate drop from {% paginate %}
+  @example
+  {% render 'pagination', paginate: paginate %}
+{% enddoc %}
+
+{%- if paginate.pages > 1 -%}
+  {%- assign current_str = paginate.current_page | append: '' -%}
+  <nav class="pagination" aria-label="{{ 'general.pagination.label' | t }}">
+    {%- if paginate.previous -%}
+      <a href="{{ paginate.previous.url }}" class="pagination__link">{{ 'general.pagination.previous' | t }}</a>
+    {%- endif -%}
+    {%- for part in paginate.parts -%}
+      {%- if part.is_link -%}
+        <a href="{{ part.url }}" class="pagination__link">{{ part.title }}</a>
+      {%- elsif part.title == current_str -%}
+        <span class="pagination__current" aria-current="page">{{ part.title }}</span>
+      {%- else -%}
+        <span class="pagination__ellipsis">{{ part.title }}</span>
+      {%- endif -%}
+    {%- endfor -%}
+    {%- if paginate.next -%}
+      <a href="{{ paginate.next.url }}" class="pagination__link">{{ 'general.pagination.next' | t }}</a>
+    {%- endif -%}
+  </nav>
+{%- endif -%}

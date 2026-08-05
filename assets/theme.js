@@ -107,6 +107,48 @@
     }
   }
 
+  /* Muted inline autoplay hardening for iOS/WebKit. The <video> already
+     carries the native autoplay/muted/playsinline attributes (declarative
+     path — the one WebKit honors most reliably); this only retries the
+     cases WebKit is known to drop: the muted IDL property not being set,
+     bfcache restores coming back paused, and below-fold videos. Every
+     play() is a caught no-op when the policy still says no. */
+  function initAutoplayVideos() {
+    var videos = document.querySelectorAll('video[data-autoplay-video]');
+    if (!videos.length) return;
+
+    var nudge = function (video) {
+      video.muted = true;
+      if (video.paused) {
+        var attempt = video.play();
+        if (attempt && attempt.catch) attempt.catch(function () {});
+      }
+    };
+
+    videos.forEach(function (video) {
+      nudge(video);
+    });
+
+    if ('IntersectionObserver' in window) {
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) nudge(entry.target);
+        });
+      }, { threshold: 0.2 });
+      videos.forEach(function (video) {
+        observer.observe(video);
+      });
+    }
+
+    window.addEventListener('pageshow', function (event) {
+      if (event.persisted) {
+        videos.forEach(function (video) {
+          nudge(video);
+        });
+      }
+    });
+  }
+
   /* Live cart count: SSR-cached pages and bfcache restores (back button
      after an add to cart) can carry a stale number, so sync it from
      /cart.js on load and on every bfcache restore. */
@@ -211,6 +253,7 @@
   document.addEventListener('DOMContentLoaded', function () {
     trackHeaderHeight();
     initDrawer();
+    initAutoplayVideos();
     initCartCount();
     initProductForms();
     initTabs();
