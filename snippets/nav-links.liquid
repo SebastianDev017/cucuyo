@@ -1,0 +1,61 @@
+{% doc %}
+  The primary menu list — up to three levels, ALWAYS expanded and indented
+  under their parent (no dropdowns). Shared verbatim by the desktop header
+  column and the mobile nav drawer so both keep the progressive per-level
+  indent (the CSS scopes it via :is(.site-header__nav--primary,
+  .nav-drawer__nav)).
+
+  @param {object} menu - a link_list (e.g. section.settings.menu)
+  @example
+  {% render 'nav-links', menu: section.settings.menu %}
+{% enddoc %}
+
+<ul class="site-header__list" role="list">
+  {%- for link in menu.links -%}
+    <li class="site-header__item">
+      <a
+        href="{{ link.url }}"
+        class="site-header__link"
+        {% if link.current %}
+          aria-current="page"
+        {% endif %}
+      >
+        {{- link.title -}}
+      </a>
+      {%- if link.links != blank -%}
+        <ul class="site-header__sub" role="list">
+          {%- for child in link.links -%}
+            <li>
+              <a
+                href="{{ child.url }}"
+                class="site-header__link site-header__link--sub"
+                {% if child.current %}
+                  aria-current="page"
+                {% endif %}
+              >
+                {{- child.title -}}
+              </a>
+              {%- if child.links != blank -%}
+                <ul class="site-header__sub site-header__sub--deep" role="list">
+                  {%- for grandchild in child.links -%}
+                    <li>
+                      <a
+                        href="{{ grandchild.url }}"
+                        class="site-header__link site-header__link--deep"
+                        {% if grandchild.current %}
+                          aria-current="page"
+                        {% endif %}
+                      >
+                        {{- grandchild.title -}}
+                      </a>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </li>
+  {%- endfor -%}
+</ul>
