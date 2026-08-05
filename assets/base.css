@@ -1006,11 +1006,11 @@ html.nav-drawer-open body {
    The product template has its own real layout below and is excluded.
    -------------------------------------------------------------------------- */
 
-body:not(.template-index):not(.template-product):not(.template-collection):not(.template-search) main {
+body:not(.template-index):not(.template-product):not(.template-collection):not(.template-search):not(.template-cart) main {
   padding: var(--nav-clearance) var(--page-margin) 96px var(--sidebar-gutter);
 }
 
-body:not(.template-index):not(.template-product):not(.template-collection):not(.template-search) main img {
+body:not(.template-index):not(.template-product):not(.template-collection):not(.template-search):not(.template-cart) main img {
   max-width: 100%;
 }
 
@@ -1144,6 +1144,16 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
   object-fit: cover;
 }
 
+/* A row holding exactly ONE image must not justify: it renders at its
+   natural ratio at the target height, no stretch, no crop. :only-child
+   covers the single-image gallery declaratively (works without JS);
+   theme.js marks lone rows inside multi-image galleries. Marking cannot
+   re-wrap rows — flex line breaking uses flex-basis, which never changes. */
+.pdp-gallery__item:only-child,
+.pdp-gallery__item--solo {
+  flex-grow: 0;
+}
+
 @media (max-width: 749px) {
   .pdp-gallery__item {
     height: calc(var(--gallery-row, 320px) * 0.7);
@@ -1256,7 +1266,8 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
 
 .related__heading,
 .collection-head__title,
-.main-search__title {
+.main-search__title,
+.main-cart__title {
   font-size: calc(1.3125rem * var(--heading-scale, 1));
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -1273,7 +1284,8 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
    -------------------------------------------------------------------------- */
 
 .template-collection main,
-.template-search main {
+.template-search main,
+.template-cart main {
   padding: var(--nav-clearance) var(--page-margin) 112px var(--sidebar-gutter);
 }
 
@@ -1446,6 +1458,206 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
   text-transform: uppercase;
   line-height: 1.5;
   color: var(--color-ink);
+}
+
+/* Cart page — a quiet receipt column centered on the content axis. Rows
+   are hairline-separated lines: thumb, name/variant/remove, quantity,
+   line total. Everything submits without JS. */
+.main-cart {
+  max-width: 860px;
+  margin-inline: auto;
+}
+
+.main-cart__title {
+  text-align: center;
+  margin-bottom: 44px;
+}
+
+.cart-lines {
+  border-top: 1px solid var(--color-border);
+}
+
+.cart-line {
+  display: grid;
+  grid-template-areas: 'media info qty total';
+  grid-template-columns: 88px minmax(0, 1fr) auto auto;
+  gap: 12px 24px;
+  align-items: center;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.cart-line__media {
+  grid-area: media;
+  display: block;
+}
+
+.cart-line__media img,
+.cart-line__media-empty {
+  display: block;
+  width: 88px;
+  aspect-ratio: 756 / 957;
+  object-fit: cover;
+}
+
+.cart-line__media-empty {
+  background: #E5E1DC;
+}
+
+.cart-line__info {
+  grid-area: info;
+}
+
+.cart-line__name {
+  display: block;
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight, 500);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1.5;
+  color: var(--color-ink);
+  text-decoration: none;
+}
+
+.cart-line__variant {
+  margin-top: 4px;
+  font-size: 0.75rem;
+  color: var(--color-muted);
+}
+
+.cart-line__remove {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.cart-line__qty {
+  grid-area: qty;
+}
+
+.cart-line__qty-input {
+  width: 64px;
+  padding: 8px 6px;
+  text-align: center;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 0;
+  font-size: 0.8125rem;
+  color: var(--color-ink);
+}
+
+.cart-line__total {
+  grid-area: total;
+  font-size: 0.8125rem;
+  color: var(--color-ink);
+  white-space: nowrap;
+  min-width: 72px;
+  text-align: right;
+}
+
+.cart-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 32px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+}
+
+.button--quiet {
+  padding: 11px 22px;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 0;
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight, 500);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.cart-summary {
+  width: min(380px, 100%);
+  margin-left: auto;
+}
+
+.cart-summary__subtotal {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--color-border);
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight, 500);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+.cart-summary__note {
+  margin-top: 10px;
+  font-size: 0.75rem;
+  color: var(--color-muted);
+}
+
+.cart-summary__checkout {
+  display: block;
+  width: 100%;
+  margin-top: 18px;
+  padding: 13px 22px;
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight, 500);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.main-cart__empty {
+  text-align: center;
+  color: var(--color-muted);
+  padding: 32px 0;
+}
+
+.main-cart__empty .button {
+  display: inline-block;
+  margin-top: 20px;
+}
+
+@media (max-width: 749px) {
+  .cart-line {
+    grid-template-areas:
+      'media info info'
+      'media qty total';
+    grid-template-columns: 72px minmax(0, 1fr) auto;
+    align-items: start;
+  }
+
+  .cart-line__media img,
+  .cart-line__media-empty {
+    width: 72px;
+  }
+
+  .cart-line__total {
+    align-self: center;
+  }
+
+  .cart-line__qty {
+    align-self: center;
+  }
+
+  .cart-summary {
+    margin-left: 0;
+  }
 }
 
 .pagination {

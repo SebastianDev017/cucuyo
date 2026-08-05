@@ -1,38 +1,44 @@
-<section class="main-cart page-padding section-spacing">
+{%- comment -%}
+  Cart page — works entirely without JS: {% form 'cart' %} posts positional
+  updates[] quantities, Remove uses item.url_to_remove, and the two submit
+  buttons are name="update" / name="checkout". Content is capped and
+  centered on the content-area axis (the padded main handles the sidebar
+  gutter + nav clearance like every non-home template).
+{%- endcomment -%}
+
+<section class="main-cart">
   <h1 class="main-cart__title">{{ 'cart.title' | t }}</h1>
 
   {%- if cart.item_count > 0 -%}
     {%- form 'cart', cart, class: 'cart-form' -%}
-      <ul class="cart-items" role="list">
+      <ul class="cart-lines" role="list">
         {%- for item in cart.items -%}
-          <li class="cart-item">
-            <a href="{{ item.url }}" class="cart-item__media">
+          <li class="cart-line">
+            <a href="{{ item.url }}" class="cart-line__media">
               {%- if item.image -%}
                 {{-
                   item.image
                   | image_url: width: 240
-                  | image_tag: widths: '120, 240', sizes: '96px', class: 'cart-item__image', alt: item.title
+                  | image_tag: widths: '120, 240', sizes: '88px', alt: item.title
                 -}}
               {%- else -%}
-                {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                <span class="cart-line__media-empty" aria-hidden="true"></span>
               {%- endif -%}
             </a>
 
-            <div class="cart-item__details">
-              <a href="{{ item.url }}" class="cart-item__name">{{ item.product.title }}</a>
+            <div class="cart-line__info">
+              <a href="{{ item.url }}" class="cart-line__name">{{ item.product.title }}</a>
               {%- unless item.product.has_only_default_variant -%}
-                <p class="cart-item__variant">{{ item.variant.title }}</p>
+                <p class="cart-line__variant">{{ item.variant.title }}</p>
               {%- endunless -%}
-              <a href="{{ item.url_to_remove }}" class="cart-item__remove text-link">{{ 'cart.remove' | t }}</a>
+              <a href="{{ item.url_to_remove }}" class="cart-line__remove">{{ 'cart.remove' | t }}</a>
             </div>
 
-            <div class="cart-item__quantity">
-              <label class="visually-hidden" for="Quantity-{{ item.index | plus: 1 }}">
-                {{ 'cart.quantity' | t }}
-              </label>
+            <div class="cart-line__qty">
+              <label class="visually-hidden" for="Quantity-{{ forloop.index }}">{{ 'cart.quantity' | t }}</label>
               <input
-                id="Quantity-{{ item.index | plus: 1 }}"
-                class="field cart-item__quantity-input"
+                id="Quantity-{{ forloop.index }}"
+                class="cart-line__qty-input"
                 type="number"
                 name="updates[]"
                 value="{{ item.quantity }}"
@@ -41,22 +47,21 @@
               >
             </div>
 
-            <p class="cart-item__price">{{ item.final_line_price | money }}</p>
+            <p class="cart-line__total">{{ item.final_line_price | money }}</p>
           </li>
         {%- endfor -%}
       </ul>
 
-      <div class="cart-footer">
-        <div class="cart-footer__actions">
-          <button type="submit" name="update" class="button button--secondary">{{ 'cart.update' | t }}</button>
-        </div>
-        <div class="cart-footer__summary">
-          <p class="cart-footer__subtotal">
-            <span class="label">{{ 'cart.subtotal' | t }}</span>
+      <div class="cart-actions">
+        <button type="submit" name="update" class="button--quiet">{{ 'cart.update' | t }}</button>
+
+        <div class="cart-summary">
+          <p class="cart-summary__subtotal">
+            <span>{{ 'cart.subtotal' | t }}</span>
             <span>{{ cart.total_price | money }}</span>
           </p>
-          <p class="cart-footer__note">{{ 'cart.taxes_note' | t }}</p>
-          <button type="submit" name="checkout" class="button button--atc cart-footer__checkout">
+          <p class="cart-summary__note">{{ 'cart.taxes_note' | t }}</p>
+          <button type="submit" name="checkout" class="button cart-summary__checkout">
             {{ 'cart.checkout' | t }}
           </button>
         </div>
