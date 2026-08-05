@@ -14,6 +14,16 @@
   the menu is never unreachable. 768px and up is untouched.
 {%- endcomment -%}
 
+{%- liquid
+  # The theme editor can materialize an untouched link_list picker as "" on
+  # save, silently dropping the schema default — fall back to main-menu so
+  # the nav never renders empty. An explicit merchant selection still wins.
+  assign header_menu = section.settings.menu
+  if header_menu == blank
+    assign header_menu = linklists['main-menu']
+  endif
+-%}
+
 <header class="site-header">
   <button
     type="button"
@@ -28,7 +38,7 @@
   </button>
 
   <nav class="site-header__nav site-header__nav--primary" aria-label="{{ 'accessibility.primary_navigation' | t }}">
-    {% render 'nav-links', menu: section.settings.menu %}
+    {% render 'nav-links', menu: header_menu %}
 
     <ul class="site-header__list site-header__list--utilities" role="list">
       {%- if section.settings.show_search -%}
@@ -65,7 +75,7 @@
       </div>
 
       <nav class="nav-drawer__nav" aria-label="{{ 'accessibility.primary_navigation' | t }}">
-        {% render 'nav-links', menu: section.settings.menu %}
+        {% render 'nav-links', menu: header_menu %}
 
         <ul class="site-header__list site-header__list--utilities" role="list">
           {%- if section.settings.show_search -%}
