@@ -700,6 +700,10 @@ html.nav-drawer-open body {
   color: var(--color-ink);
 }
 
+/* Tablet range (750-989): the footer stacks, but the link columns kept their
+   desktop max-content tracks and the newsletter its 420px cap, so everything
+   hugged the left edge with dead space on the right. Fluid 1fr tracks and a
+   full-width newsletter fill the section across the whole range. */
 @media (max-width: 989px) {
   .site-footer__inner {
     grid-template-columns: 1fr;
@@ -707,7 +711,13 @@ html.nav-drawer-open body {
   }
 
   .site-footer__columns {
+    grid-template-columns: repeat(3, 1fr);
+    width: 100%;
     gap: 40px;
+  }
+
+  .site-footer__newsletter {
+    width: 100%;
   }
 }
 
@@ -966,14 +976,14 @@ html.nav-drawer-open body {
    The product template has its own real layout below and is excluded.
    -------------------------------------------------------------------------- */
 
-body:not(.template-index):not(.template-product) main {
+body:not(.template-index):not(.template-product):not(.template-collection) main {
   /* Top padding clears the fixed overlay nav's stacked left column */
   padding: 250px var(--page-margin) 96px;
   max-width: 1100px;
   margin-inline: auto;
 }
 
-body:not(.template-index):not(.template-product) main img {
+body:not(.template-index):not(.template-product):not(.template-collection) main img {
   max-width: 100%;
 }
 
@@ -1179,18 +1189,156 @@ body:not(.template-index):not(.template-product) main img {
 }
 
 /* Related products ("Pair it with") — reuses the Featured collection card
-   grid; heading sits 28px under the product hero, grid 12px under it. */
+   grid; heading sits 28px under the product hero, grid 12px under it.
+   The collection page title shares this heading style. */
 .related {
   margin-top: 28px;
 }
 
-.related__heading {
+.related__heading,
+.collection-head__title {
   font-size: calc(1.3125rem * var(--heading-scale, 1));
   letter-spacing: 0.12em;
   text-transform: uppercase;
   line-height: 1.3;
   color: var(--color-accent);
   margin-bottom: 8px;
+}
+
+/* --------------------------------------------------------------------------
+   Collection page — centered title + optional description, then the shared
+   editable-columns card grid. The whole page sits below the fixed nav's
+   stacked column (its height is measured by theme.js), since the grid spans
+   the full width and would otherwise run under the links.
+   -------------------------------------------------------------------------- */
+
+.template-collection main {
+  padding: calc(var(--header-height, 300px) + 28px) var(--page-margin) 112px;
+}
+
+.collection-head {
+  text-align: center;
+  margin-bottom: 44px;
+}
+
+.collection-head__description {
+  max-width: 62ch;
+  margin: 10px auto 0;
+  font-size: calc(0.875rem * var(--body-scale, 1));
+  line-height: 1.55;
+  color: var(--color-muted);
+}
+
+.collection-empty {
+  text-align: center;
+  color: var(--color-muted);
+  padding: 48px 0;
+}
+
+/* Product card — image tile with name + price on one line below, and an
+   empty slot reserved for the future variant selector (deliberately blank:
+   no swatches, no selector, no placeholder text on this template). */
+.product-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card__link {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+.product-card__media img,
+.product-card__media--placeholder {
+  display: block;
+  width: 100%;
+  aspect-ratio: 756 / 957;
+  object-fit: cover;
+}
+
+.product-card__media--placeholder {
+  background: #E5E1DC;
+}
+
+.product-card__info {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding-top: 10px;
+}
+
+.product-card__title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight, 500);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1.5;
+  color: var(--color-ink);
+}
+
+.product-card__price {
+  font-size: 0.8125rem;
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+.product-card__slot {
+  min-height: 18px;
+}
+
+/* Featured slot — the collection's first product (merchant sort order) spans
+   2 columns × 2 rows of the same grid, its image stretching to fill, like
+   the oversized lead tile of the reference. Uniform again on mobile. */
+@media (min-width: 750px) {
+  .collection-grid .product-card--featured {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .collection-grid .product-card--featured .product-card__media {
+    flex: 1;
+    min-height: 0;
+  }
+
+  .collection-grid .product-card--featured .product-card__media img,
+  .collection-grid .product-card--featured .product-card__media--placeholder {
+    height: 100%;
+    aspect-ratio: auto;
+  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-top: 64px;
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight, 500);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.pagination__link {
+  color: var(--color-muted);
+  text-decoration: none;
+}
+
+.pagination__current {
+  color: var(--color-accent);
+}
+
+.pagination__ellipsis {
+  color: var(--color-muted);
 }
 
 /* The editorial 2-up on the product page reuses the home hero pattern at the

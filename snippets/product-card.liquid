@@ -1,50 +1,69 @@
 {% doc %}
-  Renders a product card: image at the global card aspect ratio, serif caps
-  title below, optional vendor and price (both hidden by default per the
-  approved mockup — controlled by global theme settings).
+  Product card for collection/search grids: image tile at the global card
+  ratio, then product name + price on one line below. Variant/swatch UI is
+  deliberately NOT rendered — the trailing slot div reserves the layout
+  space where a selector will eventually live, and stays empty (no
+  placeholder, no text).
 
-  @param {product} product - The product to render
+  @param {product} product - the product to render
+  @param {boolean} [featured] - oversized lead tile (spans 2×2 grid cells on
+    desktop); also loads its image eagerly
+  @param {boolean} [show_price] - defaults to true
   @example
   {% render 'product-card', product: product %}
+  {% render 'product-card', product: product, featured: true %}
 {% enddoc %}
 
-<article class="product-card reveal">
+{%- liquid
+  assign price_visible = true
+  if show_price == false
+    assign price_visible = false
+  endif
+-%}
+
+<article class="product-card{% if featured %} product-card--featured{% endif %}">
   <a href="{{ product.url }}" class="product-card__link">
     <div class="product-card__media">
       {%- if product.featured_media -%}
-        {{-
-          product.featured_media
-          | image_url: width: 900
-          | image_tag:
-            widths: '360, 540, 720, 900',
-            sizes: '(min-width: 990px) 30vw, (min-width: 750px) 45vw, 92vw',
-            class: 'product-card__image',
-            loading: 'lazy'
-        -}}
+        {%- if featured -%}
+          {{-
+            product.featured_media
+            | image_url: width: 1500
+            | image_tag:
+              widths: '550, 750, 1100, 1500',
+              sizes: '(min-width: 750px) 50vw, 100vw',
+              loading: 'eager',
+              fetchpriority: 'high'
+          -}}
+        {%- else -%}
+          {{-
+            product.featured_media
+            | image_url: width: 900
+            | image_tag:
+              widths: '360, 540, 720, 900',
+              sizes: '(min-width: 750px) 25vw, 100vw',
+              loading: 'lazy'
+          -}}
+        {%- endif -%}
       {%- else -%}
-        {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        <div class="product-card__media--placeholder" aria-hidden="true"></div>
       {%- endif -%}
     </div>
 
-    <h3 class="product-card__title">{{ product.title }}</h3>
-
-    {%- if settings.show_vendor and product.vendor != blank -%}
-      <p class="product-card__vendor label">{{ product.vendor }}</p>
-    {%- endif -%}
-
-    {%- if settings.show_price -%}
-      <p class="product-card__price">
-        {%- if product.available -%}
+    <div class="product-card__info">
+      <h3 class="product-card__title">{{ product.title }}</h3>
+      {%- if price_visible -%}
+        <span class="product-card__price">
           {%- if product.price_varies -%}
             {%- assign from_price = product.price_min | money -%}
             {{ 'products.from_price' | t: price: from_price }}
           {%- else -%}
             {{ product.price | money }}
           {%- endif -%}
-        {%- else -%}
-          {{ 'products.sold_out' | t }}
-        {%- endif -%}
-      </p>
-    {%- endif -%}
+        </span>
+      {%- endif -%}
+    </div>
   </a>
+
+  <div class="product-card__slot" aria-hidden="true"></div>
 </article>

@@ -1,31 +1,64 @@
-<section class="main-collection page-padding section-spacing">
-  <header class="main-collection__header">
-    <h1 class="main-collection__title">{{ collection.title }}</h1>
-    {%- if collection.description != blank -%}
-      <div class="main-collection__description rte">{{ collection.description }}</div>
-    {%- endif -%}
-  </header>
+{%- comment -%}
+  Collection page (reference: hereustudio.com collection grid, adapted to
+  Cucuyo) — centered title with the shared heading style, the collection's
+  native description below it when set, then the SAME editable-columns card
+  grid as Featured collection (2-5 desktop, 1-2 mobile). The first product
+  of the merchant's sort order takes an oversized 2×2 lead slot on page one
+  — automatic, no manual "featured" flag. Cards are name + price only: no
+  variant selector, no swatches (the card keeps an empty slot where the
+  selector will eventually go). No filters yet.
+{%- endcomment -%}
 
-  {%- paginate collection.products by section.settings.products_per_page -%}
+{%- paginate collection.products by section.settings.products_per_page -%}
+  <section class="main-collection">
+    <header class="collection-head">
+      <h1 class="collection-head__title">{{ collection.title }}</h1>
+      {%- if collection.description != blank -%}
+        <div class="collection-head__description rte">{{ collection.description }}</div>
+      {%- endif -%}
+    </header>
+
     {%- if collection.products.size > 0 -%}
-      <ul class="product-grid" role="list" style="--grid-columns: {{ section.settings.columns }};">
+      <div
+        class="card-grid collection-grid"
+        style="--cols-desktop: {{ section.settings.columns_desktop }}; --cols-mobile: {{ section.settings.columns_mobile }};"
+      >
         {%- for product in collection.products -%}
-          <li class="product-grid__item">
-            {% render 'product-card', product: product %}
-          </li>
+          {%- liquid
+            assign is_featured = false
+            if paginate.current_page == 1 and forloop.first
+              assign is_featured = true
+            endif
+          -%}
+          {% render 'product-card', product: product, featured: is_featured %}
         {%- endfor -%}
-      </ul>
+      </div>
     {%- else -%}
-      <p class="main-collection__empty">{{ 'collections.empty' | t }}</p>
+      <p class="collection-empty">{{ 'collections.empty' | t }}</p>
     {%- endif -%}
 
     {%- if paginate.pages > 1 -%}
-      <div class="pagination-wrapper">
-        {{ paginate | default_pagination }}
-      </div>
+      {%- assign current_str = paginate.current_page | append: '' -%}
+      <nav class="pagination" aria-label="{{ 'general.pagination.label' | t }}">
+        {%- if paginate.previous -%}
+          <a href="{{ paginate.previous.url }}" class="pagination__link">{{ 'general.pagination.previous' | t }}</a>
+        {%- endif -%}
+        {%- for part in paginate.parts -%}
+          {%- if part.is_link -%}
+            <a href="{{ part.url }}" class="pagination__link">{{ part.title }}</a>
+          {%- elsif part.title == current_str -%}
+            <span class="pagination__current" aria-current="page">{{ part.title }}</span>
+          {%- else -%}
+            <span class="pagination__ellipsis">{{ part.title }}</span>
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if paginate.next -%}
+          <a href="{{ paginate.next.url }}" class="pagination__link">{{ 'general.pagination.next' | t }}</a>
+        {%- endif -%}
+      </nav>
     {%- endif -%}
-  {%- endpaginate -%}
-</section>
+  </section>
+{%- endpaginate -%}
 
 {% schema %}
 {
@@ -35,19 +68,29 @@
       "type": "range",
       "id": "products_per_page",
       "label": "Products per page",
-      "min": 8,
-      "max": 24,
-      "step": 2,
-      "default": 12
+      "min": 12,
+      "max": 48,
+      "step": 4,
+      "default": 24
     },
     {
       "type": "range",
-      "id": "columns",
-      "label": "Columns on desktop",
+      "id": "columns_desktop",
+      "label": "Columns (desktop)",
       "min": 2,
-      "max": 4,
+      "max": 5,
       "step": 1,
-      "default": 3
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns (mobile)",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "1"
     }
   ]
 }
