@@ -15,7 +15,7 @@
       "type": "header",
       "settings": {
         "wordmark": "CUCUYO HOME",
-        "menu": "",
+        "menu": "customer-account-main-menu",
         "show_search": true,
         "show_account": true,
         "drawer_note": "Sign up to our newsletter to receive exclusive offers."
