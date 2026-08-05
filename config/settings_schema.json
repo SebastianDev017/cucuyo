@@ -103,6 +103,17 @@
         "unit": "px",
         "default": 4,
         "info": "Hairline gap between grid images, as in the design"
+      },
+      {
+        "type": "range",
+        "id": "drawer_width",
+        "label": "Menu drawer width",
+        "min": 50,
+        "max": 90,
+        "step": 5,
+        "unit": "vw",
+        "default": 80,
+        "info": "Width of the mobile menu drawer (under 768px)"
       }
     ]
   },

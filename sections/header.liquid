@@ -3,63 +3,32 @@
   column top-left (primary menu group, then search / account / cart below),
   wordmark centered, light text over the hero. It stays fixed while scrolling
   (spartan-shop.com behavior, inspected live) and has NO transitions of any
-  kind — no background fade, no color/font change, no hover animation on any
-  level. Nested menu items render ALWAYS EXPANDED, indented under their
-  parent (no dropdowns, nothing on click) — up to three levels
-  (SHOP > category > sub). No JS required.
+  kind. Nested menu items render ALWAYS EXPANDED, indented under their parent
+  (up to three levels) — shared via snippets/nav-links.
+
+  Under 768px (JS available): the stacked column is replaced by a bar —
+  hamburger left, wordmark right — and the menu moves into a native <dialog>
+  drawer (100dvh, width from the "Menu drawer width" theme setting): wordmark,
+  the same always-expanded indented menu, utilities with a live cart count,
+  and the newsletter form. Without JS the stacked overlay column stays, so
+  the menu is never unreachable. 768px and up is untouched.
 {%- endcomment -%}
 
 <header class="site-header">
+  <button
+    type="button"
+    class="site-header__burger"
+    data-drawer-open
+    aria-expanded="false"
+    aria-controls="NavDrawer"
+    aria-haspopup="dialog"
+  >
+    <span class="visually-hidden">{{ 'accessibility.open_menu' | t }}</span>
+    <span class="site-header__burger-lines" aria-hidden="true"></span>
+  </button>
+
   <nav class="site-header__nav site-header__nav--primary" aria-label="{{ 'accessibility.primary_navigation' | t }}">
-    <ul class="site-header__list" role="list">
-      {%- for link in section.settings.menu.links -%}
-        <li class="site-header__item">
-          <a
-            href="{{ link.url }}"
-            class="site-header__link"
-            {% if link.current %}
-              aria-current="page"
-            {% endif %}
-          >
-            {{- link.title -}}
-          </a>
-          {%- if link.links != blank -%}
-            <ul class="site-header__sub" role="list">
-              {%- for child in link.links -%}
-                <li>
-                  <a
-                    href="{{ child.url }}"
-                    class="site-header__link site-header__link--sub"
-                    {% if child.current %}
-                      aria-current="page"
-                    {% endif %}
-                  >
-                    {{- child.title -}}
-                  </a>
-                  {%- if child.links != blank -%}
-                    <ul class="site-header__sub site-header__sub--deep" role="list">
-                      {%- for grandchild in child.links -%}
-                        <li>
-                          <a
-                            href="{{ grandchild.url }}"
-                            class="site-header__link site-header__link--deep"
-                            {% if grandchild.current %}
-                              aria-current="page"
-                            {% endif %}
-                          >
-                            {{- grandchild.title -}}
-                          </a>
-                        </li>
-                      {%- endfor -%}
-                    </ul>
-                  {%- endif -%}
-                </li>
-              {%- endfor -%}
-            </ul>
-          {%- endif -%}
-        </li>
-      {%- endfor -%}
-    </ul>
+    {% render 'nav-links', menu: section.settings.menu %}
 
     <ul class="site-header__list site-header__list--utilities" role="list">
       {%- if section.settings.show_search -%}
@@ -71,7 +40,7 @@
       <li>
         <a href="{{ routes.cart_url }}" class="site-header__link">
           {{ 'sections.header.cart' | t }}
-          <span class="visually-hidden">({{ cart.item_count }})</span>
+          <span class="visually-hidden">(<span data-cart-count>{{ cart.item_count }}</span>)</span>
         </a>
       </li>
     </ul>
@@ -80,6 +49,47 @@
   <a href="{{ routes.root_url }}" class="site-header__logo">
     {{- section.settings.wordmark | default: shop.name -}}
   </a>
+
+  <dialog id="NavDrawer" class="nav-drawer" aria-modal="true" aria-label="{{ 'accessibility.primary_navigation' | t }}">
+    <div class="nav-drawer__inner">
+      <div class="nav-drawer__top">
+        <a href="{{ routes.root_url }}" class="nav-drawer__logo">
+          {{- section.settings.wordmark | default: shop.name -}}
+        </a>
+        <button type="button" class="nav-drawer__close" data-drawer-close>
+          <span class="visually-hidden">{{ 'accessibility.close' | t }}</span>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+            <path d="M2 2l12 12M14 2L2 14" stroke="currentColor" stroke-width="1"/>
+          </svg>
+        </button>
+      </div>
+
+      <nav class="nav-drawer__nav" aria-label="{{ 'accessibility.primary_navigation' | t }}">
+        {% render 'nav-links', menu: section.settings.menu %}
+
+        <ul class="site-header__list site-header__list--utilities" role="list">
+          {%- if section.settings.show_search -%}
+            <li><a href="{{ routes.search_url }}" class="site-header__link">{{ 'general.search.title' | t }}</a></li>
+          {%- endif -%}
+          {%- if section.settings.show_account and shop.customer_accounts_enabled -%}
+            <li><a href="{{ routes.account_url }}" class="site-header__link">{{ 'sections.header.account' | t }}</a></li>
+          {%- endif -%}
+          <li>
+            <a href="{{ routes.cart_url }}" class="site-header__link">
+              {{ 'sections.header.cart' | t }} (<span data-cart-count>{{ cart.item_count }}</span>)
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="nav-drawer__newsletter">
+        {% render 'newsletter-form', form_id: 'NavDrawerNewsletter', input_id: 'NavDrawerEmail' %}
+        {%- if section.settings.drawer_note != blank -%}
+          <p class="nav-drawer__note">{{ section.settings.drawer_note }}</p>
+        {%- endif -%}
+      </div>
+    </div>
+  </dialog>
 </header>
 
 {% schema %}
@@ -112,6 +122,13 @@
       "id": "show_account",
       "label": "Show account link",
       "default": true
+    },
+    {
+      "type": "text",
+      "id": "drawer_note",
+      "label": "Drawer newsletter note",
+      "default": "Sign up to our newsletter to receive exclusive offers.",
+      "info": "Shown under the newsletter form in the mobile menu drawer"
     }
   ]
 }

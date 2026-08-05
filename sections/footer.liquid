@@ -55,28 +55,7 @@
 
     {%- if section.settings.show_newsletter -%}
       <div class="site-footer__newsletter">
-        {% form 'customer', class: 'newsletter-form' %}
-          <input type="hidden" name="contact[tags]" value="newsletter">
-          {%- if form.posted_successfully? -%}
-            <p class="newsletter-form__success" role="status">{{ 'general.newsletter.success' | t }}</p>
-          {%- else -%}
-            {{ form.errors | default_errors }}
-            <div class="newsletter-form__row">
-              <label class="visually-hidden" for="NewsletterEmail">{{ 'general.newsletter.email' | t }}</label>
-              <input
-                id="NewsletterEmail"
-                class="field"
-                type="email"
-                name="contact[email]"
-                value="{{ form.email }}"
-                required
-                autocomplete="email"
-                placeholder="{{ 'general.newsletter.email' | t }}"
-              >
-              <button type="submit" class="button">{{ 'general.newsletter.submit' | t }}</button>
-            </div>
-          {%- endif -%}
-        {% endform %}
+        {% render 'newsletter-form', form_id: 'FooterNewsletter', input_id: 'NewsletterEmail' %}
         {%- if section.settings.newsletter_note != blank -%}
           <p class="site-footer__note">{{ section.settings.newsletter_note }}</p>
         {%- endif -%}

@@ -31,14 +31,26 @@
     }
   }
 
-  /* Mobile navigation drawer (native <dialog> for focus trap + top layer). */
+  /* Mobile navigation drawer (native <dialog>: focus trap, Esc close and
+     focus return to the trigger are built in). We add page scroll locking —
+     Lenis owns wheel scrolling, so it gets stopped too — and close the
+     drawer if the viewport grows past the mobile breakpoint. */
   function initDrawer() {
     var drawer = document.getElementById('NavDrawer');
     if (!drawer) return;
 
+    var lockScroll = function (lock) {
+      document.documentElement.classList.toggle('nav-drawer-open', lock);
+      if (window.lenis) {
+        if (lock) window.lenis.stop();
+        else window.lenis.start();
+      }
+    };
+
     document.querySelectorAll('[data-drawer-open]').forEach(function (btn) {
       btn.addEventListener('click', function () {
         drawer.showModal();
+        lockScroll(true);
         btn.setAttribute('aria-expanded', 'true');
       });
     });
@@ -60,7 +72,41 @@
       if (event.target === drawer) drawer.close();
     });
 
-    drawer.addEventListener('close', syncExpanded);
+    drawer.addEventListener('close', function () {
+      syncExpanded();
+      lockScroll(false);
+    });
+
+    if (window.matchMedia) {
+      var mq = window.matchMedia('(min-width: 768px)');
+      var onChange = function (event) {
+        if (event.matches && drawer.open) drawer.close();
+      };
+      if (mq.addEventListener) mq.addEventListener('change', onChange);
+      else if (mq.addListener) mq.addListener(onChange);
+    }
+  }
+
+  /* Live cart count: SSR-cached pages and bfcache restores (back button
+     after an add to cart) can carry a stale number, so sync it from
+     /cart.js on load and on every bfcache restore. */
+  function initCartCount() {
+    var els = document.querySelectorAll('[data-cart-count]');
+    if (!els.length) return;
+    var refresh = function () {
+      fetch('/cart.js')
+        .then(function (response) { return response.json(); })
+        .then(function (cart) {
+          els.forEach(function (el) {
+            el.textContent = cart.item_count;
+          });
+        })
+        .catch(function () {});
+    };
+    refresh();
+    window.addEventListener('pageshow', function (event) {
+      if (event.persisted) refresh();
+    });
   }
 
   /* Product form: the variant <select> carries name="id" so the correct
@@ -145,6 +191,7 @@
   document.addEventListener('DOMContentLoaded', function () {
     trackHeaderHeight();
     initDrawer();
+    initCartCount();
     initProductForms();
     initTabs();
   });

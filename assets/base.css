@@ -169,6 +169,7 @@ a {
 }
 
 .site-header a,
+.site-header button,
 .site-header summary {
   pointer-events: auto;
 }
@@ -224,7 +225,8 @@ a {
 /* Inner pages (cream, pre-redesign): same fixed transparent header, ink text
    so it stays legible — a static per-template color, never a transition. */
 body:not(.template-index) .site-header__logo,
-body:not(.template-index) .site-header__link {
+body:not(.template-index) .site-header__link,
+body:not(.template-index) .site-header__burger {
   color: var(--color-ink);
 }
 
@@ -232,14 +234,14 @@ body:not(.template-index) .site-header__link {
    (no dropdowns, nothing on click), up to three levels deep. Each nested
    <ul>'s margin is relative to ITS parent, so depth accumulates: level 1
    sits 18px in from level 0, level 2 another 16px in from level 1.
-   The selectors carry `.site-header__nav--primary` for specificity (0,2,0):
-   the `ul[role='list']` reset (0,1,1) zeroes margins and would otherwise
-   flatten every level to the same left edge. */
-.site-header__nav--primary .site-header__sub {
+   Scoped with :is() to both the desktop column and the mobile drawer at
+   specificity (0,2,0): the `ul[role='list']` reset (0,1,1) zeroes margins
+   and would otherwise flatten every level to the same left edge. */
+:is(.site-header__nav--primary, .nav-drawer__nav) .site-header__sub {
   margin-inline-start: 18px;
 }
 
-.site-header__nav--primary .site-header__sub--deep {
+:is(.site-header__nav--primary, .nav-drawer__nav) .site-header__sub--deep {
   margin-inline-start: 16px;
 }
 
@@ -255,23 +257,190 @@ body:not(.template-index) .site-header__link {
   line-height: 1.9;
 }
 
-@media (max-width: 749px) {
-  .site-header__logo {
+/* Hamburger — shown only under 768px with JS available (without JS the
+   stacked overlay column below stays as the reachable fallback). Two
+   hairlines drawn with pseudo-elements, 44px tap target. */
+.site-header__burger {
+  display: none;
+  position: absolute;
+  top: 12px;
+  left: calc(var(--page-margin) - 12px);
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--color-on-image);
+  cursor: pointer;
+}
+
+.site-header__burger-lines {
+  position: absolute;
+  inset: 0;
+}
+
+.site-header__burger-lines::before,
+.site-header__burger-lines::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  height: 1px;
+  background: currentColor;
+}
+
+.site-header__burger-lines::before {
+  top: 18px;
+}
+
+.site-header__burger-lines::after {
+  top: 25px;
+}
+
+/* Mobile header (<768px): hamburger left, wordmark right; the stacked
+   column moves into the drawer. 768px and up is untouched. The no-js
+   branch keeps the previous stacked-overlay mobile styles. */
+@media (max-width: 767.98px) {
+  html.js .site-header__burger {
+    display: block;
+  }
+
+  html.js .site-header__nav--primary {
+    display: none;
+  }
+
+  html.js .site-header__logo {
+    left: auto;
+    right: var(--page-margin);
+    top: 22px;
+    transform: none;
+    font-size: calc(1.125rem * var(--heading-scale, 1));
+    letter-spacing: 0.22em;
+  }
+
+  html.no-js .site-header__logo {
     top: 18px;
   }
 
-  .site-header__nav--primary {
+  html.no-js .site-header__nav--primary {
     top: 54px;
   }
 
-  .site-header__link {
+  html.no-js .site-header__link {
     font-size: 0.6875rem;
     line-height: 1.9;
   }
 
-  .site-header__list + .site-header__list {
+  html.no-js .site-header__list + .site-header__list {
     margin-top: 14px;
   }
+}
+
+/* --------------------------------------------------------------------------
+   Mobile nav drawer — native <dialog> (focus trap, Esc close, focus return
+   to the trigger are built in). Full height in dynamic viewport units;
+   width comes from the "Menu drawer width" theme setting. Content order:
+   wordmark, menu (same progressive indent as the desktop column), utilities
+   with live cart count, newsletter.
+   -------------------------------------------------------------------------- */
+
+.nav-drawer {
+  position: fixed;
+  inset: 0 auto 0 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  width: var(--drawer-width, 80vw);
+  max-width: 100%;
+  height: 100dvh;
+  max-height: 100dvh;
+  background: var(--color-bg);
+  color: var(--color-ink);
+}
+
+.nav-drawer::backdrop {
+  background: rgba(48, 44, 44, 0.45);
+  background: color-mix(in srgb, var(--color-ink) 45%, transparent);
+}
+
+.nav-drawer[open] {
+  animation: nav-drawer-in 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes nav-drawer-in {
+  from {
+    transform: translateX(-100%);
+  }
+}
+
+/* min-height 100% so clicks inside the panel never hit the <dialog> itself —
+   only true ::backdrop clicks close it (v1 drawer learning). */
+.nav-drawer__inner {
+  min-height: 100%;
+  max-height: 100dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  padding: 20px var(--page-margin) 32px;
+}
+
+.nav-drawer__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 36px;
+}
+
+.nav-drawer__logo {
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight, 500);
+  font-size: calc(1.0625rem * var(--heading-scale, 1));
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  line-height: 1;
+  text-decoration: none;
+  color: var(--color-ink);
+}
+
+.nav-drawer__close {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-inline-end: -12px;
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.nav-drawer__nav {
+  flex: 1;
+}
+
+/* The drawer panel is cream, so links are always ink — including on the
+   homepage, where the overlay column uses light-on-image text. */
+.nav-drawer__nav .site-header__link {
+  color: var(--color-ink);
+}
+
+.nav-drawer__newsletter {
+  margin-top: 44px;
+}
+
+.nav-drawer__note {
+  margin-top: 12px;
+  font-size: 0.75rem;
+  color: var(--color-muted);
+}
+
+/* Page scroll stays locked while the drawer is open (theme.js also stops
+   Lenis, which owns wheel scrolling). */
+html.nav-drawer-open,
+html.nav-drawer-open body {
+  overflow: hidden;
 }
 
 /* --------------------------------------------------------------------------
