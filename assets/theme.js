@@ -1,3 +1,4 @@
+/* Cucuyo theme.js — rev: mobile drawer + focus wrap */
 (function () {
   'use strict';
 
