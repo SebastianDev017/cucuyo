@@ -129,7 +129,7 @@
       "settings": {
         "columns_desktop": 2,
         "columns_mobile": "1",
-        "flush": true
+        "flush": false
       }
     },
     "grid_two": {
