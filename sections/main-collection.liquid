@@ -30,7 +30,11 @@
               assign is_featured = true
             endif
           -%}
-          {% render 'product-card', product: product, featured: is_featured %}
+          {% render 'product-card',
+            product: product,
+            featured: is_featured,
+            show_collection: section.settings.show_collection_label
+          %}
         {%- endfor -%}
       </div>
     {%- else -%}
@@ -72,6 +76,13 @@
         { "value": "2", "label": "2" }
       ],
       "default": "1"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_label",
+      "label": "Show collection label",
+      "default": false,
+      "info": "Off by default here — on a collection page it repeats the same label on every card"
     }
   ]
 }

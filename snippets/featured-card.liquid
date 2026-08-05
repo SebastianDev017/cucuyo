@@ -11,6 +11,9 @@
   @param {boolean} [is_filler] - true when this card is an auto-fill repeat:
     skips shopify_attributes and hides it from assistive tech / tab order so
     screen readers and keyboards don't hit duplicate links
+  @param {boolean} [show_collection] - render the product's first collection
+    title under the overlaid label (11px caps, muted); only applies when the
+    card resolves to a product; defaults to false
   @example
   {% render 'featured-card', block: block %}
   {% render 'featured-card', card_product: product %}
@@ -73,6 +76,9 @@
 {%- if card_label != blank -%}
   <span class="image-card__label{% if block.settings.label_tone == 'light' %} image-card__label--light{% endif %}">
     {{- card_label | escape | newline_to_br -}}
+    {%- if show_collection and cp and cp.collections.first -%}
+      <span class="image-card__collection">{{ cp.collections.first.title }}</span>
+    {%- endif -%}
   </span>
 {%- endif -%}
 

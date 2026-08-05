@@ -582,6 +582,22 @@ html.nav-drawer-open body {
   color: var(--color-on-image);
 }
 
+/* Optional collection line under the overlaid card label (11px caps, same
+   voice as the breadcrumb). Muted on light backgrounds; over dark imagery
+   it inherits the light tone slightly dimmed. */
+.image-card__collection {
+  display: block;
+  margin-top: 3px;
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  color: var(--color-muted);
+}
+
+.image-card__label--light .image-card__collection {
+  color: inherit;
+  opacity: 0.85;
+}
+
 .image-card:hover .image-card__media,
 .image-card:focus-visible .image-card__media {
   transform: scale(1.015);
@@ -1308,9 +1324,18 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
   padding: 48px 0;
 }
 
-/* Product card — image tile with name + price on one line below, and an
-   empty slot reserved for the future variant selector (deliberately blank:
-   no swatches, no selector, no placeholder text on this template). */
+/* Info-row grids (collection, search) need real breathing room between
+   cards — with the hairline gap a card's price sat against its neighbor's
+   title, worst with 2-line names. Overlay-label grids (home, Pair it with)
+   keep the Figma hairline. */
+.card-grid.collection-grid {
+  gap: 40px 24px;
+}
+
+/* Product card — image tile with name + price on one line below, an
+   optional collection label under the name, and an empty slot reserved for
+   the future variant selector (deliberately blank: no swatches, no
+   selector, no placeholder text on this template). */
 .product-card {
   display: flex;
   flex-direction: column;
@@ -1360,6 +1385,16 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
   font-size: 0.8125rem;
   color: var(--color-muted);
   white-space: nowrap;
+}
+
+.product-card__collection {
+  margin-top: 4px;
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight, 500);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
 }
 
 .product-card__slot {

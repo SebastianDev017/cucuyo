@@ -19,7 +19,7 @@
   {%- for item in source.products -%}
     {%- unless item.id == product.id or item.available == false -%}
       {%- if shown < limit -%}
-        {% render 'featured-card', card_product: item %}
+        {% render 'featured-card', card_product: item, show_collection: section.settings.show_collection_label %}
         {%- assign shown = shown | plus: 1 -%}
       {%- endif -%}
     {%- endunless -%}
@@ -65,6 +65,13 @@
       "max": 4,
       "step": 1,
       "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_label",
+      "label": "Show collection label",
+      "default": true,
+      "info": "The product's collection under its name on each card"
     }
   ],
   "presets": [

@@ -30,13 +30,17 @@
     style="--cols-desktop: {{ cols_desktop }}; --cols-mobile: {{ cols_mobile }};"
   >
     {%- for block in section.blocks -%}
-      {% render 'featured-card', block: block %}
+      {% render 'featured-card', block: block, show_collection: section.settings.show_collection_label %}
     {%- endfor -%}
 
     {%- if fillers > 0 -%}
       {%- for i in (1..fillers) -%}
         {%- assign filler_index = i | minus: 1 | modulo: total -%}
-        {% render 'featured-card', block: section.blocks[filler_index], is_filler: true %}
+        {% render 'featured-card',
+          block: section.blocks[filler_index],
+          is_filler: true,
+          show_collection: section.settings.show_collection_label
+        %}
       {%- endfor -%}
     {%- endif -%}
   </div>
@@ -72,6 +76,13 @@
       "label": "Flush (no gap)",
       "default": false,
       "info": "The two-up editorial pair sits flush in the design"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_label",
+      "label": "Show collection label",
+      "default": true,
+      "info": "The product's collection under its name, on cards linked to a product"
     }
   ],
   "max_blocks": 10,

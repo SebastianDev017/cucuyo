@@ -9,6 +9,8 @@
   @param {boolean} [featured] - oversized lead tile (spans 2×2 grid cells on
     desktop); also loads its image eagerly
   @param {boolean} [show_price] - defaults to true
+  @param {boolean} [show_collection] - render the product's first collection
+    title under the name (11px caps, muted); defaults to false
   @example
   {% render 'product-card', product: product %}
   {% render 'product-card', product: product, featured: true %}
@@ -51,7 +53,12 @@
     </div>
 
     <div class="product-card__info">
-      <h3 class="product-card__title">{{ product.title }}</h3>
+      <div class="product-card__text">
+        <h3 class="product-card__title">{{ product.title }}</h3>
+        {%- if show_collection and product.collections.first -%}
+          <p class="product-card__collection">{{ product.collections.first.title }}</p>
+        {%- endif -%}
+      </div>
       {%- if price_visible -%}
         <span class="product-card__price">
           {%- if product.price_varies -%}
