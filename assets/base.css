@@ -356,6 +356,9 @@ body:not(.template-index) .site-header__burger {
   max-height: 100dvh;
   background: var(--color-bg);
   color: var(--color-ink);
+  /* The header strip is pointer-events:none; the dialog must opt back in or
+     backdrop clicks pass straight through it and never reach the <dialog>. */
+  pointer-events: auto;
 }
 
 .nav-drawer::backdrop {

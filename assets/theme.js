@@ -72,6 +72,25 @@
       if (event.target === drawer) drawer.close();
     });
 
+    /* Native modal dialogs still let Tab escape to browser UI; wrap focus at
+       the edges so it stays inside while the drawer is open. */
+    drawer.addEventListener('keydown', function (event) {
+      if (event.key !== 'Tab') return;
+      var focusables = drawer.querySelectorAll(
+        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      );
+      if (!focusables.length) return;
+      var first = focusables[0];
+      var last = focusables[focusables.length - 1];
+      if (event.shiftKey && (document.activeElement === first || document.activeElement === drawer)) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+
     drawer.addEventListener('close', function () {
       syncExpanded();
       lockScroll(false);
