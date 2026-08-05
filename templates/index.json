@@ -125,6 +125,7 @@
         "duo_wabi",
         "duo_beaded"
       ],
+      "disabled": true,
       "settings": {
         "columns_desktop": 2,
         "columns_mobile": "1",
