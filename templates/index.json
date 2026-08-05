@@ -125,7 +125,6 @@
         "duo_wabi",
         "duo_beaded"
       ],
-      "disabled": true,
       "settings": {
         "columns_desktop": 2,
         "columns_mobile": "1",
@@ -173,7 +172,6 @@
         "card_ziggy",
         "card_ghost_2"
       ],
-      "disabled": true,
       "settings": {
         "columns_desktop": 3,
         "columns_mobile": "1",
