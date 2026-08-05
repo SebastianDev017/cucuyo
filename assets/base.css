@@ -161,6 +161,17 @@ a {
 
 :root {
   --nav-clearance: calc(var(--header-height, 320px) + 28px);
+  /* Horizontal twin of the clearance: the left gutter that keeps content
+     clear of the sidebar link column (Figma: content starts at x283 on the
+     1512 frame — the product page's mechanism, now shared). Collapses to
+     the page margin below 768px, where the header becomes the mobile bar. */
+  --sidebar-gutter: clamp(220px, 18.7vw, 300px);
+}
+
+@media (max-width: 767.98px) {
+  :root {
+    --sidebar-gutter: var(--page-margin);
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -988,9 +999,7 @@ html.nav-drawer-open body {
    -------------------------------------------------------------------------- */
 
 body:not(.template-index):not(.template-product):not(.template-collection):not(.template-search) main {
-  padding: var(--nav-clearance) var(--page-margin) 96px;
-  max-width: 1100px;
-  margin-inline: auto;
+  padding: var(--nav-clearance) var(--page-margin) 96px var(--sidebar-gutter);
 }
 
 body:not(.template-index):not(.template-product):not(.template-collection):not(.template-search) main img {
@@ -1008,12 +1017,12 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
    -------------------------------------------------------------------------- */
 
 .template-product main {
-  padding: var(--nav-clearance) var(--page-margin) 112px clamp(220px, 18.7vw, 300px);
+  padding: var(--nav-clearance) var(--page-margin) 112px var(--sidebar-gutter);
 }
 
 @media (max-width: 749px) {
   .template-product main {
-    padding: var(--nav-clearance) var(--page-margin) 64px;
+    padding-bottom: 64px;
   }
 }
 
@@ -1224,7 +1233,7 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
 
 .template-collection main,
 .template-search main {
-  padding: var(--nav-clearance) var(--page-margin) 112px;
+  padding: var(--nav-clearance) var(--page-margin) 112px var(--sidebar-gutter);
 }
 
 .collection-head {
