@@ -791,17 +791,267 @@ body:not(.template-index) .site-header__link {
 /* --------------------------------------------------------------------------
    Inner pages (pre-redesign) — readable defaults under the solid header.
    These templates are rebuilt in the next phase; this only keeps them usable.
+   The product template has its own real layout below and is excluded.
    -------------------------------------------------------------------------- */
 
-body:not(.template-index) main {
+body:not(.template-index):not(.template-product) main {
   /* Top padding clears the fixed overlay nav's stacked left column */
   padding: 250px var(--page-margin) 96px;
   max-width: 1100px;
   margin-inline: auto;
 }
 
-body:not(.template-index) main img {
+body:not(.template-index):not(.template-product) main img {
   max-width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   Product page (Figma "product pg 1", 1512 frame) — the whole content column
+   is inset from the left so the fixed nav's stacked link column keeps its own
+   gutter (content x283 → 1471 at 1512; right edge = page margin). Top padding
+   clears the centered wordmark (content top y133). On mobile the nav stack
+   sits ABOVE the content, so the offset comes from --header-height, measured
+   by theme.js off the real rendered nav (menus grow it), with a generous
+   no-JS fallback.
+   -------------------------------------------------------------------------- */
+
+.template-product main {
+  --pdp-top: clamp(104px, 8.8vw, 146px);
+  padding: var(--pdp-top) var(--page-margin) 112px clamp(220px, 18.7vw, 300px);
+}
+
+@media (max-width: 749px) {
+  .template-product main {
+    padding: calc(var(--header-height, 340px) + 24px) var(--page-margin) 64px;
+  }
+}
+
+/* Product hero: single portrait image left (Figma 582×721 ≈ 4:5 — the v1
+   STYLE-GUIDE said 3:4, the approved Figma measures 4:5), info panel right.
+   Column ratio + gap are 1:1 from the frame: 581 / 80 / 527. */
+.main-product__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 581fr) minmax(0, 527fr);
+  column-gap: clamp(40px, 5.3vw, 84px);
+  align-items: start;
+}
+
+.main-product__media {
+  display: grid;
+  gap: var(--grid-gap);
+}
+
+.main-product__media-item img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: var(--media-ratio, 4 / 5);
+  object-fit: cover;
+}
+
+.main-product__media-item--empty {
+  aspect-ratio: var(--media-ratio, 4 / 5);
+  background: #E5E1DC;
+}
+
+.main-product__info {
+  position: sticky;
+  top: var(--pdp-top);
+}
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: clamp(72px, 10vw, 152px);
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight, 500);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.breadcrumb__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.main-product__vendor {
+  color: var(--color-muted);
+  margin-bottom: 10px;
+}
+
+.main-product__title {
+  font-size: calc(1.5rem * var(--heading-scale, 1));
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1.3;
+  color: var(--color-accent);
+}
+
+.main-product__description {
+  margin-top: 22px;
+  max-width: 62ch;
+  font-size: calc(0.875rem * var(--body-scale, 1));
+  line-height: 1.55;
+  color: var(--color-muted);
+}
+
+.rte p {
+  margin: 0 0 1em;
+}
+
+.rte p:last-child {
+  margin-bottom: 0;
+}
+
+.rte a {
+  color: inherit;
+}
+
+/* Accordions — 1px accent hairlines above and below each row, small-caps
+   label left, +/− marker right. No transitions (brand). */
+.main-product__accordions {
+  margin-top: 60px;
+  border-top: 1px solid var(--color-accent);
+}
+
+.accordion {
+  border-bottom: 1px solid var(--color-accent);
+}
+
+.accordion__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 9px 4px 9px 8px;
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight, 500);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.accordion__summary::-webkit-details-marker {
+  display: none;
+}
+
+.accordion__icon::before {
+  content: '+';
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  line-height: 1;
+  color: var(--color-accent);
+}
+
+.accordion[open] .accordion__icon::before {
+  content: '\2212';
+}
+
+.accordion__content {
+  padding: 4px 8px 16px;
+  max-width: 62ch;
+  font-size: calc(0.875rem * var(--body-scale, 1));
+  line-height: 1.55;
+  color: var(--color-muted);
+}
+
+/* Add to cart — accent bar with the price built into the label, separated by
+   a thin vertical divider (Figma). */
+.main-product__form {
+  margin-top: 24px;
+}
+
+.main-product__variant-select {
+  display: block;
+  width: 100%;
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 0;
+  font-size: 0.8125rem;
+  color: var(--color-ink);
+}
+
+.button--atc {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 22px;
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight, 500);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.button--atc__divider {
+  width: 1px;
+  height: 13px;
+  margin-inline: 16px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+.button--atc [hidden] {
+  display: none;
+}
+
+.button--atc:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+/* Related products ("Pair it with") — reuses the Featured collection card
+   grid; heading sits 28px under the product hero, grid 12px under it. */
+.related {
+  margin-top: 28px;
+}
+
+.related__heading {
+  font-size: calc(1.3125rem * var(--heading-scale, 1));
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1.3;
+  color: var(--color-accent);
+  margin-bottom: 8px;
+}
+
+/* The editorial 2-up on the product page reuses the home hero pattern at the
+   Figma editorial ratio (594×768) with the standard hairline gap above. */
+.template-product .home-hero {
+  margin-top: var(--grid-gap);
+}
+
+.template-product .home-hero__media {
+  aspect-ratio: 594 / 768;
+}
+
+@media (max-width: 749px) {
+  .main-product__grid {
+    grid-template-columns: 1fr;
+    row-gap: 28px;
+  }
+
+  .main-product__info {
+    position: static;
+  }
+
+  .breadcrumb {
+    margin-bottom: 32px;
+  }
+
+  .main-product__accordions {
+    margin-top: 40px;
+  }
+
+  .template-product .home-hero__media {
+    aspect-ratio: 4 / 5;
+  }
 }
 
 /* --------------------------------------------------------------------------

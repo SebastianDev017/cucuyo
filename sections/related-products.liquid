@@ -1,3 +1,10 @@
+{%- comment -%}
+  "Pair it with" (Figma product pg) — reuses the Featured collection pattern
+  exactly: same card grid, image + overlaid small-caps title, no price.
+  Source: the product's first collection; when it has too few products the
+  grid falls back to the all-products collection. Placeholders are NEVER
+  rendered — with no real products to show, the section stays out entirely.
+{%- endcomment -%}
 {%- liquid
   assign limit = section.settings.products_to_show
   assign min_size = limit | plus: 1
@@ -5,30 +12,30 @@
   if source == blank or source.products.size < min_size
     assign source = collections.all
   endif
-  assign related = source.products | where: 'available', true
 -%}
 
-<section class="featured page-padding section-spacing">
-  {%- if section.settings.heading != blank -%}
-    <h2 class="featured__heading section-heading reveal">{{ section.settings.heading }}</h2>
-  {%- endif -%}
+{%- capture related_cards -%}
+  {%- assign shown = 0 -%}
+  {%- for item in source.products -%}
+    {%- unless item.id == product.id or item.available == false -%}
+      {%- if shown < limit -%}
+        {% render 'featured-card', card_product: item %}
+        {%- assign shown = shown | plus: 1 -%}
+      {%- endif -%}
+    {%- endunless -%}
+  {%- endfor -%}
+{%- endcapture -%}
 
-  {%- if related.size > 0 -%}
-    <ul class="product-grid" role="list" style="--grid-columns: {{ section.settings.columns }};">
-      {%- assign shown = 0 -%}
-      {%- for related_product in related -%}
-        {%- unless related_product.id == product.id -%}
-          {%- if shown < limit -%}
-            <li class="product-grid__item">
-              {% render 'product-card', product: related_product %}
-            </li>
-            {%- assign shown = shown | plus: 1 -%}
-          {%- endif -%}
-        {%- endunless -%}
-      {%- endfor -%}
-    </ul>
-  {%- endif -%}
-</section>
+{%- if related_cards contains 'image-card' -%}
+  <section class="related">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="related__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    <div class="card-grid" style="--cols-desktop: {{ section.settings.columns }}; --cols-mobile: 1;">
+      {{ related_cards }}
+    </div>
+  </section>
+{%- endif -%}
 
 {% schema %}
 {
@@ -39,7 +46,7 @@
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "You may also like"
+      "default": "Pair it with"
     },
     {
       "type": "range",

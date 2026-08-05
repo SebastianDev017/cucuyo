@@ -1,46 +1,64 @@
+{%- comment -%}
+  Product page (Figma "product pg 1") — portrait image column left (4:5 per
+  the approved Figma; the v1 STYLE-GUIDE's 3:4 was superseded), info panel
+  right: breadcrumb (dynamic from the product's real collection), title,
+  description, accordion rows with accent hairlines and +/− markers, and an
+  ADD TO CART button with the price built into the label behind a thin
+  divider. The variant <select> carries name="id" so the right variant
+  submits without JS; theme.js progressively updates the price/availability.
+{%- endcomment -%}
 {%- assign current_variant = product.selected_or_first_available_variant -%}
 
-<section class="main-product page-padding section-spacing">
-  {%- if section.settings.show_breadcrumb -%}
-    <nav class="breadcrumb reveal" aria-label="{{ 'accessibility.breadcrumb' | t }}">
-      <a href="{{ routes.all_products_collection_url }}" class="breadcrumb__link">{{ 'general.breadcrumb.shop' | t }}</a>
-      {%- if collection -%}
-        <span class="breadcrumb__separator" aria-hidden="true">&gt;</span>
-        <a href="{{ collection.url }}" class="breadcrumb__link">{{ collection.title }}</a>
-      {%- elsif product.collections.first -%}
-        <span class="breadcrumb__separator" aria-hidden="true">&gt;</span>
-        <a href="{{ product.collections.first.url }}" class="breadcrumb__link">{{ product.collections.first.title }}</a>
-      {%- endif -%}
-    </nav>
-  {%- endif -%}
-
+<section class="main-product" style="--media-ratio: {{ section.settings.media_ratio }};">
   <div class="main-product__grid">
     <div class="main-product__media">
       {%- assign product_images = product.media | where: 'media_type', 'image' -%}
       {%- if product_images.size > 0 -%}
         {%- for media in product_images -%}
-          <div class="main-product__media-item reveal" style="--ratio: {{ section.settings.media_ratio }};">
-            {{-
-              media
-              | image_url: width: 1500
-              | image_tag:
-                widths: '550, 750, 1100, 1500',
-                sizes: '(min-width: 990px) 45vw, 92vw',
-                class: 'main-product__image',
-                loading: 'lazy'
-            -}}
+          <div class="main-product__media-item">
+            {%- if forloop.first -%}
+              {{-
+                media
+                | image_url: width: 1500
+                | image_tag:
+                  widths: '550, 750, 1100, 1500',
+                  sizes: '(min-width: 750px) 40vw, 100vw',
+                  loading: 'eager',
+                  fetchpriority: 'high'
+              -}}
+            {%- else -%}
+              {{-
+                media
+                | image_url: width: 1500
+                | image_tag:
+                  widths: '550, 750, 1100, 1500',
+                  sizes: '(min-width: 750px) 40vw, 100vw',
+                  loading: 'lazy'
+              -}}
+            {%- endif -%}
           </div>
         {%- endfor -%}
       {%- else -%}
-        <div class="main-product__media-item" style="--ratio: {{ section.settings.media_ratio }};">
-          {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
-        </div>
+        <div class="main-product__media-item main-product__media-item--empty" aria-hidden="true"></div>
       {%- endif -%}
     </div>
 
     <div class="main-product__info">
+      {%- if section.settings.show_breadcrumb -%}
+        <nav class="breadcrumb" aria-label="{{ 'accessibility.breadcrumb' | t }}">
+          <a href="{{ routes.all_products_collection_url }}" class="breadcrumb__link">{{ 'general.breadcrumb.shop' | t }}</a>
+          {%- liquid
+            assign crumb_collection = collection | default: product.collections.first
+          -%}
+          {%- if crumb_collection -%}
+            <span class="breadcrumb__separator" aria-hidden="true">&gt;</span>
+            <a href="{{ crumb_collection.url }}" class="breadcrumb__link">{{ crumb_collection.title }}</a>
+          {%- endif -%}
+        </nav>
+      {%- endif -%}
+
       {%- if section.settings.show_vendor and product.vendor != blank -%}
-        <p class="main-product__vendor label">{{ product.vendor }}</p>
+        <p class="main-product__vendor type-label">{{ product.vendor }}</p>
       {%- endif -%}
 
       <h1 class="main-product__title">{{ product.title }}</h1>
@@ -52,18 +70,13 @@
       {%- if section.blocks.size > 0 -%}
         <div class="main-product__accordions">
           {%- for block in section.blocks -%}
-            {%- case block.type -%}
-              {%- when 'accordion' -%}
-                <details class="accordion" {{ block.shopify_attributes }}>
-                  <summary class="accordion__summary">
-                    <span>{{ block.settings.title }}</span>
-                    <svg class="accordion__caret" width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true" focusable="false">
-                      <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1"/>
-                    </svg>
-                  </summary>
-                  <div class="accordion__content rte">{{ block.settings.content }}</div>
-                </details>
-            {%- endcase -%}
+            <details class="accordion" {{ block.shopify_attributes }}>
+              <summary class="accordion__summary">
+                <span class="accordion__title">{{ block.settings.title }}</span>
+                <span class="accordion__icon" aria-hidden="true"></span>
+              </summary>
+              <div class="accordion__content rte">{{ block.settings.content }}</div>
+            </details>
           {%- endfor -%}
         </div>
       {%- endif -%}
@@ -71,14 +84,14 @@
       <div
         class="main-product__form"
         data-product-form
-        data-add-template="{{ 'products.add_to_cart_with_price' | t: price: '[PRICE]' | escape }}"
+        data-add-text="{{ 'products.add_to_cart' | t | escape }}"
         data-sold-out-text="{{ 'products.sold_out' | t | escape }}"
         data-unavailable-text="{{ 'products.unavailable' | t | escape }}"
       >
         {%- form 'product', product, class: 'product-form' -%}
           {%- if product.variants.size > 1 -%}
             <label class="visually-hidden" for="Variants-{{ section.id }}">{{ 'products.select_variant' | t }}</label>
-            <select id="Variants-{{ section.id }}" name="id" class="field main-product__variant-select" data-variant-select>
+            <select id="Variants-{{ section.id }}" name="id" class="main-product__variant-select" data-variant-select>
               {%- for variant in product.variants -%}
                 <option
                   value="{{ variant.id }}"
@@ -97,6 +110,7 @@
           {%- else -%}
             <input type="hidden" name="id" value="{{ current_variant.id }}">
           {%- endif -%}
+
           <button
             type="submit"
             class="button button--atc"
@@ -106,10 +120,13 @@
             {% endunless %}
           >
             {%- if current_variant.available -%}
-              {%- assign current_price = current_variant.price | money -%}
-              {{ 'products.add_to_cart_with_price' | t: price: current_price }}
+              <span data-atc-label>{{ 'products.add_to_cart' | t }}</span>
+              <span class="button--atc__divider" data-atc-divider aria-hidden="true"></span>
+              <span data-atc-price aria-live="polite">{{ current_variant.price | money }}</span>
             {%- else -%}
-              {{ 'products.sold_out' | t }}
+              <span data-atc-label>{{ 'products.sold_out' | t }}</span>
+              <span class="button--atc__divider" data-atc-divider aria-hidden="true" hidden></span>
+              <span data-atc-price aria-live="polite" hidden></span>
             {%- endif -%}
           </button>
         {%- endform -%}
@@ -126,40 +143,6 @@
           ]
         </script>
       </div>
-
-      {%- assign tab_blocks = section.blocks | where: 'type', 'tab' -%}
-      {%- if tab_blocks.size > 0 -%}
-        <div class="product-notes" data-tabs>
-          <p class="product-notes__label label">{{ 'products.notes' | t }}</p>
-          <div class="product-notes__tablist" role="tablist" aria-label="{{ 'products.notes' | t }}">
-            {%- for block in tab_blocks -%}
-              <button
-                type="button"
-                class="product-notes__tab"
-                role="tab"
-                id="Tab-{{ section.id }}-{{ forloop.index }}"
-                aria-controls="Panel-{{ section.id }}-{{ forloop.index }}"
-                aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
-                {% unless forloop.first %}tabindex="-1"{% endunless %}
-                {{ block.shopify_attributes }}
-              >
-                {{ block.settings.title }}
-              </button>
-            {%- endfor -%}
-          </div>
-          {%- for block in tab_blocks -%}
-            <div
-              class="product-notes__panel rte"
-              role="tabpanel"
-              id="Panel-{{ section.id }}-{{ forloop.index }}"
-              aria-labelledby="Tab-{{ section.id }}-{{ forloop.index }}"
-              {% unless forloop.first %}hidden{% endunless %}
-            >
-              {{ block.settings.content }}
-            </div>
-          {%- endfor -%}
-        </div>
-      {%- endif -%}
     </div>
   </div>
 </section>
@@ -198,7 +181,7 @@
           "label": "Square"
         }
       ],
-      "default": "3/4"
+      "default": "4/5"
     }
   ],
   "blocks": [
@@ -219,26 +202,8 @@
           "default": "<p>Share your shipping and returns policy here.</p>"
         }
       ]
-    },
-    {
-      "type": "tab",
-      "name": "Notes tab",
-      "settings": [
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Tab title",
-          "default": "Designer"
-        },
-        {
-          "type": "richtext",
-          "id": "content",
-          "label": "Content",
-          "default": "<p>Share designer or maker notes for this piece.</p>"
-        }
-      ]
     }
   ],
-  "max_blocks": 9
+  "max_blocks": 6
 }
 {% endschema %}

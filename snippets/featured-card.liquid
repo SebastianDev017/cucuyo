@@ -1,26 +1,31 @@
 {% doc %}
   One card of the Featured collection grid. Shared by the section's main
-  block loop and its auto-fill loop (leftover cells in the last row are
-  filled by cycling the section's own cards).
+  block loop, its auto-fill loop (leftover cells in the last row are filled
+  by cycling the section's own cards), and the Related products section
+  (which passes a product directly instead of a block).
 
-  @param {object} block - the card block (settings: product, image,
+  @param {object} [block] - the card block (settings: product, image,
     draft_asset, label, label_tone, link)
+  @param {product} [card_product] - a product rendered directly (no block):
+    image, label, and link all come from it
   @param {boolean} [is_filler] - true when this card is an auto-fill repeat:
     skips shopify_attributes and hides it from assistive tech / tab order so
     screen readers and keyboards don't hit duplicate links
   @example
   {% render 'featured-card', block: block %}
+  {% render 'featured-card', card_product: product %}
 {% enddoc %}
 
 {%- liquid
-  assign card_product = block.settings.product
+  assign cp = card_product | default: block.settings.product
+  assign card_image = block.settings.image
   assign card_label = block.settings.label
   assign card_url = block.settings.link
-  if card_product and card_label == blank
-    assign card_label = card_product.title
+  if cp and card_label == blank
+    assign card_label = cp.title
   endif
-  if card_product and card_url == blank
-    assign card_url = card_product.url
+  if cp and card_url == blank
+    assign card_url = cp.url
   endif
 -%}
 {%- if card_url != blank -%}
@@ -44,9 +49,9 @@
   >
 {%- endif -%}
 
-{%- if block.settings.image == blank and card_product.featured_media -%}
+{%- if card_image == blank and cp.featured_media -%}
   {{-
-    card_product.featured_media
+    cp.featured_media
     | image_url: width: 1200
     | image_tag:
       widths: '400, 700, 1000, 1200',
@@ -57,7 +62,7 @@
   -}}
 {%- else -%}
   {% render 'draft-image',
-    image: block.settings.image,
+    image: card_image,
     draft_asset: block.settings.draft_asset,
     img_class: 'image-card__media',
     sizes: '(min-width: 750px) 33vw, 100vw',

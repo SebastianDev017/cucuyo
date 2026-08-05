@@ -1,16 +1,31 @@
 (function () {
   'use strict';
 
-  /* Expose the real header height so the fixed sidebar can sit below it. */
+  /* Expose the real height of the fixed overlay nav (its children are
+     absolutely positioned, so the header element itself measures 0). Inner
+     pages pad their content below this so nothing sits under the stacked
+     link column — the menu's always-expanded sublevels grow it. */
   function trackHeaderHeight() {
     var header = document.querySelector('.site-header');
     if (!header) return;
+    var parts = [
+      header.querySelector('.site-header__nav--primary'),
+      header.querySelector('.site-header__logo')
+    ].filter(Boolean);
+    if (!parts.length) return;
     var set = function () {
-      document.documentElement.style.setProperty('--header-height', header.offsetHeight + 'px');
+      var bottom = 0;
+      parts.forEach(function (el) {
+        bottom = Math.max(bottom, el.getBoundingClientRect().bottom);
+      });
+      document.documentElement.style.setProperty('--header-height', Math.ceil(bottom) + 'px');
     };
     set();
     if ('ResizeObserver' in window) {
-      new ResizeObserver(set).observe(header);
+      var observer = new ResizeObserver(set);
+      parts.forEach(function (el) {
+        observer.observe(el);
+      });
     } else {
       window.addEventListener('resize', set);
     }
@@ -66,21 +81,29 @@
         return;
       }
 
+      /* The button is three spans — label, thin divider, price — so the
+         price swaps without rebuilding the markup (Figma: "ADD TO CART | $"). */
+      var label = button.querySelector('[data-atc-label]');
+      var divider = button.querySelector('[data-atc-divider]');
+      var price = button.querySelector('[data-atc-price]');
+
       select.addEventListener('change', function () {
         var variant = variants.find(function (v) {
           return String(v.id) === select.value;
         });
-        if (!variant) {
-          button.disabled = true;
-          button.textContent = root.dataset.unavailableText;
-          return;
-        }
-        if (variant.available) {
+        if (!label || !divider || !price) return;
+        if (variant && variant.available) {
           button.disabled = false;
-          button.textContent = root.dataset.addTemplate.replace('[PRICE]', variant.price);
+          label.textContent = root.dataset.addText;
+          divider.hidden = false;
+          price.hidden = false;
+          price.textContent = variant.price;
         } else {
           button.disabled = true;
-          button.textContent = root.dataset.soldOutText;
+          label.textContent = variant ? root.dataset.soldOutText : root.dataset.unavailableText;
+          divider.hidden = true;
+          price.hidden = true;
+          price.textContent = '';
         }
       });
     });

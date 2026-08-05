@@ -16,70 +16,75 @@
             "title": "Ask a question",
             "content": "<p>Tell customers how to reach you with questions about this piece.</p>"
           }
-        },
-        "designer": {
-          "type": "tab",
-          "settings": {
-            "title": "Designer",
-            "content": "<p>A handmade pottery vase with a bold brick-red finish. Crafted by skilled artisans, the piece features an organic silhouette and a raw, textured surface that nods to wabi-sabi design.</p>"
-          }
-        },
-        "materials": {
-          "type": "tab",
-          "settings": {
-            "title": "Materials",
-            "content": "<p>Stoneware clay, hand-thrown and finished with a matte reactive glaze. Small variations in tone and texture are inherent to the making.</p>"
-          }
-        },
-        "care": {
-          "type": "tab",
-          "settings": {
-            "title": "Care",
-            "content": "<p>Wipe gently with a soft, dry cloth. Avoid harsh cleaners, abrasive sponges, or prolonged exposure to water. For decorative use, we recommend a watertight liner or vessel before adding water.</p>"
-          }
         }
       },
-      "block_order": ["shipping", "ask", "designer", "materials", "care"]
-    },
-    "editorial": {
-      "type": "editorial",
-      "blocks": {
-        "e1": {
-          "type": "item",
-          "settings": {
-            "number": "1",
-            "caption": "Use on your nightstand. Pairs well with a big white flower. Cut stems to around 6\" and add around 5-6 large flowers."
-          }
-        },
-        "e2": {
-          "type": "item",
-          "settings": {
-            "number": "2",
-            "caption": "Group with objects of different heights for an easy, collected tablescape."
-          }
-        },
-        "e3": {
-          "type": "item",
-          "settings": {
-            "number": "3",
-            "caption": "Let it stand alone on a shelf — the silhouette is the statement."
-          }
-        }
-      },
-      "block_order": ["e1", "e2", "e3"]
-    },
-    "banner": {
-      "type": "hero",
+      "block_order": ["shipping", "ask"],
       "settings": {
-        "style": "accent",
-        "heading_tag": "h2",
-        "height": "medium",
-        "full_bleed": true
+        "show_breadcrumb": true,
+        "show_vendor": false,
+        "media_ratio": "4/5"
       }
     },
     "related": {
-      "type": "related-products"
+      "type": "related-products",
+      "settings": {
+        "heading": "Pair it with",
+        "products_to_show": 3,
+        "columns": 3
+      }
+    },
+    "editorial_pair": {
+      "type": "home-hero",
+      "blocks": {
+        "left": {
+          "type": "image",
+          "settings": {
+            "draft_asset": "figma-pdp-checker.jpg",
+            "label": "Ghost\nChecker Plate",
+            "label_tone": "light",
+            "link": ""
+          }
+        },
+        "right": {
+          "type": "image",
+          "settings": {
+            "draft_asset": "figma-pdp-mangoes.jpg",
+            "label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": ["left", "right"]
+    },
+    "grid_pair": {
+      "type": "home-grid",
+      "blocks": {
+        "glass": {
+          "type": "card",
+          "settings": {
+            "draft_asset": "figma-pdp-glass.jpg",
+            "label": "Dapple Dot\nGlass",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "stool": {
+          "type": "card",
+          "settings": {
+            "draft_asset": "figma-pdp-stool.jpg",
+            "label": "Ziggy Rattan\nCounter Stool",
+            "label_tone": "dark",
+            "link": ""
+          }
+        }
+      },
+      "block_order": ["glass", "stool"],
+      "settings": {
+        "columns_desktop": 2,
+        "columns_mobile": "1",
+        "flush": false
+      }
     }
   },
-  "order": ["main", "editorial", "banner", "related"]
+  "order": ["main", "related", "editorial_pair", "grid_pair"]
 }
