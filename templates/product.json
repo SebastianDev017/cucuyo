@@ -34,7 +34,7 @@
       "settings": {
         "show_breadcrumb": true,
         "show_vendor": false,
-        "media_ratio": "4/5",
+        "media_ratio": "3/4",
         "gallery_row_height": 200
       }
     },
@@ -43,7 +43,8 @@
       "settings": {
         "heading": "Pair it with",
         "products_to_show": 3,
-        "columns": 3
+        "columns": 3,
+        "show_collection_label": true
       }
     },
     "editorial_pair": {
@@ -105,7 +106,8 @@
       "settings": {
         "columns_desktop": 2,
         "columns_mobile": "1",
-        "flush": false
+        "flush": false,
+        "show_collection_label": true
       }
     }
   },
