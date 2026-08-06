@@ -94,6 +94,11 @@
         drawer.showModal();
         lockScroll(true);
         btn.setAttribute('aria-expanded', 'true');
+        /* showModal() lands on the first focusable, which is the wordmark —
+           a focus ring around the brand mark reads as a defect. Move it to
+           the close button: same trap, expected target, ring looks placed. */
+        var close = drawer.querySelector('[data-drawer-close]');
+        if (close) close.focus();
       });
     });
 
