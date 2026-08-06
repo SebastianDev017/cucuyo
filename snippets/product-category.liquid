@@ -17,13 +17,31 @@
 {% enddoc %}
 
 {%- liquid
+  comment
+    Prefer the collection that matches the product's Type. A product usually
+    belongs to several collections (seasonal edits, sale, catch-alls), and
+    `collections.first` returns whichever Shopify happens to order first —
+    on this store that made every product read "Furniture". Type is the
+    merchant's own category field and the category collections mirror it, so
+    matching on it names the right one; the first real collection is only
+    the fallback when nothing matches.
+  endcomment
   assign category = null
+  assign fallback = null
+
   for c in product.collections
     unless c.handle == 'frontpage' or c.handle == 'all'
-      assign category = c
-      break
+      if fallback == null
+        assign fallback = c
+      endif
+      if c.title == product.type
+        assign category = c
+        break
+      endif
     endunless
   endfor
+
+  assign category = category | default: fallback
 -%}
 
 {%- if category -%}

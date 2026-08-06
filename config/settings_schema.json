@@ -118,6 +118,132 @@
     ]
   },
   {
+    "name": "Product cards",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Shape"
+      },
+      {
+        "type": "select",
+        "id": "card_shape",
+        "label": "Card shape",
+        "options": [
+          {
+            "value": "756/957",
+            "label": "Portrait 4:5 (Figma)"
+          },
+          {
+            "value": "3/4",
+            "label": "Portrait 3:4"
+          },
+          {
+            "value": "1/1",
+            "label": "Square"
+          },
+          {
+            "value": "5/4",
+            "label": "Landscape 5:4"
+          }
+        ],
+        "default": "756/957",
+        "info": "The image ratio every product card is cropped to"
+      },
+      {
+        "type": "header",
+        "content": "Spacing"
+      },
+      {
+        "type": "range",
+        "id": "card_gap",
+        "label": "Space between images",
+        "min": 0,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "default": 6,
+        "info": "The gap in the grid itself. Keep it small for a tight field of images — the text keeps its own space below."
+      },
+      {
+        "type": "range",
+        "id": "card_text_inset",
+        "label": "Info padding (right)",
+        "min": 0,
+        "max": 60,
+        "step": 2,
+        "unit": "px",
+        "default": 18,
+        "info": "Horizontal room the text keeps to its right so one card's price never meets the next card's title. Raise this, not the gap, if they crowd."
+      },
+      {
+        "type": "range",
+        "id": "card_text_top",
+        "label": "Info padding (top)",
+        "min": 0,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "default": 14,
+        "info": "Space between the image and the text below it"
+      },
+      {
+        "type": "range",
+        "id": "card_text_space",
+        "label": "Info padding (bottom)",
+        "min": 0,
+        "max": 60,
+        "step": 2,
+        "unit": "px",
+        "default": 26,
+        "info": "Room under the text before the next row of images"
+      },
+      {
+        "type": "header",
+        "content": "Colour swatches"
+      },
+      {
+        "type": "range",
+        "id": "swatch_size",
+        "label": "Swatch size",
+        "min": 10,
+        "max": 30,
+        "step": 1,
+        "unit": "px",
+        "default": 16
+      },
+      {
+        "type": "range",
+        "id": "swatch_size_pdp",
+        "label": "Swatch size (product page)",
+        "min": 12,
+        "max": 40,
+        "step": 1,
+        "unit": "px",
+        "default": 22
+      },
+      {
+        "type": "range",
+        "id": "swatch_gap",
+        "label": "Space between swatches",
+        "min": 2,
+        "max": 24,
+        "step": 1,
+        "unit": "px",
+        "default": 8
+      },
+      {
+        "type": "range",
+        "id": "swatch_margin",
+        "label": "Space above the swatches",
+        "min": 0,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "default": 10
+      }
+    ]
+  },
+  {
     "name": "Animations",
     "settings": [
       {

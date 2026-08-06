@@ -418,12 +418,27 @@
         var image = swatch.getAttribute('data-variant-image');
         var imageAlt = swatch.getAttribute('data-variant-image-alt');
         var price = swatch.getAttribute('data-variant-price');
+        var compare = swatch.getAttribute('data-variant-compare');
         var href = swatch.getAttribute('href');
+
+        /* compare-at can be set on one colour and not another, so the pair
+           has to move together — a stale strike-through reads as a lie */
+        var setCompare = function (el) {
+          if (!el) return;
+          if (compare) {
+            el.textContent = compare;
+            el.hidden = false;
+          } else {
+            el.textContent = '';
+            el.hidden = true;
+          }
+        };
 
         if (onCard) {
           swapImage(onCard.querySelector('.product-card__image, .image-card__media'), image, imageAlt);
           var cardPrice = onCard.querySelector('[data-card-price]');
           if (cardPrice && price) cardPrice.textContent = price;
+          setCompare(onCard.querySelector('[data-card-compare]'));
           /* the card itself must now open the colour the shopper picked */
           onCard.querySelectorAll('[data-card-link]').forEach(function (link) {
             link.setAttribute('href', href);
@@ -435,6 +450,7 @@
         swapImage(document.querySelector('.main-product__media-item--hero img'), image, imageAlt);
         var atcPrice = document.querySelector('[data-atc-price]');
         if (atcPrice && price) atcPrice.textContent = price;
+        setCompare(document.querySelector('[data-pdp-compare]'));
         var idInput = form ? form.querySelector('[data-variant-id]') : null;
         if (idInput) idInput.value = swatch.getAttribute('data-variant-id');
         var available = swatch.getAttribute('data-variant-available') === 'true';

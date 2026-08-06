@@ -42,6 +42,10 @@
       {%- liquid
         assign target = value.variant
         assign hex = ''
+        assign is_current = value.selected
+        if product.selected_or_first_available_variant.id == target.id
+          assign is_current = true
+        endif
 
         comment
           Three sources, most native first. 1) the option value's own swatch,
@@ -83,11 +87,14 @@
           data-variant-id="{{ target.id }}"
           data-variant-available="{{ target.available }}"
           data-variant-price="{{ target.price | money | escape }}"
+          {% if target.compare_at_price > target.price %}
+            data-variant-compare="{{ target.compare_at_price | money | escape }}"
+          {% endif %}
           {% if variant_image %}
             data-variant-image="{{ variant_image | image_url: width: 1500 }}"
             data-variant-image-alt="{{ variant_image.alt | escape }}"
           {% endif %}
-          {% if value.selected %}
+          {% if is_current %}
             aria-current="true"
           {% endif %}
           style="

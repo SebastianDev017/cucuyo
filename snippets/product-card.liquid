@@ -57,29 +57,40 @@
       {%- endif -%}
     </div>
 
+    {%- comment -%}
+      Name, subtitle and category stack on the left; price and compare-at sit
+      opposite them on ONE line. Both come from the shown variant rather than
+      the product, because compare-at can differ per colour — theme.js swaps
+      the pair when a swatch is picked. The swatches themselves are links and
+      so live outside this one, below the category.
+    {%- endcomment -%}
+    {%- assign shown = product.selected_or_first_available_variant -%}
     <div class="product-card__info">
       <div class="product-card__row">
-        <h3 class="product-card__title">{{ product.title }}</h3>
-        {%- if price_visible -%}
-          <span class="product-card__price" data-card-price>
-            {%- if product.price_varies -%}
-              {%- assign from_price = product.price_min | money -%}
-              {{ 'products.from_price' | t: price: from_price }}
-            {%- else -%}
-              {{ product.price | money }}
+        <div class="product-card__text">
+          <h3 class="product-card__title">{{ product.title }}</h3>
+
+          {% render 'product-subtitle', product: product, class: 'product-card__subtitle' %}
+
+          {%- if show_collection -%}
+            {%- capture card_category %}{% render 'product-category', product: product %}{% endcapture -%}
+            {%- if card_category != blank -%}
+              <p class="product-card__collection">{{ card_category }}</p>
             {%- endif -%}
-          </span>
+          {%- endif -%}
+        </div>
+
+        {%- if price_visible -%}
+          <p class="product-card__prices">
+            <span class="product-card__price" data-card-price>{{ shown.price | money }}</span>
+            {%- if shown.compare_at_price > shown.price -%}
+              <s class="product-card__compare" data-card-compare>{{ shown.compare_at_price | money }}</s>
+            {%- else -%}
+              <s class="product-card__compare" data-card-compare hidden></s>
+            {%- endif -%}
+          </p>
         {%- endif -%}
       </div>
-
-      {% render 'product-subtitle', product: product, class: 'product-card__subtitle' %}
-
-      {%- if show_collection -%}
-        {%- capture card_category %}{% render 'product-category', product: product %}{% endcapture -%}
-        {%- if card_category != blank -%}
-          <p class="product-card__collection">{{ card_category }}</p>
-        {%- endif -%}
-      {%- endif -%}
     </div>
   </a>
 

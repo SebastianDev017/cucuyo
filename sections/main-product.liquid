@@ -134,6 +134,19 @@
               <span data-atc-label>{{ 'products.add_to_cart' | t }}</span>
               <span class="button--atc__divider" data-atc-divider aria-hidden="true"></span>
               <span data-atc-price aria-live="polite">{{ current_variant.price | money }}</span>
+              {%- comment -%}
+                Compare-at rides with the price so a colour that is on sale
+                says so here too, not only on the card that led here.
+              {%- endcomment -%}
+              <s
+                class="button--atc__compare"
+                data-pdp-compare
+                {% unless current_variant.compare_at_price > current_variant.price %}
+                  hidden
+                {% endunless %}
+              >
+                {{- current_variant.compare_at_price | money -}}
+              </s>
             {%- else -%}
               <span data-atc-label>{{ 'products.sold_out' | t }}</span>
               <span class="button--atc__divider" data-atc-divider aria-hidden="true" hidden></span>

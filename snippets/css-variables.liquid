@@ -58,5 +58,22 @@
 
     --heading-scale: {{ settings.heading_scale | default: 100 | divided_by: 100.0 }};
     --body-scale: {{ settings.body_scale | default: 100 | divided_by: 100.0 }};
+
+    {%- comment -%}
+      Product cards. The gap and the text inset are deliberately separate
+      knobs: the gap is the space between IMAGES, the inset is the space the
+      text keeps to its right. Tightening the grid without raising the inset
+      is what makes one card's price meet the next card's title.
+    {%- endcomment -%}
+    --card-ratio: {{ settings.card_shape | default: '756/957' }};
+    --card-gap: {{ settings.card_gap | default: 6 }}px;
+    --card-text-inset: {{ settings.card_text_inset | default: 18 }}px;
+    --card-text-top: {{ settings.card_text_top | default: 14 }}px;
+    --card-text-space: {{ settings.card_text_space | default: 26 }}px;
+
+    --swatch-size: {{ settings.swatch_size | default: 16 }}px;
+    --swatch-size-pdp: {{ settings.swatch_size_pdp | default: 22 }}px;
+    --swatch-gap: {{ settings.swatch_gap | default: 8 }}px;
+    --swatch-margin: {{ settings.swatch_margin | default: 10 }}px;
   }
 {% endstyle %}
