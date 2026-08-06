@@ -12,11 +12,15 @@
     skips shopify_attributes and hides it from assistive tech / tab order so
     screen readers and keyboards don't hit duplicate links
   @param {boolean} [show_collection] - render the product's first collection
-    title under the overlaid label (11px caps, muted); only applies when the
-    card resolves to a product; defaults to false
+    title under the label (11px caps, muted); only applies when the card
+    resolves to a product; defaults to false
+  @param {boolean} [label_below] - place the label under the image instead of
+    overlaid on it. Used for auto-sourced product cards, whose photography
+    can be pale or dark with no merchant-picked tone to rely on, so an
+    overlaid label is not reliably legible. Curated blocks keep the overlay.
   @example
   {% render 'featured-card', block: block %}
-  {% render 'featured-card', card_product: product %}
+  {% render 'featured-card', card_product: product, label_below: true %}
 {% enddoc %}
 
 {%- liquid
@@ -34,7 +38,7 @@
 {%- if card_url != blank -%}
   <a
     href="{{ card_url }}"
-    class="image-card{% if is_filler %} image-card--filler{% endif %}"
+    class="image-card{% if label_below %} image-card--stacked{% endif %}{% if is_filler %} image-card--filler{% endif %}"
     {% if is_filler %}
       aria-hidden="true" tabindex="-1"
     {% else %}
@@ -43,7 +47,7 @@
   >
 {%- else -%}
   <div
-    class="image-card{% if is_filler %} image-card--filler{% endif %}"
+    class="image-card{% if label_below %} image-card--stacked{% endif %}{% if is_filler %} image-card--filler{% endif %}"
     {% if is_filler %}
       aria-hidden="true"
     {% else %}
@@ -52,6 +56,7 @@
   >
 {%- endif -%}
 
+<span class="image-card__frame">
 {%- if card_image == blank and cp.featured_media -%}
   {{-
     cp.featured_media
@@ -72,12 +77,16 @@
     alt: card_label
   %}
 {%- endif -%}
+</span>
 
 {%- if card_label != blank -%}
-  <span class="image-card__label{% if block.settings.label_tone == 'light' %} image-card__label--light{% endif %}">
+  <span class="image-card__label{% if label_below %} image-card__label--below{% elsif block.settings.label_tone == 'light' %} image-card__label--light{% endif %}">
     {{- card_label | escape | newline_to_br -}}
-    {%- if show_collection and cp and cp.collections.first -%}
-      <span class="image-card__collection">{{ cp.collections.first.title }}</span>
+    {%- if show_collection and cp -%}
+      {%- capture card_category %}{% render 'product-category', product: cp %}{% endcapture -%}
+      {%- if card_category != blank -%}
+        <span class="image-card__collection">{{ card_category }}</span>
+      {%- endif -%}
     {%- endif -%}
   </span>
 {%- endif -%}

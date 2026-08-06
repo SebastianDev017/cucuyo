@@ -27,7 +27,7 @@
   /* Card grids — soft rise as each row enters. `once` + a generous start line;
      cards live mid-page, never at the absolute document bottom. */
   function initCards() {
-    var cards = gsap.utils.toArray('.image-card, .image-band');
+    var cards = gsap.utils.toArray('.image-card, .image-band, .product-card');
     if (!cards.length) return;
     cards.forEach(function (el) {
       gsap.from(el, {

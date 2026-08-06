@@ -4,7 +4,7 @@
   an image; the draft asset fills in while neither is selected. Optional link.
 {%- endcomment -%}
 
-<section class="image-band">
+<section class="image-band" data-header-tone="{{ section.settings.header_tone }}">
   {%- if section.settings.link != blank -%}<a href="{{ section.settings.link }}">{%- endif -%}
   {%- if section.settings.video -%}
     {%- comment -%}
@@ -49,6 +49,17 @@
   "name": "Highlighted content",
   "tag": "section",
   "settings": [
+    {
+      "type": "select",
+      "id": "header_tone",
+      "label": "Header ink over this section",
+      "options": [
+        { "value": "light", "label": "Light (over dark imagery)" },
+        { "value": "ink", "label": "Ink (over pale imagery)" }
+      ],
+      "default": "light",
+      "info": "Home only — the header has no background, so its colour follows the section passing under it"
+    },
     {
       "type": "video",
       "id": "video",

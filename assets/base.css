@@ -252,6 +252,16 @@ body:not(.template-index) .site-header__burger {
   color: var(--color-ink);
 }
 
+/* Home keeps the transparent header over full-bleed imagery, so its ink has
+   to follow whatever is passing underneath: each home section declares a
+   tone and theme.js flips this class as the header band crosses it. Without
+   JS the header simply keeps the light tone the hero is built for. */
+body.template-index.header-ink .site-header__logo,
+body.template-index.header-ink .site-header__link,
+body.template-index.header-ink .site-header__burger {
+  color: var(--color-ink);
+}
+
 /* On every page except home the wordmark centers on the CONTENT AREA's axis
    (between the sidebar gutter and the page margin — the same bounds the
    grids and headings use), not the viewport. Home keeps the full-viewport
@@ -537,8 +547,15 @@ html.nav-drawer-open body {
 .image-card {
   position: relative;
   display: block;
-  overflow: clip;
   text-decoration: none;
+}
+
+/* The frame is what clips the hover zoom, so a label sitting BELOW the image
+   never gets covered when the media scales. */
+.image-card__frame {
+  display: block;
+  height: 100%;
+  overflow: clip;
 }
 
 /* Auto-fill repeats only make sense at desktop column counts — on mobile
@@ -580,6 +597,29 @@ html.nav-drawer-open body {
 .image-card__label--light,
 .home-hero__label--light {
   color: var(--color-on-image);
+}
+
+/* Auto-sourced product cards ("Pair it with") carry merchant photography of
+   unknown tone — an overlaid label lands on whatever the photo happens to
+   be, and measured 2.1:1 on a dark one. Those cards put the label under the
+   image on the page background instead: always legible, and no scrim or
+   shadow, which the brand does not use. Curated blocks keep the overlay
+   with the tone the merchant picked. */
+.image-card--stacked {
+  display: flex;
+  flex-direction: column;
+}
+
+.image-card--stacked .image-card__frame {
+  height: auto;
+  flex: 0 0 auto;
+}
+
+.image-card__label--below {
+  position: static;
+  max-width: none;
+  margin-top: 14px;
+  color: var(--color-ink);
 }
 
 /* Optional collection line under the overlaid card label (11px caps, same
@@ -1134,10 +1174,10 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
 }
 
 /* Product gallery — every image after the hero, stacked in the media
-   column at full column width. Height follows each image's own aspect
-   ratio (--ar, reserved up front so nothing shifts on load): no cropping,
-   no fixed row height, no justification. Editorial rule — a photograph is
-   never cut. Rendered only when the product has 2+ images. */
+   column at full column width. Height is auto: the ratio comes from the
+   image's own width/height attributes, so it is exact (no cropping, no
+   stretching) and the space is still reserved before load (no shift).
+   Editorial rule — a photograph is never cut. Only when 2+ images. */
 .pdp-gallery {
   display: grid;
   gap: var(--grid-gap);
@@ -1147,7 +1187,6 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: var(--ar, 1);
 }
 
 /* Accordions — 1px accent hairlines above and below each row, small-caps

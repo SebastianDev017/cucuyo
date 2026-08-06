@@ -32,6 +32,47 @@
     }
   }
 
+  /* Home only: the header is deliberately transparent over full-bleed
+     imagery, so its ink has to follow whatever section is passing under it.
+     Each home section declares data-header-tone; the probe sits at the
+     vertical middle of the header's text block. Inner pages keep their
+     static ink and never enter here. Failure mode is the light tone the
+     hero is built for, so the hero always reads correctly. */
+  function initHeaderTone() {
+    if (!document.body.classList.contains('template-index')) return;
+    var zones = Array.prototype.slice.call(document.querySelectorAll('[data-header-tone]'));
+    if (!zones.length) return;
+
+    var PROBE = 120;
+    var ticking = false;
+    var apply = function () {
+      ticking = false;
+      var tone = 'light';
+      for (var i = 0; i < zones.length; i++) {
+        var rect = zones[i].getBoundingClientRect();
+        if (rect.top <= PROBE && rect.bottom > PROBE) {
+          tone = zones[i].getAttribute('data-header-tone') || 'light';
+          break;
+        }
+      }
+      document.body.classList.toggle('header-ink', tone === 'ink');
+    };
+    var schedule = function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(apply);
+    };
+
+    apply();
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+    window.addEventListener('pageshow', schedule);
+    document.addEventListener('shopify:section:load', function () {
+      zones = Array.prototype.slice.call(document.querySelectorAll('[data-header-tone]'));
+      schedule();
+    });
+  }
+
   /* Mobile navigation drawer (native <dialog>: focus trap, Esc close and
      focus return to the trigger are built in). We add page scroll locking —
      Lenis owns wheel scrolling, so it gets stopped too — and close the
@@ -252,6 +293,7 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     trackHeaderHeight();
+    initHeaderTone();
     initDrawer();
     initAutoplayVideos();
     initCartCount();

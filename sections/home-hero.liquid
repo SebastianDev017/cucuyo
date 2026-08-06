@@ -4,7 +4,7 @@
   in a corner of each image (e.g. "PETRA VASE"). Stacks on mobile.
 {%- endcomment -%}
 
-<section class="home-hero">
+<section class="home-hero" data-header-tone="{{ section.settings.header_tone }}">
   <div class="home-hero__grid">
     {%- for block in section.blocks -%}
       <div class="home-hero__cell" {{ block.shopify_attributes }}>
@@ -38,6 +38,17 @@
       "type": "image",
       "name": "Image",
       "settings": [
+    {
+      "type": "select",
+      "id": "header_tone",
+      "label": "Header ink over this section",
+      "options": [
+        { "value": "light", "label": "Light (over dark imagery)" },
+        { "value": "ink", "label": "Ink (over pale imagery)" }
+      ],
+      "default": "light",
+      "info": "Home only — the header has no background, so its colour follows the section passing under it"
+    },
         {
           "type": "image_picker",
           "id": "image",

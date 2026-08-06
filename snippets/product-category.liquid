@@ -1,0 +1,36 @@
+{% doc %}
+  Resolves the collection that reads as a product's CATEGORY and renders it.
+
+  `product.collections.first` is not usable directly: it can return Shopify's
+  reserved `frontpage` bucket ("Home page"), which is a merchandising slot,
+  not a category — it produced breadcrumbs like "SHOP > HOME PAGE" and card
+  labels reading "HOME PAGE". This walks past frontpage (and the all-products
+  catch-all) to the first real collection, and renders nothing when there
+  isn't one, so nothing empty or misleading is ever printed.
+
+  @param {product} product - the product to read the collection from
+  @param {string} [as] - 'link' renders a separator + anchor for the
+    breadcrumb; anything else renders the plain title
+  @example
+  {% render 'product-category', product: product, as: 'link' %}
+  {% render 'product-category', product: product %}
+{% enddoc %}
+
+{%- liquid
+  assign category = null
+  for c in product.collections
+    unless c.handle == 'frontpage' or c.handle == 'all'
+      assign category = c
+      break
+    endunless
+  endfor
+-%}
+
+{%- if category -%}
+  {%- if as == 'link' -%}
+    <span class="breadcrumb__separator" aria-hidden="true">&gt;</span>
+    <a href="{{ category.url }}" class="breadcrumb__link">{{ category.title }}</a>
+  {%- else -%}
+    {{- category.title -}}
+  {%- endif -%}
+{%- endif -%}

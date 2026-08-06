@@ -24,7 +24,7 @@
   endif
 -%}
 
-<section class="home-grid">
+<section class="home-grid" data-header-tone="{{ section.settings.header_tone }}">
   <div
     class="card-grid{% if section.settings.flush %} card-grid--flush{% endif %}"
     style="--cols-desktop: {{ cols_desktop }}; --cols-mobile: {{ cols_mobile }};"
@@ -51,6 +51,17 @@
   "name": "Featured collection",
   "tag": "section",
   "settings": [
+    {
+      "type": "select",
+      "id": "header_tone",
+      "label": "Header ink over this section",
+      "options": [
+        { "value": "light", "label": "Light (over dark imagery)" },
+        { "value": "ink", "label": "Ink (over pale imagery)" }
+      ],
+      "default": "ink",
+      "info": "Home only — the header has no background, so its colour follows the section passing under it"
+    },
     {
       "type": "range",
       "id": "columns_desktop",

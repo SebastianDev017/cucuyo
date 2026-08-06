@@ -38,7 +38,7 @@
       {%- if product_images.size > 1 -%}
         <div class="pdp-gallery">
           {%- for media in product_images offset: 1 -%}
-            <div class="pdp-gallery__item" style="--ar: {{ media.aspect_ratio | default: 1 }};">
+            <div class="pdp-gallery__item">
               {{-
                 media
                 | image_url: width: 1500
@@ -57,12 +57,15 @@
       {%- if section.settings.show_breadcrumb -%}
         <nav class="breadcrumb" aria-label="{{ 'accessibility.breadcrumb' | t }}">
           <a href="{{ routes.all_products_collection_url }}" class="breadcrumb__link">{{ 'general.breadcrumb.shop' | t }}</a>
-          {%- liquid
-            assign crumb_collection = collection | default: product.collections.first
-          -%}
-          {%- if crumb_collection -%}
+          {%- comment -%}
+            When the visitor arrived through a collection, that collection is
+            the crumb. Otherwise fall back to the product's own category.
+          {%- endcomment -%}
+          {%- if collection -%}
             <span class="breadcrumb__separator" aria-hidden="true">&gt;</span>
-            <a href="{{ crumb_collection.url }}" class="breadcrumb__link">{{ crumb_collection.title }}</a>
+            <a href="{{ collection.url }}" class="breadcrumb__link">{{ collection.title }}</a>
+          {%- else -%}
+            {% render 'product-category', product: product, as: 'link' %}
           {%- endif -%}
         </nav>
       {%- endif -%}

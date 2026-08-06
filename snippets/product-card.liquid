@@ -55,8 +55,11 @@
     <div class="product-card__info">
       <div class="product-card__text">
         <h3 class="product-card__title">{{ product.title }}</h3>
-        {%- if show_collection and product.collections.first -%}
-          <p class="product-card__collection">{{ product.collections.first.title }}</p>
+        {%- if show_collection -%}
+          {%- capture card_category %}{% render 'product-category', product: product %}{% endcapture -%}
+          {%- if card_category != blank -%}
+            <p class="product-card__collection">{{ card_category }}</p>
+          {%- endif -%}
         {%- endif -%}
       </div>
       {%- if price_visible -%}
