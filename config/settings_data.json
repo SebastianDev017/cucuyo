@@ -19,9 +19,11 @@
     "body_scale": 90,
     "page_margin": 40,
     "grid_gap": 4,
+    "card_gap": 10,
     "swatch_size": 14,
     "swatch_size_pdp": 18,
-    "swatch_margin": 14,
+    "swatch_gap": 8,
+    "swatch_margin": 12,
     "enable_scroll_animations": true,
     "enable_smooth_scroll": true,
     "content_for_index": []
