@@ -160,7 +160,13 @@ a {
    -------------------------------------------------------------------------- */
 
 :root {
-  --nav-clearance: calc(var(--header-height, 320px) + 28px);
+  /* --header-height is how far the header reaches INTO the content column,
+     measured in theme.js — the wordmark, not the link column beside it (see
+     the note there). The 40px on top is the breathing room between the fixed
+     wordmark and the page's own first heading, which share a centre axis on
+     inner pages and read as one block when they sit closer. The 320px
+     fallback is the no-JS case, where the stacked column is still shown. */
+  --nav-clearance: calc(var(--header-height, 320px) + 40px);
   /* Horizontal twin of the clearance: the left gutter that keeps content
      clear of the sidebar link column (Figma: content starts at x283 on the
      1512 frame — the product page's mechanism, now shared). Collapses to
