@@ -1065,7 +1065,7 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
   gap: var(--grid-gap);
 }
 
-.main-product__media-item img {
+.main-product__media-item--hero img {
   width: 100%;
   height: 100%;
   aspect-ratio: var(--media-ratio, 4 / 5);
@@ -1133,47 +1133,21 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
   color: inherit;
 }
 
-/* Justified gallery — every product image after the hero, full content
-   width below the product block. Fixed-height rows (merchant range
-   setting): each image's basis comes from its own aspect ratio at the row
-   height, and flex-grow distributes the leftover proportionally so every
-   row lands edge to edge; object-fit absorbs the difference as a slight
-   horizontal crop. Rendered only when the product has 2+ images. */
+/* Product gallery — every image after the hero, stacked in the media
+   column at full column width. Height follows each image's own aspect
+   ratio (--ar, reserved up front so nothing shifts on load): no cropping,
+   no fixed row height, no justification. Editorial rule — a photograph is
+   never cut. Rendered only when the product has 2+ images. */
 .pdp-gallery {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   gap: var(--grid-gap);
-  margin-top: var(--grid-gap);
-}
-
-.pdp-gallery__item {
-  height: var(--gallery-row, 320px);
-  flex-grow: calc(var(--ar, 1) * 1000);
-  flex-basis: calc(var(--gallery-row, 320px) * var(--ar, 1));
-  min-width: 0;
-  overflow: clip;
 }
 
 .pdp-gallery__item img {
+  display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* A row holding exactly ONE image must not justify: it renders at its
-   natural ratio at the target height, no stretch, no crop. :only-child
-   covers the single-image gallery declaratively (works without JS);
-   theme.js marks lone rows inside multi-image galleries. Marking cannot
-   re-wrap rows — flex line breaking uses flex-basis, which never changes. */
-.pdp-gallery__item:only-child,
-.pdp-gallery__item--solo {
-  flex-grow: 0;
-}
-
-@media (max-width: 749px) {
-  .pdp-gallery__item {
-    height: calc(var(--gallery-row, 320px) * 0.7);
-  }
+  height: auto;
+  aspect-ratio: var(--ar, 1);
 }
 
 /* Accordions — 1px accent hairlines above and below each row, small-caps

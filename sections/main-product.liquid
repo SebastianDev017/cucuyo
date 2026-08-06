@@ -14,7 +14,7 @@
     <div class="main-product__media">
       {%- assign product_images = product.media | where: 'media_type', 'image' -%}
       {%- if product_images.size > 0 -%}
-        <div class="main-product__media-item">
+        <div class="main-product__media-item main-product__media-item--hero">
           {{-
             product_images.first
             | image_url: width: 1500
@@ -27,6 +27,29 @@
         </div>
       {%- else -%}
         <div class="main-product__media-item main-product__media-item--empty" aria-hidden="true"></div>
+      {%- endif -%}
+
+      {%- comment -%}
+        Gallery: every image after the hero, stacked in document order under
+        it, full column width, height from the image's own aspect ratio.
+        Nothing is ever cropped here — editorial rule. A single-image product
+        renders no gallery at all (no empty state, no placeholder).
+      {%- endcomment -%}
+      {%- if product_images.size > 1 -%}
+        <div class="pdp-gallery">
+          {%- for media in product_images offset: 1 -%}
+            <div class="pdp-gallery__item" style="--ar: {{ media.aspect_ratio | default: 1 }};">
+              {{-
+                media
+                | image_url: width: 1500
+                | image_tag:
+                  widths: '550, 750, 1100, 1500',
+                  sizes: '(min-width: 750px) 40vw, 100vw',
+                  loading: 'lazy'
+              -}}
+            </div>
+          {%- endfor -%}
+        </div>
       {%- endif -%}
     </div>
 
@@ -133,28 +156,6 @@
     </div>
   </div>
 
-  {%- comment -%}
-    Justified gallery: every image after the hero, full content width. The
-    hero column (~574px) is too narrow for justified rows at any sensible
-    row height, so the gallery expands below the product block instead.
-    A single-image product renders no gallery at all.
-  {%- endcomment -%}
-  {%- if product_images.size > 1 -%}
-    <div class="pdp-gallery" style="--gallery-row: {{ section.settings.gallery_row_height }}px;">
-      {%- for media in product_images offset: 1 -%}
-        <div class="pdp-gallery__item" style="--ar: {{ media.aspect_ratio | default: 1 }};">
-          {{-
-            media
-            | image_url: width: 1600
-            | image_tag:
-              widths: '400, 700, 1000, 1600',
-              sizes: '(min-width: 750px) 60vw, 100vw',
-              loading: 'lazy'
-          -}}
-        </div>
-      {%- endfor -%}
-    </div>
-  {%- endif -%}
 </section>
 
 {% schema %}
@@ -191,18 +192,8 @@
           "label": "Square"
         }
       ],
-      "default": "4/5"
-    },
-    {
-      "type": "range",
-      "id": "gallery_row_height",
-      "label": "Gallery row height",
-      "min": 200,
-      "max": 480,
-      "step": 20,
-      "unit": "px",
-      "default": 320,
-      "info": "Target height for the justified gallery rows (images after the first)"
+      "default": "4/5",
+      "info": "Applies to the hero image only — gallery images are never cropped"
     }
   ],
   "blocks": [

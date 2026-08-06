@@ -34,8 +34,7 @@
       "settings": {
         "show_breadcrumb": true,
         "show_vendor": false,
-        "media_ratio": "3/4",
-        "gallery_row_height": 200
+        "media_ratio": "3/4"
       }
     },
     "related": {

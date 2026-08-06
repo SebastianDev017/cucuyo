@@ -149,43 +149,6 @@
     });
   }
 
-  /* Justified gallery: a row holding exactly one image must not stretch to
-     the container edge. Rows are grouped by offsetTop and lone items get a
-     class that turns flex-grow off. Safe to re-run: line breaking depends
-     on flex-basis, which marking never touches. */
-  function initJustifiedGallery() {
-    var galleries = document.querySelectorAll('.pdp-gallery');
-    if (!galleries.length) return;
-
-    var mark = function (gallery) {
-      var items = Array.prototype.slice.call(gallery.querySelectorAll('.pdp-gallery__item'));
-      var rows = {};
-      items.forEach(function (item) {
-        item.classList.remove('pdp-gallery__item--solo');
-      });
-      items.forEach(function (item) {
-        var key = Math.round(item.offsetTop);
-        (rows[key] = rows[key] || []).push(item);
-      });
-      Object.keys(rows).forEach(function (key) {
-        if (rows[key].length === 1) rows[key][0].classList.add('pdp-gallery__item--solo');
-      });
-    };
-
-    galleries.forEach(function (gallery) {
-      mark(gallery);
-      if ('ResizeObserver' in window) {
-        new ResizeObserver(function () {
-          mark(gallery);
-        }).observe(gallery);
-      } else {
-        window.addEventListener('resize', function () {
-          mark(gallery);
-        });
-      }
-    });
-  }
-
   /* Live cart count: SSR-cached pages and bfcache restores (back button
      after an add to cart) can carry a stale number, so sync it from
      /cart.js on load and on every bfcache restore. */
@@ -291,7 +254,6 @@
     trackHeaderHeight();
     initDrawer();
     initAutoplayVideos();
-    initJustifiedGallery();
     initCartCount();
     initProductForms();
     initTabs();
