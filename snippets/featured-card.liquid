@@ -87,7 +87,34 @@
 
   {%- if card_label != blank -%}
     <span class="image-card__label{% if label_below %} image-card__label--below{% elsif block.settings.label_tone == 'light' %} image-card__label--light{% endif %}">
-      {{- card_label | escape | newline_to_br -}}
+      {%- comment -%}
+        Price and compare-at ride along on the stacked (product-sourced) card,
+        the same pair the grid card shows and read the same way: from the SHOWN
+        VARIANT, because compare-at can be set on one colour and not another.
+        theme.js finds [data-card-price]/[data-card-compare] inside any card
+        and swaps them together when a swatch is picked, so this inherits that
+        behaviour rather than repeating it.
+      {%- endcomment -%}
+      {%- if label_below and cp -%}
+        {%- assign shown = cp.selected_or_first_available_variant -%}
+        <span class="image-card__line">
+          <span class="image-card__name">{{ card_label | escape | newline_to_br }}</span>
+          <span class="image-card__prices">
+            <span class="image-card__price" data-card-price>{{ shown.price | money }}</span>
+            <s
+              class="image-card__compare"
+              data-card-compare
+              {% unless shown.compare_at_price > shown.price %}
+                hidden
+              {% endunless %}
+            >
+              {{- shown.compare_at_price | money -}}
+            </s>
+          </span>
+        </span>
+      {%- else -%}
+        {{- card_label | escape | newline_to_br -}}
+      {%- endif -%}
       {%- comment -%}
         The subtitle only joins the label where the label sits BELOW the
         image. Overlaid on a curated photo it would be a second line of text

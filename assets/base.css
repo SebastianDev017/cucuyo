@@ -1264,7 +1264,11 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
 
 /* Accordions — 1px accent hairlines above and below each row, small-caps
    label left, +/− marker right. No transitions (brand). */
-.main-product__accordions {
+/* The accordions are individual blocks now, so the group's top hairline and
+   its space belong to the first one rather than to a wrapper. They are the
+   only <details> in the info column, so :first-of-type is exactly "the first
+   accordion", wherever the merchant has dragged the other blocks. */
+.main-product__info > details.accordion:first-of-type {
   margin-top: 60px;
   border-top: 1px solid var(--color-accent);
 }
@@ -1434,13 +1438,23 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
   padding-bottom: var(--card-text-space);
 }
 
+/* NOT flex:1. Grid rows stretch every card to the tallest one, and a growing
+   link pushed the swatch row to the card's bottom, so the gap above the
+   swatches was simply whatever was left over — measured 0px under a two-line
+   title and 19px under a one-line one, in the same row. The leftover now
+   falls at the bottom of the card and the gap is a fixed --swatch-margin.
+   The oversized featured tile still grows, because there the point IS for its
+   image to fill the two rows it spans. */
 .product-card__link {
   display: flex;
   flex-direction: column;
-  flex: 1;
-  min-height: 0;
   text-decoration: none;
   color: inherit;
+}
+
+.collection-grid .product-card--featured .product-card__link {
+  flex: 1;
+  min-height: 0;
 }
 
 .product-card__media img,
@@ -1878,7 +1892,7 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
     margin-bottom: 32px;
   }
 
-  .main-product__accordions {
+  .main-product__info > details.accordion:first-of-type {
     margin-top: 40px;
   }
 
@@ -1974,7 +1988,7 @@ html.lenis {
   flex-wrap: wrap;
   align-items: center;
   gap: var(--swatch-gap, 13px);
-  margin: var(--swatch-margin, 10px) 0 0;
+  margin: var(--swatch-margin, 16px) 0 0;
   padding: 0;
   list-style: none;
 }
@@ -2032,7 +2046,9 @@ html.lenis {
 
 .swatches--pdp {
   --swatch-size: var(--swatch-size-pdp, 22px);
-  margin-top: calc(var(--swatch-margin, 10px) * 2);
+  /* set by the Variant picker block, not by the card settings — see
+     snippets/pdp-block */
+  margin-top: var(--pdp-swatch-space, 26px);
 }
 
 /* --------------------------------------------------------------------------
@@ -2044,4 +2060,37 @@ html.lenis {
   font-size: calc(0.9375rem * var(--body-scale, 1));
   line-height: 1.5;
   color: var(--color-muted);
+}
+
+/* Stacked (product-sourced) card: name on the left, price pair opposite —
+   the same reading as the grid card. */
+.image-card__line {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.image-card__name {
+  min-width: 0;
+}
+
+.image-card__prices {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  white-space: nowrap;
+  font-family: var(--font-body);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.image-card__compare {
+  text-decoration: line-through;
+  color: var(--color-muted);
+}
+
+.image-card__compare[hidden] {
+  display: none;
 }

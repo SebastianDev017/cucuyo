@@ -1,0 +1,166 @@
+{% doc %}
+  One piece of the product page's info column, rendered by type.
+
+  It exists so the block loop and the legacy fallback in main-product can
+  share exactly the same markup instead of keeping two copies in step. The
+  media column is NOT here: it lives in its own grid column (and the gallery
+  in its own grid row), so the section places those directly.
+
+  @param {string} type - breadcrumb | title | variant_picker | description |
+    accordion | add_to_cart
+  @param {product} product - the product being shown
+  @param {object} [block] - the section block, when one drives this piece;
+    supplies its settings and shopify_attributes for the editor
+  @param {object} [section] - the section, for settings and id
+  @example
+  {% render 'pdp-block', type: 'title', product: product, block: block %}
+{% enddoc %}
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+
+{%- case type -%}
+  {%- when 'breadcrumb' -%}
+    <nav class="breadcrumb" aria-label="{{ 'accessibility.breadcrumb' | t }}" {{ block.shopify_attributes }}>
+      <a href="{{ routes.all_products_collection_url }}" class="breadcrumb__link">{{ 'general.breadcrumb.shop' | t }}</a>
+      {%- comment -%}
+        When the visitor arrived through a collection, that collection is the
+        crumb. Otherwise fall back to the product's own category.
+      {%- endcomment -%}
+      {%- if collection -%}
+        <span class="breadcrumb__separator" aria-hidden="true">&gt;</span>
+        <a href="{{ collection.url }}" class="breadcrumb__link">{{ collection.title }}</a>
+      {%- else -%}
+        {% render 'product-category', product: product, as: 'link' %}
+      {%- endif -%}
+    </nav>
+
+  {%- when 'title' -%}
+    <div class="main-product__heading" {{ block.shopify_attributes }}>
+      {%- if section.settings.show_vendor and product.vendor != blank -%}
+        <p class="main-product__vendor type-label">{{ product.vendor }}</p>
+      {%- endif -%}
+      <h1 class="main-product__title">{{ product.title }}</h1>
+      {% render 'product-subtitle', product: product, class: 'main-product__subtitle' %}
+    </div>
+
+  {%- when 'variant_picker' -%}
+    {%- comment -%}
+      Its own spacing setting: this sits between the title and the swatches on
+      the product page, which is a different gap from the one on a grid card
+      (Theme settings → Product cards) even though both move swatches.
+    {%- endcomment -%}
+    <div
+      class="main-product__variants"
+      style="--pdp-swatch-space: {{ block.settings.spacing_top | default: 26 }}px;"
+      {{ block.shopify_attributes }}
+    >
+      {% render 'color-swatches', product: product, context: 'pdp' %}
+    </div>
+
+  {%- when 'description' -%}
+    {%- if product.description != blank -%}
+      <div class="main-product__description rte" {{ block.shopify_attributes }}>{{ product.description }}</div>
+    {%- endif -%}
+
+  {%- when 'accordion' -%}
+    <details class="accordion" {{ block.shopify_attributes }}>
+      <summary class="accordion__summary">
+        <span class="accordion__title">{{ block.settings.title }}</span>
+        <span class="accordion__icon" aria-hidden="true"></span>
+      </summary>
+      <div class="accordion__content rte">{{ block.settings.content }}</div>
+    </details>
+
+  {%- when 'add_to_cart' -%}
+    <div
+      class="main-product__form"
+      data-product-form
+      data-add-text="{{ 'products.add_to_cart' | t | escape }}"
+      data-sold-out-text="{{ 'products.sold_out' | t | escape }}"
+      data-unavailable-text="{{ 'products.unavailable' | t | escape }}"
+      {{ block.shopify_attributes }}
+    >
+      {%- comment -%}
+        Colour is picked by the swatches, and each of those is a link to that
+        variant's own URL — with no JS the click navigates and Shopify renders
+        this page with the variant already selected, so the hidden id below is
+        correct server-side without any script. theme.js keeps it in sync when
+        it upgrades those links into in-place updates. A product with a SECOND
+        option (size, material) still needs a real control, so it falls back
+        to the select; only one of the two ever carries name="id".
+      {%- endcomment -%}
+      {%- liquid
+        assign needs_select = false
+        if product.has_only_default_variant == false and product.options.size > 1
+          assign needs_select = true
+        endif
+      -%}
+      {%- form 'product', product, class: 'product-form' -%}
+        {%- if needs_select -%}
+          <label class="visually-hidden" for="Variants-{{ section.id }}">{{ 'products.select_variant' | t }}</label>
+          <select id="Variants-{{ section.id }}" name="id" class="main-product__variant-select" data-variant-select>
+            {%- for variant in product.variants -%}
+              <option
+                value="{{ variant.id }}"
+                {% if variant == current_variant %}
+                  selected
+                {% endif %}
+                {% unless variant.available %}
+                  disabled
+                {% endunless %}
+              >
+                {{ variant.title }}
+                {%- unless variant.available %} — {{ 'products.sold_out' | t }}{% endunless %}
+              </option>
+            {%- endfor -%}
+          </select>
+        {%- else -%}
+          <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
+        {%- endif -%}
+
+        <button
+          type="submit"
+          class="button button--atc"
+          data-add-button
+          {% unless current_variant.available %}
+            disabled
+          {% endunless %}
+        >
+          {%- if current_variant.available -%}
+            <span data-atc-label>{{ 'products.add_to_cart' | t }}</span>
+            <span class="button--atc__divider" data-atc-divider aria-hidden="true"></span>
+            <span data-atc-price aria-live="polite">{{ current_variant.price | money }}</span>
+            {%- comment -%}
+              Compare-at rides with the price so a colour that is on sale says
+              so here too, not only on the card that led here.
+            {%- endcomment -%}
+            <s
+              class="button--atc__compare"
+              data-pdp-compare
+              {% unless current_variant.compare_at_price > current_variant.price %}
+                hidden
+              {% endunless %}
+            >
+              {{- current_variant.compare_at_price | money -}}
+            </s>
+          {%- else -%}
+            <span data-atc-label>{{ 'products.sold_out' | t }}</span>
+            <span class="button--atc__divider" data-atc-divider aria-hidden="true" hidden></span>
+            <span data-atc-price aria-live="polite" hidden></span>
+          {%- endif -%}
+        </button>
+      {%- endform -%}
+
+      <script type="application/json" data-variant-data>
+        [
+          {%- for variant in product.variants -%}
+            {
+              "id": {{ variant.id | json }},
+              "available": {{ variant.available | json }},
+              "price": {{ variant.price | money | json }}
+            }{% unless forloop.last %},{% endunless %}
+          {%- endfor -%}
+        ]
+      </script>
+    </div>
+{%- endcase -%}
