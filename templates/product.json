@@ -53,6 +53,12 @@
         "add_to_cart": {
           "type": "add_to_cart",
           "settings": {}
+        },
+        "details": {
+          "type": "product_details",
+          "settings": {
+            "title": "Product Details"
+          }
         }
       },
       "block_order": [
@@ -63,7 +69,8 @@
         "description",
         "shipping",
         "ask",
-        "add_to_cart"
+        "add_to_cart",
+        "details"
       ],
       "settings": {
         "show_vendor": false,
