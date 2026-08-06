@@ -20,6 +20,7 @@
     "page_margin": 40,
     "grid_gap": 4,
     "card_gap": 10,
+    "card_text_inset": 20,
     "swatch_size": 14,
     "swatch_size_pdp": 18,
     "swatch_gap": 5,
