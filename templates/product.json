@@ -15,7 +15,7 @@
         "media": {
           "type": "media",
           "settings": {
-            "media_ratio": "3/4"
+            "media_ratio": "4/5"
           }
         },
         "breadcrumb": {
@@ -105,7 +105,9 @@
         "left",
         "right"
       ],
-      "settings": {}
+      "settings": {
+        "header_tone": "light"
+      }
     },
     "grid_pair": {
       "type": "home-grid",
@@ -136,6 +138,7 @@
         "stool"
       ],
       "settings": {
+        "header_tone": "ink",
         "columns_desktop": 2,
         "columns_mobile": "1",
         "flush": false,
