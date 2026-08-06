@@ -534,13 +534,25 @@ html.nav-drawer-open body {
 
 /* Column counts come from section settings via CSS vars (desktop 2-5,
    mobile 1-2), emitted inline by the section. */
+/* minmax(0, 1fr), not 1fr: a bare 1fr track cannot shrink below its content's
+   min-content width, so long product titles pushed the tracks past the
+   container and the page scrolled sideways. */
 .card-grid {
-  grid-template-columns: repeat(var(--cols-mobile, 1), 1fr);
+  grid-template-columns: repeat(var(--cols-mobile, 1), minmax(0, 1fr));
 }
 
 @media (min-width: 750px) {
   .card-grid {
-    grid-template-columns: repeat(var(--cols-desktop, 3), 1fr);
+    grid-template-columns: repeat(var(--cols-desktop, 3), minmax(0, 1fr));
+  }
+}
+
+/* Tablet (750-989): the sidebar gutter leaves a 500-730px content band, far
+   too narrow for the desktop column count — four columns landed at ~110px.
+   Two across the whole range, whatever the merchant picked for desktop. */
+@media (min-width: 750px) and (max-width: 989.98px) {
+  .card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -786,11 +798,13 @@ html.nav-drawer-open body {
   color: var(--color-ink);
 }
 
-/* Tablet range (750-989): the footer stacks, but the link columns kept their
-   desktop max-content tracks and the newsletter its 420px cap, so everything
-   hugged the left edge with dead space on the right. Fluid 1fr tracks and a
-   full-width newsletter fill the section across the whole range. */
-@media (max-width: 989px) {
+/* The three-across footer needs 1196px to hold its own minimums (96 mark +
+   56 gap + 488 link columns + 56 gap + 420 newsletter + 80 page margin), so
+   it stacks below that, not at 990 — between the two the newsletter pushed
+   past the right edge and the whole page scrolled sideways. Stacked, the
+   link columns take fluid 1fr tracks and the newsletter the full width, so
+   nothing hugs the left with dead space beside it. */
+@media (max-width: 1199.98px) {
   .site-footer__inner {
     grid-template-columns: 1fr;
     gap: 40px;
