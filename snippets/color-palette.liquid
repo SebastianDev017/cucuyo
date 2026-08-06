@@ -1,0 +1,116 @@
+{% doc %}
+  Resolves a colour NAME to a hex, from one shared palette for the whole
+  theme. 40 standard US e-commerce colour names — the list is defined once
+  here and never per product, so "Sage" is the same swatch on every card.
+
+  This is the FALLBACK. The real source of truth is Shopify's own swatch:
+  when the merchant links the Color option to the standard
+  `shopify.color-pattern` metafield, `option_value.swatch.color` carries the
+  taxonomy colour and that wins. A CSV import creates plain text option
+  values with no linked metaobject, so without this the swatches would be
+  blank until someone opened Admin.
+
+  Outputs nothing when the name is unknown — callers treat empty as "no
+  swatch" and fall back to the colour's name as text.
+
+  @param {string} name - the option value name, e.g. "Rust"
+  @example
+  {%- capture hex %}{% render 'color-palette', name: value.name %}{% endcapture -%}
+{% enddoc %}
+
+{%- liquid
+  assign key = name | downcase | strip | replace: ' ', '-'
+
+  case key
+    when 'black'
+      echo '#1C1A19'
+    when 'charcoal'
+      echo '#3A3735'
+    when 'slate'
+      echo '#5A6068'
+    when 'grey', 'gray'
+      echo '#8E8B87'
+    when 'silver'
+      echo '#C4C4C2'
+    when 'white'
+      echo '#FBFBF9'
+    when 'ivory'
+      echo '#F4EFE2'
+    when 'cream'
+      echo '#EDE4D3'
+    when 'bone'
+      echo '#E3DBCC'
+    when 'natural'
+      echo '#DCD2BE'
+    when 'beige'
+      echo '#D8C8B0'
+    when 'sand'
+      echo '#CDB89A'
+    when 'tan'
+      echo '#B99C7C'
+    when 'taupe'
+      echo '#A2917F'
+    when 'camel'
+      echo '#B08B5E'
+    when 'brown'
+      echo '#6F5240'
+    when 'chocolate'
+      echo '#4A3328'
+    when 'walnut'
+      echo '#5C4433'
+    when 'terracotta'
+      echo '#B4674A'
+    when 'clay'
+      echo '#A9613F'
+    when 'rust'
+      echo '#9A4A26'
+    when 'red'
+      echo '#A32B23'
+    when 'burgundy'
+      echo '#5E2029'
+    when 'blush'
+      echo '#E3C2BA'
+    when 'pink'
+      echo '#D99BA6'
+    when 'rose'
+      echo '#C4757F'
+    when 'coral'
+      echo '#D4715A'
+    when 'orange'
+      echo '#C96A2C'
+    when 'amber'
+      echo '#C08A34'
+    when 'mustard'
+      echo '#B8912F'
+    when 'yellow'
+      echo '#D8B740'
+    when 'olive'
+      echo '#6E6A3C'
+    when 'sage'
+      echo '#9AA688'
+    when 'green'
+      echo '#4F6B4A'
+    when 'forest'
+      echo '#2F4536'
+    when 'teal'
+      echo '#3B6B68'
+    when 'blue'
+      echo '#3F5F86'
+    when 'navy'
+      echo '#28374F'
+    when 'indigo'
+      echo '#3B3B63'
+    when 'lavender'
+      echo '#B0A6C0'
+    when 'purple'
+      echo '#6B4E77'
+    when 'gold'
+      echo '#B08D4A'
+    when 'brass'
+      echo '#A8873F'
+    when 'bronze'
+      echo '#8A6A42'
+    when 'copper'
+      echo '#9C5F3C'
+  endcase
+-%}

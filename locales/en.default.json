@@ -25,6 +25,9 @@
     "breadcrumb": {
       "shop": "Shop"
     },
+    "nav": {
+      "all": "All"
+    },
     "search": {
       "title": "Search",
       "placeholder": "Search our store",
@@ -80,7 +83,8 @@
     "unavailable": "Unavailable",
     "select_variant": "Select variant",
     "from_price": "From {{ price }}",
-    "notes": "Notes"
+    "notes": "Notes",
+    "color_options": "Colour"
   },
   "onboarding": {
     "product_title": "Example product"

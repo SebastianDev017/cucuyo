@@ -166,6 +166,14 @@ a {
      1512 frame — the product page's mechanism, now shared). Collapses to
      the page margin below 768px, where the header becomes the mobile bar. */
   --sidebar-gutter: clamp(220px, 18.7vw, 300px);
+
+  /* Card grid spacing, deliberately two separate knobs (see .card-grid):
+     --card-gap is the space between IMAGES, --card-text-inset is the space
+     the text block keeps to its right so adjacent cards' text never meets,
+     and --card-text-space is the room under the text before the next row. */
+  --card-gap: 6px;
+  --card-text-inset: 18px;
+  --card-text-space: 26px;
 }
 
 @media (max-width: 767.98px) {
@@ -559,7 +567,14 @@ html.nav-drawer-open body {
 .image-card {
   position: relative;
   display: block;
+}
+
+/* The link covers image + label only; the swatches are links of their own and
+   cannot be nested inside it (see featured-card.liquid). */
+.image-card__link {
+  display: block;
   text-decoration: none;
+  color: inherit;
 }
 
 /* The frame is what clips the hover zoom, so a label sitting BELOW the image
@@ -622,6 +637,11 @@ html.nav-drawer-open body {
   flex-direction: column;
 }
 
+.image-card--stacked .image-card__link {
+  display: flex;
+  flex-direction: column;
+}
+
 .image-card--stacked .image-card__frame {
   height: auto;
   flex: 0 0 auto;
@@ -637,6 +657,18 @@ html.nav-drawer-open body {
 /* Optional collection line under the overlaid card label (11px caps, same
    voice as the breadcrumb). Muted on light backgrounds; over dark imagery
    it inherits the light tone slightly dimmed. */
+.image-card__subtitle {
+  display: block;
+  margin: 3px 0 0;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.8125rem;
+  letter-spacing: 0;
+  text-transform: none;
+  line-height: 1.45;
+  color: var(--color-muted);
+}
+
 .image-card__collection {
   display: block;
   margin-top: 3px;
@@ -1377,16 +1409,23 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
    title, worst with 2-line names. Overlay-label grids (home, Pair it with)
    keep the Figma hairline. */
 .card-grid.collection-grid {
-  gap: 40px 24px;
+  /* Two DIFFERENT spaces, tuned apart. The grid gap is the space between
+     IMAGES and is deliberately tight (hereustudio.com measures 1px), so the
+     photographs read as one continuous field. The space the text needs is
+     inside the card instead: .product-card__info insets its own right edge so
+     one card's price still clears the next card's title by ~24px even though
+     the pictures nearly touch. Changing the gap alone would re-open the
+     collision this inset exists to prevent. */
+  gap: var(--card-gap) var(--card-gap);
 }
 
-/* Product card — image tile with name + price on one line below, an
-   optional collection label under the name, and an empty slot reserved for
-   the future variant selector (deliberately blank: no swatches, no
-   selector, no placeholder text on this template). */
+/* Product card — image tile, then the text block: name + price on one line,
+   the short subtitle under it, and the colour swatches under that (they took
+   over the slot that used to be reserved empty for a selector). */
 .product-card {
   display: flex;
   flex-direction: column;
+  padding-bottom: var(--card-text-space);
 }
 
 .product-card__link {
@@ -1411,11 +1450,16 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
 }
 
 .product-card__info {
+  padding-top: 14px;
+  /* the text's own horizontal breathing room — see the note on .card-grid */
+  padding-inline-end: var(--card-text-inset);
+}
+
+.product-card__row {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
   gap: 12px;
-  padding-top: 10px;
 }
 
 .product-card__title {
@@ -1445,8 +1489,11 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
   color: var(--color-muted);
 }
 
-.product-card__slot {
-  min-height: 18px;
+.product-card__subtitle {
+  margin: 3px 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--color-muted);
 }
 
 /* Featured slot — the collection's first product (merchant sort order) spans
@@ -1823,4 +1870,142 @@ html.lenis {
 
 .lenis.lenis-smooth {
   scroll-behavior: auto !important;
+}
+
+/* --------------------------------------------------------------------------
+   Nav disclosure — the SHOP dropdown
+   Behaviour taken from a live reading of spartan-shop.com's COLLECTIONS menu:
+   collapsed by default, a click animates the panel's own HEIGHT open and
+   pushes the rest of the column down (it never floats over the page), a
+   second click or a click outside animates it shut. It is a real <details>,
+   so with no JS the toggle still works — only the animation is scripted.
+   -------------------------------------------------------------------------- */
+
+.nav-disclosure__summary {
+  display: block;
+  list-style: none;
+  cursor: pointer;
+}
+
+.nav-disclosure__summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Hairline chevron, rotated when open. No box, no background — the header has
+   neither, and the marker must read on light and dark imagery alike. */
+.nav-disclosure__marker {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-inline-start: 8px;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transform-origin: center;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-disclosure[open] > .nav-disclosure__summary .nav-disclosure__marker {
+  transform: translateY(1px) rotate(-135deg);
+}
+
+/* The panel is what animates. Height is driven from theme.js (0 → measured →
+   auto), so overflow has to be clipped for the duration of the run. */
+.nav-disclosure__panel {
+  overflow: hidden;
+}
+
+.nav-disclosure__panel[data-animating] {
+  transition: height 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-disclosure__marker,
+  .nav-disclosure__panel[data-animating] {
+    transition: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Colour swatches
+   Circles under the title/price on every grid card and on the product page.
+   Each one is a link to a REAL variant of the same product.
+   -------------------------------------------------------------------------- */
+
+.swatches {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.swatch {
+  display: block;
+  width: var(--swatch-size, 16px);
+  height: var(--swatch-size, 16px);
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background-color: var(--swatch-color, transparent);
+  background-image: var(--swatch-image, none);
+  background-size: cover;
+  background-position: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Selected reads as a ring OUTSIDE the circle, so the colour itself is never
+   covered — outline rather than a border swap, which would resize it. */
+.swatch[aria-current='true'] {
+  outline: 1px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+.swatch--unavailable {
+  opacity: 0.4;
+}
+
+/* A colour with neither a linked swatch nor a palette entry falls back to its
+   own name rather than an empty circle. */
+.swatch__name {
+  display: block;
+  width: max-content;
+  padding: 0 4px;
+  font-family: var(--font-heading);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.swatch:has(.swatch__name) {
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  border-color: transparent;
+}
+
+/* Cards: the swatch row is the last thing in the card, inset like the text */
+.product-card .swatches,
+.image-card .swatches {
+  padding-inline-end: var(--card-text-inset);
+}
+
+.swatches--pdp {
+  --swatch-size: 22px;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+/* --------------------------------------------------------------------------
+   Product page subtitle
+   -------------------------------------------------------------------------- */
+
+.main-product__subtitle {
+  margin: 10px 0 0;
+  font-size: calc(0.9375rem * var(--body-scale, 1));
+  line-height: 1.5;
+  color: var(--color-muted);
 }

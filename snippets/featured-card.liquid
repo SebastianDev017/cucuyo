@@ -1,8 +1,13 @@
 {% doc %}
   One card of the Featured collection grid. Shared by the section's main
   block loop, its auto-fill loop (leftover cells in the last row are filled
-  by cycling the section's own cards), and the Related products section
-  (which passes a product directly instead of a block).
+  by cycling the section's own cards from the start), and the Related
+  products section (which passes a product directly instead of a block).
+
+  The card root is always an element that WRAPS the link rather than being
+  it: colour swatches are links themselves, and an anchor inside an anchor is
+  invalid HTML that browsers unnest, which would break both clicks. So the
+  link covers image + label, and the swatches sit beside it inside the card.
 
   @param {object} [block] - the card block (settings: product, image,
     draft_asset, label, label_tone, link)
@@ -35,64 +40,81 @@
     assign card_url = cp.url
   endif
 -%}
-{%- if card_url != blank -%}
-  <a
-    href="{{ card_url }}"
-    class="image-card{% if label_below %} image-card--stacked{% endif %}{% if is_filler %} image-card--filler{% endif %}"
-    {% if is_filler %}
-      aria-hidden="true" tabindex="-1"
-    {% else %}
-      {{ block.shopify_attributes }}
-    {% endif %}
-  >
-{%- else -%}
-  <div
-    class="image-card{% if label_below %} image-card--stacked{% endif %}{% if is_filler %} image-card--filler{% endif %}"
-    {% if is_filler %}
-      aria-hidden="true"
-    {% else %}
-      {{ block.shopify_attributes }}
-    {% endif %}
-  >
-{%- endif -%}
 
-<span class="image-card__frame">
-{%- if card_image == blank and cp.featured_media -%}
-  {{-
-    cp.featured_media
-    | image_url: width: 1200
-    | image_tag:
-      widths: '400, 700, 1000, 1200',
-      sizes: '(min-width: 750px) 33vw, 100vw',
-      class: 'image-card__media',
-      alt: card_label,
-      loading: 'lazy'
-  -}}
-{%- else -%}
-  {% render 'draft-image',
-    image: card_image,
-    draft_asset: block.settings.draft_asset,
-    img_class: 'image-card__media',
-    sizes: '(min-width: 750px) 33vw, 100vw',
-    alt: card_label
-  %}
-{%- endif -%}
-</span>
+<div
+  class="image-card{% if label_below %} image-card--stacked{% endif %}{% if is_filler %} image-card--filler{% endif %}"
+  {% if is_filler %}
+    aria-hidden="true"
+  {% else %}
+    {{ block.shopify_attributes }}
+  {% endif %}
+>
+  {%- if card_url != blank -%}
+    <a
+      href="{{ card_url }}"
+      class="image-card__link"
+      data-card-link
+      {% if is_filler %}
+        tabindex="-1"
+      {% endif %}
+    >
+  {%- else -%}
+    <span class="image-card__link">
+  {%- endif -%}
 
-{%- if card_label != blank -%}
-  <span class="image-card__label{% if label_below %} image-card__label--below{% elsif block.settings.label_tone == 'light' %} image-card__label--light{% endif %}">
-    {{- card_label | escape | newline_to_br -}}
-    {%- if show_collection and cp -%}
-      {%- capture card_category %}{% render 'product-category', product: cp %}{% endcapture -%}
-      {%- if card_category != blank -%}
-        <span class="image-card__collection">{{ card_category }}</span>
-      {%- endif -%}
+  <span class="image-card__frame">
+    {%- if card_image == blank and cp.featured_media -%}
+      {{-
+        cp.featured_media
+        | image_url: width: 1200
+        | image_tag:
+          widths: '400, 700, 1000, 1200',
+          sizes: '(min-width: 750px) 33vw, 100vw',
+          class: 'image-card__media',
+          alt: card_label,
+          loading: 'lazy'
+      -}}
+    {%- else -%}
+      {% render 'draft-image',
+        image: card_image,
+        draft_asset: block.settings.draft_asset,
+        img_class: 'image-card__media',
+        sizes: '(min-width: 750px) 33vw, 100vw',
+        alt: card_label
+      %}
     {%- endif -%}
   </span>
-{%- endif -%}
 
-{%- if card_url != blank -%}
-  </a>
-{%- else -%}
-  </div>
-{%- endif -%}
+  {%- if card_label != blank -%}
+    <span class="image-card__label{% if label_below %} image-card__label--below{% elsif block.settings.label_tone == 'light' %} image-card__label--light{% endif %}">
+      {{- card_label | escape | newline_to_br -}}
+      {%- comment -%}
+        The subtitle only joins the label where the label sits BELOW the
+        image. Overlaid on a curated photo it would be a second line of text
+        on unknown tone, and there the label is a design caption ("Petra
+        Vase") rather than the product name, so a subtitle would not follow.
+      {%- endcomment -%}
+      {%- if label_below and cp -%}
+        {% render 'product-subtitle', product: cp, class: 'image-card__subtitle' %}
+      {%- endif -%}
+      {%- if show_collection and cp -%}
+        {%- capture card_category %}{% render 'product-category', product: cp %}{% endcapture -%}
+        {%- if card_category != blank -%}
+          <span class="image-card__collection">{{ card_category }}</span>
+        {%- endif -%}
+      {%- endif -%}
+    </span>
+  {%- endif -%}
+
+  {%- if card_url != blank -%}
+    </a>
+  {%- else -%}
+    </span>
+  {%- endif -%}
+
+  {%- unless is_filler -%}
+    {%- if cp -%}
+      {% render 'color-swatches', product: cp, context: 'card' %}
+    {%- endif -%}
+  {%- endunless -%}
+</div>

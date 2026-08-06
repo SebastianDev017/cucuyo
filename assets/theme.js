@@ -296,13 +296,175 @@
     });
   }
 
+
+  /* SHOP dropdown. The markup is a real <details>, so with no JS the click
+     already toggles it — this only adds the open/close animation and the
+     close-on-click-outside, matching what spartan-shop.com does: the panel
+     animates its own height and pushes the column below it down, it never
+     floats over the page.
+
+     <details> collapses the instant `open` is removed, so closing has to be
+     driven the other way round: animate first, drop the attribute on
+     transitionend. Height goes 0 -> measured -> auto, because a fixed height
+     would stop the panel growing if its content reflows. */
+  function initNavDisclosure() {
+    var groups = Array.prototype.slice.call(document.querySelectorAll('[data-nav-disclosure]'));
+    if (!groups.length) return;
+
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    var animate = function (details, panel, opening) {
+      if (reduce) {
+        if (!opening) details.removeAttribute('open');
+        return;
+      }
+      var start = opening ? 0 : panel.scrollHeight;
+      var end = opening ? panel.scrollHeight : 0;
+
+      panel.setAttribute('data-animating', '');
+      panel.style.height = start + 'px';
+      /* force a reflow so the browser has a from-value to transition from */
+      void panel.offsetHeight;
+      panel.style.height = end + 'px';
+
+      var done = function (event) {
+        if (event && event.target !== panel) return;
+        panel.removeEventListener('transitionend', done);
+        panel.removeAttribute('data-animating');
+        panel.style.height = '';
+        if (!opening) details.removeAttribute('open');
+      };
+      panel.addEventListener('transitionend', done);
+      /* transitionend never fires if the panel has no height to travel */
+      if (start === end) done();
+    };
+
+    groups.forEach(function (details) {
+      var summary = details.querySelector('.nav-disclosure__summary');
+      var panel = details.querySelector('[data-nav-panel]');
+      if (!summary || !panel) return;
+
+      summary.addEventListener('click', function (event) {
+        event.preventDefault();
+        if (details.open) {
+          animate(details, panel, false);
+        } else {
+          details.setAttribute('open', '');
+          animate(details, panel, true);
+        }
+      });
+    });
+
+    /* A click anywhere that is not inside an open disclosure closes it. */
+    document.addEventListener('click', function (event) {
+      groups.forEach(function (details) {
+        if (!details.open) return;
+        if (details.contains(event.target)) return;
+        var panel = details.querySelector('[data-nav-panel]');
+        if (panel) animate(details, panel, false);
+      });
+    });
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key !== 'Escape') return;
+      groups.forEach(function (details) {
+        if (!details.open) return;
+        var panel = details.querySelector('[data-nav-panel]');
+        if (panel) animate(details, panel, false);
+        var summary = details.querySelector('.nav-disclosure__summary');
+        if (summary) summary.focus();
+      });
+    });
+  }
+
+  /* Colour swatches. Every swatch is already a link to its own variant's URL,
+     so this is pure enhancement: intercept the click and move the page to
+     that variant in place — price, image and address bar — instead of
+     reloading. Without JS the same links simply navigate, and Shopify
+     renders the page with the variant selected. */
+  function initSwatches() {
+    var groups = Array.prototype.slice.call(document.querySelectorAll('[data-swatches]'));
+    if (!groups.length) return;
+
+    var select = function (group, swatch) {
+      group.querySelectorAll('[data-swatch]').forEach(function (other) {
+        if (other === swatch) other.setAttribute('aria-current', 'true');
+        else other.removeAttribute('aria-current');
+      });
+    };
+
+    var swapImage = function (img, src, alt) {
+      if (!img || !src) return;
+      /* srcset outranks src, so it has to go before the swap or the browser
+         keeps painting the old candidate */
+      img.removeAttribute('srcset');
+      img.removeAttribute('sizes');
+      img.src = src;
+      if (alt) img.alt = alt;
+    };
+
+    groups.forEach(function (group) {
+      var onCard = group.closest('[data-product-card], .image-card');
+      var form = document.querySelector('[data-product-form]');
+
+      group.addEventListener('click', function (event) {
+        var swatch = event.target.closest('[data-swatch]');
+        if (!swatch || !group.contains(swatch)) return;
+        /* let modified clicks (new tab, download) behave normally */
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+        event.preventDefault();
+
+        select(group, swatch);
+        var image = swatch.getAttribute('data-variant-image');
+        var imageAlt = swatch.getAttribute('data-variant-image-alt');
+        var price = swatch.getAttribute('data-variant-price');
+        var href = swatch.getAttribute('href');
+
+        if (onCard) {
+          swapImage(onCard.querySelector('.product-card__image, .image-card__media'), image, imageAlt);
+          var cardPrice = onCard.querySelector('[data-card-price]');
+          if (cardPrice && price) cardPrice.textContent = price;
+          /* the card itself must now open the colour the shopper picked */
+          onCard.querySelectorAll('[data-card-link]').forEach(function (link) {
+            link.setAttribute('href', href);
+          });
+          return;
+        }
+
+        /* product page */
+        swapImage(document.querySelector('.main-product__media-item--hero img'), image, imageAlt);
+        var atcPrice = document.querySelector('[data-atc-price]');
+        if (atcPrice && price) atcPrice.textContent = price;
+        var idInput = form ? form.querySelector('[data-variant-id]') : null;
+        if (idInput) idInput.value = swatch.getAttribute('data-variant-id');
+        var available = swatch.getAttribute('data-variant-available') === 'true';
+        var button = form ? form.querySelector('[data-add-button]') : null;
+        if (button && form) {
+          var label = button.querySelector('[data-atc-label]');
+          var divider = button.querySelector('[data-atc-divider]');
+          button.disabled = !available;
+          if (label) {
+            label.textContent = available ? form.dataset.addText : form.dataset.soldOutText;
+          }
+          if (divider) divider.hidden = !available;
+          if (atcPrice) atcPrice.hidden = !available;
+        }
+        if (href && window.history && window.history.replaceState) {
+          window.history.replaceState({}, '', href);
+        }
+      });
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     trackHeaderHeight();
     initHeaderTone();
+    initNavDisclosure();
     initDrawer();
     initAutoplayVideos();
     initCartCount();
     initProductForms();
     initTabs();
+    initSwatches();
   });
 })();

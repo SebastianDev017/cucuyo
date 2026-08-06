@@ -1,9 +1,12 @@
 {% doc %}
   Product card for collection/search grids: image tile at the global card
-  ratio, then product name + price on one line below. Variant/swatch UI is
-  deliberately NOT rendered — the trailing slot div reserves the layout
-  space where a selector will eventually live, and stays empty (no
-  placeholder, no text).
+  ratio, then the text block — name + price on one line, the short subtitle
+  under it, and the colour swatches under that (they took over the slot that
+  used to be reserved empty for a selector).
+
+  The grid's own gap is tight so the images sit close together; the air the
+  text needs is inside the card instead (see .product-card__info in base.css),
+  which is why the two are tuned separately.
 
   @param {product} product - the product to render
   @param {boolean} [featured] - oversized lead tile (spans 2×2 grid cells on
@@ -23,8 +26,8 @@
   endif
 -%}
 
-<article class="product-card{% if featured %} product-card--featured{% endif %}">
-  <a href="{{ product.url }}" class="product-card__link">
+<article class="product-card{% if featured %} product-card--featured{% endif %}" data-product-card>
+  <a href="{{ product.url }}" class="product-card__link" data-card-link>
     <div class="product-card__media">
       {%- if product.featured_media -%}
         {%- if featured -%}
@@ -35,7 +38,8 @@
               widths: '550, 750, 1100, 1500',
               sizes: '(min-width: 750px) 50vw, 100vw',
               loading: 'eager',
-              fetchpriority: 'high'
+              fetchpriority: 'high',
+              class: 'product-card__image'
           -}}
         {%- else -%}
           {{-
@@ -44,7 +48,8 @@
             | image_tag:
               widths: '360, 540, 720, 900',
               sizes: '(min-width: 750px) 25vw, 100vw',
-              loading: 'lazy'
+              loading: 'lazy',
+              class: 'product-card__image'
           -}}
         {%- endif -%}
       {%- else -%}
@@ -53,27 +58,30 @@
     </div>
 
     <div class="product-card__info">
-      <div class="product-card__text">
+      <div class="product-card__row">
         <h3 class="product-card__title">{{ product.title }}</h3>
-        {%- if show_collection -%}
-          {%- capture card_category %}{% render 'product-category', product: product %}{% endcapture -%}
-          {%- if card_category != blank -%}
-            <p class="product-card__collection">{{ card_category }}</p>
-          {%- endif -%}
+        {%- if price_visible -%}
+          <span class="product-card__price" data-card-price>
+            {%- if product.price_varies -%}
+              {%- assign from_price = product.price_min | money -%}
+              {{ 'products.from_price' | t: price: from_price }}
+            {%- else -%}
+              {{ product.price | money }}
+            {%- endif -%}
+          </span>
         {%- endif -%}
       </div>
-      {%- if price_visible -%}
-        <span class="product-card__price">
-          {%- if product.price_varies -%}
-            {%- assign from_price = product.price_min | money -%}
-            {{ 'products.from_price' | t: price: from_price }}
-          {%- else -%}
-            {{ product.price | money }}
-          {%- endif -%}
-        </span>
+
+      {% render 'product-subtitle', product: product, class: 'product-card__subtitle' %}
+
+      {%- if show_collection -%}
+        {%- capture card_category %}{% render 'product-category', product: product %}{% endcapture -%}
+        {%- if card_category != blank -%}
+          <p class="product-card__collection">{{ card_category }}</p>
+        {%- endif -%}
       {%- endif -%}
     </div>
   </a>
 
-  <div class="product-card__slot" aria-hidden="true"></div>
+  {% render 'color-swatches', product: product, context: 'card' %}
 </article>

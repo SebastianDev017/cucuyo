@@ -1,0 +1,88 @@
+{% doc %}
+  Colour circles for a product whose options include Color.
+
+  Built on Shopify's native option model, not a parallel one: the values come
+  from `product.options_with_values`, the visual comes from
+  `option_value.swatch` (what Shopify derives when the Color option is linked
+  to the standard `shopify.color-pattern` metafield), and the target comes
+  from `option_value.variant` — a REAL variant of the same product, never a
+  sibling product. `snippets/color-palette` fills the visual in when a value
+  has no linked metaobject yet, which is every value a CSV import creates.
+
+  Each swatch is a link to that variant's URL, so it works with no JS at all:
+  the click navigates and Shopify renders the page with the variant selected.
+  theme.js upgrades it in place — price, image and URL update without a
+  reload. Renders nothing unless there are 2+ colours to choose between.
+
+  @param {product} product - the product to read options from
+  @param {string} [context] - 'pdp' or 'card' (default), for sizing only
+  @example
+  {% render 'color-swatches', product: product, context: 'pdp' %}
+{% enddoc %}
+
+{%- liquid
+  assign color_option = null
+  for option in product.options_with_values
+    assign option_name = option.name | downcase
+    if option_name == 'color' or option_name == 'colour'
+      assign color_option = option
+      break
+    endif
+  endfor
+-%}
+
+{%- if color_option and color_option.values.size > 1 -%}
+  <ul
+    class="swatches swatches--{{ context | default: 'card' }}"
+    role="list"
+    data-swatches
+    aria-label="{{ 'products.color_options' | t }}"
+  >
+    {%- for value in color_option.values -%}
+      {%- liquid
+        assign target = value.variant
+        assign hex = ''
+        if value.swatch.color != blank
+          assign hex = value.swatch.color | color_to_hex
+        else
+          capture hex
+            render 'color-palette', name: value.name
+          endcapture
+          assign hex = hex | strip
+        endif
+
+        assign swatch_image = value.swatch.image
+        assign variant_image = target.featured_media | default: target.image
+      -%}
+      <li>
+        <a
+          class="swatch{% unless value.available %} swatch--unavailable{% endunless %}"
+          href="{{ target.url }}"
+          data-swatch
+          data-variant-id="{{ target.id }}"
+          data-variant-available="{{ target.available }}"
+          data-variant-price="{{ target.price | money | escape }}"
+          {% if variant_image %}
+            data-variant-image="{{ variant_image | image_url: width: 1500 }}"
+            data-variant-image-alt="{{ variant_image.alt | escape }}"
+          {% endif %}
+          {% if value.selected %}
+            aria-current="true"
+          {% endif %}
+          style="
+            {%- if swatch_image -%}
+              --swatch-image: url({{ swatch_image | image_url: width: 80 }});
+            {%- elsif hex != blank -%}
+              --swatch-color: {{ hex }};
+            {%- endif -%}
+          "
+        >
+          <span class="visually-hidden">{{ value.name }}</span>
+          {%- if swatch_image == nil and hex == blank -%}
+            <span class="swatch__name" aria-hidden="true">{{ value.name }}</span>
+          {%- endif -%}
+        </a>
+      </li>
+    {%- endfor -%}
+  </ul>
+{%- endif -%}

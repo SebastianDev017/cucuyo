@@ -1,0 +1,25 @@
+{% doc %}
+  The short descriptive line under a product's name ("Decorative Wood Tray").
+
+  Source is Shopify's STANDARD "Product subtitle" metafield,
+  `descriptors.subtitle` — reserved by Shopify for exactly this ("stores a
+  concise description of a product", 70 characters), so it is native rather
+  than invented and any app or future theme reads the same field.
+
+  Deliberately NOT product.type: the eight nav categories map one-to-one onto
+  Type, so Type is what the category collections filter on. Reusing it here
+  would print the category twice and couple the subtitle to merchandising.
+
+  Renders nothing when the metafield is empty, so products without one simply
+  keep a single-line card.
+
+  @param {product} product - the product to read the subtitle from
+  @param {string} [class] - class for the element
+  @example
+  {% render 'product-subtitle', product: product, class: 'product-card__subtitle' %}
+{% enddoc %}
+
+{%- assign subtitle = product.metafields.descriptors.subtitle | metafield_text | strip -%}
+{%- if subtitle != blank -%}
+  <p class="{{ class | default: 'product-subtitle' }}">{{ subtitle }}</p>
+{%- endif -%}

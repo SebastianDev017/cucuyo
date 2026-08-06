@@ -54,6 +54,10 @@
 
       <h1 class="main-product__title">{{ product.title }}</h1>
 
+      {% render 'product-subtitle', product: product, class: 'main-product__subtitle' %}
+
+      {% render 'color-swatches', product: product, context: 'pdp' %}
+
       {%- if product.description != blank -%}
         <div class="main-product__description rte">{{ product.description }}</div>
       {%- endif -%}
@@ -79,8 +83,24 @@
         data-sold-out-text="{{ 'products.sold_out' | t | escape }}"
         data-unavailable-text="{{ 'products.unavailable' | t | escape }}"
       >
+        {%- comment -%}
+          Colour is picked by the swatches above, and each of those is a link
+          to that variant's own URL — with no JS the click navigates and
+          Shopify renders this page with the variant already selected, so the
+          hidden id below is correct server-side without any script. theme.js
+          keeps it in sync when it upgrades those links into in-place updates.
+          A product with a SECOND option (size, material) still needs a real
+          control, so it falls back to the select; only one of the two ever
+          carries name="id".
+        {%- endcomment -%}
+        {%- liquid
+          assign needs_select = false
+          if product.has_only_default_variant == false and product.options.size > 1
+            assign needs_select = true
+          endif
+        -%}
         {%- form 'product', product, class: 'product-form' -%}
-          {%- if product.variants.size > 1 -%}
+          {%- if needs_select -%}
             <label class="visually-hidden" for="Variants-{{ section.id }}">{{ 'products.select_variant' | t }}</label>
             <select id="Variants-{{ section.id }}" name="id" class="main-product__variant-select" data-variant-select>
               {%- for variant in product.variants -%}
@@ -99,7 +119,7 @@
               {%- endfor -%}
             </select>
           {%- else -%}
-            <input type="hidden" name="id" value="{{ current_variant.id }}">
+            <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
           {%- endif -%}
 
           <button

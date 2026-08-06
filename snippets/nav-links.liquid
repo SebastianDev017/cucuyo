@@ -1,9 +1,17 @@
 {% doc %}
-  The primary menu list — up to three levels, ALWAYS expanded and indented
-  under their parent (no dropdowns). Shared verbatim by the desktop header
-  column and the mobile nav drawer so both keep the progressive per-level
-  indent (the CSS scopes it via :is(.site-header__nav--primary,
+  The primary menu list — up to three levels. Shared verbatim by the desktop
+  header column and the mobile nav drawer, so both keep the progressive
+  per-level indent (the CSS scopes it via :is(.site-header__nav--primary,
   .nav-drawer__nav)).
+
+  A top-level item that HAS children becomes a disclosure: collapsed by
+  default, click opens it, click again or a click outside closes it — the
+  behaviour measured on spartan-shop.com, where the panel animates its own
+  height and pushes the rest of the column down rather than floating over it.
+  It is a real <details>, so with no JS at all the click still toggles it and
+  keyboard/AT support comes from the browser; theme.js only adds the height
+  animation and the close-on-outside-click. Levels below the first stay
+  always expanded inside the open panel, as before.
 
   @param {object} menu - a link_list (e.g. section.settings.menu)
   @example
@@ -13,48 +21,82 @@
 <ul class="site-header__list" role="list">
   {%- for link in menu.links -%}
     <li class="site-header__item">
-      <a
-        href="{{ link.url }}"
-        class="site-header__link"
-        {% if link.current %}
-          aria-current="page"
-        {% endif %}
-      >
-        {{- link.title -}}
-      </a>
-      {%- if link.links != blank -%}
-        <ul class="site-header__sub" role="list">
-          {%- for child in link.links -%}
-            <li>
-              <a
-                href="{{ child.url }}"
-                class="site-header__link site-header__link--sub"
-                {% if child.current %}
-                  aria-current="page"
-                {% endif %}
-              >
-                {{- child.title -}}
-              </a>
-              {%- if child.links != blank -%}
-                <ul class="site-header__sub site-header__sub--deep" role="list">
-                  {%- for grandchild in child.links -%}
-                    <li>
-                      <a
-                        href="{{ grandchild.url }}"
-                        class="site-header__link site-header__link--deep"
-                        {% if grandchild.current %}
-                          aria-current="page"
-                        {% endif %}
-                      >
-                        {{- grandchild.title -}}
-                      </a>
-                    </li>
-                  {%- endfor -%}
-                </ul>
+      {%- if link.links == blank -%}
+        <a
+          href="{{ link.url }}"
+          class="site-header__link"
+          {% if link.current %}
+            aria-current="page"
+          {% endif %}
+        >
+          {{- link.title -}}
+        </a>
+      {%- else -%}
+        <details
+          class="nav-disclosure"
+          data-nav-disclosure
+          {% if link.child_active %}
+            open
+          {% endif %}
+        >
+          <summary class="site-header__link nav-disclosure__summary">
+            {{- link.title -}}
+            <span class="nav-disclosure__marker" aria-hidden="true"></span>
+          </summary>
+
+          <div class="nav-disclosure__panel" data-nav-panel>
+            <ul class="site-header__sub" role="list">
+              {%- comment -%}
+                The parent's own page stays reachable: its link is the first
+                row of the panel it opens, the way Spartan lists "All" first.
+              {%- endcomment -%}
+              {%- if link.url != blank and link.url != '#' -%}
+                <li>
+                  <a
+                    href="{{ link.url }}"
+                    class="site-header__link site-header__link--sub"
+                    {% if link.current %}
+                      aria-current="page"
+                    {% endif %}
+                  >
+                    {{- 'general.nav.all' | t -}}
+                  </a>
+                </li>
               {%- endif -%}
-            </li>
-          {%- endfor -%}
-        </ul>
+
+              {%- for child in link.links -%}
+                <li>
+                  <a
+                    href="{{ child.url }}"
+                    class="site-header__link site-header__link--sub"
+                    {% if child.current %}
+                      aria-current="page"
+                    {% endif %}
+                  >
+                    {{- child.title -}}
+                  </a>
+                  {%- if child.links != blank -%}
+                    <ul class="site-header__sub site-header__sub--deep" role="list">
+                      {%- for grandchild in child.links -%}
+                        <li>
+                          <a
+                            href="{{ grandchild.url }}"
+                            class="site-header__link site-header__link--deep"
+                            {% if grandchild.current %}
+                              aria-current="page"
+                            {% endif %}
+                          >
+                            {{- grandchild.title -}}
+                          </a>
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                  {%- endif -%}
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        </details>
       {%- endif -%}
     </li>
   {%- endfor -%}
