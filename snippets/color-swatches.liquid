@@ -42,9 +42,30 @@
       {%- liquid
         assign target = value.variant
         assign hex = ''
+
+        comment
+          Three sources, most native first. 1) the option value's own swatch,
+          which is what Shopify derives once the Color option is linked to the
+          standard shopify.color-pattern metafield. 2) the product-level
+          shopify.color-pattern entries, matched by label — a CSV can fill
+          those in without linking the option. 3) the shared theme palette.
+        endcomment
         if value.swatch.color != blank
           assign hex = value.swatch.color | color_to_hex
-        else
+        endif
+
+        if hex == blank
+          for entry in product.metafields.shopify['color-pattern'].value
+            assign entry_label = entry.label | default: entry.system.handle | downcase | replace: '-', ' '
+            assign value_label = value.name | downcase
+            if entry_label == value_label and entry.color.value.first != blank
+              assign hex = entry.color.value.first | color_to_hex
+              break
+            endif
+          endfor
+        endif
+
+        if hex == blank
           capture hex
             render 'color-palette', name: value.name
           endcapture
