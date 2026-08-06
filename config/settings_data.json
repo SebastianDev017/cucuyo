@@ -22,8 +22,8 @@
     "card_gap": 10,
     "swatch_size": 14,
     "swatch_size_pdp": 18,
-    "swatch_gap": 13,
-    "swatch_margin": 16,
+    "swatch_gap": 5,
+    "swatch_margin": 8,
     "enable_scroll_animations": true,
     "enable_smooth_scroll": true,
     "content_for_index": []
