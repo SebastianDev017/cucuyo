@@ -2,29 +2,48 @@
 (function () {
   'use strict';
 
-  /* Expose the real height of the fixed overlay nav (its children are
-     absolutely positioned, so the header element itself measures 0). Inner
-     pages pad their content below this so nothing sits under the stacked
-     link column — the menu's always-expanded sublevels grow it. */
+  /* Expose how far down the fixed header reaches INTO THE CONTENT COLUMN (its
+     children are absolutely positioned, so the header element itself measures
+     0). Inner pages pad their content below this so the header can never
+     cover anything.
+
+     Only the wordmark counts by default. It is centred over the content
+     column, so content always has to clear it. The stacked link column is
+     not: inner pages start their content at --sidebar-gutter, far to the
+     right of it — that gutter is exactly what keeps them apart. Measuring the
+     column too was reserving its full height as vertical space as well,
+     ~180px of dead air, and made the whole page shift down by the height of
+     the SHOP panel every time the dropdown opened.
+
+     The column is still counted whenever it actually reaches into the content
+     band — a very long menu label, or a layout with no gutter — so the
+     guarantee holds in every case rather than by assumption. With no JS at
+     all this never runs and the CSS keeps its generous 320px fallback. */
   function trackHeaderHeight() {
     var header = document.querySelector('.site-header');
     if (!header) return;
-    var parts = [
-      header.querySelector('.site-header__nav--primary'),
-      header.querySelector('.site-header__logo')
-    ].filter(Boolean);
-    if (!parts.length) return;
+    var nav = header.querySelector('.site-header__nav--primary');
+    var logo = header.querySelector('.site-header__logo');
+    if (!nav && !logo) return;
+    var main = document.querySelector('main');
+
     var set = function () {
       var bottom = 0;
-      parts.forEach(function (el) {
-        bottom = Math.max(bottom, el.getBoundingClientRect().bottom);
-      });
+      if (logo) bottom = logo.getBoundingClientRect().bottom;
+      if (nav) {
+        var navRect = nav.getBoundingClientRect();
+        var gutter = main ? parseFloat(getComputedStyle(main).paddingLeft) : 0;
+        if (!gutter || navRect.right > gutter) {
+          bottom = Math.max(bottom, navRect.bottom);
+        }
+      }
       document.documentElement.style.setProperty('--header-height', Math.ceil(bottom) + 'px');
     };
+
     set();
     if ('ResizeObserver' in window) {
       var observer = new ResizeObserver(set);
-      parts.forEach(function (el) {
+      [nav, logo].filter(Boolean).forEach(function (el) {
         observer.observe(el);
       });
     } else {

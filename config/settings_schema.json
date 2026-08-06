@@ -229,7 +229,8 @@
         "max": 24,
         "step": 1,
         "unit": "px",
-        "default": 8
+        "default": 13,
+        "info": "8px reads as one blob at 16px swatches; 12-14 separates them"
       },
       {
         "type": "range",

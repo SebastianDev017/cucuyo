@@ -1967,7 +1967,7 @@ html.lenis {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--swatch-gap, 8px);
+  gap: var(--swatch-gap, 13px);
   margin: var(--swatch-margin, 10px) 0 0;
   padding: 0;
   list-style: none;
