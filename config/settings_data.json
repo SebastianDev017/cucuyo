@@ -23,7 +23,7 @@
     "swatch_size": 14,
     "swatch_size_pdp": 18,
     "swatch_gap": 6,
-    "swatch_margin": 12,
+    "swatch_margin": 0,
     "enable_scroll_animations": true,
     "enable_smooth_scroll": true,
     "content_for_index": []
