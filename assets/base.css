@@ -1100,6 +1100,27 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
   align-items: start;
 }
 
+/* The gallery is a grid child (see main-product.liquid) so mobile can order
+   it after the info panel. On desktop it belongs back under the hero, in
+   the left column. */
+@media (min-width: 750px) {
+  .main-product__media {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .main-product__info {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .pdp-gallery {
+    grid-column: 1;
+    grid-row: 2;
+    margin-top: var(--grid-gap);
+  }
+}
+
 .main-product__media {
   display: grid;
   gap: var(--grid-gap);

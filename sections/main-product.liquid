@@ -29,28 +29,6 @@
         <div class="main-product__media-item main-product__media-item--empty" aria-hidden="true"></div>
       {%- endif -%}
 
-      {%- comment -%}
-        Gallery: every image after the hero, stacked in document order under
-        it, full column width, height from the image's own aspect ratio.
-        Nothing is ever cropped here — editorial rule. A single-image product
-        renders no gallery at all (no empty state, no placeholder).
-      {%- endcomment -%}
-      {%- if product_images.size > 1 -%}
-        <div class="pdp-gallery">
-          {%- for media in product_images offset: 1 -%}
-            <div class="pdp-gallery__item">
-              {{-
-                media
-                | image_url: width: 1500
-                | image_tag:
-                  widths: '550, 750, 1100, 1500',
-                  sizes: '(min-width: 750px) 40vw, 100vw',
-                  loading: 'lazy'
-              -}}
-            </div>
-          {%- endfor -%}
-        </div>
-      {%- endif -%}
     </div>
 
     <div class="main-product__info">
@@ -157,6 +135,32 @@
         </script>
       </div>
     </div>
+
+    {%- comment -%}
+      Gallery: every image after the hero, full column width, height from the
+      image's own aspect ratio. Nothing is ever cropped — editorial rule. It
+      is a grid child rather than a child of the media column so the single
+      column on mobile can put it AFTER the info panel: otherwise the title,
+      price and add-to-cart sit below three full-bleed photos. On desktop it
+      lands back under the hero in the left column. A single-image product
+      renders no gallery at all (no empty state, no placeholder).
+    {%- endcomment -%}
+    {%- if product_images.size > 1 -%}
+      <div class="pdp-gallery">
+        {%- for media in product_images offset: 1 -%}
+          <div class="pdp-gallery__item">
+            {{-
+              media
+              | image_url: width: 1500
+              | image_tag:
+                widths: '550, 750, 1100, 1500',
+                sizes: '(min-width: 750px) 40vw, 100vw',
+                loading: 'lazy'
+            -}}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
   </div>
 
 </section>
