@@ -38,9 +38,10 @@
   endif
 
   assign media_ratio = media_block.settings.media_ratio | default: section.settings.media_ratio | default: '4/5'
+  assign gallery_gap = media_block.settings.gallery_gap | default: 24
 -%}
 
-<section class="main-product" style="--media-ratio: {{ media_ratio }};">
+<section class="main-product" style="--media-ratio: {{ media_ratio }}; --pdp-gallery-gap: {{ gallery_gap }}px;">
   <div class="main-product__grid">
     {%- if show_media -%}
       <div class="main-product__media" {{ media_block.shopify_attributes }}>
@@ -170,10 +171,40 @@
           ],
           "default": "3/4",
           "info": "The hero only. Gallery images below it are never cropped."
+        },
+        {
+          "type": "range",
+          "id": "gallery_gap",
+          "label": "Space between gallery images",
+          "min": 0,
+          "max": 64,
+          "step": 4,
+          "unit": "px",
+          "default": 24,
+          "info": "The air between the stacked photographs, and between the hero and the first of them"
         }
       ]
     },
     { "type": "add_to_cart", "name": "Add to cart", "limit": 1 },
+    {
+      "type": "product_details",
+      "name": "Product details",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Product Details"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Details",
+          "info": "Material, dimensions… Connect a product metafield (dynamic source) so each product shows its own lines. The colour line is added automatically from the selected variant."
+        }
+      ]
+    },
     {
       "type": "accordion",
       "name": "Accordion",
@@ -204,7 +235,8 @@
         { "type": "variant_picker" },
         { "type": "description" },
         { "type": "accordion" },
-        { "type": "add_to_cart" }
+        { "type": "add_to_cart" },
+        { "type": "product_details" }
       ]
     }
   ]

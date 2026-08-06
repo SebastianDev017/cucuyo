@@ -85,6 +85,7 @@
           href="{{ target.url }}"
           data-swatch
           data-variant-id="{{ target.id }}"
+          data-variant-option="{{ value.name | escape }}"
           data-variant-available="{{ target.available }}"
           data-variant-price="{{ target.price | money | escape }}"
           {% if target.compare_at_price > target.price %}

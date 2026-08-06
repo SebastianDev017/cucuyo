@@ -183,7 +183,7 @@
         "max": 40,
         "step": 2,
         "unit": "px",
-        "default": 14,
+        "default": 18,
         "info": "Space between the image and the text below it"
       },
       {
@@ -194,7 +194,7 @@
         "max": 60,
         "step": 2,
         "unit": "px",
-        "default": 26,
+        "default": 44,
         "info": "Room under the text before the next row of images"
       },
       {

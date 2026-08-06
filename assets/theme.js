@@ -467,6 +467,10 @@
 
         /* product page */
         swapImage(document.querySelector('.main-product__media-item--hero img'), image, imageAlt);
+        /* the Product details block prints the selected colour by name */
+        var colorLine = document.querySelector('[data-pdp-color]');
+        var optionName = swatch.getAttribute('data-variant-option');
+        if (colorLine && optionName) colorLine.textContent = optionName;
         var atcPrice = document.querySelector('[data-atc-price]');
         if (atcPrice && price) atcPrice.textContent = price;
         setCompare(document.querySelector('[data-pdp-compare]'));
@@ -491,6 +495,89 @@
     });
   }
 
+  /* The oversized featured tile spans two grid rows, but its own text block
+     sits under its image, so the image's bottom edge only lines up with the
+     second row of photographs when the featured text happens to be exactly
+     as tall as its neighbours' — a different title wrap breaks the line
+     (Jenn's screenshot: the big image ran past the row beside it). CSS has
+     no way to say "end where the neighbouring image ends" across auto rows,
+     so this measures it: the featured image gets an explicit height that
+     puts its bottom edge level with the images in the last row it spans.
+     offsetTop is used throughout because it ignores the reveal transforms.
+     Without JS the CSS stretch fallback stays — close, not exact. */
+  function initFeaturedAlign() {
+    var grids = document.querySelectorAll('.card-grid.collection-grid');
+    if (!grids.length) return;
+
+    var absTop = function (el) {
+      var top = 0;
+      while (el) {
+        top += el.offsetTop;
+        el = el.offsetParent;
+      }
+      return top;
+    };
+
+    var alignGrid = function (grid) {
+      var featured = grid.querySelector('.product-card--featured');
+      if (!featured) return;
+      var media = featured.querySelector('.product-card__media');
+      if (!media) return;
+
+      if (window.innerWidth < 750) {
+        media.style.height = '';
+        media.style.flex = '';
+        return;
+      }
+
+      var featTop = absTop(featured);
+      var featBottom = featTop + featured.offsetHeight;
+      var target = 0;
+      grid.querySelectorAll('.product-card').forEach(function (card) {
+        if (card === featured) return;
+        var top = absTop(card);
+        if (top <= featTop + 1 || top >= featBottom) return; // only the 2nd spanned row
+        var img = card.querySelector('.product-card__media');
+        if (!img) return;
+        target = Math.max(target, absTop(img) + img.offsetHeight);
+      });
+      if (!target) {
+        media.style.height = '';
+        media.style.flex = '';
+        return;
+      }
+
+      var height = target - absTop(media);
+      if (height > 0 && Math.abs(media.offsetHeight - height) > 1) {
+        media.style.flex = 'none';
+        media.style.height = height + 'px';
+      }
+    };
+
+    var align = function () {
+      grids.forEach(alignGrid);
+    };
+
+    align();
+    /* A second pass after the set: if the featured text is taller than its
+       neighbours', the explicit height can grow the spanned rows slightly,
+       which moves the target — remeasuring once settles it. The 1px guard
+       above stops this from ping-ponging. */
+    requestAnimationFrame(align);
+
+    if ('ResizeObserver' in window) {
+      grids.forEach(function (grid) {
+        new ResizeObserver(align).observe(grid);
+      });
+    } else {
+      window.addEventListener('resize', align);
+    }
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(align);
+    }
+    window.addEventListener('load', align);
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     trackHeaderHeight();
     initHeaderTone();
@@ -501,5 +588,6 @@
     initProductForms();
     initTabs();
     initSwatches();
+    initFeaturedAlign();
   });
 })();

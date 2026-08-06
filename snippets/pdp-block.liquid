@@ -7,7 +7,7 @@
   in its own grid row), so the section places those directly.
 
   @param {string} type - breadcrumb | title | variant_picker | description |
-    accordion | add_to_cart
+    accordion | product_details | add_to_cart
   @param {product} product - the product being shown
   @param {object} [block] - the section block, when one drives this piece;
     supplies its settings and shopify_attributes for the editor
@@ -70,6 +70,43 @@
       </summary>
       <div class="accordion__content rte">{{ block.settings.content }}</div>
     </details>
+
+  {%- when 'product_details' -%}
+    {%- comment -%}
+      Spec list under the add-to-cart (Eugenia's Figma "Product Details":
+      Material / Color / Dimensions). The free-text lines come from the
+      block's richtext — connect a product metafield as a dynamic source so
+      each product shows its own. The colour line is NOT written by hand: a
+      static "Color: Brick Red" would lie the moment the shopper picks Sage,
+      so it reads the real selected variant and theme.js keeps it in step
+      with the swatches. Renders nothing when there is neither content nor a
+      colour option — no empty heading.
+    {%- endcomment -%}
+    {%- liquid
+      assign details_body = block.settings.content
+      assign color_option = null
+      unless product.has_only_default_variant
+        for option in product.options_with_values
+          assign option_key = option.name | downcase
+          if option_key == 'color' or option_key == 'colour'
+            assign color_option = option
+          endif
+        endfor
+      endunless
+    -%}
+    {%- if details_body != blank or color_option -%}
+      <div class="main-product__details" {{ block.shopify_attributes }}>
+        {%- if block.settings.title != blank -%}
+          <h2 class="main-product__details-heading">{{ block.settings.title }}</h2>
+        {%- endif -%}
+        {%- if details_body != blank -%}
+          <div class="main-product__details-body rte">{{ details_body }}</div>
+        {%- endif -%}
+        {%- if color_option -%}
+          <p class="main-product__details-body">{{ color_option.name }}: <span data-pdp-color>{{ color_option.selected_value }}</span></p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
 
   {%- when 'add_to_cart' -%}
     <div
