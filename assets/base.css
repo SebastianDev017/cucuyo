@@ -1983,7 +1983,11 @@ html.lenis {
    Each one is a link to a REAL variant of the same product.
    -------------------------------------------------------------------------- */
 
-.swatches {
+/* The attribute is not decoration: the list reset is ul[role='list'] at
+   specificity (0,1,1), which out-ranks a lone class, so a plain .swatches
+   margin is silently dropped — the same trap that once flattened the nav
+   indent. Anything setting margin or padding on a list here has to match it. */
+.swatches[role='list'] {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -2044,7 +2048,7 @@ html.lenis {
   padding-inline-end: var(--card-text-inset);
 }
 
-.swatches--pdp {
+.swatches--pdp[role='list'] {
   --swatch-size: var(--swatch-size-pdp, 22px);
   /* set by the Variant picker block, not by the card settings — see
      snippets/pdp-block */

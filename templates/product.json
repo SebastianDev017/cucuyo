@@ -12,6 +12,30 @@
     "main": {
       "type": "main-product",
       "blocks": {
+        "media": {
+          "type": "media",
+          "settings": {
+            "media_ratio": "3/4"
+          }
+        },
+        "breadcrumb": {
+          "type": "breadcrumb",
+          "settings": {}
+        },
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "variants": {
+          "type": "variant_picker",
+          "settings": {
+            "spacing_top": 26
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {}
+        },
         "shipping": {
           "type": "accordion",
           "settings": {
@@ -25,14 +49,23 @@
             "title": "Ask a question",
             "content": "<p>Tell customers how to reach you with questions about this piece.</p>"
           }
+        },
+        "add_to_cart": {
+          "type": "add_to_cart",
+          "settings": {}
         }
       },
       "block_order": [
+        "media",
+        "breadcrumb",
+        "title",
+        "variants",
+        "description",
         "shipping",
-        "ask"
+        "ask",
+        "add_to_cart"
       ],
       "settings": {
-        "show_breadcrumb": true,
         "show_vendor": false,
         "media_ratio": "3/4"
       }
