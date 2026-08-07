@@ -39,6 +39,22 @@
 
   assign media_ratio = media_block.settings.media_ratio | default: section.settings.media_ratio | default: '4/5'
   assign gallery_gap = media_block.settings.gallery_gap | default: 24
+
+  comment
+    The media column's real width, expressed rather than guessed. A single vw
+    figure cannot be right across the range: the left gutter is
+    clamp(220px, 18.7vw, 300px), so below 1604px it scales with the viewport
+    and above it is a fixed 300px — the column is 38vw of a 1440 screen but
+    41vw of a 1920 one. A flat "40vw" therefore UNDER-states it on large
+    screens, and understating `sizes` is what makes the browser pick too small
+    a candidate, i.e. the blur this is meant to prevent. Over-stating only
+    costs bytes, so both branches keep ~2% of headroom.
+
+      >= 1604px : (100vw - 300 - 40 - 84) * 581/1108
+      >=  750px : (100vw - 18.7vw - 40 - 5.3vw) * 581/1108
+      <   750px : one column, 40px page margin each side
+  endcomment
+  assign pdp_media_sizes = '(min-width: 1604px) calc(53vw - 220px), (min-width: 750px) calc(40vw - 20px), calc(100vw - 80px)'
 -%}
 
 <section class="main-product" style="--media-ratio: {{ media_ratio }}; --pdp-gallery-gap: {{ gallery_gap }}px;">
@@ -49,10 +65,10 @@
           <div class="main-product__media-item main-product__media-item--hero">
             {{-
               product_images.first
-              | image_url: width: 1500
+              | image_url: width: 2400
               | image_tag:
-                widths: '550, 750, 1100, 1500',
-                sizes: '(min-width: 750px) 40vw, 100vw',
+                widths: '550, 750, 1100, 1500, 2000, 2400',
+                sizes: pdp_media_sizes,
                 loading: 'eager',
                 fetchpriority: 'high'
             -}}
@@ -97,10 +113,10 @@
           <div class="pdp-gallery__item">
             {{-
               media
-              | image_url: width: 1500
+              | image_url: width: 2400
               | image_tag:
-                widths: '550, 750, 1100, 1500',
-                sizes: '(min-width: 750px) 40vw, 100vw',
+                widths: '550, 750, 1100, 1500, 2000, 2400',
+                sizes: pdp_media_sizes,
                 loading: 'lazy'
             -}}
           </div>

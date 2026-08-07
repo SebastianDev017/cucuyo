@@ -22,6 +22,8 @@
         {% render 'featured-card',
           card_product: item,
           label_below: true,
+          columns: section.settings.columns,
+          inset: true,
           show_collection: section.settings.show_collection_label
         %}
         {%- assign shown = shown | plus: 1 -%}

@@ -504,7 +504,19 @@
      so this measures it: the featured image gets an explicit height that
      puts its bottom edge level with the images in the last row it spans.
      offsetTop is used throughout because it ignores the reveal transforms.
-     Without JS the CSS stretch fallback stays — close, not exact. */
+     Without JS the CSS stretch fallback stays — close, not exact.
+
+     THE TILE IS NEVER STRETCHED FAR ENOUGH TO EAT THE PHOTOGRAPH. Every card
+     is a fixed shape filled with object-fit: cover, so some cropping is the
+     norm here — unlike the product gallery, which never crops at all. What
+     looked wrong was the featured tile cropping FAR harder than the cards
+     beside it (0.66 against their 0.79) because it was stretched by whatever
+     the alignment happened to need. So the stretch is capped: the tile may
+     grow at most MAX_STRETCH beyond the shape its neighbours use, and if the
+     alignment asks for more it simply gets what fits. A small step at the
+     bottom edge costs less than a fifth of the photograph. */
+  var MAX_STRETCH = 1.08;
+
   function initFeaturedAlign() {
     var grids = document.querySelectorAll('.card-grid.collection-grid');
     if (!grids.length) return;
@@ -533,11 +545,13 @@
       var featTop = absTop(featured);
       var featBottom = featTop + featured.offsetHeight;
       var target = 0;
+      var shape = 0; // width/height of an ordinary card's image — the house shape
       grid.querySelectorAll('.product-card').forEach(function (card) {
         if (card === featured) return;
+        var img = card.querySelector('.product-card__media');
+        if (img && !shape && img.offsetHeight) shape = img.offsetWidth / img.offsetHeight;
         var top = absTop(card);
         if (top <= featTop + 1 || top >= featBottom) return; // only the 2nd spanned row
-        var img = card.querySelector('.product-card__media');
         if (!img) return;
         target = Math.max(target, absTop(img) + img.offsetHeight);
       });
@@ -548,6 +562,12 @@
       }
 
       var height = target - absTop(media);
+      /* Cap it against the shape the other cards use, so the big tile can
+         never crop dramatically harder than they do. */
+      if (shape) {
+        var unstretched = media.offsetWidth / shape;
+        height = Math.min(height, unstretched * MAX_STRETCH);
+      }
       if (height > 0 && Math.abs(media.offsetHeight - height) > 1) {
         media.style.flex = 'none';
         media.style.height = height + 'px';

@@ -23,6 +23,12 @@
     overlaid on it. Used for auto-sourced product cards, whose photography
     can be pale or dark with no merchant-picked tone to rely on, so an
     overlaid label is not reliably legible. Curated blocks keep the overlay.
+  @param {number} [columns] - how many across the caller's grid is, so `sizes`
+    can state the card's real width. It must be passed: a flat "33vw" served a
+    two-column home grid a file a third narrower than the slot it lands in,
+    which is blur. Defaults to 3 only so an un-updated caller stays safe.
+  @param {boolean} [inset] - true when the grid sits inside the content column
+    (its left gutter is clamp(220px, 18.7vw, 300px)) rather than full-bleed.
   @example
   {% render 'featured-card', block: block %}
   {% render 'featured-card', card_product: product, label_below: true %}
@@ -38,6 +44,26 @@
   endif
   if cp and card_url == blank
     assign card_url = cp.url
+  endif
+
+  comment
+    Real card width per breakpoint. Full-bleed grids simply divide the
+    viewport; inset ones divide the content column, which is 100vw minus the
+    clamped gutter and the page margin — so above 1604px (gutter pinned at
+    300px) the share of the viewport grows, and below it stays proportional.
+    Both branches keep a little headroom: overstating costs bytes, while
+    understating costs sharpness.
+  endcomment
+  assign col_count = columns | default: 3
+  assign pct = 100 | divided_by: col_count
+  if inset
+    assign inset_pct = 81 | divided_by: col_count
+    assign inset_px = 40 | divided_by: col_count | plus: 90
+    assign big_pct = 100 | divided_by: col_count
+    assign big_px = 340 | divided_by: col_count | plus: 4
+    assign card_sizes = '(min-width: 1604px) calc(' | append: big_pct | append: 'vw - ' | append: big_px | append: 'px), (min-width: 750px) calc(' | append: inset_pct | append: 'vw - ' | append: inset_px | append: 'px), calc(100vw - 80px)'
+  else
+    assign card_sizes = '(min-width: 750px) ' | append: pct | append: 'vw, 100vw'
   endif
 -%}
 
@@ -66,10 +92,10 @@
     {%- if card_image == blank and cp.featured_media -%}
       {{-
         cp.featured_media
-        | image_url: width: 1200
+        | image_url: width: 2400
         | image_tag:
-          widths: '400, 700, 1000, 1200',
-          sizes: '(min-width: 750px) 33vw, 100vw',
+          widths: '400, 700, 1000, 1200, 1600, 2000, 2400',
+          sizes: card_sizes,
           class: 'image-card__media',
           alt: card_label,
           loading: 'lazy'
@@ -79,7 +105,7 @@
         image: card_image,
         draft_asset: block.settings.draft_asset,
         img_class: 'image-card__media',
-        sizes: '(min-width: 750px) 33vw, 100vw',
+        sizes: card_sizes,
         alt: card_label
       %}
     {%- endif -%}

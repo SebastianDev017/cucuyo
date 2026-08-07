@@ -30,7 +30,11 @@
     style="--cols-desktop: {{ cols_desktop }}; --cols-mobile: {{ cols_mobile }};"
   >
     {%- for block in section.blocks -%}
-      {% render 'featured-card', block: block, show_collection: section.settings.show_collection_label %}
+      {% render 'featured-card',
+        block: block,
+        columns: cols_desktop,
+        show_collection: section.settings.show_collection_label
+      %}
     {%- endfor -%}
 
     {%- if fillers > 0 -%}
@@ -39,6 +43,7 @@
         {% render 'featured-card',
           block: section.blocks[filler_index],
           is_filler: true,
+          columns: cols_desktop,
           show_collection: section.settings.show_collection_label
         %}
       {%- endfor -%}
