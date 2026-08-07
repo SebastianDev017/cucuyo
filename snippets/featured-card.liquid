@@ -73,15 +73,17 @@
         assign card_sizes = '(min-width: 1604px) calc(34vw - 114px), (min-width: 990px) calc(28vw - 16px), (min-width: 750px) calc(40.7vw - 22px), calc(100vw - 80px)'
     endcase
   else
+    # Same two-column collapse applies here: full-bleed or not, base.css puts
+    # every grid on two columns between 750 and 989px.
     case col_count
       when 2
         assign card_sizes = '(min-width: 750px) 50vw, 100vw'
       when 4
-        assign card_sizes = '(min-width: 750px) 25vw, 100vw'
+        assign card_sizes = '(min-width: 990px) 25vw, (min-width: 750px) 50vw, 100vw'
       when 5
-        assign card_sizes = '(min-width: 750px) 20vw, 100vw'
+        assign card_sizes = '(min-width: 990px) 20vw, (min-width: 750px) 50vw, 100vw'
       else
-        assign card_sizes = '(min-width: 750px) 34vw, 100vw'
+        assign card_sizes = '(min-width: 990px) 34vw, (min-width: 750px) 50vw, 100vw'
     endcase
   endif
 -%}
