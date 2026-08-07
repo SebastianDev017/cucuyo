@@ -53,9 +53,9 @@
         {%- if featured -%}
           {{-
             product.featured_media
-            | image_url: width: 2000
+            | image_url: width: 2400
             | image_tag:
-              widths: '550, 750, 1100, 1500, 2000',
+              widths: '550, 750, 1100, 1500, 2000, 2400',
               sizes: card_sizes_featured,
               loading: 'eager',
               fetchpriority: 'high',

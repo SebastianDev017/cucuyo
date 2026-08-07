@@ -21,12 +21,19 @@
   assign load = loading | default: 'lazy'
   assign alt_text = alt | default: ''
 -%}
+{%- comment -%}
+  The ladder reaches 2400 because these are the full-bleed home cards: a
+  half-viewport card on a 1920 retina screen already wants ~1920 real pixels,
+  and a third-of-viewport one on a 5K screen wants ~1700. A 1600 ceiling left
+  both of those short. Small candidates are all still here, so a phone keeps
+  downloading a small file.
+{%- endcomment -%}
 {%- if image -%}
   {{-
     image
-    | image_url: width: 1600
+    | image_url: width: 2400
     | image_tag:
-      widths: '600, 900, 1200, 1600',
+      widths: '600, 900, 1200, 1600, 2000, 2400',
       sizes: sizes,
       class: img_class,
       alt: alt_text,

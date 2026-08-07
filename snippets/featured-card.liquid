@@ -58,15 +58,21 @@
   endcomment
   assign col_count = columns | default: 3
   if inset
+    {%- comment -%}
+      750-989px is its own branch in every case: base.css collapses ANY grid
+      to two columns there, whatever the merchant picked, because the gutter
+      leaves too narrow a band for more. Leaving it out made "Pair it with"
+      ask for a third of the width at 768px when it really fills a half.
+    {%- endcomment -%}
     case col_count
       when 2
         assign card_sizes = '(min-width: 1604px) calc(50vw - 172px), (min-width: 750px) calc(40.7vw - 22px), calc(100vw - 80px)'
       when 4
-        assign card_sizes = '(min-width: 1604px) calc(25vw - 85px), (min-width: 750px) calc(20.4vw - 13px), calc(100vw - 80px)'
+        assign card_sizes = '(min-width: 1604px) calc(25vw - 85px), (min-width: 990px) calc(20.4vw - 13px), (min-width: 750px) calc(40.7vw - 22px), calc(100vw - 80px)'
       when 5
-        assign card_sizes = '(min-width: 1604px) calc(20vw - 68px), (min-width: 750px) calc(16.3vw - 11px), calc(100vw - 80px)'
+        assign card_sizes = '(min-width: 1604px) calc(20vw - 68px), (min-width: 990px) calc(16.3vw - 11px), (min-width: 750px) calc(40.7vw - 22px), calc(100vw - 80px)'
       else
-        assign card_sizes = '(min-width: 1604px) calc(34vw - 114px), (min-width: 750px) calc(28vw - 16px), calc(100vw - 80px)'
+        assign card_sizes = '(min-width: 1604px) calc(34vw - 114px), (min-width: 990px) calc(28vw - 16px), (min-width: 750px) calc(40.7vw - 22px), calc(100vw - 80px)'
     endcase
   else
     case col_count
