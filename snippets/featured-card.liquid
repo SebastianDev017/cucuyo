@@ -49,21 +49,36 @@
   comment
     Real card width per breakpoint. Full-bleed grids simply divide the
     viewport; inset ones divide the content column, which is 100vw minus the
-    clamped gutter and the page margin — so above 1604px (gutter pinned at
-    300px) the share of the viewport grows, and below it stays proportional.
-    Both branches keep a little headroom: overstating costs bytes, while
-    understating costs sharpness.
+    clamped gutter (18.7vw, pinned at 300px from 1604px up) and the 40px page
+    margin. Written out per column count rather than computed: Liquid's
+    `divided_by` is integer division, so 100/3 becomes 33 and every rounding
+    goes DOWNWARD — and a `sizes` that lands under the real slot is exactly
+    what serves a too-small file. Each figure below carries ~2% of headroom
+    instead, because overstating only costs bytes.
   endcomment
   assign col_count = columns | default: 3
-  assign pct = 100 | divided_by: col_count
   if inset
-    assign inset_pct = 81 | divided_by: col_count
-    assign inset_px = 40 | divided_by: col_count | plus: 90
-    assign big_pct = 100 | divided_by: col_count
-    assign big_px = 340 | divided_by: col_count | plus: 4
-    assign card_sizes = '(min-width: 1604px) calc(' | append: big_pct | append: 'vw - ' | append: big_px | append: 'px), (min-width: 750px) calc(' | append: inset_pct | append: 'vw - ' | append: inset_px | append: 'px), calc(100vw - 80px)'
+    case col_count
+      when 2
+        assign card_sizes = '(min-width: 1604px) calc(50vw - 172px), (min-width: 750px) calc(40.7vw - 22px), calc(100vw - 80px)'
+      when 4
+        assign card_sizes = '(min-width: 1604px) calc(25vw - 85px), (min-width: 750px) calc(20.4vw - 13px), calc(100vw - 80px)'
+      when 5
+        assign card_sizes = '(min-width: 1604px) calc(20vw - 68px), (min-width: 750px) calc(16.3vw - 11px), calc(100vw - 80px)'
+      else
+        assign card_sizes = '(min-width: 1604px) calc(34vw - 114px), (min-width: 750px) calc(28vw - 16px), calc(100vw - 80px)'
+    endcase
   else
-    assign card_sizes = '(min-width: 750px) ' | append: pct | append: 'vw, 100vw'
+    case col_count
+      when 2
+        assign card_sizes = '(min-width: 750px) 50vw, 100vw'
+      when 4
+        assign card_sizes = '(min-width: 750px) 25vw, 100vw'
+      when 5
+        assign card_sizes = '(min-width: 750px) 20vw, 100vw'
+      else
+        assign card_sizes = '(min-width: 750px) 34vw, 100vw'
+    endcase
   endif
 -%}
 

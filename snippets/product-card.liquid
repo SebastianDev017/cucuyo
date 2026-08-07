@@ -31,15 +31,19 @@
     clamped, so the share of the viewport a card occupies changes with it, and
     an understated `sizes` is exactly what serves a too-small file.
 
-    Four columns of (content - 3 gaps), where content = 100vw - gutter - 40:
-      >= 1604px : (100vw - 340 - 30) / 4
-      >=  990px : (81.3vw - 40 - 30) / 4
+    Four columns of (content - gaps), where content = 100vw - gutter - 40.
+    The gap is a merchant setting (0-40px), so these solve for a gap of ZERO:
+    that is the widest a card can ever be, and only the widest case is safe —
+    a `sizes` that comes out under the real slot is what serves a too-small
+    file. A wider gap just means a little unused resolution.
+      >= 1604px : (100vw - 340) / 4          gutter pinned at 300
+      >=  990px : (81.3vw - 40) / 4          gutter still 18.7vw
       750-989px : the grid drops to TWO columns
       <   750px : one column, full width less the page margins
     The featured tile spans two of those columns plus the gap between them.
   endcomment
-  assign card_sizes = '(min-width: 1604px) calc(25vw - 90px), (min-width: 990px) calc(20.3vw - 17px), (min-width: 750px) calc(40.6vw - 25px), calc(100vw - 80px)'
-  assign card_sizes_featured = '(min-width: 1604px) calc(50vw - 175px), (min-width: 990px) calc(40.6vw - 25px), (min-width: 750px) calc(81.3vw - 40px), calc(100vw - 80px)'
+  assign card_sizes = '(min-width: 1604px) calc(25vw - 85px), (min-width: 990px) calc(20.4vw - 10px), (min-width: 750px) calc(40.7vw - 20px), calc(100vw - 80px)'
+  assign card_sizes_featured = '(min-width: 1604px) calc(50vw - 170px), (min-width: 990px) calc(40.8vw - 20px), (min-width: 750px) calc(81.3vw - 40px), calc(100vw - 80px)'
 -%}
 
 <article class="product-card{% if featured %} product-card--featured{% endif %}" data-product-card>
