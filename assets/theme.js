@@ -536,9 +536,20 @@
       var media = featured.querySelector('.product-card__media');
       if (!media) return;
 
-      if (window.innerWidth < 750) {
+      /* The CSS fallback lets the featured link grow to fill the two rows it
+         spans. Once this function gives the image an explicit height that is
+         no longer wanted: the link would keep growing and leave a gap between
+         the card's text and its swatches, while every other card has them
+         together. So whoever sets the height also stops the growth. */
+      var link = featured.querySelector('.product-card__link');
+      var release = function () {
         media.style.height = '';
         media.style.flex = '';
+        if (link) link.style.flex = '';
+      };
+
+      if (window.innerWidth < 750) {
+        release();
         return;
       }
 
@@ -556,8 +567,7 @@
         target = Math.max(target, absTop(img) + img.offsetHeight);
       });
       if (!target) {
-        media.style.height = '';
-        media.style.flex = '';
+        release();
         return;
       }
 
@@ -571,6 +581,7 @@
       if (height > 0 && Math.abs(media.offsetHeight - height) > 1) {
         media.style.flex = 'none';
         media.style.height = height + 'px';
+        if (link) link.style.flex = 'none';
       }
     };
 
