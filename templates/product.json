@@ -15,7 +15,8 @@
         "media": {
           "type": "media",
           "settings": {
-            "media_ratio": "3/4"
+            "media_ratio": "3/4",
+            "gallery_gap": 24
           }
         },
         "breadcrumb": {
@@ -57,7 +58,8 @@
         "details": {
           "type": "product_details",
           "settings": {
-            "title": "Product Details"
+            "title": "Product Details",
+            "content": "{{ product.metafields.custom.product_details | metafield_tag }}"
           }
         }
       },
