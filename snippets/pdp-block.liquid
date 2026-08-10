@@ -35,12 +35,27 @@
     </nav>
 
   {%- when 'title' -%}
-    <div class="main-product__heading" {{ block.shopify_attributes }}>
-      {%- if section.settings.show_vendor and product.vendor != blank -%}
+    {%- comment -%}
+      Vendor still honours the section-level checkbox so a template saved
+      before this block gained settings keeps its behaviour; the block's own
+      toggle can hide it independently.
+    {%- endcomment -%}
+    <div
+      class="main-product__heading"
+      style="
+        {%- render 'font-vars', prefix: 'pdp-title', choice: block.settings.title_font -%}
+        {%- if block.settings.title_color != blank %} --pdp-title-ink: {{ block.settings.title_color }};{% endif -%}
+        {%- if block.settings.spacing_bottom %} --pdp-title-mb: {{ block.settings.spacing_bottom }}px;{% endif -%}
+      "
+      {{ block.shopify_attributes }}
+    >
+      {%- if section.settings.show_vendor and product.vendor != blank and block.settings.show_vendor != false -%}
         <p class="main-product__vendor type-label">{{ product.vendor }}</p>
       {%- endif -%}
       <h1 class="main-product__title">{{ product.title }}</h1>
-      {% render 'product-subtitle', product: product, class: 'main-product__subtitle' %}
+      {%- if block.settings.show_subtitle != false -%}
+        {% render 'product-subtitle', product: product, class: 'main-product__subtitle' %}
+      {%- endif -%}
     </div>
 
   {%- when 'variant_picker' -%}
@@ -95,14 +110,22 @@
       endunless
     -%}
     {%- if details_body != blank or color_option -%}
-      <div class="main-product__details" {{ block.shopify_attributes }}>
+      <div
+        class="main-product__details"
+        style="
+          {%- render 'font-vars', prefix: 'pdp-details', choice: block.settings.heading_font -%}
+          {%- if block.settings.spacing_top %} --pdp-details-mt: {{ block.settings.spacing_top }}px;{% endif -%}
+          {%- if block.settings.text_color != blank %} --pdp-details-ink: {{ block.settings.text_color }};{% endif -%}
+        "
+        {{ block.shopify_attributes }}
+      >
         {%- if block.settings.title != blank -%}
           <h2 class="main-product__details-heading">{{ block.settings.title }}</h2>
         {%- endif -%}
         {%- if details_body != blank -%}
           <div class="main-product__details-body rte">{{ details_body }}</div>
         {%- endif -%}
-        {%- if color_option -%}
+        {%- if color_option and block.settings.show_color != false -%}
           <p class="main-product__details-body">{{ color_option.name }}: <span data-pdp-color>{{ color_option.selected_value }}</span></p>
         {%- endif -%}
       </div>

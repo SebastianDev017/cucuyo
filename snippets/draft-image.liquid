@@ -11,6 +11,8 @@
   @param {string} [sizes] - responsive sizes attribute for the picked image
   @param {string} [alt] - alt text
   @param {string} [loading] - "lazy" (default) or "eager"
+  @param {string} [ratio] - aspect-ratio override, e.g. "1/1"; omitted leaves
+    whatever the stylesheet already sets for this image
   @param {number} [asset_width] - intrinsic width of the draft asset (default 756)
   @param {number} [asset_height] - intrinsic height of the draft asset (default 957)
   @example
@@ -20,6 +22,10 @@
 {%- liquid
   assign load = loading | default: 'lazy'
   assign alt_text = alt | default: ''
+  assign shape = ''
+  if ratio != blank
+    assign shape = 'aspect-ratio: ' | append: ratio | append: ';'
+  endif
 -%}
 {%- comment -%}
   The ladder reaches 2400 because these are the full-bleed home cards: a
@@ -37,7 +43,8 @@
       sizes: sizes,
       class: img_class,
       alt: alt_text,
-      loading: load
+      loading: load,
+      style: shape
   -}}
 {%- elsif draft_asset != blank -%}
   <img
@@ -47,6 +54,9 @@
     loading="{{ load }}"
     width="{{ asset_width | default: 756 }}"
     height="{{ asset_height | default: 957 }}"
+    {% if shape != blank %}
+      style="{{ shape }}"
+    {% endif %}
   >
 {%- else -%}
   <div class="{{ img_class }} {{ img_class }}--placeholder" aria-hidden="true"></div>

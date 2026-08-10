@@ -56,6 +56,16 @@
     what serves a too-small file. Each figure below carries ~2% of headroom
     instead, because overstating only costs bytes.
   endcomment
+  comment
+    A ratio only overrides the stylesheet when the block carries one. Cards
+    rendered straight from a product have no block, so ratio_style stays
+    empty and the existing CSS ratio applies untouched.
+  endcomment
+  assign ratio_style = ''
+  if block.settings.ratio != blank
+    assign ratio_style = 'aspect-ratio: ' | append: block.settings.ratio | append: ';'
+  endif
+
   assign col_count = columns | default: 3
   if inset
     # 750-989px is its own branch in every case: base.css collapses ANY grid
@@ -110,7 +120,15 @@
   {%- endif -%}
 
   <span class="image-card__frame">
-    {%- if card_image == blank and cp.featured_media -%}
+    {%- comment -%}
+      The shape is per card, so a merchant can make one tile square without
+      touching its neighbours. It is only emitted when the block actually
+      carries a value: cards rendered from a product (Pair it with) have no
+      block behind them, so they keep the stylesheet's own ratio.
+    {%- endcomment -%}
+    {%- assign card_ratio = block.settings.ratio -%}
+    {%- assign card_alt = block.settings.alt_text | default: card_label -%}
+    {%- if card_image == blank and block.settings.image_url == blank and cp.featured_media -%}
       {{-
         cp.featured_media
         | image_url: width: 2400
@@ -118,22 +136,34 @@
           widths: '400, 700, 1000, 1200, 1600, 2000, 2400',
           sizes: card_sizes,
           class: 'image-card__media',
-          alt: card_label,
-          loading: 'lazy'
+          alt: card_alt,
+          loading: 'lazy',
+          style: ratio_style
       -}}
     {%- else -%}
-      {% render 'draft-image',
+      {% render 'media-image',
         image: card_image,
+        image_url: block.settings.image_url,
         draft_asset: block.settings.draft_asset,
         img_class: 'image-card__media',
         sizes: card_sizes,
-        alt: card_label
+        ratio: card_ratio,
+        alt: card_alt
       %}
     {%- endif -%}
   </span>
 
   {%- if card_label != blank -%}
-    <span class="image-card__label{% if label_below %} image-card__label--below{% elsif block.settings.label_tone == 'light' %} image-card__label--light{% endif %}">
+    {%- capture label_style -%}
+      {% render 'font-vars', prefix: 'card-label', choice: block.settings.label_font %}
+      {%- if block.settings.label_color != blank %} --card-label-ink: {{ block.settings.label_color }};{% endif -%}
+    {%- endcapture -%}
+    <span
+      class="image-card__label{% if label_below %} image-card__label--below{% elsif block.settings.label_tone == 'light' %} image-card__label--light{% endif %}"
+      {% if label_style != blank %}
+        style="{{ label_style | strip }}"
+      {% endif %}
+    >
       {%- comment -%}
         Price and compare-at ride along on the stacked (product-sourced) card,
         the same pair the grid card shows and read the same way: from the SHOWN

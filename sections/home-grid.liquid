@@ -2,8 +2,16 @@
   Featured collection — Figma: rows of full-bleed image cards (756:957 ratio)
   separated by hairline gaps (or flush for the two-up editorial pair), each
   with a small-caps label overlaid bottom-left. A card can point at a product
-  (image + title + link come from it) or use a picked/draft image with a
-  manual label. Columns: 2-5 on desktop, 1-2 on mobile.
+  (image + title + link come from it) or use a picked image, an image URL, or
+  a draft asset with a manual label. Columns: 2-5 on desktop, 1-2 on mobile.
+
+  EVERY REPEATED ITEM IS ITS OWN BLOCK. Shape, typeface, colours and link are
+  per card, not one section-wide setting applied evenly — a merchant can make
+  the third card square and dark without touching the other two.
+
+  Section owns what is shared: background, padding, the optional heading, the
+  column counts, and the typeface of the section heading. Cards own their own
+  media, text, link and overrides. The two do not overlap.
 
   AUTO-FILL: when the cards don't complete the last row, the leftover cells
   are filled by cycling the section's own cards from the start, so the grid
@@ -24,7 +32,31 @@
   endif
 -%}
 
-<section class="home-grid" data-header-tone="{{ section.settings.header_tone }}">
+<section
+  class="home-grid"
+  data-header-tone="{{ section.settings.header_tone }}"
+  style="{% render 'section-style', section: section %}"
+>
+  {%- comment -%}
+    The heading is opt-in: no grid on the site has one today, so leaving it
+    empty keeps every existing instance exactly as it renders now.
+  {%- endcomment -%}
+  {%- if section.settings.heading != blank or section.settings.eyebrow != blank -%}
+    <div class="home-grid__head home-grid__head--{{ section.settings.heading_align | default: 'center' }}">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="home-grid__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2
+          class="home-grid__heading"
+          style="{% render 'font-vars', prefix: 'grid-heading', choice: section.settings.heading_font %}"
+        >
+          {{- section.settings.heading | escape -}}
+        </h2>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
   <div
     class="card-grid{% if section.settings.flush %} card-grid--flush{% endif %}"
     style="--cols-desktop: {{ cols_desktop }}; --cols-mobile: {{ cols_mobile }};"
@@ -57,15 +89,44 @@
   "tag": "section",
   "settings": [
     {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "info": "Small line above the heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Leave empty for no heading"
+    },
+    {
       "type": "select",
-      "id": "header_tone",
-      "label": "Header ink over this section",
+      "id": "heading_font",
+      "label": "Heading typeface",
       "options": [
-        { "value": "light", "label": "Light (over dark imagery)" },
-        { "value": "ink", "label": "Ink (over pale imagery)" }
+        { "value": "heading", "label": "Primary" },
+        { "value": "body", "label": "Secondary" }
       ],
-      "default": "ink",
-      "info": "Home only — the header has no background, so its colour follows the section passing under it"
+      "default": "heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_align",
+      "label": "Heading alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Centre" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
     },
     {
       "type": "range",
@@ -98,7 +159,54 @@
       "id": "show_collection_label",
       "label": "Show collection label",
       "default": true,
-      "info": "The product's collection under its name, on cards linked to a product"
+      "info": "The product's collection under its name"
+    },
+    {
+      "type": "header",
+      "content": "Colour and spacing"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "info": "Empty uses the theme's"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "info": "Empty uses the theme's"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "header_tone",
+      "label": "Header ink over this section",
+      "options": [
+        { "value": "light", "label": "Light (over dark imagery)" },
+        { "value": "ink", "label": "Ink (over pale imagery)" }
+      ],
+      "default": "ink",
+      "info": "Home only — the header follows the section under it"
     }
   ],
   "max_blocks": 10,
@@ -121,15 +229,43 @@
         },
         {
           "type": "text",
-          "id": "draft_asset",
-          "label": "Draft asset filename",
-          "info": "Theme asset shown while no image or product is selected"
+          "id": "image_url",
+          "label": "Image URL",
+          "info": "Used when nothing is uploaded. Uploads are sharper."
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "Image description",
+          "info": "For screen readers"
+        },
+        {
+          "type": "select",
+          "id": "ratio",
+          "label": "Shape",
+          "options": [
+            { "value": "756/957", "label": "Portrait (default)" },
+            { "value": "1/1", "label": "Square" },
+            { "value": "3/2", "label": "Landscape" },
+            { "value": "4/5", "label": "Tall" }
+          ],
+          "default": "756/957"
         },
         {
           "type": "textarea",
           "id": "label",
           "label": "Label",
-          "info": "Small caps, bottom-left. Falls back to the product title."
+          "info": "Falls back to the product title"
+        },
+        {
+          "type": "select",
+          "id": "label_font",
+          "label": "Label typeface",
+          "options": [
+            { "value": "heading", "label": "Primary" },
+            { "value": "body", "label": "Secondary" }
+          ],
+          "default": "heading"
         },
         {
           "type": "select",
@@ -142,10 +278,22 @@
           "default": "dark"
         },
         {
+          "type": "color",
+          "id": "label_color",
+          "label": "Label colour",
+          "info": "Empty uses the tone above"
+        },
+        {
           "type": "url",
           "id": "link",
           "label": "Link",
           "info": "Overrides the product link"
+        },
+        {
+          "type": "text",
+          "id": "draft_asset",
+          "label": "Draft asset filename",
+          "info": "Theme asset used while nothing else is set"
         }
       ]
     }

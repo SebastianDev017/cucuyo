@@ -1,0 +1,62 @@
+{% doc %}
+  One background video, from either a Shopify upload or an external
+  YouTube/Vimeo link.
+
+  The two paths are genuinely different and neither replaces the other:
+
+  - UPLOAD renders the hand-written <video> the section already used, with
+    the bare boolean attributes WebKit needs for muted inline autoplay, plus
+    the poster frame. theme.js retries play() on view and after bfcache.
+    This is the one that behaves like part of the page.
+  - EXTERNAL renders a provider iframe. It cannot be muted-autoplayed as
+    reliably, it loads third-party script, and it has no poster of ours — but
+    it costs the merchant no storage. It is `loading="lazy"` and titled for
+    screen readers.
+
+  Upload wins when both are set.
+
+  @param {object} [video] - video setting (uploaded)
+  @param {object} [video_url] - video_url setting (youtube/vimeo)
+  @param {string} [alt] - description for assistive tech
+  @param {string} media_class - class for the <video> or <iframe>
+  @example
+  {% render 'media-video', video: section.settings.video, video_url: section.settings.video_url, media_class: 'image-band__media' %}
+{% enddoc %}
+
+{%- if video -%}
+  <video
+    class="{{ media_class }}"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto"
+    poster="{{ video.preview_image | image_url: width: 1600 }}"
+    {% if alt != blank %}
+      aria-label="{{ alt | escape }}"
+    {% endif %}
+    data-autoplay-video
+  >
+    {%- for source in video.sources -%}
+      <source src="{{ source.url }}" type="{{ source.mime_type }}">
+    {%- endfor -%}
+  </video>
+{%- elsif video_url != blank -%}
+  {%- liquid
+    assign vid = video_url.id
+    if video_url.type == 'youtube'
+      assign embed = 'https://www.youtube.com/embed/' | append: vid | append: '?autoplay=1&mute=1&loop=1&playlist=' | append: vid | append: '&controls=0&showinfo=0&rel=0&playsinline=1'
+    else
+      assign embed = 'https://player.vimeo.com/video/' | append: vid | append: '?autoplay=1&muted=1&loop=1&background=1'
+    endif
+  -%}
+  <iframe
+    class="{{ media_class }}"
+    src="{{ embed }}"
+    title="{{ alt | default: 'Video' | escape }}"
+    loading="lazy"
+    allow="autoplay; encrypted-media; picture-in-picture"
+    allowfullscreen
+    frameborder="0"
+  ></iframe>
+{%- endif -%}

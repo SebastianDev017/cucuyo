@@ -539,6 +539,47 @@ html.nav-drawer-open body {
    Card grids — 2 or 3 columns, hairline gaps, labels overlaid bottom-left
    -------------------------------------------------------------------------- */
 
+/* Section shell — padding defaults to 0 and the background to transparent,
+   which is what these grids have always been; the vars only do something
+   once a merchant sets them. */
+.home-grid {
+  padding-top: var(--section-pt, 0);
+  padding-bottom: var(--section-pb, 0);
+  background: var(--section-bg, transparent);
+  color: var(--section-ink, inherit);
+}
+
+/* Optional heading — no grid on the site has one, so none of this applies
+   until the merchant types one in. */
+.home-grid__head {
+  padding: 0 var(--page-margin);
+  margin-bottom: 32px;
+}
+
+.home-grid__head--center {
+  text-align: center;
+}
+
+.home-grid__eyebrow {
+  margin: 0 0 8px;
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.home-grid__heading {
+  margin: 0;
+  font-family: var(--grid-heading-font, var(--font-heading));
+  font-weight: var(--grid-heading-weight, var(--font-heading-weight, 500));
+  font-size: calc(1.25rem * var(--heading-scale, 1));
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1.3;
+  color: inherit;
+}
+
 .card-grid {
   display: grid;
   gap: var(--grid-gap);
@@ -615,6 +656,9 @@ html.nav-drawer-open body {
 }
 
 /* Label overlaid on the image, bottom-left (Figma) */
+/* The three vars are per-card overrides emitted by the block; each names its
+   previous hardcoded value as the fallback, so a card that sets nothing —
+   and .home-hero__label, which has no block behind it — is unchanged. */
 .image-card__label,
 .home-hero__label {
   position: absolute;
@@ -622,18 +666,18 @@ html.nav-drawer-open body {
   bottom: 22px;
   z-index: 2;
   max-width: 60%;
-  font-family: var(--font-heading);
-  font-weight: var(--font-heading-weight, 500);
+  font-family: var(--card-label-font, var(--font-heading));
+  font-weight: var(--card-label-weight, var(--font-heading-weight, 500));
   font-size: calc(0.8125rem * var(--heading-scale, 1));
   letter-spacing: 0.1em;
   text-transform: uppercase;
   line-height: 1.55;
-  color: var(--color-ink);
+  color: var(--card-label-ink, var(--color-ink));
 }
 
 .image-card__label--light,
 .home-hero__label--light {
-  color: var(--color-on-image);
+  color: var(--card-label-ink, var(--color-on-image));
 }
 
 /* Auto-sourced product cards ("Pair it with") carry merchant photography of
@@ -661,7 +705,7 @@ html.nav-drawer-open body {
   position: static;
   max-width: none;
   margin-top: 14px;
-  color: var(--color-ink);
+  color: var(--card-label-ink, var(--color-ink));
 }
 
 /* Optional collection line under the overlaid card label (11px caps, same
@@ -709,16 +753,86 @@ html.nav-drawer-open body {
    Full-bleed image band (Figma 1512×835)
    -------------------------------------------------------------------------- */
 
+/* Every var below names its previous hardcoded value as the fallback, so a
+   section that has never been opened in the customizer renders unchanged. */
 .image-band {
   position: relative;
   overflow: clip;
   margin-top: var(--grid-gap);
+  padding-top: var(--section-pt, 0);
+  padding-bottom: var(--section-pb, 0);
+  background: var(--section-bg, transparent);
 }
 
 .image-band__media {
+  display: block;
   width: 100%;
-  aspect-ratio: 1512 / 835;
+  aspect-ratio: var(--band-ratio, 1512 / 835);
   object-fit: cover;
+  border: 0;
+}
+
+/* Overlay — opt-in, so nothing here applies to a band that has not turned it
+   on. Text sits on photography of unknown tone, so it defaults to the light
+   ink the rest of the theme uses over imagery. */
+.image-band__overlay {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+  max-width: min(52ch, 80%);
+  color: var(--section-ink, var(--color-on-image));
+}
+
+.image-band__overlay--center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  align-items: center;
+  text-align: center;
+}
+
+.image-band__overlay--bottom-left {
+  left: var(--page-margin);
+  bottom: 40px;
+}
+
+.image-band__overlay--bottom-right {
+  right: var(--page-margin);
+  bottom: 40px;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.image-band__heading {
+  margin: 0;
+  font-family: var(--band-heading-font, var(--font-heading));
+  font-weight: var(--band-heading-weight, var(--font-heading-weight, 500));
+  font-size: calc(clamp(1.25rem, 2.4vw, 2rem) * var(--heading-scale, 1));
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1.3;
+  color: inherit;
+}
+
+.image-band__body {
+  font-size: calc(0.875rem * var(--body-scale, 1));
+  line-height: 1.55;
+  color: inherit;
+}
+
+@media (max-width: 749px) {
+  .image-band__overlay {
+    max-width: calc(100% - (var(--page-margin) * 2));
+    gap: 14px;
+  }
+
+  .image-band__overlay--bottom-left,
+  .image-band__overlay--bottom-right {
+    bottom: 24px;
+  }
 }
 
 .image-band__media--placeholder {
@@ -1219,11 +1333,17 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
 }
 
 .main-product__title {
+  font-family: var(--pdp-title-font, var(--font-heading));
+  font-weight: var(--pdp-title-weight, var(--font-heading-weight, 500));
   font-size: calc(1.5rem * var(--heading-scale, 1));
   letter-spacing: 0.1em;
   text-transform: uppercase;
   line-height: 1.3;
-  color: var(--color-accent);
+  color: var(--pdp-title-ink, var(--color-accent));
+}
+
+.main-product__heading {
+  margin-bottom: var(--pdp-title-mb, 0);
 }
 
 .main-product__description {
@@ -1271,23 +1391,26 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
    the muted body voice. It is a PDP block, so the merchant can move or hide
    it; the top margin is its own breathing room wherever it lands. */
 .main-product__details {
-  margin-top: 56px;
+  margin-top: var(--pdp-details-mt, 56px);
   max-width: 62ch;
 }
 
+/* Weight stays 700 on purpose: the bold is what gives this label its rank in
+   the column, and it is not the typeface selector's business. Only the family
+   follows the setting — the weight var it also emits is left unread. */
 .main-product__details-heading {
   margin: 0 0 12px;
-  font-family: var(--font-body);
+  font-family: var(--pdp-details-font, var(--font-body));
   font-weight: 700;
   font-size: 0.875rem;
   line-height: 1.5;
-  color: var(--color-ink);
+  color: var(--pdp-details-ink, var(--color-ink));
 }
 
 .main-product__details-body {
   font-size: calc(0.875rem * var(--body-scale, 1));
   line-height: 1.6;
-  color: var(--color-muted);
+  color: var(--pdp-details-ink, var(--color-muted));
 }
 
 /* Accordions — 1px accent hairlines above and below each row, small-caps

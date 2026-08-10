@@ -1,0 +1,25 @@
+{% doc %}
+  Emits the CSS custom properties for one text element's typeface, chosen
+  between the two faces the theme already defines in Theme settings. There is
+  no third option on purpose: the brand is PersonaTRIAL for display and
+  Junction for reading, and a free font field would let a merchant break that.
+
+  Output is a declaration fragment meant to sit inside a style="" attribute,
+  so it carries no selector and never reaches the stylesheet.
+
+  The paired CSS must always name its own current value as the fallback —
+  `font-family: var(--card-label-font, var(--font-heading))` — so a section
+  that has never been touched in the customizer renders exactly as before.
+
+  @param {string} prefix - CSS variable prefix, e.g. "card-label"
+  @param {string} [choice] - "heading" | "body"; anything else emits nothing,
+    which leaves the CSS fallback in charge
+  @example
+  <span style="{% render 'font-vars', prefix: 'card-label', choice: block.settings.label_font %}">
+{% enddoc %}
+
+{%- if choice == 'heading' -%}
+  --{{ prefix }}-font: var(--font-heading); --{{ prefix }}-weight: var(--font-heading-weight, 500);
+{%- elsif choice == 'body' -%}
+  --{{ prefix }}-font: var(--font-body); --{{ prefix }}-weight: 400;
+{%- endif -%}
