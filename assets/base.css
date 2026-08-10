@@ -179,6 +179,7 @@ a {
      and --card-text-space is the room under the text before the next row. */
   --card-gap: 6px;
   --card-text-inset: 18px;
+  --card-text-top: 32px;
   --card-text-space: 44px;
 }
 
@@ -279,11 +280,14 @@ body.template-index.header-ink .site-header__burger {
   color: var(--color-ink);
 }
 
-/* On every page except home the wordmark centers on the CONTENT AREA's axis
-   (between the sidebar gutter and the page margin — the same bounds the
-   grids and headings use), not the viewport. Home keeps the full-viewport
-   center. The mobile bar (<768px) overrides this further down. */
-body:not(.template-index) .site-header__logo {
+/* The wordmark centres on the CONTENT AREA's axis — between the sidebar
+   gutter and the page margin, the same bounds the grids and headings use —
+   on EVERY template including home. It used to centre on the full viewport
+   on home only, which moved it sideways the moment you navigated to a
+   product or collection page; Jenn reported that jump twice. One axis site
+   wide is the fix, and only home moves. The mobile bar (<768px) overrides
+   this further down, where the gutter collapses anyway. */
+.site-header__logo {
   left: calc(var(--sidebar-gutter) + (100% - var(--sidebar-gutter) - var(--page-margin)) / 2);
 }
 
@@ -1497,7 +1501,10 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
 }
 
 .product-card__info {
-  padding-top: var(--card-text-top, 14px);
+  /* The fallback has to match the emitted default (Theme settings → Product
+     cards). It read 14px while the setting said 18, which is the value that
+     would have applied if css-variables ever failed to load. */
+  padding-top: var(--card-text-top, 32px);
   /* the text's own horizontal breathing room — see the note on .card-grid */
   padding-inline-end: var(--card-text-inset);
 }

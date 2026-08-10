@@ -183,7 +183,7 @@
         "max": 40,
         "step": 2,
         "unit": "px",
-        "default": 18,
+        "default": 32,
         "info": "Space between the image and the text below it"
       },
       {

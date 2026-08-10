@@ -506,16 +506,19 @@
      offsetTop is used throughout because it ignores the reveal transforms.
      Without JS the CSS stretch fallback stays — close, not exact.
 
-     THE TILE IS NEVER STRETCHED FAR ENOUGH TO EAT THE PHOTOGRAPH. Every card
-     is a fixed shape filled with object-fit: cover, so some cropping is the
-     norm here — unlike the product gallery, which never crops at all. What
-     looked wrong was the featured tile cropping FAR harder than the cards
-     beside it (0.66 against their 0.79) because it was stretched by whatever
-     the alignment happened to need. So the stretch is capped: the tile may
-     grow at most MAX_STRETCH beyond the shape its neighbours use, and if the
-     alignment asks for more it simply gets what fits. A small step at the
-     bottom edge costs less than a fifth of the photograph. */
-  var MAX_STRETCH = 1.08;
+     THE STRETCH IS STILL CAPPED, but at the figure this layout actually
+     needs rather than a conservative guess. Measured: a flush bottom edge
+     asks for 1.199, and the previous 1.08 left an 84px step that read as a
+     bug to the client. There is no stretch-free way out — geometry decides
+     it: a tile of double width can only reach the second row's bottom edge
+     by being taller than its own ratio, so alignment and an uncropped
+     photograph are mutually exclusive here. Alignment wins, since every card
+     in this grid is a cover-cropped fixed shape anyway (the never-crop rule
+     belongs to the product gallery, not to grid cards).
+
+     The cap is not gone: it still stops a pathological row — one whose text
+     wraps to several lines — from stretching the tile arbitrarily far. */
+  var MAX_STRETCH = 1.22;
 
   function initFeaturedAlign() {
     var grids = document.querySelectorAll('.card-grid.collection-grid');
