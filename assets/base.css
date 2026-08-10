@@ -280,16 +280,13 @@ body.template-index.header-ink .site-header__burger {
   color: var(--color-ink);
 }
 
-/* The wordmark centres on the CONTENT AREA's axis — between the sidebar
-   gutter and the page margin, the same bounds the grids and headings use —
-   on EVERY template including home. It used to centre on the full viewport
-   on home only, which moved it sideways the moment you navigated to a
-   product or collection page; Jenn reported that jump twice. One axis site
-   wide is the fix, and only home moves. The mobile bar (<768px) overrides
-   this further down, where the gutter collapses anyway. */
-.site-header__logo {
-  left: calc(var(--sidebar-gutter) + (100% - var(--sidebar-gutter) - var(--page-margin)) / 2);
-}
+/* The wordmark centres on the FULL VIEWPORT on every template — the base
+   rule above (left: 50%) is the whole story, and no template overrides it.
+   It has been both ways: for a while inner pages centred on the content area
+   instead, which is why the mark shifted when you navigated from home. Jenn
+   chose home's position as the one to keep, so the inner pages moved to
+   match it rather than the other way round. Left as an explicit note because
+   it has now flipped twice — the axis is the viewport, not the content. */
 
 /* Nested menu levels — ALWAYS expanded and indented under their parent
    (no dropdowns, nothing on click), up to three levels deep. Each nested

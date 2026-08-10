@@ -506,25 +506,16 @@
      offsetTop is used throughout because it ignores the reveal transforms.
      Without JS the CSS stretch fallback stays — close, not exact.
 
-     THE CAP IS EXPRESSED AS LOST PHOTOGRAPH, NOT AS STRETCH. A fixed stretch
-     figure cannot work: measured across 990-2560px the flush edge needs
-     anywhere from 1.10 to 1.42, because the text block grows from 139px to
-     193px as titles wrap onto more lines, and the tile has to make up that
-     difference. One number either leaves a step on narrow screens or allows
-     ~30% of the picture to be cut on them.
+     THERE IS NO CROP BUDGET. The edge lines up at every width, whatever that
+     costs the photograph — up past 30% on the narrowest screens, which is
+     accepted. Earlier rounds capped the stretch (first at 1.08, then as a
+     22% photo-loss limit) and both left a residual step somewhere in the
+     range; the step is what reads as broken, so alignment wins outright.
 
-     So the limit is the thing that actually matters — how much of the
-     photograph is cut — and the height is solved backwards from it:
-
-       loss = 1 - boxRatio/photoRatio   (box taller than photo → vertical cut)
-       loss <= L   ⇒   height <= width / (photoRatio * (1 - L))
-
-     At 22% this reaches a flush edge from roughly 1400px up, which covers
-     ordinary desktop widths, and below that it gets as close as it can
-     without cutting further. Falls back to a plain stretch cap if the image
-     has not reported its natural size yet. */
-  var MAX_PHOTO_LOSS = 0.22;
-  var MAX_STRETCH = 1.22;
+     The one remaining bound is a sanity guard, not a design budget: it only
+     stops a miscalculation from producing an absurd height, and sits far
+     above anything a real layout asks for (measured worst case is 1.42). */
+  var SANITY_MAX_STRETCH = 4;
 
   function initFeaturedAlign() {
     var grids = document.querySelectorAll('.card-grid.collection-grid');
@@ -562,37 +553,46 @@
         return;
       }
 
-      var featTop = absTop(featured);
-      var featBottom = featTop + featured.offsetHeight;
-      var target = 0;
+      /* Measuring once is not enough. The tile spans two rows, so if its own
+         text block is taller than its neighbours', giving the image the
+         height that would line it up makes the whole card taller than the
+         two rows beside it — the grid then grows those rows to fit, which
+         moves the very edge being aimed at. Solving it in closed form would
+         hard-code the grid's distribution rules; measuring again instead
+         converges, because each pass halves the error (the surplus is split
+         between the two spanned rows). Eight passes puts it well under a
+         pixel, and it stops as soon as it lands. */
       var shape = 0; // width/height of an ordinary card's image — the house shape
-      grid.querySelectorAll('.product-card').forEach(function (card) {
-        if (card === featured) return;
-        var img = card.querySelector('.product-card__media');
-        if (img && !shape && img.offsetHeight) shape = img.offsetWidth / img.offsetHeight;
-        var top = absTop(card);
-        if (top <= featTop + 1 || top >= featBottom) return; // only the 2nd spanned row
-        if (!img) return;
-        target = Math.max(target, absTop(img) + img.offsetHeight);
-      });
-      if (!target) {
-        release();
-        return;
-      }
+      var landed = false;
 
-      var height = target - absTop(media);
-      var img = media.querySelector('.product-card__image');
-      var photoRatio = img && img.naturalWidth ? img.naturalWidth / img.naturalHeight : 0;
-      if (photoRatio) {
-        /* the tallest box that still keeps MAX_PHOTO_LOSS of the picture */
-        height = Math.min(height, media.offsetWidth / (photoRatio * (1 - MAX_PHOTO_LOSS)));
-      } else if (shape) {
-        height = Math.min(height, (media.offsetWidth / shape) * MAX_STRETCH);
-      }
-      if (height > 0 && Math.abs(media.offsetHeight - height) > 1) {
+      for (var pass = 0; pass < 8; pass++) {
+        var featTop = absTop(featured);
+        var featBottom = featTop + featured.offsetHeight;
+        var target = 0;
+        grid.querySelectorAll('.product-card').forEach(function (card) {
+          if (card === featured) return;
+          var img = card.querySelector('.product-card__media');
+          if (img && !shape && img.offsetHeight) shape = img.offsetWidth / img.offsetHeight;
+          var top = absTop(card);
+          if (top <= featTop + 1 || top >= featBottom) return; // only the 2nd spanned row
+          if (!img) return;
+          target = Math.max(target, absTop(img) + img.offsetHeight);
+        });
+        if (!target) {
+          if (!landed) release();
+          return;
+        }
+
+        var height = target - absTop(media);
+        if (shape) {
+          height = Math.min(height, (media.offsetWidth / shape) * SANITY_MAX_STRETCH);
+        }
+        if (height <= 0) return;
+        if (Math.abs(media.offsetHeight - height) <= 0.5) return; // flush already
         media.style.flex = 'none';
         media.style.height = height + 'px';
         if (link) link.style.flex = 'none';
+        landed = true;
       }
     };
 
@@ -601,10 +601,8 @@
     };
 
     align();
-    /* A second pass after the set: if the featured text is taller than its
-       neighbours', the explicit height can grow the spanned rows slightly,
-       which moves the target — remeasuring once settles it. The 1px guard
-       above stops this from ping-ponging. */
+    /* alignGrid converges internally; this only catches layout that settles
+       a frame later (web fonts, a late image). */
     requestAnimationFrame(align);
 
     if ('ResizeObserver' in window) {
