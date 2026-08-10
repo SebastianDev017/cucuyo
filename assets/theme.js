@@ -506,18 +506,24 @@
      offsetTop is used throughout because it ignores the reveal transforms.
      Without JS the CSS stretch fallback stays — close, not exact.
 
-     THE STRETCH IS STILL CAPPED, but at the figure this layout actually
-     needs rather than a conservative guess. Measured: a flush bottom edge
-     asks for 1.199, and the previous 1.08 left an 84px step that read as a
-     bug to the client. There is no stretch-free way out — geometry decides
-     it: a tile of double width can only reach the second row's bottom edge
-     by being taller than its own ratio, so alignment and an uncropped
-     photograph are mutually exclusive here. Alignment wins, since every card
-     in this grid is a cover-cropped fixed shape anyway (the never-crop rule
-     belongs to the product gallery, not to grid cards).
+     THE CAP IS EXPRESSED AS LOST PHOTOGRAPH, NOT AS STRETCH. A fixed stretch
+     figure cannot work: measured across 990-2560px the flush edge needs
+     anywhere from 1.10 to 1.42, because the text block grows from 139px to
+     193px as titles wrap onto more lines, and the tile has to make up that
+     difference. One number either leaves a step on narrow screens or allows
+     ~30% of the picture to be cut on them.
 
-     The cap is not gone: it still stops a pathological row — one whose text
-     wraps to several lines — from stretching the tile arbitrarily far. */
+     So the limit is the thing that actually matters — how much of the
+     photograph is cut — and the height is solved backwards from it:
+
+       loss = 1 - boxRatio/photoRatio   (box taller than photo → vertical cut)
+       loss <= L   ⇒   height <= width / (photoRatio * (1 - L))
+
+     At 22% this reaches a flush edge from roughly 1400px up, which covers
+     ordinary desktop widths, and below that it gets as close as it can
+     without cutting further. Falls back to a plain stretch cap if the image
+     has not reported its natural size yet. */
+  var MAX_PHOTO_LOSS = 0.22;
   var MAX_STRETCH = 1.22;
 
   function initFeaturedAlign() {
@@ -575,11 +581,13 @@
       }
 
       var height = target - absTop(media);
-      /* Cap it against the shape the other cards use, so the big tile can
-         never crop dramatically harder than they do. */
-      if (shape) {
-        var unstretched = media.offsetWidth / shape;
-        height = Math.min(height, unstretched * MAX_STRETCH);
+      var img = media.querySelector('.product-card__image');
+      var photoRatio = img && img.naturalWidth ? img.naturalWidth / img.naturalHeight : 0;
+      if (photoRatio) {
+        /* the tallest box that still keeps MAX_PHOTO_LOSS of the picture */
+        height = Math.min(height, media.offsetWidth / (photoRatio * (1 - MAX_PHOTO_LOSS)));
+      } else if (shape) {
+        height = Math.min(height, (media.offsetWidth / shape) * MAX_STRETCH);
       }
       if (height > 0 && Math.abs(media.offsetHeight - height) > 1) {
         media.style.flex = 'none';
