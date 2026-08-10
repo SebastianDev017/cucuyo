@@ -1,38 +1,40 @@
 {%- comment -%}
   Highlighted content — a full-bleed lifestyle moment between the grids
-  (Figma: 1512×835). Takes a hosted video (muted, looping, plays inline) or
-  an image; the draft asset fills in while neither is selected. Optional link.
+  (Figma: 1512×835). Takes a hosted video, an external YouTube/Vimeo link, or
+  an image; the draft asset fills in while none is selected. Optional heading
+  and CTA overlaid on the media, both off by default.
+
+  EVERY DEFAULT REPRODUCES THE PREVIOUS HARDCODED LOOK: padding 0, no
+  background or text colour override, the 1512/835 band ratio, and the
+  heading/CTA hidden — so a band that existed before this section gained its
+  settings renders byte-for-byte as it did.
 {%- endcomment -%}
 
-<section class="image-band" data-header-tone="{{ section.settings.header_tone }}">
-  {%- if section.settings.link != blank -%}<a href="{{ section.settings.link }}">{%- endif -%}
-  {%- if section.settings.video -%}
-    {%- comment -%}
-      Hand-written <video> instead of video_tag so iOS/WebKit sees the bare
-      boolean attributes it expects for muted inline autoplay. theme.js adds
-      a declarative-first retry (property muted + play() on view/bfcache)
-      for the WebKit cases that ignore the attributes alone.
-    {%- endcomment -%}
-    <video
-      class="image-band__media"
-      autoplay
-      muted
-      loop
-      playsinline
-      preload="auto"
-      poster="{{ section.settings.video.preview_image | image_url: width: 1600 }}"
-      {% if section.settings.alt_text != blank %}
-        aria-label="{{ section.settings.alt_text | escape }}"
-      {% endif %}
-      data-autoplay-video
-    >
-      {%- for source in section.settings.video.sources -%}
-        <source src="{{ source.url }}" type="{{ source.mime_type }}">
-      {%- endfor -%}
-    </video>
+<section
+  class="image-band"
+  data-header-tone="{{ section.settings.header_tone }}"
+  style="{% render 'section-style', section: section %} --band-ratio: {{ section.settings.media_ratio | default: '1512/835' }};"
+>
+  {%- if section.settings.link != blank and section.settings.show_overlay == false -%}<a href="{{ section.settings.link }}">{%- endif -%}
+
+  {%- liquid
+    assign has_video = false
+    if section.settings.video or section.settings.video_url != blank
+      assign has_video = true
+    endif
+  -%}
+
+  {%- if has_video -%}
+    {% render 'media-video',
+      video: section.settings.video,
+      video_url: section.settings.video_url,
+      alt: section.settings.alt_text,
+      media_class: 'image-band__media'
+    %}
   {%- else -%}
-    {% render 'draft-image',
+    {% render 'media-image',
       image: section.settings.image,
+      image_url: section.settings.image_url,
       draft_asset: section.settings.draft_asset,
       img_class: 'image-band__media',
       sizes: '100vw',
@@ -41,7 +43,31 @@
       asset_height: 835
     %}
   {%- endif -%}
-  {%- if section.settings.link != blank -%}</a>{%- endif -%}
+
+  {%- if section.settings.link != blank and section.settings.show_overlay == false -%}</a>{%- endif -%}
+
+  {%- comment -%}
+    The overlay is off unless the merchant turns it on, so nothing appears
+    over the imagery in any band that exists today.
+  {%- endcomment -%}
+  {%- if section.settings.show_overlay -%}
+    <div class="image-band__overlay image-band__overlay--{{ section.settings.overlay_position | default: 'center' }}">
+      {%- if section.settings.heading != blank -%}
+        <h2
+          class="image-band__heading"
+          style="{% render 'font-vars', prefix: 'band-heading', choice: section.settings.heading_font %}"
+        >
+          {{- section.settings.heading | escape -}}
+        </h2>
+      {%- endif -%}
+      {%- if section.settings.body != blank -%}
+        <div class="image-band__body rte">{{ section.settings.body }}</div>
+      {%- endif -%}
+      {%- if section.settings.cta_label != blank and section.settings.link != blank -%}
+        <a href="{{ section.settings.link }}" class="button image-band__cta">{{ section.settings.cta_label | escape }}</a>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
 </section>
 
 {% schema %}
@@ -49,6 +75,146 @@
   "name": "Highlighted content",
   "tag": "section",
   "settings": [
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video (upload)",
+      "info": "Muted loop. Wins over the link and the image."
+    },
+    {
+      "type": "video_url",
+      "id": "video_url",
+      "label": "Video (YouTube or Vimeo)",
+      "accept": ["youtube", "vimeo"],
+      "info": "Used when nothing is uploaded"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "image_url",
+      "label": "Image URL",
+      "info": "Used when nothing is uploaded. Uploads are sharper — they get resized per screen."
+    },
+    {
+      "type": "text",
+      "id": "alt_text",
+      "label": "Media description",
+      "info": "For screen readers"
+    },
+    {
+      "type": "select",
+      "id": "media_ratio",
+      "label": "Shape",
+      "options": [
+        { "value": "1512/835", "label": "Band (default)" },
+        { "value": "21/9", "label": "Cinematic" },
+        { "value": "16/9", "label": "Widescreen" },
+        { "value": "1/1", "label": "Square" }
+      ],
+      "default": "1512/835"
+    },
+    {
+      "type": "text",
+      "id": "draft_asset",
+      "label": "Draft asset filename",
+      "info": "Theme asset used while nothing else is set"
+    },
+    {
+      "type": "header",
+      "content": "Overlay"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_overlay",
+      "label": "Show text over the media",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_font",
+      "label": "Heading typeface",
+      "options": [
+        { "value": "heading", "label": "Primary" },
+        { "value": "body", "label": "Secondary" }
+      ],
+      "default": "heading"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Text"
+    },
+    {
+      "type": "select",
+      "id": "overlay_position",
+      "label": "Position",
+      "options": [
+        { "value": "center", "label": "Centre" },
+        { "value": "bottom-left", "label": "Bottom left" },
+        { "value": "bottom-right", "label": "Bottom right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button label",
+      "info": "Needs a link below"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "info": "Empty uses the theme's"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Overlay text",
+      "info": "Empty uses the theme's"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
     {
       "type": "select",
       "id": "header_tone",
@@ -58,35 +224,7 @@
         { "value": "ink", "label": "Ink (over pale imagery)" }
       ],
       "default": "light",
-      "info": "Home only — the header has no background, so its colour follows the section passing under it"
-    },
-    {
-      "type": "video",
-      "id": "video",
-      "label": "Video",
-      "info": "Plays muted on a loop. Takes priority over the image."
-    },
-    {
-      "type": "image_picker",
-      "id": "image",
-      "label": "Image"
-    },
-    {
-      "type": "text",
-      "id": "draft_asset",
-      "label": "Draft asset filename",
-      "info": "Theme asset shown while no video or image is selected (design draft)"
-    },
-    {
-      "type": "text",
-      "id": "alt_text",
-      "label": "Media description",
-      "info": "Describes the image or video for screen readers"
-    },
-    {
-      "type": "url",
-      "id": "link",
-      "label": "Link"
+      "info": "Home only — the header follows the section under it"
     }
   ],
   "presets": [

@@ -151,7 +151,52 @@
   ],
   "blocks": [
     { "type": "breadcrumb", "name": "Breadcrumb", "limit": 1 },
-    { "type": "title", "name": "Title", "limit": 1 },
+    {
+      "type": "title",
+      "name": "Title",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "title_font",
+          "label": "Typeface",
+          "options": [
+            { "value": "heading", "label": "Primary" },
+            { "value": "body", "label": "Secondary" }
+          ],
+          "default": "heading"
+        },
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Colour",
+          "info": "Empty uses the theme's"
+        },
+        {
+          "type": "range",
+          "id": "spacing_bottom",
+          "label": "Space below",
+          "min": 0,
+          "max": 80,
+          "step": 2,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "checkbox",
+          "id": "show_subtitle",
+          "label": "Show subtitle",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_vendor",
+          "label": "Show vendor",
+          "default": true,
+          "info": "Also needs the section's vendor setting on"
+        }
+      ]
+    },
     {
       "type": "variant_picker",
       "name": "Variant picker",
@@ -217,7 +262,40 @@
           "type": "richtext",
           "id": "content",
           "label": "Details",
-          "info": "Material, dimensions… Connect a product metafield (dynamic source) so each product shows its own lines. The colour line is added automatically from the selected variant."
+          "info": "Material, dimensions… Connect a product metafield (dynamic source) so each product shows its own lines."
+        },
+        {
+          "type": "select",
+          "id": "heading_font",
+          "label": "Heading typeface",
+          "options": [
+            { "value": "body", "label": "Secondary" },
+            { "value": "heading", "label": "Primary" }
+          ],
+          "default": "body"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text colour",
+          "info": "Empty uses the theme's"
+        },
+        {
+          "type": "range",
+          "id": "spacing_top",
+          "label": "Space above",
+          "min": 0,
+          "max": 120,
+          "step": 4,
+          "unit": "px",
+          "default": 56
+        },
+        {
+          "type": "checkbox",
+          "id": "show_color",
+          "label": "Show the selected colour",
+          "default": true,
+          "info": "Follows the variant the shopper picks"
         }
       ]
     },

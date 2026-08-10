@@ -1,0 +1,77 @@
+{% doc %}
+  One image for a customizable section or block, from either an upload or an
+  external URL, with a shared aspect-ratio control.
+
+  UPLOAD IS THE GOOD PATH. A picked image goes through Shopify's CDN, which
+  is what makes the responsive ladder work — the whole srcset/sizes system
+  that was tuned so retina screens get enough pixels. An external URL cannot
+  be resized, so it renders as a single flat file at whatever size the remote
+  host serves; it exists because it was asked for, not because it is equal.
+  When both are set the upload wins.
+
+  SHAPE IS AN ASPECT RATIO, NOT A RADIUS. The brand is square-cornered
+  everywhere, so this deliberately exposes no corner control.
+
+  @param {object} [image] - image_picker value (preferred)
+  @param {string} [image_url] - external image URL, used only when no upload
+  @param {string} [draft_asset] - theme asset filename, the existing draft
+    fallback (see draft-image)
+  @param {string} img_class - class for the <img>
+  @param {string} [sizes] - responsive sizes attribute for the uploaded path
+  @param {string} [ratio] - "756/957" | "1/1" | "3/2" | "4/5"; omitted leaves
+    whatever the stylesheet already sets
+  @param {string} [alt]
+  @param {string} [loading] - "lazy" (default) or "eager"
+  @param {number} [asset_width] - intrinsic width of the draft asset, also the
+    reserved width for an external URL (its real size is unknowable server-side)
+  @param {number} [asset_height] - intrinsic height of the draft asset
+  @example
+  {% render 'media-image', image: block.settings.image, image_url: block.settings.image_url, img_class: 'image-card__media', ratio: block.settings.ratio %}
+{% enddoc %}
+
+{%- liquid
+  assign load = loading | default: 'lazy'
+  assign alt_text = alt | default: ''
+  assign ratio_style = ''
+  if ratio != blank
+    assign ratio_style = 'aspect-ratio: ' | append: ratio | append: ';'
+  endif
+-%}
+
+{%- if image == blank and image_url != blank -%}
+  {%- comment -%}
+    width/height reserve the box so the page does not shift while a remote
+    file loads. The real dimensions cannot be read server-side, so these are
+    the container's own proportions — the CSS ratio governs the rendered box
+    either way, and object-fit handles whatever actually arrives.
+  {%- endcomment -%}
+  <img
+    src="{{ image_url }}"
+    class="{{ img_class }}"
+    alt="{{ alt_text | escape }}"
+    loading="{{ load }}"
+    width="{{ asset_width | default: 756 }}"
+    height="{{ asset_height | default: 957 }}"
+    {% if ratio_style != blank %}
+      style="{{ ratio_style }}"
+    {% endif %}
+  >
+{%- else -%}
+  {%- comment -%}
+    No wrapper element: the ratio is handed to draft-image so it lands on the
+    <img> itself. Adding a span here would change the DOM these grids depend
+    on (.image-card__frame > img), which is exactly the kind of silent layout
+    change this phase is not allowed to make.
+  {%- endcomment -%}
+  {% render 'draft-image',
+    image: image,
+    draft_asset: draft_asset,
+    img_class: img_class,
+    sizes: sizes,
+    alt: alt_text,
+    loading: load,
+    ratio: ratio,
+    asset_width: asset_width,
+    asset_height: asset_height
+  %}
+{%- endif -%}

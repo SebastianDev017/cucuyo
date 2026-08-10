@@ -1,0 +1,31 @@
+{% doc %}
+  Emits the section-level style fragment shared by every customizable
+  section: background, text colour, and vertical padding.
+
+  COLOUR IS OPT-IN. Both colour settings are left with no default, so an
+  untouched section emits nothing for them and keeps inheriting the theme
+  token — that is the "use the theme's colour" case, and it is the state every
+  section ships in. Only a merchant who actively picks a colour overrides it.
+  This is why the settings have no `default` in the schema: a default would
+  bake an override into every section the moment it is saved.
+
+  Padding defaults are 0 because that is what the sections currently have —
+  their rhythm comes from the grid gap, not from padding. Adding the control
+  changes nothing until it is used.
+
+  @param {object} section - the section, for its settings
+  @example
+  <section class="home-grid" style="{% render 'section-style', section: section %}">
+{% enddoc %}
+
+{%- liquid
+  assign pt = section.settings.padding_top | default: 0
+  assign pb = section.settings.padding_bottom | default: 0
+-%}
+{%- if section.settings.background_color != blank -%}
+  --section-bg: {{ section.settings.background_color }};
+{%- endif -%}
+{%- if section.settings.text_color != blank -%}
+  --section-ink: {{ section.settings.text_color }};
+{%- endif -%}
+--section-pt: {{ pt }}px; --section-pb: {{ pb }}px;
