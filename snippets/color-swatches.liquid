@@ -86,6 +86,14 @@
           data-swatch
           data-variant-id="{{ target.id }}"
           data-variant-option="{{ value.name | escape }}"
+          {%- comment -%}
+            Position and value are what let the product page's engine treat a
+            swatch as one control among several: picking a colour has to keep
+            the size already chosen. Harmless on a card, where the engine
+            never runs.
+          {%- endcomment -%}
+          data-option-position="{{ color_option.position }}"
+          data-option-value="{{ value.name | escape }}"
           data-variant-available="{{ target.available }}"
           data-variant-price="{{ target.price | money | escape }}"
           {% if target.compare_at_price > target.price %}

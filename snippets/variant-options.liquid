@@ -1,0 +1,133 @@
+{% doc %}
+  Every variant option of a product, each with a control suited to it.
+
+  DATA-DRIVEN, NOT A LIST OF KNOWN OPTIONS. It walks product.options_with_values,
+  so a merchant adding "Material" — or a fourth size — gets a working control
+  with no code change. Nothing here names "Size".
+
+  Colour keeps the circles (they are its whole language); every other option
+  gets buttons or a dropdown, chosen by the block's setting. Circles are
+  deliberately NOT reused for non-colour options: a circle communicates a
+  colour and nothing else.
+
+  HOW A VALUE KNOWS WHERE IT GOES: Shopify's `option_value.variant` is the
+  variant you land on by changing THIS option while keeping the others as they
+  are. That is what makes multi-option products resolve correctly without the
+  theme doing its own combinatorics, and it is the same resolution colour has
+  always used.
+
+  NO JS REQUIRED. Every choice is a link to that variant's own URL, so a click
+  navigates and Shopify renders the page with it selected. theme.js upgrades
+  the same elements into in-place updates. The dropdown form additionally
+  renders the plain link list for the no-JS case, since a <select> alone can
+  do nothing without script.
+
+  @param {product} product
+  @param {string} [style] - "buttons" (default) or "dropdown", for non-colour
+    options only
+  @param {string} [id_prefix] - unique prefix for label/aria ids
+  @example
+  {% render 'variant-options', product: product, style: block.settings.option_style %}
+{% enddoc %}
+
+{%- unless product.has_only_default_variant -%}
+  {%- assign control_style = style | default: 'buttons' -%}
+  {%- assign prefix = id_prefix | default: 'pdp' -%}
+
+  {%- for option in product.options_with_values -%}
+    {%- liquid
+      assign option_key = option.name | downcase
+      assign is_colour = false
+      if option_key == 'color' or option_key == 'colour'
+        assign is_colour = true
+      endif
+      comment
+        Also treat it as colour when Shopify itself hands us swatches for it —
+        a merchant may name the option "Shade" and still have it connected to
+        the colour taxonomy.
+      endcomment
+      unless is_colour
+        for value in option.values
+          if value.swatch
+            assign is_colour = true
+            break
+          endif
+        endfor
+      endunless
+    -%}
+
+    {%- if is_colour -%}
+      {% render 'color-swatches', product: product, context: 'pdp' %}
+    {%- else -%}
+      {%- assign group_id = prefix | append: '-opt-' | append: forloop.index -%}
+      <div class="variant-option" data-variant-option>
+        <p class="variant-option__label" id="{{ group_id }}">{{ option.name }}</p>
+
+        {%- if control_style == 'dropdown' -%}
+          <div class="variant-option__select-wrap">
+            <select
+              class="variant-option__select"
+              aria-labelledby="{{ group_id }}"
+              data-variant-nav
+            >
+              {%- for value in option.values -%}
+                <option
+                  value="{{ value.variant.url }}"
+                  data-variant-id="{{ value.variant.id }}"
+                  data-option-position="{{ option.position }}"
+                  data-option-value="{{ value.name | escape }}"
+                  {% if value.selected %}
+                    selected
+                  {% endif %}
+                  {% unless value.available %}
+                    disabled
+                  {% endunless %}
+                >
+                  {{ value.name }}
+                  {%- unless value.available %} — {{ 'products.sold_out' | t }}{% endunless -%}
+                </option>
+              {%- endfor -%}
+            </select>
+          </div>
+        {%- endif -%}
+
+        {%- comment -%}
+          The link list is the button UI, and also the no-JS fallback for the
+          dropdown — CSS hides it in that case only when scripting is on.
+        {%- endcomment -%}
+        <div
+          class="variant-option__list{% if control_style == 'dropdown' %} variant-option__list--fallback{% endif %}"
+          role="group"
+          aria-labelledby="{{ group_id }}"
+        >
+          {%- for value in option.values -%}
+            {%- assign target = value.variant -%}
+            {%- assign value_image = target.featured_media | default: target.image -%}
+            <a
+              class="variant-option__button{% unless value.available %} variant-option__button--unavailable{% endunless %}"
+              href="{{ target.url }}"
+              data-variant-control
+              data-option-position="{{ option.position }}"
+              data-option-value="{{ value.name | escape }}"
+              data-variant-id="{{ target.id }}"
+              data-variant-available="{{ target.available }}"
+              data-variant-price="{{ target.price | money | escape }}"
+              {% if target.compare_at_price > target.price %}
+                data-variant-compare="{{ target.compare_at_price | money | escape }}"
+              {% endif %}
+              {% if value_image %}
+                data-variant-image="{{ value_image | image_url: width: 1500 }}"
+                data-variant-image-alt="{{ value_image.alt | escape }}"
+              {% endif %}
+              {% if value.selected %}
+                aria-current="true"
+              {% endif %}
+            >
+              {{ value.name }}
+            </a>
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+  {%- endfor -%}
+{%- endunless -%}

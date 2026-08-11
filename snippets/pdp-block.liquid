@@ -63,13 +63,22 @@
       Its own spacing setting: this sits between the title and the swatches on
       the product page, which is a different gap from the one on a grid card
       (Theme settings → Product cards) even though both move swatches.
+
+      Renders EVERY option the product has, not just colour: variant-options
+      walks the real option list, so a product whose only option is Size — or
+      one that gains Material later — gets a working control with no code
+      change. Colour still gets the circles.
     {%- endcomment -%}
     <div
       class="main-product__variants"
       style="--pdp-swatch-space: {{ block.settings.spacing_top | default: 26 }}px;"
       {{ block.shopify_attributes }}
     >
-      {% render 'color-swatches', product: product, context: 'pdp' %}
+      {% render 'variant-options',
+        product: product,
+        style: block.settings.option_style,
+        id_prefix: section.id
+      %}
     </div>
 
   {%- when 'description' -%}
@@ -141,42 +150,21 @@
       {{ block.shopify_attributes }}
     >
       {%- comment -%}
-        Colour is picked by the swatches, and each of those is a link to that
-        variant's own URL — with no JS the click navigates and Shopify renders
-        this page with the variant already selected, so the hidden id below is
-        correct server-side without any script. theme.js keeps it in sync when
-        it upgrades those links into in-place updates. A product with a SECOND
-        option (size, material) still needs a real control, so it falls back
-        to the select; only one of the two ever carries name="id".
+        Every option now has its own control up in the variant picker, and
+        each choice is a link to that variant's URL — with no JS the click
+        navigates and Shopify renders this page with the variant already
+        selected, so the hidden id below is correct server-side without any
+        script. theme.js keeps it in sync when it upgrades those links into
+        in-place updates.
+
+        The old "second option falls back to a <select name=id>" branch is
+        gone: it only appeared for products with 2+ options, which meant a
+        product whose single option was Size (Ribbed Serving Bowl) had no
+        control at all. The picker covers every case now, so this is always
+        the hidden input.
       {%- endcomment -%}
-      {%- liquid
-        assign needs_select = false
-        if product.has_only_default_variant == false and product.options.size > 1
-          assign needs_select = true
-        endif
-      -%}
       {%- form 'product', product, class: 'product-form' -%}
-        {%- if needs_select -%}
-          <label class="visually-hidden" for="Variants-{{ section.id }}">{{ 'products.select_variant' | t }}</label>
-          <select id="Variants-{{ section.id }}" name="id" class="main-product__variant-select" data-variant-select>
-            {%- for variant in product.variants -%}
-              <option
-                value="{{ variant.id }}"
-                {% if variant == current_variant %}
-                  selected
-                {% endif %}
-                {% unless variant.available %}
-                  disabled
-                {% endunless %}
-              >
-                {{ variant.title }}
-                {%- unless variant.available %} — {{ 'products.sold_out' | t }}{% endunless %}
-              </option>
-            {%- endfor -%}
-          </select>
-        {%- else -%}
-          <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
-        {%- endif -%}
+        <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
 
         <button
           type="submit"
@@ -211,13 +199,27 @@
         </button>
       {%- endform -%}
 
+      {%- comment -%}
+        Carries each variant's option VALUES so the script can resolve a
+        combination the shopper builds across several controls. Without this
+        the page could only follow the link it was given, which is right for
+        one option and wrong for two — picking a size has to keep the colour
+        already chosen. compare_at and the image ride along so the whole
+        display updates from one source.
+      {%- endcomment -%}
       <script type="application/json" data-variant-data>
         [
           {%- for variant in product.variants -%}
+            {%- assign v_image = variant.featured_media | default: variant.image -%}
             {
               "id": {{ variant.id | json }},
               "available": {{ variant.available | json }},
-              "price": {{ variant.price | money | json }}
+              "price": {{ variant.price | money | json }},
+              "compare": {% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money | json }}{% else %}null{% endif %},
+              "url": {{ variant.url | json }},
+              "image": {% if v_image %}{{ v_image | image_url: width: 1500 | json }}{% else %}null{% endif %},
+              "imageAlt": {% if v_image %}{{ v_image.alt | json }}{% else %}null{% endif %},
+              "options": {{ variant.options | json }}
             }{% unless forloop.last %},{% endunless %}
           {%- endfor -%}
         ]

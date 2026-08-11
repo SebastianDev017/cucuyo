@@ -240,44 +240,178 @@
      variant is submitted even without JS. Here we progressively enhance by
      updating the button's price and availability on change. Variant data is
      embedded server-side so prices keep the store's money format. */
-  function initProductForms() {
-    document.querySelectorAll('[data-product-form]').forEach(function (root) {
-      var select = root.querySelector('[data-variant-select]');
-      var dataEl = root.querySelector('[data-variant-data]');
-      var button = root.querySelector('[data-add-button]');
-      if (!select || !dataEl || !button) return;
+  /* The product page's variant engine — ONE engine for every option, not one
+     per control type. Colour swatches, option buttons and the dropdown are
+     all just controls that carry an option position and a value; the engine
+     keeps the chosen combination and resolves it against the variant list.
 
-      var variants;
-      try {
-        variants = JSON.parse(dataEl.textContent);
-      } catch (error) {
-        return;
-      }
+     This is why it cannot simply follow the link it was clicked on: with two
+     options, picking a size has to keep the colour already chosen, and the
+     other control's links then point at the wrong variants. So the state is
+     the combination, and every control is re-pointed after each change.
 
-      /* The button is three spans — label, thin divider, price — so the
-         price swaps without rebuilding the markup (Figma: "ADD TO CART | $"). */
-      var label = button.querySelector('[data-atc-label]');
-      var divider = button.querySelector('[data-atc-divider]');
-      var price = button.querySelector('[data-atc-price]');
+     Without JS none of this runs and each control is still a plain link to a
+     real variant URL, which Shopify renders correctly server-side. */
+  function initVariantOptions() {
+    var root = document.querySelector('[data-product-form]');
+    if (!root) return;
+    var dataEl = root.querySelector('[data-variant-data]');
+    if (!dataEl) return;
 
-      select.addEventListener('change', function () {
-        var variant = variants.find(function (v) {
-          return String(v.id) === select.value;
-        });
-        if (!label || !divider || !price) return;
-        if (variant && variant.available) {
-          button.disabled = false;
-          label.textContent = root.dataset.addText;
-          divider.hidden = false;
-          price.hidden = false;
-          price.textContent = variant.price;
-        } else {
-          button.disabled = true;
-          label.textContent = variant ? root.dataset.soldOutText : root.dataset.unavailableText;
-          divider.hidden = true;
-          price.hidden = true;
-          price.textContent = '';
+    var variants;
+    try {
+      variants = JSON.parse(dataEl.textContent);
+    } catch (error) {
+      return;
+    }
+    if (!variants.length) return;
+
+    var scope = document.querySelector('.main-product') || document;
+    var controls = Array.prototype.slice.call(
+      scope.querySelectorAll('[data-variant-control], [data-swatch]')
+    );
+    var selects = Array.prototype.slice.call(scope.querySelectorAll('[data-variant-nav]'));
+    if (!controls.length && !selects.length) return;
+
+    var button = root.querySelector('[data-add-button]');
+    var label = button && button.querySelector('[data-atc-label]');
+    var divider = button && button.querySelector('[data-atc-divider]');
+    var price = button && button.querySelector('[data-atc-price]');
+    var compareEl = root.querySelector('[data-pdp-compare]');
+    var idInput = root.querySelector('[data-variant-id]');
+    var heroImg = document.querySelector('.main-product__media-item--hero img');
+    var colorLine = document.querySelector('[data-pdp-color]');
+
+    /* current combination, taken from whatever the server rendered as chosen */
+    var current = variants.filter(function (v) {
+      return idInput && String(v.id) === String(idInput.value);
+    })[0] || variants[0];
+    var chosen = current.options.slice();
+
+    var findExact = function (combo) {
+      for (var i = 0; i < variants.length; i++) {
+        var v = variants[i];
+        var hit = true;
+        for (var j = 0; j < combo.length; j++) {
+          if (v.options[j] !== combo[j]) { hit = false; break; }
         }
+        if (hit) return v;
+      }
+      return null;
+    };
+
+    /* When the combination the shopper built does not exist, keep the value
+       they just touched and fall back to any available variant carrying it,
+       rather than silently ignoring the click. */
+    var resolve = function (position, value) {
+      var combo = chosen.slice();
+      combo[position - 1] = value;
+      var exact = findExact(combo);
+      if (exact) return exact;
+      var fallback = null;
+      for (var i = 0; i < variants.length; i++) {
+        if (variants[i].options[position - 1] !== value) continue;
+        if (variants[i].available) return variants[i];
+        if (!fallback) fallback = variants[i];
+      }
+      return fallback;
+    };
+
+    var swapImage = function (img, src, alt) {
+      if (!img || !src) return;
+      /* srcset outranks src, so it has to go before the swap */
+      img.removeAttribute('srcset');
+      img.removeAttribute('sizes');
+      img.src = src;
+      if (alt) img.alt = alt;
+    };
+
+    var apply = function (variant) {
+      if (!variant) return;
+      chosen = variant.options.slice();
+
+      controls.forEach(function (el) {
+        var pos = parseInt(el.getAttribute('data-option-position'), 10);
+        var val = el.getAttribute('data-option-value');
+        if (!pos || val === null) return;
+        /* mark the chosen one */
+        if (chosen[pos - 1] === val) el.setAttribute('aria-current', 'true');
+        else el.removeAttribute('aria-current');
+        /* re-point at the variant this value now leads to, given the rest */
+        var combo = chosen.slice();
+        combo[pos - 1] = val;
+        var target = findExact(combo);
+        if (target) {
+          if (target.url) el.setAttribute('href', target.url);
+          el.setAttribute('data-variant-id', target.id);
+          el.setAttribute('data-variant-available', String(target.available));
+          el.classList.toggle('variant-option__button--unavailable', !target.available);
+          el.classList.toggle('swatch--unavailable', !target.available && el.hasAttribute('data-swatch'));
+        }
+      });
+
+      selects.forEach(function (sel) {
+        Array.prototype.slice.call(sel.options).forEach(function (opt) {
+          var pos = parseInt(opt.getAttribute('data-option-position'), 10);
+          var val = opt.getAttribute('data-option-value');
+          if (!pos || val === null) return;
+          opt.selected = chosen[pos - 1] === val;
+          var combo = chosen.slice();
+          combo[pos - 1] = val;
+          var target = findExact(combo);
+          if (target) opt.value = target.url;
+        });
+      });
+
+      if (idInput) idInput.value = variant.id;
+      if (price && variant.price) price.textContent = variant.price;
+      if (compareEl) {
+        if (variant.compare) {
+          compareEl.textContent = variant.compare;
+          compareEl.hidden = false;
+        } else {
+          compareEl.textContent = '';
+          compareEl.hidden = true;
+        }
+      }
+      swapImage(heroImg, variant.image, variant.imageAlt);
+      if (colorLine) {
+        /* the Product details block prints the chosen colour by name */
+        controls.forEach(function (el) {
+          if (!el.hasAttribute('data-swatch')) return;
+          var pos = parseInt(el.getAttribute('data-option-position'), 10);
+          if (pos) colorLine.textContent = chosen[pos - 1];
+        });
+      }
+      if (button && label && divider && price) {
+        button.disabled = !variant.available;
+        label.textContent = variant.available ? root.dataset.addText : root.dataset.soldOutText;
+        divider.hidden = !variant.available;
+        price.hidden = !variant.available;
+      }
+      if (variant.url && window.history && window.history.replaceState) {
+        window.history.replaceState({}, '', variant.url);
+      }
+    };
+
+    scope.addEventListener('click', function (event) {
+      var el = event.target.closest('[data-variant-control], [data-swatch]');
+      if (!el || !scope.contains(el)) return;
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+      var pos = parseInt(el.getAttribute('data-option-position'), 10);
+      var val = el.getAttribute('data-option-value');
+      if (!pos || val === null) return;   // a card swatch, or markup without state
+      event.preventDefault();
+      apply(resolve(pos, val));
+    });
+
+    selects.forEach(function (sel) {
+      sel.addEventListener('change', function () {
+        var opt = sel.options[sel.selectedIndex];
+        var pos = parseInt(opt.getAttribute('data-option-position'), 10);
+        var val = opt.getAttribute('data-option-value');
+        if (!pos || val === null) return;
+        apply(resolve(pos, val));
       });
     });
   }
@@ -396,13 +530,19 @@
     });
   }
 
-  /* Colour swatches. Every swatch is already a link to its own variant's URL,
-     so this is pure enhancement: intercept the click and move the page to
-     that variant in place — price, image and address bar — instead of
-     reloading. Without JS the same links simply navigate, and Shopify
-     renders the page with the variant selected. */
-  function initSwatches() {
-    var groups = Array.prototype.slice.call(document.querySelectorAll('[data-swatches]'));
+  /* Colour swatches ON GRID CARDS only. Every swatch is already a link to its
+     own variant's URL, so this is pure enhancement: intercept the click and
+     move the card to that variant in place — image, price, and where the card
+     leads — instead of reloading.
+
+     The product page is NOT handled here. Its swatches are one control among
+     several (a product can also have Size), so they belong to the variant
+     engine that keeps the whole combination; running both would fight over
+     the same clicks. Cards stay simple on purpose: one colour, one card. */
+  function initCardSwatches() {
+    var groups = Array.prototype.slice.call(
+      document.querySelectorAll('[data-product-card] [data-swatches], .image-card [data-swatches]')
+    );
     if (!groups.length) return;
 
     var select = function (group, swatch) {
@@ -424,7 +564,7 @@
 
     groups.forEach(function (group) {
       var onCard = group.closest('[data-product-card], .image-card');
-      var form = document.querySelector('[data-product-form]');
+      if (!onCard) return;
 
       group.addEventListener('click', function (event) {
         var swatch = event.target.closest('[data-swatch]');
@@ -453,44 +593,14 @@
           }
         };
 
-        if (onCard) {
-          swapImage(onCard.querySelector('.product-card__image, .image-card__media'), image, imageAlt);
-          var cardPrice = onCard.querySelector('[data-card-price]');
-          if (cardPrice && price) cardPrice.textContent = price;
-          setCompare(onCard.querySelector('[data-card-compare]'));
-          /* the card itself must now open the colour the shopper picked */
-          onCard.querySelectorAll('[data-card-link]').forEach(function (link) {
-            link.setAttribute('href', href);
-          });
-          return;
-        }
-
-        /* product page */
-        swapImage(document.querySelector('.main-product__media-item--hero img'), image, imageAlt);
-        /* the Product details block prints the selected colour by name */
-        var colorLine = document.querySelector('[data-pdp-color]');
-        var optionName = swatch.getAttribute('data-variant-option');
-        if (colorLine && optionName) colorLine.textContent = optionName;
-        var atcPrice = document.querySelector('[data-atc-price]');
-        if (atcPrice && price) atcPrice.textContent = price;
-        setCompare(document.querySelector('[data-pdp-compare]'));
-        var idInput = form ? form.querySelector('[data-variant-id]') : null;
-        if (idInput) idInput.value = swatch.getAttribute('data-variant-id');
-        var available = swatch.getAttribute('data-variant-available') === 'true';
-        var button = form ? form.querySelector('[data-add-button]') : null;
-        if (button && form) {
-          var label = button.querySelector('[data-atc-label]');
-          var divider = button.querySelector('[data-atc-divider]');
-          button.disabled = !available;
-          if (label) {
-            label.textContent = available ? form.dataset.addText : form.dataset.soldOutText;
-          }
-          if (divider) divider.hidden = !available;
-          if (atcPrice) atcPrice.hidden = !available;
-        }
-        if (href && window.history && window.history.replaceState) {
-          window.history.replaceState({}, '', href);
-        }
+        swapImage(onCard.querySelector('.product-card__image, .image-card__media'), image, imageAlt);
+        var cardPrice = onCard.querySelector('[data-card-price]');
+        if (cardPrice && price) cardPrice.textContent = price;
+        setCompare(onCard.querySelector('[data-card-compare]'));
+        /* the card itself must now open the colour the shopper picked */
+        onCard.querySelectorAll('[data-card-link]').forEach(function (link) {
+          link.setAttribute('href', href);
+        });
       });
     });
   }
@@ -625,9 +735,9 @@
     initDrawer();
     initAutoplayVideos();
     initCartCount();
-    initProductForms();
     initTabs();
-    initSwatches();
+    initCardSwatches();
+    initVariantOptions();
     initFeaturedAlign();
   });
 })();
