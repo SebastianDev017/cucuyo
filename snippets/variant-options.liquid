@@ -60,7 +60,12 @@
       {% render 'color-swatches', product: product, context: 'pdp' %}
     {%- else -%}
       {%- assign group_id = prefix | append: '-opt-' | append: forloop.index -%}
-      <div class="variant-option" data-variant-option>
+      {%- comment -%}
+        Named ...-group, not data-variant-option: the swatches already use
+        data-variant-option for the VALUE's name, and one attribute meaning
+        two different things is a trap for the next selector written.
+      {%- endcomment -%}
+      <div class="variant-option" data-variant-option-group>
         <p class="variant-option__label" id="{{ group_id }}">{{ option.name }}</p>
 
         {%- if control_style == 'dropdown' -%}
