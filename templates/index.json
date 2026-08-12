@@ -37,7 +37,9 @@
         "hero_left",
         "hero_right"
       ],
-      "settings": {}
+      "settings": {
+        "header_tone": "light"
+      }
     },
     "grid_one": {
       "type": "home-grid",
@@ -47,32 +49,47 @@
           "settings": {
             "product": "",
             "image": "shopify://shop_images/0e56ad7548bcfd72562b54a81622d4d111df7fcf.png",
-            "draft_asset": "figma-prod-ojo-de-libre.jpg",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
             "label": "Ojo de\nLibre Vase",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": "figma-prod-ojo-de-libre.jpg"
           }
         },
         "card_ghost": {
           "type": "card",
           "settings": {
-            "product": "",
+            "product": "ghost-checker-platter",
             "image": "shopify://shop_images/db61882d79c9b2d3daa4dfeaa370ff9173b64610_1.jpg",
-            "draft_asset": "figma-prod-ghost-plate.jpg",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
             "label": "Ghost\nChecker Plate",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": "figma-prod-ghost-plate.jpg"
           }
         },
         "card_ball": {
           "type": "card",
           "settings": {
-            "product": "",
+            "product": "ball-boy-bowl",
             "image": "shopify://shop_images/4ea817ecb78e09ed6d26e33749c11e1dced6a44d.jpg",
-            "draft_asset": "figma-prod-ball-boy.jpg",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
             "label": "Ball Boy\nBowl",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": "figma-prod-ball-boy.jpg"
           }
         }
       },
@@ -82,18 +99,42 @@
         "card_ball"
       ],
       "settings": {
+        "eyebrow": "",
+        "heading": "",
+        "heading_font": "heading",
+        "heading_align": "center",
         "columns_desktop": 3,
         "columns_mobile": "1",
-        "flush": false
+        "flush": false,
+        "show_collection_label": true,
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "header_tone": "ink"
       }
     },
     "band": {
       "type": "home-image-band",
       "settings": {
         "video": "shopify://files/videos/a-flamboyance-caribbean-flamingos-on-a-pond-colou-2026-01-21-15-52-11-utc-2_2 (1).mp4",
-        "draft_asset": "figma-band-flamingos.jpg",
+        "video_url": "",
+        "image_url": "",
         "alt_text": "Flock of flamingos wading through a tropical lagoon",
-        "link": ""
+        "media_ratio": "1512/835",
+        "draft_asset": "figma-band-flamingos.jpg",
+        "show_overlay": false,
+        "heading": "",
+        "heading_font": "heading",
+        "body": "",
+        "overlay_position": "center",
+        "cta_label": "",
+        "link": "",
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "header_tone": "light"
       }
     },
     "editorial_duo": {
@@ -104,10 +145,15 @@
           "settings": {
             "product": "",
             "image": "shopify://shop_images/Captura_de_pantalla_2026-08-04_193117.png",
-            "draft_asset": "figma-edit-wabi-sabi.jpg",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
             "label": "Wabi Sabi\nVase",
+            "label_font": "heading",
             "label_tone": "light",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": "figma-edit-wabi-sabi.jpg"
           }
         },
         "duo_beaded": {
@@ -115,10 +161,15 @@
           "settings": {
             "product": "",
             "image": "shopify://shop_images/bcb439cbcb9a5b3ed0361d966e0edac99e5f5fb1.png",
-            "draft_asset": "figma-edit-beaded.jpg",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
             "label": "Beaded\nPlates",
+            "label_font": "heading",
             "label_tone": "light",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": "figma-edit-beaded.jpg"
           }
         }
       },
@@ -127,9 +178,19 @@
         "duo_beaded"
       ],
       "settings": {
+        "eyebrow": "",
+        "heading": "",
+        "heading_font": "heading",
+        "heading_align": "center",
         "columns_desktop": 2,
         "columns_mobile": "1",
-        "flush": false
+        "flush": false,
+        "show_collection_label": true,
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "header_tone": "ink"
       }
     },
     "grid_two": {
@@ -140,10 +201,15 @@
           "settings": {
             "product": "",
             "image": "shopify://shop_images/6d30c681f98859a3240157a53c2e680f7d90ddbf.jpg",
-            "draft_asset": "figma-prod-wabi-vase.jpg",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
             "label": "Wabi Sabi\nVase",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": "figma-prod-wabi-vase.jpg"
           }
         },
         "card_ziggy": {
@@ -151,20 +217,30 @@
           "settings": {
             "product": "",
             "image": "shopify://shop_images/0981f2fa9f897e69b6c456be1a85cad5032d773b.png",
-            "draft_asset": "figma-prod-ziggy-stool.jpg",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
             "label": "Ziggy Rattan\nCounter Stool",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": "figma-prod-ziggy-stool.jpg"
           }
         },
         "card_ghost_2": {
           "type": "card",
           "settings": {
             "product": "",
-            "draft_asset": "figma-prod-ghost-plate-2.jpg",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
             "label": "Ghost\nChecker Plate",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": "figma-prod-ghost-plate-2.jpg"
           }
         }
       },
@@ -174,9 +250,19 @@
         "card_ghost_2"
       ],
       "settings": {
+        "eyebrow": "",
+        "heading": "",
+        "heading_font": "heading",
+        "heading_align": "center",
         "columns_desktop": 3,
         "columns_mobile": "1",
-        "flush": false
+        "flush": false,
+        "show_collection_label": true,
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "header_tone": "ink"
       }
     }
   },
