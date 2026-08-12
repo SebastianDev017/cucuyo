@@ -106,7 +106,7 @@
         "columns_desktop": 3,
         "columns_mobile": "1",
         "flush": false,
-        "show_collection_label": true,
+        "show_collection_label": false,
         "background_color": "",
         "text_color": "",
         "padding_top": 0,
