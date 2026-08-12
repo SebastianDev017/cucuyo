@@ -31,7 +31,15 @@
   endfor
 -%}
 
-{%- if color_option and color_option.values.size > 1 -%}
+{%- comment -%}
+  ONE colour still renders. The threshold used to be "more than one", on the
+  reasoning that a lone swatch offers no choice — but the real catalogue gives
+  every product a single colour (Terracotta, Burgundy, White Ceramic), so that
+  rule hid the swatch on every card in the shop. A single circle is not a
+  control, it is the product's colour stated plainly, and the row of cards
+  reads consistently because of it.
+{%- endcomment -%}
+{%- if color_option and color_option.values.size > 0 -%}
   <ul
     class="swatches swatches--{{ context | default: 'card' }}"
     role="list"
@@ -74,6 +82,29 @@
             render 'color-palette', name: value.name
           endcapture
           assign hex = hex | strip
+        endif
+
+        comment
+          Compound names. The real catalogue uses values like "White Ceramic"
+          and "Antique Brass" — a colour plus the material or a qualifier —
+          which no palette of plain colour names can match whole. So each word
+          is tried in turn and the first that resolves wins, which handles
+          whatever wording the merchant invents next without listing it here.
+          Falling through to the value's name as text would break the row of
+          circles on a card.
+        endcomment
+        if hex == blank
+          assign name_words = value.name | split: ' '
+          for word in name_words
+            capture word_hex
+              render 'color-palette', name: word
+            endcapture
+            assign word_hex = word_hex | strip
+            if word_hex != blank
+              assign hex = word_hex
+              break
+            endif
+          endfor
         endif
 
         assign swatch_image = value.swatch.image
