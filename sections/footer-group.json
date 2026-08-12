@@ -45,6 +45,7 @@
         "column_3"
       ],
       "settings": {
+        "mark_image": "shopify://shop_images/PLU_LIN_05.jpg",
         "show_newsletter": true,
         "newsletter_note": "Sign up to our newsletter to receive exclusive offers."
       }
