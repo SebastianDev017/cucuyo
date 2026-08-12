@@ -19,6 +19,9 @@
   @param {boolean} [show_collection] - render the product's first collection
     title under the label (11px caps, muted); only applies when the card
     resolves to a product; defaults to false
+  @param {boolean} [show_swatches] - render the product's colour circles under
+    the card. Defaults to TRUE when not passed, so a caller that never opts in
+    keeps the behaviour it already had; pass false to hide them.
   @param {boolean} [label_below] - place the label under the image instead of
     overlaid on it. Used for auto-sourced product cards, whose photography
     can be pale or dark with no merchant-picked tone to rely on, so an
@@ -216,7 +219,13 @@
     </span>
   {%- endif -%}
 
-  {%- unless is_filler -%}
+  {%- comment -%}
+    Swatches are opt-out per section, the twin of show_collection. A caller
+    that says nothing keeps them, so Pair it with is unaffected; Featured
+    collection turns them off because its label sits OVER the image and a
+    lone circle below it reads as detached from the card.
+  {%- endcomment -%}
+  {%- unless is_filler or show_swatches == false -%}
     {%- if cp -%}
       {% render 'color-swatches', product: cp, context: 'card' %}
     {%- endif -%}

@@ -65,7 +65,8 @@
       {% render 'featured-card',
         block: block,
         columns: cols_desktop,
-        show_collection: section.settings.show_collection_label
+        show_collection: section.settings.show_collection_label,
+        show_swatches: section.settings.show_swatches
       %}
     {%- endfor -%}
 
@@ -76,7 +77,8 @@
           block: section.blocks[filler_index],
           is_filler: true,
           columns: cols_desktop,
-          show_collection: section.settings.show_collection_label
+          show_collection: section.settings.show_collection_label,
+          show_swatches: section.settings.show_swatches
         %}
       {%- endfor -%}
     {%- endif -%}
@@ -160,6 +162,13 @@
       "label": "Show collection label",
       "default": true,
       "info": "The product's collection under its name"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_swatches",
+      "label": "Show colour swatches",
+      "default": false,
+      "info": "Off here: the label sits over the image, so a circle below it reads as detached"
     },
     {
       "type": "header",
