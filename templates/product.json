@@ -25,12 +25,19 @@
         },
         "title": {
           "type": "title",
-          "settings": {}
+          "settings": {
+            "title_font": "heading",
+            "title_color": "",
+            "spacing_bottom": 0,
+            "show_subtitle": true,
+            "show_vendor": true
+          }
         },
         "variants": {
           "type": "variant_picker",
           "settings": {
-            "spacing_top": 26
+            "spacing_top": 26,
+            "option_style": "buttons"
           }
         },
         "description": {
@@ -59,7 +66,11 @@
           "type": "product_details",
           "settings": {
             "title": "Product Details",
-            "content": "{{ product.metafields.custom.product_details | metafield_tag }}"
+            "content": "{{ product.metafields.custom.product_details | metafield_tag }}",
+            "heading_font": "body",
+            "text_color": "",
+            "spacing_top": 56,
+            "show_color": true
           }
         }
       },
@@ -88,36 +99,6 @@
         "show_collection_label": true
       }
     },
-    "editorial_pair": {
-      "type": "home-hero",
-      "blocks": {
-        "left": {
-          "type": "image",
-          "settings": {
-            "draft_asset": "figma-pdp-checker.jpg",
-            "label": "Ghost\nChecker Plate",
-            "label_tone": "light",
-            "link": ""
-          }
-        },
-        "right": {
-          "type": "image",
-          "settings": {
-            "draft_asset": "figma-pdp-mangoes.jpg",
-            "label": "",
-            "label_tone": "light",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "left",
-        "right"
-      ],
-      "settings": {
-        "header_tone": "light"
-      }
-    },
     "grid_pair": {
       "type": "home-grid",
       "blocks": {
@@ -125,20 +106,30 @@
           "type": "card",
           "settings": {
             "product": "",
-            "draft_asset": "figma-pdp-glass.jpg",
-            "label": "Dapple Dot\nGlass",
-            "label_tone": "dark",
-            "link": ""
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
+            "label": "Ghost\nChecker Plate",
+            "label_font": "heading",
+            "label_tone": "light",
+            "label_color": "",
+            "link": "",
+            "draft_asset": "figma-pdp-checker.jpg"
           }
         },
         "stool": {
           "type": "card",
           "settings": {
             "product": "",
-            "draft_asset": "figma-pdp-stool.jpg",
-            "label": "Ziggy Rattan\nCounter Stool",
-            "label_tone": "dark",
-            "link": ""
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "light",
+            "label_color": "",
+            "link": "",
+            "draft_asset": "figma-pdp-mangoes.jpg"
           }
         }
       },
@@ -147,18 +138,80 @@
         "stool"
       ],
       "settings": {
-        "header_tone": "ink",
+        "eyebrow": "",
+        "heading": "",
+        "heading_font": "heading",
+        "heading_align": "center",
         "columns_desktop": 2,
         "columns_mobile": "1",
         "flush": false,
-        "show_collection_label": true
+        "show_collection_label": true,
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "header_tone": "ink"
+      }
+    },
+    "home_grid_nFCEgB": {
+      "type": "home-grid",
+      "blocks": {
+        "card_tx7PLe": {
+          "type": "card",
+          "settings": {
+            "product": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
+            "label": "Dapple Dot\nGlass",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "link": "",
+            "draft_asset": "figma-pdp-glass.jpg"
+          }
+        },
+        "card_jAAWnw": {
+          "type": "card",
+          "settings": {
+            "product": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
+            "label": "Ziggy Rattan\nCounter Stool",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "link": "",
+            "draft_asset": "figma-pdp-stool.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "card_tx7PLe",
+        "card_jAAWnw"
+      ],
+      "settings": {
+        "eyebrow": "",
+        "heading": "",
+        "heading_font": "heading",
+        "heading_align": "center",
+        "columns_desktop": 2,
+        "columns_mobile": "1",
+        "flush": false,
+        "show_collection_label": true,
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "header_tone": "ink"
       }
     }
   },
   "order": [
     "main",
     "related",
-    "editorial_pair",
-    "grid_pair"
+    "grid_pair",
+    "home_grid_nFCEgB"
   ]
 }
