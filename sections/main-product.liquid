@@ -66,18 +66,32 @@
   assign hero_media = current_variant.featured_media | default: product.featured_media | default: product_images.first
 
   comment
+    The hero carries a merchant-written alt too — usually just "Black" — so it
+    gets the same composition as the gallery rather than announcing a bare
+    colour name on its own.
+  endcomment
+  assign hero_alt_raw = hero_media.alt | default: '' | strip
+  if hero_alt_raw != blank
+    assign hero_alt = product.title | append: ' — ' | append: hero_alt_raw
+  else
+    assign hero_alt = product.title
+  endif
+
+  comment
     GALLERY LABELS. Shopify attaches only ONE image per variant, so the rest
     of the gallery has no native way to say which colour it belongs to. The
-    alt text carries it: "Black — front view on a wood counter". Everything
-    before the em dash is the label the theme matches; everything after stays
-    as the real alt text, so nothing is taken away from screen readers.
+    alt text carries it, and the whole alt IS the label: the merchant types
+    "Black" and nothing else, matched case-insensitively after trimming.
+
+    Accessibility is not paid for by that brevity — the alt that actually
+    reaches a screen reader is composed here as "<product title> — <what was
+    typed>", so "Black" renders as "Ball Boy Bowl — Black". The person
+    labelling images never writes the product name; the page always states it.
 
     A label only counts when it matches a real option value of THIS product,
-    which is why the vocabulary is built first. Anything else — a packaging
-    shot, a scale reference, or an alt that simply describes the photo — has
-    no label and shows on every variant. That is also the state the whole
-    catalogue is in today, so switching this on changes nothing until the
-    images are labelled.
+    which is why the vocabulary is built first. Anything else — "packaging",
+    "scale reference", any plain description of the photo — is shared and
+    shows on every variant, still with the product title composed in front.
 
     Delimiters on both sides (|black|) so "Black" cannot match "Blackberry".
   endcomment
@@ -104,7 +118,8 @@
                 widths: '550, 750, 1100, 1500, 2000, 2400',
                 sizes: pdp_media_sizes,
                 loading: 'eager',
-                fetchpriority: 'high'
+                fetchpriority: 'high',
+                alt: hero_alt
             -}}
           </div>
         {%- else -%}
@@ -161,17 +176,28 @@
           {%- endif -%}
 
           {%- liquid
-            assign raw_alt = media.alt | default: ''
+            comment
+              The whole alt is the label. Trimmed and lower-cased so "  black "
+              and "Black" both land on the same option value.
+            endcomment
+            assign raw_alt = media.alt | default: '' | strip
             assign label = ''
-            assign clean_alt = raw_alt
-
-            if filter_on and raw_alt contains '—'
-              assign head = raw_alt | split: '—' | first | strip
-              assign probe = '|' | append: head | downcase | append: '|'
+            if filter_on and raw_alt != blank
+              assign probe = '|' | append: raw_alt | downcase | append: '|'
               if option_vocab contains probe
-                assign label = head | downcase
-                assign clean_alt = raw_alt | remove_first: head | remove_first: '—' | strip
+                assign label = raw_alt | downcase
               endif
+            endif
+
+            comment
+              What a screen reader gets, composed rather than typed. An image
+              with nothing written keeps just the product title instead of a
+              dangling dash.
+            endcomment
+            if raw_alt != blank
+              assign clean_alt = product.title | append: ' — ' | append: raw_alt
+            else
+              assign clean_alt = product.title
             endif
 
             comment
@@ -355,7 +381,7 @@
           "id": "gallery_filter",
           "label": "Filter gallery by variant",
           "default": true,
-          "info": "Shopify attaches only one image per variant, so the rest of the gallery is labelled through its alt text: write it as \"Black — front view on a wood counter\". The part before the — is the variant value (it must match an option value exactly), the part after is the real alt text and is what screen readers read. An image with no such label — packaging, a scale shot — shows on every variant."
+          "info": "Shopify attaches only one image per variant, so label the rest through their alt text: type just the variant name, e.g. Black. Capitals and stray spaces don't matter. The alt a screen reader hears is written for you as \"Product name — Black\", so there is nothing else to type. An image whose alt isn't a variant name — packaging, a scale shot — shows on every variant."
         }
       ]
     },
