@@ -11,11 +11,26 @@
   "sections": {
     "main": {
       "type": "main-collection",
+      "blocks": {
+        "context_image_FPjcVk": {
+          "type": "context_image",
+          "settings": {
+            "image": "shopify://shop_images/RIB_SB_MED_01_HERO_effbe364-ab11-465c-ae1b-f9be04bbf058.jpg",
+            "image_url": "",
+            "alt_text": "",
+            "position": 1
+          }
+        }
+      },
+      "block_order": [
+        "context_image_FPjcVk"
+      ],
       "settings": {
         "products_per_page": 24,
         "columns_desktop": 4,
         "columns_mobile": "1",
-        "show_collection_label": true
+        "show_collection_label": true,
+        "feature_first": true
       }
     }
   },
