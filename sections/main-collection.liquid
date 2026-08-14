@@ -40,6 +40,31 @@
           endfor
         endif
         assign slot_count = collection.products.size | plus: context_count
+
+        # The oversized lead product stands down on its own when a context
+        # image already claims a large tile in the same band. The lead spans
+        # the first two grid rows, so that band holds it plus the normal cards
+        # beside it: 2 rows x columns, minus the 4 cells the lead itself takes,
+        # plus the lead's own slot. A context image landing anywhere inside it
+        # would sit beside or directly under the lead — two large tiles at
+        # once, which is the thing this avoids. Past that band they no longer
+        # meet, so the lead keeps its size.
+        #
+        # The setting stays a manual override: off is off, always. This only
+        # ever demotes, never promotes.
+        assign feature_first = section.settings.feature_first
+        if feature_first and context_count > 0
+          assign lead_band = section.settings.columns_desktop | times: 2 | minus: 3
+          if lead_band < 1
+            assign lead_band = 1
+          endif
+          for b in section.blocks
+            if b.type == 'context_image' and b.settings.position <= lead_band
+              assign feature_first = false
+              break
+            endif
+          endfor
+        endif
       -%}
       <div
         class="card-grid collection-grid"
@@ -79,7 +104,7 @@
               assign product = collection.products[product_index]
               assign product_index = product_index | plus: 1
               assign is_featured = false
-              if section.settings.feature_first and paginate.current_page == 1 and product_index == 1
+              if feature_first and paginate.current_page == 1 and product_index == 1
                 assign is_featured = true
               endif
             -%}
@@ -145,7 +170,7 @@
       "id": "feature_first",
       "label": "Oversized first product",
       "default": true,
-      "info": "Turn off to give the large slots to context images only"
+      "info": "The first product leads the grid at double size. It steps back to a normal card on its own when a context image already takes a large tile beside it, so there is never more than one large tile up top. Turn this off to keep the large slots for context images only."
     }
   ],
   "max_blocks": 6,
