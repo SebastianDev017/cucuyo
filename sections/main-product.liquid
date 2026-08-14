@@ -66,11 +66,24 @@
   assign hero_media = current_variant.featured_media | default: product.featured_media | default: product_images.first
 
   comment
+    An image with no alt of its own does not report an empty string: Liquid
+    hands back the PRODUCT TITLE. Composing on top of that produced "Ball Boy
+    Bowl — Ball Boy Bowl", so the title is treated as "nothing was written".
+    It also means an unlabelled image can never match an option value, which
+    is exactly right — it is shared.
+  endcomment
+  assign title_key = product.title | downcase | strip
+
+  comment
     The hero carries a merchant-written alt too — usually just "Black" — so it
     gets the same composition as the gallery rather than announcing a bare
     colour name on its own.
   endcomment
   assign hero_alt_raw = hero_media.alt | default: '' | strip
+  assign hero_alt_key = hero_alt_raw | downcase
+  if hero_alt_key == title_key
+    assign hero_alt_raw = ''
+  endif
   if hero_alt_raw != blank
     assign hero_alt = product.title | append: ' — ' | append: hero_alt_raw
   else
@@ -181,6 +194,14 @@
               and "Black" both land on the same option value.
             endcomment
             assign raw_alt = media.alt | default: '' | strip
+            comment
+              Shopify falls back to the product title when an image has no alt
+              of its own — see the note above. Treat that as unwritten.
+            endcomment
+            assign raw_alt_key = raw_alt | downcase
+            if raw_alt_key == title_key
+              assign raw_alt = ''
+            endif
             assign label = ''
             if filter_on and raw_alt != blank
               assign probe = '|' | append: raw_alt | downcase | append: '|'
