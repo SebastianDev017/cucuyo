@@ -1632,8 +1632,11 @@ html.no-js .variant-option__select-wrap {
   margin-bottom: 28px;
 }
 
+/* 0.75rem flat, NOT scaled by --heading-scale: .product-card__title is not
+   scaled either, and "the same size as a product name" has to stay true at
+   whatever the merchant sets the heading scale to. */
 .collection-head__title {
-  font-size: calc(0.75rem * var(--heading-scale, 1));
+  font-size: 0.75rem;
   letter-spacing: 0.1em;
 }
 
