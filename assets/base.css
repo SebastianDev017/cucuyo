@@ -179,7 +179,8 @@ a {
      and --card-text-space is the room under the text before the next row. */
   --card-gap: 6px;
   --card-text-inset: 18px;
-  --card-text-top: 32px;
+  --card-text-start: 5px;
+  --card-text-top: 5px;
   --card-text-space: 44px;
 }
 
@@ -1621,9 +1622,19 @@ html.no-js .variant-option__select-wrap {
   padding: var(--nav-clearance) var(--page-margin) 112px var(--sidebar-gutter);
 }
 
+/* Collection heads left-align with the grid's first image, and the title
+   takes the SAME type as a product name in a card (0.75rem / .1em), so the
+   category reads as a label over the grid rather than a page banner.
+   Scoped to the collection page on purpose — search and cart headings keep
+   the centred treatment they were designed with. */
 .collection-head {
-  text-align: center;
-  margin-bottom: 44px;
+  text-align: left;
+  margin-bottom: 28px;
+}
+
+.collection-head__title {
+  font-size: calc(0.75rem * var(--heading-scale, 1));
+  letter-spacing: 0.1em;
 }
 
 .collection-head__description {
@@ -1697,11 +1708,13 @@ html.no-js .variant-option__select-wrap {
 
 .product-card__info {
   /* The fallback has to match the emitted default (Theme settings → Product
-     cards). It read 14px while the setting said 18, which is the value that
-     would have applied if css-variables ever failed to load. */
-  padding-top: var(--card-text-top, 32px);
+     cards): if css-variables ever fails to load, this is what applies. */
+  padding-top: var(--card-text-top, 5px);
   /* the text's own horizontal breathing room — see the note on .card-grid */
   padding-inline-end: var(--card-text-inset);
+  /* and a small inset on the leading edge so the name does not sit flush
+     against the photograph's edge */
+  padding-inline-start: var(--card-text-start, 5px);
 }
 
 /* Name / subtitle / category stack on the left, the price pair opposite. */
@@ -1778,13 +1791,35 @@ html.no-js .variant-option__select-wrap {
   color: var(--color-muted);
 }
 
+/* Context image — a photograph placed among the products, carrying no name,
+   price or link. It borrows the featured slot's span rather than inventing a
+   size of its own, so the grid only ever has two tile sizes. */
+.context-image {
+  display: block;
+}
+
+.context-image__media {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: var(--card-ratio, 756 / 957);
+  object-fit: cover;
+}
+
 /* Featured slot — the collection's first product (merchant sort order) spans
    2 columns × 2 rows of the same grid, its image stretching to fill, like
-   the oversized lead tile of the reference. Uniform again on mobile. */
+   the oversized lead tile of the reference. Uniform again on mobile. The
+   context image takes exactly the same span. */
 @media (min-width: 750px) {
-  .collection-grid .product-card--featured {
+  .collection-grid .product-card--featured,
+  .collection-grid .context-image {
     grid-column: span 2;
     grid-row: span 2;
+  }
+
+  /* free of the card ratio here: it fills the two rows it spans */
+  .collection-grid .context-image__media {
+    aspect-ratio: auto;
   }
 
   .collection-grid .product-card--featured .product-card__media {
@@ -2273,10 +2308,12 @@ html.lenis {
   border-color: transparent;
 }
 
-/* Cards: the swatch row is the last thing in the card, inset like the text */
+/* Cards: the swatch row is the last thing in the card, inset like the text —
+   on BOTH edges, so the first circle lines up with the name above it. */
 .product-card .swatches,
 .image-card .swatches {
   padding-inline-end: var(--card-text-inset);
+  padding-inline-start: var(--card-text-start, 5px);
 }
 
 .swatches--pdp[role='list'] {

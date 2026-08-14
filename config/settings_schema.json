@@ -166,6 +166,17 @@
       },
       {
         "type": "range",
+        "id": "card_text_start",
+        "label": "Info padding (left)",
+        "min": 0,
+        "max": 40,
+        "step": 1,
+        "unit": "px",
+        "default": 5,
+        "info": "Keeps the text off the image's left edge"
+      },
+      {
+        "type": "range",
         "id": "card_text_inset",
         "label": "Info padding (right)",
         "min": 0,
@@ -183,7 +194,7 @@
         "max": 40,
         "step": 2,
         "unit": "px",
-        "default": 32,
+        "default": 5,
         "info": "Space between the image and the text below it"
       },
       {
