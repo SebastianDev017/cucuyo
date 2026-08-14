@@ -1380,6 +1380,13 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
   gap: var(--pdp-gallery-gap, 24px);
 }
 
+/* Explicit, not left to the UA stylesheet: these are grid children, and any
+   rule that gives them a display value would out-rank the browser's own
+   [hidden] and leave a filtered-out photograph on screen. */
+.pdp-gallery__item[hidden] {
+  display: none;
+}
+
 .pdp-gallery__item img {
   display: block;
   width: 100%;

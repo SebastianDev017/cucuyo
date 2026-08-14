@@ -281,6 +281,7 @@
     var idInput = root.querySelector('[data-variant-id]');
     var heroImg = document.querySelector('.main-product__media-item--hero img');
     var colorLine = document.querySelector('[data-pdp-color]');
+    var galleryItems = Array.prototype.slice.call(document.querySelectorAll('[data-gallery-item]'));
 
     /* current combination, taken from whatever the server rendered as chosen */
     var current = variants.filter(function (v) {
@@ -375,6 +376,21 @@
         }
       }
       swapImage(heroImg, variant.image, variant.imageAlt);
+
+      /* Gallery: keep the photographs labelled for this variant, plus every
+         unlabelled one — those are shared (packaging, scale) and belong to
+         all of them. Liquid already did this for the page as it arrived; this
+         only re-does it when the shopper switches without a reload. */
+      if (galleryItems.length) {
+        var chosenLower = chosen.map(function (v) {
+          return String(v).toLowerCase();
+        });
+        galleryItems.forEach(function (item) {
+          var label = item.getAttribute('data-variant-label');
+          item.hidden = label ? chosenLower.indexOf(label) === -1 : false;
+        });
+      }
+
       if (colorLine) {
         /* the Product details block prints the chosen colour by name */
         controls.forEach(function (el) {

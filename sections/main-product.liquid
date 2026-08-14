@@ -55,16 +55,50 @@
       <   750px : one column, 40px page margin each side
   endcomment
   assign pdp_media_sizes = '(min-width: 1604px) calc(53vw - 220px), (min-width: 750px) calc(41vw - 20px), calc(100vw - 80px)'
+
+  comment
+    HERO comes from the selected variant, the way Shopify means it to: the
+    image attached to that variant in Admin, falling back to the product's
+    own featured image. Arriving at ?variant=<black> therefore shows the
+    black photograph before a single line of script runs.
+  endcomment
+  assign current_variant = product.selected_or_first_available_variant
+  assign hero_media = current_variant.featured_media | default: product.featured_media | default: product_images.first
+
+  comment
+    GALLERY LABELS. Shopify attaches only ONE image per variant, so the rest
+    of the gallery has no native way to say which colour it belongs to. The
+    alt text carries it: "Black — front view on a wood counter". Everything
+    before the em dash is the label the theme matches; everything after stays
+    as the real alt text, so nothing is taken away from screen readers.
+
+    A label only counts when it matches a real option value of THIS product,
+    which is why the vocabulary is built first. Anything else — a packaging
+    shot, a scale reference, or an alt that simply describes the photo — has
+    no label and shows on every variant. That is also the state the whole
+    catalogue is in today, so switching this on changes nothing until the
+    images are labelled.
+
+    Delimiters on both sides (|black|) so "Black" cannot match "Blackberry".
+  endcomment
+  assign option_vocab = '|'
+  unless product.has_only_default_variant
+    for option in product.options_with_values
+      for value in option.values
+        assign option_vocab = option_vocab | append: value.name | downcase | append: '|'
+      endfor
+    endfor
+  endunless
 -%}
 
 <section class="main-product" style="--media-ratio: {{ media_ratio }}; --pdp-gallery-gap: {{ gallery_gap }}px;">
   <div class="main-product__grid">
     {%- if show_media -%}
       <div class="main-product__media" {{ media_block.shopify_attributes }}>
-        {%- if product_images.size > 0 -%}
+        {%- if hero_media -%}
           <div class="main-product__media-item main-product__media-item--hero">
             {{-
-              product_images.first
+              hero_media
               | image_url: width: 2400
               | image_tag:
                 widths: '550, 750, 1100, 1500, 2000, 2400',
@@ -108,16 +142,77 @@
       gallery at all (no empty state, no placeholder).
     {%- endcomment -%}
     {%- if show_media and product_images.size > 1 -%}
-      <div class="pdp-gallery">
-        {%- for media in product_images offset: 1 -%}
-          <div class="pdp-gallery__item">
+      {%- liquid
+        assign filter_on = true
+        if media_block.settings.gallery_filter == false
+          assign filter_on = false
+        endif
+        comment
+          Whichever image is currently the hero is skipped by IDENTITY, not by
+          position: the hero is now the selected variant's image, which may sit
+          anywhere in the list, so "offset: 1" would have shown it twice and
+          hidden an unrelated photo.
+        endcomment
+      -%}
+      <div class="pdp-gallery" data-pdp-gallery>
+        {%- for media in product_images -%}
+          {%- if media.id == hero_media.id -%}
+            {%- continue -%}
+          {%- endif -%}
+
+          {%- liquid
+            assign raw_alt = media.alt | default: ''
+            assign label = ''
+            assign clean_alt = raw_alt
+
+            if filter_on and raw_alt contains '—'
+              assign head = raw_alt | split: '—' | first | strip
+              assign probe = '|' | append: head | downcase | append: '|'
+              if option_vocab contains probe
+                assign label = head | downcase
+                assign clean_alt = raw_alt | remove_first: head | remove_first: '—' | strip
+              endif
+            endif
+
+            comment
+              Hidden server-side when the label belongs to another variant, so
+              the page arrives already filtered and the browser never fetches
+              those files (they are lazy AND display:none). The script only
+              flips the same attribute when the shopper switches.
+            endcomment
+            assign hide = false
+            if label != blank
+              assign in_current = false
+              for opt_value in current_variant.options
+                assign opt_key = opt_value | downcase
+                if opt_key == label
+                  assign in_current = true
+                endif
+              endfor
+              unless in_current
+                assign hide = true
+              endunless
+            endif
+          -%}
+
+          <div
+            class="pdp-gallery__item"
+            data-gallery-item
+            {% if label != blank %}
+              data-variant-label="{{ label | escape }}"
+            {% endif %}
+            {% if hide %}
+              hidden
+            {% endif %}
+          >
             {{-
               media
               | image_url: width: 2400
               | image_tag:
                 widths: '550, 750, 1100, 1500, 2000, 2400',
                 sizes: pdp_media_sizes,
-                loading: 'lazy'
+                loading: 'lazy',
+                alt: clean_alt
             -}}
           </div>
         {%- endfor -%}
@@ -254,6 +349,13 @@
           "unit": "px",
           "default": 24,
           "info": "The air between the stacked photographs, and between the hero and the first of them"
+        },
+        {
+          "type": "checkbox",
+          "id": "gallery_filter",
+          "label": "Filter gallery by variant",
+          "default": true,
+          "info": "Shopify attaches only one image per variant, so the rest of the gallery is labelled through its alt text: write it as \"Black — front view on a wood counter\". The part before the — is the variant value (it must match an option value exactly), the part after is the real alt text and is what screen readers read. An image with no such label — packaging, a scale shot — shows on every variant."
         }
       ]
     },
