@@ -1825,6 +1825,24 @@ html.no-js .variant-option__select-wrap {
     aspect-ratio: auto;
   }
 
+  /* ...and it reserves the same room under itself that every product card
+     reserves under its text (.product-card padding-bottom). Without it the
+     photograph ran past the ink beside it by exactly one --card-text-space:
+     measured 44px, card box bottom 1125 against the neighbouring swatch at
+     1081, which is the overshoot in Jenn's screenshot.
+
+     This is the whole of the height matching a context image needs, and it
+     is why it does not go through initFeaturedAlign. That function exists
+     because the featured PRODUCT's image has to stop mid-card, level with
+     its neighbours' images, and how much of the card its own text takes is
+     not knowable in CSS — it has to be measured. A context image ends at the
+     end of the rows it spans, and the tallest card in that row ends exactly
+     one --card-text-space above the row's bottom by construction. Measuring
+     it would arrive at this same number the long way round. */
+  .collection-grid .context-image {
+    padding-bottom: var(--card-text-space);
+  }
+
   .collection-grid .product-card--featured .product-card__media {
     flex: 1;
     min-height: 0;
