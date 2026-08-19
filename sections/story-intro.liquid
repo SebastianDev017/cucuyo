@@ -1,0 +1,192 @@
+{%- comment -%}
+  Story opening — the page's voice, before any of the work. A statement set
+  in the display face, a short paragraph beneath it, and one photograph that
+  runs off the side of the viewport the way the home grids do.
+
+  The statement is deliberately the first thing on the page rather than an
+  image: the shop already opens on photography, and this page has to say who
+  is behind it before it shows what they made.
+
+  PersonaTRIAL carries A-Z, digits and a few marks only, so display copy here
+  stays letters and spaces — an apostrophe or a dash would silently fall
+  through to Junction mid-word.
+{%- endcomment -%}
+
+<section
+  class="story-intro story-intro--media-{{ section.settings.media_side }}{% unless section.settings.show_media %} story-intro--solo{% endunless %}"
+  style="
+    {% render 'section-style', section: section %}
+    --intro-scale: {{ section.settings.statement_scale | default: 100 | divided_by: 100.0 }};
+    --intro-media-width: {{ section.settings.media_width | default: 42 }}%;
+  "
+>
+  {%- comment -%}
+    The statement takes the page's whole width rather than sharing the row
+    with the photograph: at display size a half-width column re-breaks the
+    lines that were written into the setting, and those breaks are the shape
+    of the sentence. The paragraph and the photograph share the row beneath.
+  {%- endcomment -%}
+  {%- if section.settings.statement != blank -%}
+    <h1 class="story-intro__statement">{{ section.settings.statement | escape | newline_to_br }}</h1>
+  {%- endif -%}
+
+  {%- if section.settings.body != blank -%}
+    <div class="story-intro__body rte">{{ section.settings.body }}</div>
+  {%- endif -%}
+
+  {%- if section.settings.show_media -%}
+    <div class="story-intro__media">
+      {% render 'media-image',
+        image: section.settings.image,
+        image_url: section.settings.image_url,
+        draft_asset: section.settings.draft_asset,
+        img_class: 'story-intro__image',
+        sizes: '(min-width: 750px) 45vw, 100vw',
+        alt: section.settings.alt_text,
+        ratio: section.settings.media_ratio,
+        loading: 'eager',
+        asset_width: 1200,
+        asset_height: 1800
+      %}
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Story opening",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "statement",
+      "label": "Statement",
+      "default": "We furnish rooms\nthe way we would\nset a table",
+      "info": "Line breaks are kept. Letters, numbers, commas and hyphens only — the display face carries nothing else."
+    },
+    {
+      "type": "range",
+      "id": "statement_scale",
+      "label": "Statement size",
+      "min": 70,
+      "max": 150,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Text",
+      "default": "<p>CUCUYO HOME began as a search for objects that were made by hand and meant to be used. The interiors came later and for the same reason: a room should carry the marks of the people living in it.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Photograph"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_media",
+      "label": "Show the photograph",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "image_url",
+      "label": "Image URL",
+      "info": "Used when nothing is uploaded. Uploads are sharper — they get resized per screen."
+    },
+    {
+      "type": "text",
+      "id": "alt_text",
+      "label": "Image description",
+      "info": "For screen readers"
+    },
+    {
+      "type": "text",
+      "id": "draft_asset",
+      "label": "Draft asset filename",
+      "info": "Placeholder photograph used until an image is chosen"
+    },
+    {
+      "type": "select",
+      "id": "media_side",
+      "label": "Photograph side",
+      "options": [
+        { "value": "right", "label": "Right" },
+        { "value": "left", "label": "Left" }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "range",
+      "id": "media_width",
+      "label": "Photograph width",
+      "min": 30,
+      "max": 60,
+      "step": 2,
+      "unit": "%",
+      "default": 42
+    },
+    {
+      "type": "select",
+      "id": "media_ratio",
+      "label": "Photograph shape",
+      "options": [
+        { "value": "2/3", "label": "Tall" },
+        { "value": "3/4", "label": "Portrait" },
+        { "value": "1/1", "label": "Square" },
+        { "value": "4/3", "label": "Landscape" }
+      ],
+      "default": "2/3"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "info": "Empty uses the theme's"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "info": "Empty uses the theme's"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 96
+    }
+  ],
+  "presets": [
+    {
+      "name": "Story opening",
+      "settings": { "draft_asset": "story-arch-window.jpg" }
+    }
+  ]
+}
+{% endschema %}

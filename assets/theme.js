@@ -744,6 +744,150 @@
     window.addEventListener('load', align);
   }
 
+  /* Story gallery — the row already scrolls: it is a real scroll container,
+     so touch, trackpad, keyboard and assistive tech need nothing from us.
+     What a mouse has no gesture for is dragging, and that is all this adds.
+     Pointer capture keeps the drag alive when the cursor leaves the row. */
+  function initStoryGallery() {
+    var tracks = document.querySelectorAll('[data-gallery-track]');
+    Array.prototype.forEach.call(tracks, function (track) {
+      if (track.dataset.dragReady) return;
+      track.dataset.dragReady = '1';
+
+      var startX = 0;
+      var startLeft = 0;
+      var dragging = false;
+
+      track.addEventListener('pointerdown', function (e) {
+        if (e.pointerType !== 'mouse' || e.button !== 0) return;
+        dragging = true;
+        startX = e.clientX;
+        startLeft = track.scrollLeft;
+        track.setAttribute('data-dragging', '');
+        track.setPointerCapture(e.pointerId);
+      });
+
+      track.addEventListener('pointermove', function (e) {
+        if (!dragging) return;
+        e.preventDefault();
+        track.scrollLeft = startLeft - (e.clientX - startX);
+      });
+
+      var end = function (e) {
+        if (!dragging) return;
+        dragging = false;
+        track.removeAttribute('data-dragging');
+        if (e.pointerId != null && track.hasPointerCapture(e.pointerId)) {
+          track.releasePointerCapture(e.pointerId);
+        }
+      };
+
+      track.addEventListener('pointerup', end);
+      track.addEventListener('pointercancel', end);
+    });
+  }
+
+  /* Story sequence — page scroll becomes sideways travel.
+
+     The markup already works without this: the viewport is a horizontal
+     scroller with snap points. This upgrades it to a pinned run by giving the
+     scroller the height of the travel and translating the track against the
+     page's own scroll, which keeps the browser's scrollbar honest — nothing
+     is hijacked, the page really is that tall.
+
+     It declines on narrow screens and under reduced motion. Taking someone's
+     scroll direction away is not something to do to a visitor who asked the
+     system for less movement, and on a phone a swipe is already the better
+     gesture. */
+  function initStorySequence() {
+    var sections = document.querySelectorAll('[data-sequence-section]');
+    if (!sections.length) return;
+
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    Array.prototype.forEach.call(sections, function (section) {
+      if (section.dataset.seqReady) return;
+      section.dataset.seqReady = '1';
+
+      var scroller = section.querySelector('[data-sequence]');
+      var viewport = section.querySelector('.story-sequence__viewport');
+      var track = section.querySelector('[data-sequence-track]');
+      var bar = section.querySelector('[data-sequence-bar]');
+      if (!scroller || !viewport || !track) return;
+
+      var travel = 0;
+      var stickyTop = 0;
+      var pinned = false;
+      var ticking = false;
+
+      var unpin = function () {
+        pinned = false;
+        section.removeAttribute('data-pinned');
+        scroller.style.height = '';
+        track.style.transform = '';
+        if (bar) bar.style.width = viewport.scrollWidth > viewport.clientWidth ? '0%' : '100%';
+      };
+
+      var measure = function () {
+        if (reduce.matches || window.innerWidth < 750) {
+          unpin();
+          return;
+        }
+        /* Pin FIRST, then measure. Pinning changes the viewport's own height
+           (it drops the wordmark's clearance), and a scroller sized from the
+           unpinned height overshoots the travel by exactly that much. A
+           sticky element still occupies its normal space, so clearing the
+           scroller's height here gives its true base. */
+        section.setAttribute('data-pinned', '');
+        scroller.style.height = '';
+        travel = track.scrollWidth - viewport.clientWidth;
+        if (travel <= 1) {
+          unpin();
+          return;
+        }
+        pinned = true;
+        stickyTop = parseFloat(getComputedStyle(viewport).top) || 0;
+        scroller.style.height = viewport.offsetHeight + travel + 'px';
+        update();
+      };
+
+      var update = function () {
+        ticking = false;
+        if (!pinned) {
+          if (bar) {
+            var max = viewport.scrollWidth - viewport.clientWidth;
+            bar.style.width = (max > 0 ? (viewport.scrollLeft / max) * 100 : 100) + '%';
+          }
+          return;
+        }
+        var total = scroller.offsetHeight - viewport.offsetHeight;
+        var progress = 0;
+        if (total > 0) {
+          /* measured against where the viewport parks, not against zero: it
+             sticks under the wordmark, so the travel starts that much later */
+          progress = Math.min(1, Math.max(0, (stickyTop - scroller.getBoundingClientRect().top) / total));
+        }
+        track.style.transform = 'translate3d(' + -(progress * travel).toFixed(2) + 'px, 0, 0)';
+        if (bar) bar.style.width = (progress * 100).toFixed(2) + '%';
+      };
+
+      var request = function () {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(update);
+      };
+
+      window.addEventListener('scroll', request, { passive: true });
+      viewport.addEventListener('scroll', request, { passive: true });
+      window.addEventListener('resize', measure);
+      if (reduce.addEventListener) reduce.addEventListener('change', measure);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+      window.addEventListener('load', measure);
+
+      measure();
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     trackHeaderHeight();
     initHeaderTone();
@@ -755,5 +899,14 @@
     initCardSwatches();
     initVariantOptions();
     initFeaturedAlign();
+    initStoryGallery();
+    initStorySequence();
+  });
+
+  /* The customizer re-renders one section at a time; both story helpers are
+     idempotent, so re-running them only picks up what has just arrived. */
+  document.addEventListener('shopify:section:load', function () {
+    initStoryGallery();
+    initStorySequence();
   });
 })();

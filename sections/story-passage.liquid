@@ -1,0 +1,230 @@
+{%- comment -%}
+  Story passage — one written moment beside one or two photographs, the unit
+  the narrative page is built from. Add it as many times as the story needs
+  and alternate the side; that alternation is the whole rhythm of the page,
+  so it is a setting rather than something hardcoded per instance.
+
+  The photographs are blocks, not settings: each is its own reorderable,
+  removable thing, and a passage reads differently with one large image than
+  with two smaller ones stacked against the text.
+
+  Media runs to the viewport edge on its own side. The text column stays
+  inside the same gutter the rest of the site keeps clear of the nav rail.
+{%- endcomment -%}
+
+<section
+  class="story-passage story-passage--{{ section.settings.media_side }}"
+  style="
+    {% render 'section-style', section: section %}
+    --passage-media: {{ section.settings.media_width | default: 52 }}%;
+    --passage-gap: {{ section.settings.gap | default: 6 }}px;
+  "
+>
+  <div class="story-passage__text">
+    {%- if section.settings.heading != blank -%}
+      <h2
+        class="story-passage__heading"
+        style="{% render 'font-vars', prefix: 'passage-heading', choice: section.settings.heading_font %}"
+      >
+        {{- section.settings.heading | escape | newline_to_br -}}
+      </h2>
+    {%- endif -%}
+
+    {%- if section.settings.body != blank -%}
+      <div class="story-passage__body rte">{{ section.settings.body }}</div>
+    {%- endif -%}
+
+    {%- if section.settings.cta_label != blank and section.settings.link != blank -%}
+      <a href="{{ section.settings.link }}" class="story-passage__cta">{{ section.settings.cta_label | escape }}</a>
+    {%- endif -%}
+  </div>
+
+  {%- if section.blocks.size > 0 -%}
+    <div class="story-passage__media story-passage__media--{{ section.blocks.size }}">
+      {%- for block in section.blocks -%}
+        <figure class="story-passage__figure" {{ block.shopify_attributes }}>
+          {% render 'media-image',
+            image: block.settings.image,
+            image_url: block.settings.image_url,
+            draft_asset: block.settings.draft_asset,
+            img_class: 'story-passage__image',
+            sizes: '(min-width: 750px) 50vw, 100vw',
+            alt: block.settings.alt_text,
+            ratio: block.settings.ratio,
+            asset_width: 1200,
+            asset_height: 1800
+          %}
+          {%- if block.settings.caption != blank -%}
+            <figcaption class="story-passage__caption">{{ block.settings.caption | escape }}</figcaption>
+          {%- endif -%}
+        </figure>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Story passage",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The work starts\nin the house",
+      "info": "Line breaks are kept"
+    },
+    {
+      "type": "select",
+      "id": "heading_font",
+      "label": "Heading typeface",
+      "options": [
+        { "value": "heading", "label": "Primary" },
+        { "value": "body", "label": "Secondary" }
+      ],
+      "default": "heading"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Text",
+      "default": "<p>We spend the first days doing very little. Where the sun lands in the afternoon, which door everyone actually uses, what the family already owns and would never give up. The plan comes out of that, and so does everything we go looking for afterwards.</p>"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Link label",
+      "info": "Needs a link below"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "media_side",
+      "label": "Photographs side",
+      "options": [
+        { "value": "right", "label": "Right" },
+        { "value": "left", "label": "Left" }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "range",
+      "id": "media_width",
+      "label": "Photographs width",
+      "min": 34,
+      "max": 70,
+      "step": 2,
+      "unit": "%",
+      "default": 52
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Space between photographs",
+      "min": 0,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 6
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "info": "Empty uses the theme's"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "info": "Empty uses the theme's"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    }
+  ],
+  "max_blocks": 2,
+  "blocks": [
+    {
+      "type": "photograph",
+      "name": "Photograph",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "image_url",
+          "label": "Image URL",
+          "info": "Used when nothing is uploaded. Uploads are sharper."
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "Image description",
+          "info": "For screen readers"
+        },
+        {
+          "type": "text",
+          "id": "draft_asset",
+          "label": "Draft asset filename",
+          "info": "Placeholder photograph used until an image is chosen"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Caption",
+          "info": "Optional. Sits under the photograph."
+        },
+        {
+          "type": "select",
+          "id": "ratio",
+          "label": "Shape",
+          "options": [
+            { "value": "2/3", "label": "Tall" },
+            { "value": "3/4", "label": "Portrait" },
+            { "value": "1/1", "label": "Square" },
+            { "value": "4/3", "label": "Landscape" },
+            { "value": "3/2", "label": "Wide" }
+          ],
+          "default": "3/4"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Story passage",
+      "blocks": [{ "type": "photograph", "settings": { "draft_asset": "story-linen-sofa.jpg", "ratio": "3/2" } }]
+    }
+  ]
+}
+{% endschema %}

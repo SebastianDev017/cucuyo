@@ -2387,3 +2387,514 @@ html.lenis {
 .image-card__compare[hidden] {
   display: none;
 }
+
+/* --------------------------------------------------------------------------
+   STORY PAGE — the merged About + Interior Design surface.
+
+   The site keeps a fixed link rail down the left, so "full width" here means
+   from the content gutter to the right edge of the viewport, never edge to
+   edge: a photograph running under that rail takes the navigation with it.
+   The travel that makes this page move is horizontal, and it happens on the
+   right, which is exactly where there is room for it.
+
+   Nothing on this page fades in on scroll. The page has one authored
+   movement — photographs travelling sideways — and giving every section an
+   entrance as well would spend the attention that movement needs.
+   -------------------------------------------------------------------------- */
+
+/* main keeps the inset every inner template shares — deliberately, because
+   theme.js reads that padding to decide how far the content has to clear the
+   nav: with no left gutter it assumes the content runs under the link column
+   and pushes everything down by the height of the whole stack. So the story
+   sections step back out of it instead, and re-apply the same left edge
+   themselves. What this buys is the right margin: a photograph here can
+   reach the edge of the screen, which is the whole grammar of the page. */
+.story-intro,
+.story-passage,
+.story-gallery,
+.story-sequence {
+  margin-right: calc(-1 * var(--page-margin));
+  margin-left: calc(-1 * var(--sidebar-gutter));
+}
+
+/* Shared spine: the text column of every story section starts on the same
+   left edge as the collection grid, so the page has one vertical alignment
+   running through it rather than a new margin per section. */
+.story-intro,
+.story-passage,
+.story-gallery {
+  padding-top: var(--section-pt, 0);
+  padding-bottom: var(--section-pb, 0);
+  background: var(--section-bg, transparent);
+  color: var(--section-ink, inherit);
+}
+
+/* --- Opening ------------------------------------------------------------- */
+
+.story-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--intro-media-width, 42%);
+  grid-template-areas:
+    'statement statement'
+    'body media';
+  column-gap: clamp(28px, 4vw, 72px);
+  row-gap: clamp(28px, 4vw, 64px);
+  align-items: start;
+  padding-left: var(--sidebar-gutter);
+}
+
+.story-intro__statement {
+  grid-area: statement;
+  /* the one line of type that gets the whole page: it clears the right
+     margin rather than running to the edge, because a sentence read to the
+     very edge of a screen has nowhere to end */
+  padding-right: var(--page-margin);
+}
+
+.story-intro__body {
+  grid-area: body;
+}
+
+.story-intro__media {
+  grid-area: media;
+}
+
+.story-intro--media-left {
+  grid-template-columns: var(--intro-media-width, 42%) minmax(0, 1fr);
+  grid-template-areas:
+    'statement statement'
+    'media body';
+}
+
+.story-intro--media-left .story-intro__body {
+  padding-right: var(--page-margin);
+}
+
+/* With the photograph turned off the second column would still hold its
+   share of the width, leaving the statement wrapping inside 58% of the page
+   for no reason. Nothing to place beside it means one column. */
+.story-intro--solo,
+.story-intro--solo.story-intro--media-left {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    'statement'
+    'body';
+  padding-right: var(--page-margin);
+}
+
+.story-intro--solo .story-intro__statement,
+.story-intro--solo .story-intro__body {
+  padding-right: 0;
+}
+
+.story-intro__statement {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight, 500);
+  /* the display voice of the page: the same uppercase-and-tracked register
+     as the wordmark and the product names, two steps larger */
+  font-size: calc(clamp(1.75rem, 4.2vw, 3.5rem) * var(--intro-scale, 1) * var(--heading-scale, 1));
+  letter-spacing: 0.07em;
+  line-height: 1.22;
+  text-transform: uppercase;
+}
+
+.story-intro__body {
+  margin-top: clamp(20px, 2.6vw, 40px);
+  /* a reading measure, not a column width: about 68 characters */
+  max-width: 36em;
+  color: var(--color-muted);
+  font-size: calc(0.875rem * var(--body-scale, 1));
+  line-height: 1.75;
+}
+
+.story-intro__body > :first-child {
+  margin-top: 0;
+}
+
+.story-intro__body > :last-child {
+  margin-bottom: 0;
+}
+
+.story-intro__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* --- Passage ------------------------------------------------------------- */
+
+.story-passage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--passage-media, 52%);
+  gap: clamp(28px, 4vw, 72px);
+  align-items: start;
+  padding-left: var(--sidebar-gutter);
+}
+
+.story-passage--left {
+  grid-template-columns: var(--passage-media, 52%) minmax(0, 1fr);
+}
+
+.story-passage--left .story-passage__text {
+  order: 2;
+  padding-right: var(--page-margin);
+}
+
+.story-passage--left .story-passage__media {
+  order: 1;
+}
+
+@media (min-width: 750px) {
+  /* The writing holds still while the photographs move past it — the reason
+     a passage can carry two images without the text scrolling away from
+     them. Offset by the wordmark's own clearance so it never parks under it. */
+  .story-passage__text {
+    position: sticky;
+    top: clamp(96px, 16vh, 200px);
+  }
+}
+
+.story-passage__heading {
+  margin: 0;
+  font-family: var(--passage-heading-font, var(--font-heading));
+  font-weight: var(--passage-heading-weight, var(--font-heading-weight, 500));
+  font-size: calc(clamp(1rem, 1.5vw, 1.375rem) * var(--heading-scale, 1));
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.story-passage__body {
+  margin-top: 20px;
+  max-width: 36em;
+  color: var(--color-muted);
+  font-size: calc(0.875rem * var(--body-scale, 1));
+  line-height: 1.75;
+}
+
+.story-passage__body > :first-child {
+  margin-top: 0;
+}
+
+.story-passage__body > :last-child {
+  margin-bottom: 0;
+}
+
+.story-passage__cta {
+  display: inline-block;
+  margin-top: 24px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid currentcolor;
+  color: inherit;
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.story-passage__cta:hover {
+  opacity: 0.6;
+}
+
+.story-passage__media {
+  display: grid;
+  gap: var(--passage-gap, 6px);
+}
+
+.story-passage__figure {
+  margin: 0;
+}
+
+.story-passage__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.story-passage__caption {
+  margin-top: 10px;
+  padding-right: var(--page-margin);
+  color: var(--color-muted);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* --- Gallery (option A) -------------------------------------------------- */
+
+.story-gallery__heading {
+  margin: 0 var(--page-margin) clamp(20px, 2.4vw, 36px) var(--sidebar-gutter);
+  font-family: var(--gallery-heading-font, var(--font-heading));
+  font-weight: var(--gallery-heading-weight, var(--font-heading-weight, 500));
+  font-size: calc(0.75rem * var(--heading-scale, 1));
+  letter-spacing: 0.1em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.story-gallery__track {
+  display: flex;
+  gap: var(--gallery-gap, 6px);
+  /* the row starts on the page's spine and is allowed to leave the screen on
+     the right: what tells a visitor there is more is the cut, not an arrow */
+  margin-left: var(--sidebar-gutter);
+  padding: 0 var(--page-margin) 20px 0;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  overscroll-behavior-x: contain;
+  cursor: grab;
+  /* the scrollbar is part of the design here, not chrome to hide: a hairline
+     in the page's own ink, which doubles as the only progress indicator */
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-ink) var(--color-border);
+}
+
+.story-gallery__track::-webkit-scrollbar {
+  height: 2px;
+}
+
+.story-gallery__track::-webkit-scrollbar-track {
+  background: var(--color-border);
+}
+
+.story-gallery__track::-webkit-scrollbar-thumb {
+  background: var(--color-ink);
+}
+
+.story-gallery__track:focus-visible {
+  outline: 1px solid currentcolor;
+  outline-offset: 6px;
+}
+
+.story-gallery__track[data-dragging] {
+  cursor: grabbing;
+  scroll-snap-type: none;
+}
+
+.story-gallery__item {
+  flex: 0 0 auto;
+  margin: 0;
+  scroll-snap-align: start;
+}
+
+.story-gallery__image {
+  display: block;
+  width: auto;
+  max-width: none;
+  height: var(--gallery-height, 62vh);
+  object-fit: cover;
+  /* a drag that starts on a photograph must not turn into the browser's own
+     image drag, which cancels the gesture halfway */
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* The catch-all above caps every image inside main at its container's width.
+   A gallery plate is sized by its height and keeps its own proportions, so a
+   wide one has to be allowed past that — matched selector for matched
+   specificity, rather than an !important that would outrank everything. */
+body:not(.template-index):not(.template-product):not(.template-collection):not(.template-search):not(.template-cart) main .story-gallery__image {
+  max-width: none;
+}
+
+.story-gallery__caption {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 10px;
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.story-gallery__place {
+  color: var(--color-muted);
+}
+
+/* --- Sequence (option B) ------------------------------------------------- */
+
+.story-sequence {
+  padding-top: var(--section-pt, 0);
+  padding-bottom: var(--section-pb, 0);
+  background: var(--section-bg, transparent);
+}
+
+.story-sequence__viewport {
+  position: relative;
+  /* THE LEFT EDGE IS NOT NEGOTIABLE. Photographs travelling leftwards would
+     otherwise pass under the fixed link rail and take the navigation with
+     them — dark ink over a dark photograph, for the length of the section.
+     The stage runs from the site's spine to the right edge of the screen,
+     and the rail keeps a clean background under it at every moment. */
+  margin-left: var(--sidebar-gutter);
+  height: var(--seq-height, 100svh);
+  /* THE FALLBACK IS THE DEFAULT. With no JS, under reduced motion, and on a
+     phone this stays an ordinary horizontal scroller with snap points. The
+     pinned version is an upgrade theme.js opts into. */
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.story-sequence__viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.story-sequence__track {
+  display: flex;
+  gap: var(--seq-gap, 6px);
+  height: 100%;
+}
+
+.story-sequence__track:focus-visible {
+  outline: 1px solid var(--color-ink);
+  outline-offset: -4px;
+}
+
+.story-sequence__panel {
+  flex: 0 0 auto;
+  height: 100%;
+  margin: 0;
+  scroll-snap-align: start;
+}
+
+.story-sequence__panel--narrow {
+  width: 44vw;
+}
+
+.story-sequence__panel--wide {
+  width: 62vw;
+}
+
+.story-sequence__panel--full {
+  width: calc(100vw - var(--sidebar-gutter));
+}
+
+.story-sequence__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+.story-sequence__progress {
+  position: absolute;
+  right: var(--page-margin);
+  bottom: 28px;
+  left: 0;
+  height: 1px;
+  background: var(--color-border);
+}
+
+.story-sequence__bar {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: var(--color-ink);
+}
+
+/* Pinned: theme.js gives the scroller the height of the travel, the viewport
+   sticks to the top of the screen, and page scroll becomes sideways motion. */
+.story-sequence[data-pinned] .story-sequence__viewport {
+  position: sticky;
+  /* parked under the wordmark, not over it. The mark is fixed, centred and
+     set in the page's own ink, so a photograph behind it is legible or not
+     depending on the photograph — and this section holds one on the screen
+     for its whole length. Every other inner template clears the wordmark the
+     same way; this one is not the place to make an exception. */
+  top: var(--nav-clearance);
+  height: calc(var(--seq-height, 100svh) - var(--nav-clearance));
+  overflow: clip;
+  scroll-snap-type: none;
+}
+
+.story-sequence[data-pinned] .story-sequence__track {
+  will-change: transform;
+}
+
+@media (max-width: 767.98px) {
+  .story-intro,
+  .story-intro--media-left,
+  .story-passage,
+  .story-passage--left {
+    grid-template-columns: minmax(0, 1fr);
+    padding-right: var(--page-margin);
+  }
+
+  /* The named areas have to collapse with the columns. Left alone they keep
+     declaring two columns, and the explicit grid they describe wins over the
+     single column above — which is how the photograph ended up in a second,
+     content-sized column instead of running to the edge. */
+  .story-intro,
+  .story-intro--media-left,
+  .story-intro--solo,
+  .story-intro--solo.story-intro--media-left {
+    grid-template-areas:
+      'statement'
+      'body'
+      'media';
+  }
+
+  .story-intro__statement,
+  .story-intro--media-left .story-intro__body {
+    padding-right: 0;
+  }
+
+  /* the written half leads on a phone whichever side it takes on a desktop */
+  .story-intro--media-left .story-intro__text,
+  .story-passage--left .story-passage__text {
+    order: 0;
+    padding-right: 0;
+  }
+
+  .story-intro--media-left .story-intro__media,
+  .story-passage--left .story-passage__media {
+    order: 1;
+  }
+
+  /* photographs reach both edges: there is no link rail to protect here, the
+     navigation is a bar across the top */
+  .story-intro__media,
+  .story-passage__media {
+    margin-right: calc(-1 * var(--page-margin));
+    margin-left: calc(-1 * var(--page-margin));
+  }
+
+  .story-passage__caption {
+    padding-right: 0;
+    padding-left: var(--page-margin);
+  }
+
+  /* no rail to protect on a phone: the navigation is a bar across the top */
+  .story-sequence__viewport {
+    margin-left: 0;
+  }
+
+  .story-sequence__progress {
+    left: var(--page-margin);
+  }
+
+  .story-gallery__track {
+    margin-left: var(--page-margin);
+  }
+
+  .story-sequence__panel--narrow {
+    width: 78vw;
+  }
+
+  .story-sequence__panel--wide {
+    width: 90vw;
+  }
+
+  .story-sequence__panel--full {
+    width: 100vw;
+  }
+}

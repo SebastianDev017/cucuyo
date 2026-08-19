@@ -1,0 +1,195 @@
+{%- comment -%}
+  Project sequence — OPTION B. Full-height photographs travelling sideways
+  while the page scrolls down, with nothing written over them. The work is
+  the whole argument here; the interface is one hairline of progress.
+
+  It is built so the plain version is the one that always works: the track is
+  a real horizontal scroll container with snap points, which is what a phone,
+  a keyboard, a screen reader and a browser with no JS all get. theme.js only
+  upgrades it, pinning the viewport and driving the travel from page scroll,
+  and it declines to do that under reduced motion or on a narrow screen —
+  taking a visitor's scroll away is a thing to do lightly, and never to
+  someone who has asked the system for less movement.
+
+  Each photograph is its own block: reorder by dragging, and a panel can be
+  narrow or wide so the sequence has a rhythm instead of a filmstrip.
+{%- endcomment -%}
+
+<section
+  class="story-sequence"
+  data-sequence-section
+  style="
+    {% render 'section-style', section: section %}
+    --seq-height: {{ section.settings.panel_height | default: 100 }}svh;
+    --seq-gap: {{ section.settings.gap | default: 6 }}px;
+  "
+>
+  {%- if section.blocks.size > 0 -%}
+    <div class="story-sequence__scroller" data-sequence>
+      <div class="story-sequence__viewport">
+        <div
+          class="story-sequence__track"
+          data-sequence-track
+          tabindex="0"
+          role="region"
+          aria-label="{{ section.settings.label | default: 'Projects' | escape }}"
+        >
+          {%- for block in section.blocks -%}
+            <figure
+              class="story-sequence__panel story-sequence__panel--{{ block.settings.width }}"
+              {{ block.shopify_attributes }}
+            >
+              {% render 'media-image',
+                image: block.settings.image,
+                image_url: block.settings.image_url,
+                draft_asset: block.settings.draft_asset,
+                img_class: 'story-sequence__image',
+                sizes: '(min-width: 750px) 60vw, 90vw',
+                alt: block.settings.alt_text,
+                asset_width: 1200,
+                asset_height: 1800
+              %}
+            </figure>
+          {%- endfor -%}
+        </div>
+
+        {%- if section.settings.show_progress -%}
+          <div class="story-sequence__progress" aria-hidden="true">
+            <span class="story-sequence__bar" data-sequence-bar></span>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Project sequence",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Photographs travel sideways as the page scrolls. On phones and for visitors who ask for reduced motion it becomes an ordinary swipe, which is deliberate."
+    },
+    {
+      "type": "range",
+      "id": "panel_height",
+      "label": "Photograph height",
+      "min": 60,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Space between photographs",
+      "min": 0,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 6
+    },
+    {
+      "type": "checkbox",
+      "id": "show_progress",
+      "label": "Show the progress line",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Name of this sequence",
+      "default": "Projects",
+      "info": "Read aloud by screen readers. Never shown on the page."
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "info": "Empty uses the theme's"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "max_blocks": 12,
+  "blocks": [
+    {
+      "type": "panel",
+      "name": "Photograph",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "image_url",
+          "label": "Image URL",
+          "info": "Used when nothing is uploaded. Uploads are sharper."
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "Image description",
+          "info": "For screen readers"
+        },
+        {
+          "type": "text",
+          "id": "draft_asset",
+          "label": "Draft asset filename",
+          "info": "Placeholder photograph used until an image is chosen"
+        },
+        {
+          "type": "select",
+          "id": "width",
+          "label": "Width",
+          "options": [
+            { "value": "narrow", "label": "Narrow" },
+            { "value": "wide", "label": "Wide" },
+            { "value": "full", "label": "Full screen" }
+          ],
+          "default": "narrow"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Project sequence",
+      "blocks": [
+        { "type": "panel", "settings": { "draft_asset": "story-pink-planes.jpg", "width": "narrow" } },
+        { "type": "panel", "settings": { "draft_asset": "story-linen-sofa.jpg", "width": "wide" } },
+        { "type": "panel", "settings": { "draft_asset": "story-arcade.jpg", "width": "narrow" } },
+        { "type": "panel", "settings": { "draft_asset": "story-hammock.jpg", "width": "wide" } },
+        { "type": "panel", "settings": { "draft_asset": "story-dried-grass.jpg", "width": "narrow" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

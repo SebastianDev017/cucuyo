@@ -1,0 +1,214 @@
+{%- comment -%}
+  Project gallery — a horizontal run of photographs that starts inside the
+  text column and carries on off the right edge of the viewport, so the row
+  reads as longer than the screen and asks to be pushed. This is OPTION A's
+  way of showing the work: the images stay at one height and keep their own
+  proportions, the way plates are laid out in a printed monograph.
+
+  Every photograph is its own block, so the order is dragged in the customizer
+  and any one of them can be removed without touching the rest.
+
+  It scrolls natively — the track is a scroll container, so a trackpad, a
+  touch swipe, the keyboard and a screen reader all work with no help from
+  us. theme.js only adds pointer dragging on top, which the mouse alone has
+  no gesture for.
+{%- endcomment -%}
+
+<section
+  class="story-gallery"
+  style="
+    {% render 'section-style', section: section %}
+    --gallery-height: {{ section.settings.media_height | default: 62 }}vh;
+    --gallery-gap: {{ section.settings.gap | default: 6 }}px;
+  "
+>
+  {%- if section.settings.heading != blank -%}
+    <h2
+      class="story-gallery__heading"
+      style="{% render 'font-vars', prefix: 'gallery-heading', choice: section.settings.heading_font %}"
+    >
+      {{- section.settings.heading | escape | newline_to_br -}}
+    </h2>
+  {%- endif -%}
+
+  {%- if section.blocks.size > 0 -%}
+    <div
+      class="story-gallery__track"
+      data-gallery-track
+      tabindex="0"
+      role="region"
+      aria-label="{{ section.settings.heading | default: 'Projects' | escape }}"
+    >
+      {%- for block in section.blocks -%}
+        <figure class="story-gallery__item" {{ block.shopify_attributes }}>
+          {% render 'media-image',
+            image: block.settings.image,
+            image_url: block.settings.image_url,
+            draft_asset: block.settings.draft_asset,
+            img_class: 'story-gallery__image',
+            sizes: '(min-width: 750px) 45vw, 80vw',
+            alt: block.settings.alt_text,
+            asset_width: 1200,
+            asset_height: 1800
+          %}
+          {%- if section.settings.show_captions -%}
+            {%- if block.settings.title != blank or block.settings.place != blank -%}
+              <figcaption class="story-gallery__caption">
+                {%- if block.settings.title != blank -%}
+                  <span class="story-gallery__name">{{ block.settings.title | escape }}</span>
+                {%- endif -%}
+                {%- if block.settings.place != blank -%}
+                  <span class="story-gallery__place">{{ block.settings.place | escape }}</span>
+                {%- endif -%}
+              </figcaption>
+            {%- endif -%}
+          {%- endif -%}
+        </figure>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Project gallery (slider)",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Selected work",
+      "info": "Leave empty for photographs alone"
+    },
+    {
+      "type": "select",
+      "id": "heading_font",
+      "label": "Heading typeface",
+      "options": [
+        { "value": "heading", "label": "Primary" },
+        { "value": "body", "label": "Secondary" }
+      ],
+      "default": "heading"
+    },
+    {
+      "type": "range",
+      "id": "media_height",
+      "label": "Photograph height",
+      "min": 40,
+      "max": 86,
+      "step": 2,
+      "unit": "vh",
+      "default": 62,
+      "info": "Share of the screen's height. The widths follow each photograph's own shape."
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Space between photographs",
+      "min": 0,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 6
+    },
+    {
+      "type": "checkbox",
+      "id": "show_captions",
+      "label": "Show captions",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "info": "Empty uses the theme's"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "info": "Empty uses the theme's"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    }
+  ],
+  "max_blocks": 16,
+  "blocks": [
+    {
+      "type": "project",
+      "name": "Photograph",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "image_url",
+          "label": "Image URL",
+          "info": "Used when nothing is uploaded. Uploads are sharper."
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "Image description",
+          "info": "For screen readers"
+        },
+        {
+          "type": "text",
+          "id": "draft_asset",
+          "label": "Draft asset filename",
+          "info": "Placeholder photograph used until an image is chosen"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Project",
+          "default": "Casa Palma"
+        },
+        {
+          "type": "text",
+          "id": "place",
+          "label": "Place",
+          "default": "Merida"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Project gallery (slider)",
+      "blocks": [
+        { "type": "project", "settings": { "draft_asset": "story-rattan-chairs.jpg", "title": "Casa Palma", "place": "Merida" } },
+        { "type": "project", "settings": { "draft_asset": "story-stone-floor.jpg", "title": "El Patio", "place": "Oaxaca" } },
+        { "type": "project", "settings": { "draft_asset": "story-hammock.jpg", "title": "La Ceiba", "place": "Tulum" } },
+        { "type": "project", "settings": { "draft_asset": "story-niche-jugs.jpg", "title": "Casa Lima", "place": "Cartagena" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
