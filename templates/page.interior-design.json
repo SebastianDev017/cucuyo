@@ -1,0 +1,253 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "opening": {
+      "type": "story-intro",
+      "settings": {
+        "statement": "We furnish rooms\nthe way we would\nset a table",
+        "statement_scale": 100,
+        "body": "<p>CUCUYO HOME began as a search for objects that were made by hand and meant to be used. The interiors came later and for the same reason: a room should carry the marks of the people living in it.</p>",
+        "show_media": true,
+        "image": "",
+        "image_url": "",
+        "alt_text": "Arched window opening onto the sea, with a potted tree on the sill",
+        "draft_asset": "story-arch-window.jpg",
+        "media_side": "right",
+        "media_width": 42,
+        "media_ratio": "2/3",
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 0,
+        "padding_bottom": 96
+      }
+    },
+    "passage_one": {
+      "type": "story-passage",
+      "settings": {
+        "heading": "The work starts\nin the house",
+        "heading_font": "heading",
+        "body": "<p>We spend the first days doing very little. Where the sun lands in the afternoon, which door everyone actually uses, what the family already owns and would never give up. The plan comes out of that, and so does everything we go looking for afterwards.</p>",
+        "cta_label": "",
+        "link": "",
+        "media_side": "right",
+        "media_width": 52,
+        "gap": 6,
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 48,
+        "padding_bottom": 48
+      },
+      "blocks": {
+        "b1": {
+          "type": "photograph",
+          "settings": {
+            "image": "",
+            "image_url": "",
+            "alt_text": "Low sofa under a window, cushions in afternoon light",
+            "draft_asset": "story-linen-sofa.jpg",
+            "caption": "",
+            "ratio": "3/2"
+          }
+        },
+        "b2": {
+          "type": "photograph",
+          "settings": {
+            "image": "",
+            "image_url": "",
+            "alt_text": "Stone floor and a plant against a warm plastered wall",
+            "draft_asset": "story-stone-floor.jpg",
+            "caption": "",
+            "ratio": "3/4"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2"
+      ]
+    },
+    "gallery": {
+      "type": "story-gallery",
+      "settings": {
+        "heading": "Selected work",
+        "heading_font": "heading",
+        "media_height": 62,
+        "gap": 6,
+        "show_captions": true,
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 48,
+        "padding_bottom": 48
+      },
+      "blocks": {
+        "b1": {
+          "type": "project",
+          "settings": {
+            "image": "",
+            "image_url": "",
+            "alt_text": "Rattan chairs and mirrors in a sunlit room",
+            "draft_asset": "story-rattan-chairs.jpg",
+            "title": "Casa Palma",
+            "place": "Merida"
+          }
+        },
+        "b2": {
+          "type": "project",
+          "settings": {
+            "image": "",
+            "image_url": "",
+            "alt_text": "Plant on a stone floor beside a warm wall",
+            "draft_asset": "story-stone-floor.jpg",
+            "title": "El Patio",
+            "place": "Oaxaca"
+          }
+        },
+        "b3": {
+          "type": "project",
+          "settings": {
+            "image": "",
+            "image_url": "",
+            "alt_text": "Hammock and plants in a bright open room",
+            "draft_asset": "story-hammock.jpg",
+            "title": "La Ceiba",
+            "place": "Tulum"
+          }
+        },
+        "b4": {
+          "type": "project",
+          "settings": {
+            "image": "",
+            "image_url": "",
+            "alt_text": "Clay jugs set into a white plaster niche",
+            "draft_asset": "story-niche-jugs.jpg",
+            "title": "Casa Lima",
+            "place": "Cartagena"
+          }
+        },
+        "b5": {
+          "type": "project",
+          "settings": {
+            "image": "",
+            "image_url": "",
+            "alt_text": "Long wooden table with glasses and cut branches",
+            "draft_asset": "story-rustic-table.jpg",
+            "title": "Los Almendros",
+            "place": "Merida"
+          }
+        },
+        "b6": {
+          "type": "project",
+          "settings": {
+            "image": "",
+            "image_url": "",
+            "alt_text": "Stone arcade receding into shadow",
+            "draft_asset": "story-arcade.jpg",
+            "title": "El Mirador",
+            "place": "Valle de Bravo"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "b6"
+      ]
+    },
+    "passage_two": {
+      "type": "story-passage",
+      "settings": {
+        "heading": "What we go\nlooking for",
+        "heading_font": "heading",
+        "body": "<p>Pieces with a maker behind them. Clay that still shows the hand, wood that has been repaired once already, linen that will look better in five years than it does today. Very little of it arrives new, and none of it arrives matching.</p>",
+        "cta_label": "",
+        "link": "",
+        "media_side": "left",
+        "media_width": 48,
+        "gap": 6,
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 48,
+        "padding_bottom": 48
+      },
+      "blocks": {
+        "b1": {
+          "type": "photograph",
+          "settings": {
+            "image": "",
+            "image_url": "",
+            "alt_text": "Terracotta pots against a white wall",
+            "draft_asset": "story-terracotta-wall.jpg",
+            "caption": "",
+            "ratio": "3/4"
+          }
+        },
+        "b2": {
+          "type": "photograph",
+          "settings": {
+            "image": "",
+            "image_url": "",
+            "alt_text": "Single clay vessel lit from the side",
+            "draft_asset": "story-vessel.jpg",
+            "caption": "",
+            "ratio": "3/2"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2"
+      ]
+    },
+    "closing": {
+      "type": "story-passage",
+      "settings": {
+        "heading": "Rooms, and\nthe things in them",
+        "heading_font": "heading",
+        "body": "<p>Every project leaves something behind in the shop: the pieces we found for these houses, and the ones we kept looking for afterwards.</p>",
+        "cta_label": "See the shop",
+        "link": "/collections/all",
+        "media_side": "right",
+        "media_width": 46,
+        "gap": 6,
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 48,
+        "padding_bottom": 24
+      },
+      "blocks": {
+        "b1": {
+          "type": "photograph",
+          "settings": {
+            "image": "",
+            "image_url": "",
+            "alt_text": "Dried grasses in a tall vase beside a curtain",
+            "draft_asset": "story-dried-grass.jpg",
+            "caption": "",
+            "ratio": "3/4"
+          }
+        }
+      },
+      "block_order": [
+        "b1"
+      ]
+    }
+  },
+  "order": [
+    "opening",
+    "passage_one",
+    "gallery",
+    "passage_two",
+    "closing"
+  ]
+}

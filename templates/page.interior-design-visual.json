@@ -1,0 +1,164 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "opening": {
+      "type": "story-intro",
+      "settings": {
+        "statement": "We furnish rooms\nthe way we would\nset a table",
+        "statement_scale": 115,
+        "body": "<p>CUCUYO HOME began as a search for objects that were made by hand and meant to be used. The interiors came later and for the same reason. What follows is the work.</p>",
+        "show_media": false,
+        "image": "",
+        "image_url": "",
+        "alt_text": "Arched window opening onto the sea, with a potted tree on the sill",
+        "draft_asset": "story-arch-window.jpg",
+        "media_side": "right",
+        "media_width": 42,
+        "media_ratio": "2/3",
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 0,
+        "padding_bottom": 120
+      }
+    },
+    "sequence": {
+      "type": "story-sequence",
+      "settings": {
+        "panel_height": 100,
+        "gap": 6,
+        "show_progress": true,
+        "label": "Projects",
+        "background_color": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      },
+      "blocks": {
+        "b1": {
+          "type": "panel",
+          "settings": {
+            "image": "",
+            "image_url": "",
+            "alt_text": "Terracotta walls meeting in flat planes of colour",
+            "draft_asset": "story-pink-planes.jpg",
+            "width": "narrow"
+          }
+        },
+        "b2": {
+          "type": "panel",
+          "settings": {
+            "image": "",
+            "image_url": "",
+            "alt_text": "Low sofa under a window, cushions in afternoon light",
+            "draft_asset": "story-linen-sofa.jpg",
+            "width": "wide"
+          }
+        },
+        "b3": {
+          "type": "panel",
+          "settings": {
+            "image": "",
+            "image_url": "",
+            "alt_text": "Stone arcade receding into shadow",
+            "draft_asset": "story-arcade.jpg",
+            "width": "narrow"
+          }
+        },
+        "b4": {
+          "type": "panel",
+          "settings": {
+            "image": "",
+            "image_url": "",
+            "alt_text": "Hammock and plants in a bright open room",
+            "draft_asset": "story-hammock.jpg",
+            "width": "wide"
+          }
+        },
+        "b5": {
+          "type": "panel",
+          "settings": {
+            "image": "",
+            "image_url": "",
+            "alt_text": "Clay jugs set into a white plaster niche",
+            "draft_asset": "story-niche-jugs.jpg",
+            "width": "narrow"
+          }
+        },
+        "b6": {
+          "type": "panel",
+          "settings": {
+            "image": "",
+            "image_url": "",
+            "alt_text": "Rattan chairs and mirrors in a sunlit room",
+            "draft_asset": "story-rattan-chairs.jpg",
+            "width": "narrow"
+          }
+        },
+        "b7": {
+          "type": "panel",
+          "settings": {
+            "image": "",
+            "image_url": "",
+            "alt_text": "Dried grasses in a tall vase beside a curtain",
+            "draft_asset": "story-dried-grass.jpg",
+            "width": "narrow"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "b6",
+        "b7"
+      ]
+    },
+    "closing": {
+      "type": "story-passage",
+      "settings": {
+        "heading": "Rooms, and\nthe things in them",
+        "heading_font": "heading",
+        "body": "<p>Every project leaves something behind in the shop: the pieces we found for these houses, and the ones we kept looking for afterwards.</p>",
+        "cta_label": "See the shop",
+        "link": "/collections/all",
+        "media_side": "left",
+        "media_width": 46,
+        "gap": 6,
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 96,
+        "padding_bottom": 24
+      },
+      "blocks": {
+        "b1": {
+          "type": "photograph",
+          "settings": {
+            "image": "",
+            "image_url": "",
+            "alt_text": "Long wooden table with glasses and cut branches",
+            "draft_asset": "story-rustic-table.jpg",
+            "caption": "",
+            "ratio": "3/2"
+          }
+        }
+      },
+      "block_order": [
+        "b1"
+      ]
+    }
+  },
+  "order": [
+    "opening",
+    "sequence",
+    "closing"
+  ]
+}
