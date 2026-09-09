@@ -45,7 +45,8 @@
     },
     "password": {
       "label": "Password",
-      "submit": "Enter"
+      "submit": "Enter",
+      "toggle": "Enter password"
     },
     "404": {
       "title": "Page not found",

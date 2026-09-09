@@ -1229,11 +1229,11 @@ html.nav-drawer-open body {
    The product template has its own real layout below and is excluded.
    -------------------------------------------------------------------------- */
 
-body:not(.template-index):not(.template-product):not(.template-collection):not(.template-search):not(.template-cart) main {
+body:not(.template-index):not(.template-product):not(.template-collection):not(.template-search):not(.template-cart):not(.template-password) main {
   padding: var(--nav-clearance) var(--page-margin) 96px var(--sidebar-gutter);
 }
 
-body:not(.template-index):not(.template-product):not(.template-collection):not(.template-search):not(.template-cart) main img {
+body:not(.template-index):not(.template-product):not(.template-collection):not(.template-search):not(.template-cart):not(.template-password) main img {
   max-width: 100%;
 }
 
@@ -2192,10 +2192,19 @@ html.no-js .variant-option__select-wrap {
    Password page
    -------------------------------------------------------------------------- */
 
+/* A plain full-bleed block, and nothing else. This was a centred grid with
+   place-items:center, and that is why the section came out 688px wide: a grid
+   item does not stretch under justify-items:center, so the photograph was the
+   width of the card instead of the width of the screen. The centring belongs
+   to .password-page; main only has to stay out of its way.
+
+   The template is excluded from the shared inner-page rule above too, which
+   was handing main 360px of nav clearance and a 300px sidebar gutter on a
+   page that has neither a nav nor a sidebar. */
 .template-password main {
-  display: grid;
-  place-items: center;
-  min-height: 60vh;
+  display: block;
+  min-height: 100svh;
+  padding: 0;
 }
 
 /* --------------------------------------------------------------------------
@@ -2697,7 +2706,7 @@ html.lenis {
    A gallery plate is sized by its height and keeps its own proportions, so a
    wide one has to be allowed past that — matched selector for matched
    specificity, rather than an !important that would outrank everything. */
-body:not(.template-index):not(.template-product):not(.template-collection):not(.template-search):not(.template-cart) main .story-gallery__image {
+body:not(.template-index):not(.template-product):not(.template-collection):not(.template-search):not(.template-cart):not(.template-password) main .story-gallery__image {
   max-width: none;
 }
 
@@ -2897,4 +2906,211 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
   .story-sequence__panel--full {
     width: 100vw;
   }
+}
+
+/* --------------------------------------------------------------------------
+   PASSWORD PAGE — the closed door. A photograph edge to edge, one card
+   centred on it. Proportions come off Jenn's comp: a 566×657 card on a
+   1894px frame, 83px of padding, a 297px mark, 16px corners.
+
+   THE CORNERS ARE THE THEME'S ONE EXCEPTION TO ZERO RADIUS. --cp-radius is
+   declared inline on the section element in main-password.liquid and read by
+   exactly one rule below. It reaches nothing else: no other selector in this
+   stylesheet mentions it, and the variable does not exist anywhere outside
+   that one section's subtree.
+   -------------------------------------------------------------------------- */
+
+.password-page {
+  position: relative;
+  display: grid;
+  place-items: center;
+  /* svh, not vh: on a phone the browser's own chrome must not push the card
+     into a scroll that has nothing under it */
+  min-height: 100svh;
+  padding: clamp(24px, 6vw, 64px);
+  overflow: hidden;
+  background: var(--color-bg);
+}
+
+.password-page__bg {
+  position: absolute;
+  inset: 0;
+}
+
+.password-page__bg-media {
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* cover, so the photograph is cropped rather than stretched at any ratio */
+  object-fit: cover;
+  object-position: center;
+}
+
+.password-page__scrim {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: var(--cp-scrim, 0);
+}
+
+.password-page__card {
+  position: relative;
+  width: 100%;
+  max-width: var(--cp-card-width, 560px);
+  /* the comp's padding is the ceiling, not the constant: at 80px a phone's
+     card would have more edge than words inside it */
+  padding: clamp(28px, 8vw, var(--cp-card-padding, 80px));
+  background: var(--cp-card, #52351A);
+  border-radius: var(--cp-radius, 16px);
+  color: var(--cp-ink, #E9E3E0);
+  text-align: center;
+}
+
+.password-page__mark {
+  margin: 0;
+}
+
+.password-page__logo {
+  display: block;
+  /* width, not max-width: a max-width here is outranked by the inherited
+     `main img { max-width: 100% }` and the mark silently grows to fill the
+     card. min() gives the same shrink-on-small-screens behaviour and depends
+     on no other rule keeping its distance. */
+  width: min(100%, var(--cp-logo-width, 300px));
+  height: auto;
+  margin: 0 auto;
+}
+
+.password-page__note {
+  margin-top: clamp(36px, 9vw, 88px);
+  font-family: var(--font-body);
+  font-size: clamp(16px, 1.6vw, 20px);
+  line-height: 1.6;
+}
+
+.password-page__heading {
+  margin: 0;
+}
+
+.password-page__message {
+  margin-top: 28px;
+}
+
+.password-page__message > :first-child {
+  margin-top: 0;
+}
+
+.password-page__message > :last-child {
+  margin-bottom: 0;
+}
+
+.password-page__email {
+  display: inline-block;
+  margin-top: 28px;
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.22em;
+  transition: opacity 0.3s ease;
+}
+
+.password-page__email:hover {
+  opacity: 0.72;
+}
+
+/* --- The way in ----------------------------------------------------------- */
+
+.password-page__entry {
+  margin-top: clamp(28px, 6vw, 48px);
+}
+
+.password-page__toggle {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  /* quiet, because the comp has no field at all — but never invisible, and
+     never below the contrast a small label needs */
+  opacity: 0.8;
+  cursor: pointer;
+  /* the disclosure triangle belongs to no design system */
+  list-style: none;
+}
+
+.password-page__toggle::-webkit-details-marker {
+  display: none;
+}
+
+.password-page__toggle:hover,
+.password-page__entry[open] .password-page__toggle {
+  opacity: 1;
+}
+
+.password-page__entry[open] .password-page__toggle {
+  margin-bottom: 18px;
+}
+
+.password-page__error {
+  margin: 0 0 14px;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--cp-ink, #E9E3E0);
+}
+
+.password-page__error ul,
+.password-page__error ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.password-page__field {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.password-page__input {
+  flex: 1 1 200px;
+  min-width: 0;
+  max-width: 260px;
+  padding: 11px 14px;
+  border: 1px solid var(--cp-ink, #E9E3E0);
+  /* square, like every other field in the theme: the rounding on this page
+     is the card's alone */
+  border-radius: 0;
+  background: transparent;
+  color: var(--cp-ink, #E9E3E0);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+}
+
+.password-page__input::placeholder {
+  color: var(--cp-ink, #E9E3E0);
+  opacity: 0.7;
+}
+
+.password-page__submit {
+  padding: 11px 22px;
+  border: 1px solid var(--cp-ink, #E9E3E0);
+  border-radius: 0;
+  background: var(--cp-ink, #E9E3E0);
+  color: var(--cp-card, #52351A);
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.password-page__submit:hover {
+  opacity: 0.85;
+}
+
+.password-page :focus-visible {
+  outline: 2px solid var(--cp-ink, #E9E3E0);
+  outline-offset: 3px;
 }
