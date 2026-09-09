@@ -118,8 +118,6 @@
     "band": {
       "type": "home-image-band",
       "settings": {
-        "video": "shopify://files/videos/a-flamboyance-caribbean-flamingos-on-a-pond-colou-2026-01-21-15-52-11-utc-2_2 (1).mp4",
-        "video_url": "",
         "image_url": "",
         "alt_text": "Flock of flamingos wading through a tropical lagoon",
         "media_ratio": "1512/835",
