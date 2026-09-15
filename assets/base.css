@@ -169,8 +169,10 @@ a {
   --nav-clearance: calc(var(--header-height, 320px) + 40px);
   /* Horizontal twin of the clearance: the left gutter that keeps content
      clear of the sidebar link column (Figma: content starts at x283 on the
-     1512 frame — the product page's mechanism, now shared). Collapses to
-     the page margin below 768px, where the header becomes the mobile bar. */
+     1512 frame — the product page's mechanism, now shared). It exists only
+     where the column does: from 1200px up the header is a single row and
+     the gutter becomes the plain page margin (block below), and under 768px
+     the header is the mobile bar and it collapses the same way. */
   --sidebar-gutter: clamp(220px, 18.7vw, 300px);
 
   /* Card grid spacing, deliberately two separate knobs (see .card-grid):
@@ -187,6 +189,23 @@ a {
 @media (max-width: 767.98px) {
   :root {
     --sidebar-gutter: var(--page-margin);
+  }
+}
+
+/* The header is one row from 1200px up, on every template, so there is no
+   link column to keep clear of: every rule that insets content by
+   --sidebar-gutter (each template's main, the story sections, the collection
+   heading) falls back to the page margin through this one token, and comes
+   back to the column's gutter below 1200px the same way.
+
+   The clearance keeps its mechanism: theme.js still measures how far the
+   header reaches into the content into --header-height. Only the no-JS
+   fallback changes, because the fallback was sized for the stacked column;
+   one row of header fits in 80px. */
+@media (min-width: 1200px) {
+  :root {
+    --sidebar-gutter: var(--page-margin);
+    --nav-clearance: calc(var(--header-height, 80px) + 40px);
   }
 }
 
@@ -268,8 +287,11 @@ a {
   cursor: pointer;
 }
 
-/* Inner pages (cream, pre-redesign): same fixed transparent header, ink text
-   so it stays legible — a static per-template color, never a transition. */
+/* Inner pages: ink text on the page's white, for the stacked column and the
+   mobile bar. From 1200px the row takes the accent instead (row block below).
+   They share home's scroll states (theme.js): in the document at the top,
+   hidden on the way down, back on a solid ground on the way up — a header
+   that never floats over the page as it scrolls. */
 body:not(.template-index) .site-header__logo,
 body:not(.template-index) .site-header__link,
 body:not(.template-index) .site-header__burger {
@@ -286,7 +308,7 @@ body.template-index.header-ink .site-header__burger {
   color: var(--color-ink);
 }
 
-/* Home scroll states, set by initStickyHeader (theme.js) — home only, and
+/* Scroll states, set by initStickyHeader (theme.js) on every template, and
    only with JS; with no attribute the header is the fixed overlay above.
 
    top       transparent, in the document: it scrolls away with the hero
@@ -361,34 +383,34 @@ body.template-index.header-ink .site-header__burger {
   color: var(--color-ink);
 }
 
-/* HOME, DESKTOP: one horizontal bar (Eugenia's comp) instead of the stacked
-   column — wordmark flush left, the menu in a row beside it, the theme's own
-   search / account / cart pushed to the far right. The point of it is the
-   ground: the stacked column needed 207px of solid band when the header
-   came back; a single row needs one line of type plus its padding.
-
-   Home only. Inner pages keep the stacked column and the wordmark centred on
-   the viewport — their left gutter exists to clear that column, so moving
-   them to a row is its own piece of work, not a side effect of this one.
+/* DESKTOP, EVERY TEMPLATE: one horizontal bar (Eugenia's comp) instead of the
+   stacked column — wordmark flush left, the menu in a row beside it, the
+   theme's own search / account / cart pushed to the far right. The ground
+   that comes back on the way up drops from 207px to one line of type plus
+   its padding (76px).
 
    From 1200px up only. Below that the row does not fit a full category menu
    at the type sizes Jenn set (15px links, the wordmark as it is), so tablets
-   and small laptops keep today's stacked column — unchanged, rather than a
-   row that collides with itself. The number is the menu's, not the design's:
+   and small laptops keep the stacked column, and with it the left gutter
+   (see --sidebar-gutter). The number is the menu's, not the design's:
    re-measure it when the final menu is in.
 
-   The header box becomes a real flex row here, so its children leave their
-   absolute positions; the scroll states (top / hidden / revealed / solid)
-   work on it exactly as on the column, and the ground is still measured off
-   the children by theme.js. */
+   The wordmark is centred on the viewport by the base rule (Jenn's call,
+   every template) — that rule still governs the column and the mobile bar.
+   Here it is taken out of that position outright (static, no transform), so
+   the two never meet: below 1200px one applies, from 1200px the other.
+
+   The header box becomes a real flex row, so its children leave their
+   absolute positions; the scroll states work on it exactly as on the
+   column, and the ground is still measured off the children by theme.js. */
 @media (min-width: 1200px) {
-  body.template-index .site-header {
+  .site-header {
     display: flex;
     align-items: center;
     padding: 16px var(--page-margin);
   }
 
-  body.template-index .site-header__logo {
+  .site-header__logo {
     position: static;
     order: -1;
     flex: none;
@@ -396,7 +418,7 @@ body.template-index.header-ink .site-header__burger {
     transform: none;
   }
 
-  body.template-index .site-header__nav--primary {
+  .site-header__nav--primary {
     position: static;
     display: flex;
     flex: 1;
@@ -404,28 +426,43 @@ body.template-index.header-ink .site-header__burger {
     min-width: 0;
   }
 
-  body.template-index .site-header__nav--primary > .site-header__list {
+  .site-header__nav--primary > .site-header__list {
     flex-direction: row;
     align-items: center;
     column-gap: 28px;
   }
 
   /* the theme-generated group — search, account, cart — to the far right */
-  body.template-index .site-header__nav--primary > .site-header__list + .site-header__list {
+  .site-header__nav--primary > .site-header__list + .site-header__list {
     margin-top: 0;
     margin-left: auto;
   }
 
-  /* On its ground the bar takes the comp's brown, the theme's accent, rather
-     than the near-black ink the stacked column uses. */
-  body.template-index .site-header[data-header-state='revealed'] :is(.site-header__logo, .site-header__link),
-  body.template-index .site-header[data-header-state='solid'] :is(.site-header__logo, .site-header__link) {
+  /* On white the bar takes the comp's brown, the theme's accent: on its
+     ground when it comes back, and on inner pages, whose header always sits
+     on the page's white. Home at the top keeps the light type over the hero.
+     `body` in front so this outranks the older ink rules for the column
+     (`body:not(.template-index) …`, `body.template-index.header-ink …`),
+     which it follows in the file. */
+  body .site-header[data-header-state='revealed'] :is(.site-header__logo, .site-header__link),
+  body .site-header[data-header-state='solid'] :is(.site-header__logo, .site-header__link),
+  body:not(.template-index) .site-header :is(.site-header__logo, .site-header__link) {
     color: var(--color-accent);
+  }
+
+  /* Without JS there are no scroll states; rather than leave one row of
+     links floating over the page as it scrolls, the header stays in the
+     document and scrolls away with it. */
+  html.no-js .site-header {
+    position: absolute;
   }
 }
 
-/* The wordmark centres on the FULL VIEWPORT on every template — the base
-   rule above (left: 50%) is the whole story, and no template overrides it.
+/* The wordmark centres on the FULL VIEWPORT on every template wherever the
+   header is the stacked column or the mobile bar — the base rule above
+   (left: 50%) is the whole story there, and no template overrides it. From
+   1200px the header is a row and the wordmark sits flush left instead; that
+   block takes it out of this position entirely, so the two never compete.
    It has been both ways: for a while inner pages centred on the content area
    instead, which is why the mark shifted when you navigated from home. Jenn
    chose home's position as the one to keep, so the inner pages moved to

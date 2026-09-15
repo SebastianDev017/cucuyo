@@ -1,19 +1,24 @@
 {%- comment -%}
-  Header — fixed overlay with NO background (Figma): all links stacked in one
-  column top-left (primary menu group, then search / account / cart below),
-  wordmark centered, light text over the hero. On inner pages it stays fixed
-  while scrolling (spartan-shop.com behavior, inspected live) and has NO
-  transitions of any kind. On HOME it hides on the way down and returns on the
-  way up on a solid ground, sliding down from above (Eugenia's ask, modelled
-  on hereustudio.com) — see initStickyHeader in theme.js. Nested menu items render ALWAYS EXPANDED, indented under their parent
-  (up to three levels) — shared via snippets/nav-links.
+  Header — no background of its own (Figma). Three layouts from one markup:
 
-  Under 768px (JS available): the stacked column is replaced by a bar —
-  hamburger left, wordmark right — and the menu moves into a native <dialog>
-  drawer (100dvh, width from the "Menu drawer width" theme setting): wordmark,
-  the same always-expanded indented menu, utilities with a live cart count,
-  and the newsletter form. Without JS the stacked overlay column stays, so
-  the menu is never unreachable. 768px and up is untouched.
+  1200px and up, EVERY TEMPLATE: one row (Eugenia's comp) — wordmark flush
+  left, the menu beside it, search / account / cart at the far right.
+
+  768–1199px: the stacked column — every link in one column top-left
+  (primary menu group, then search / account / cart below), wordmark centred
+  on the viewport. Nested menu items render ALWAYS EXPANDED, indented under
+  their parent (up to three levels) — shared via snippets/nav-links.
+
+  Under 768px (JS available): a bar — hamburger left, wordmark right — and
+  the menu moves into a native <dialog> drawer (100dvh, width from the "Menu
+  drawer width" theme setting): wordmark, the same always-expanded indented
+  menu, utilities with a live cart count, and the newsletter form. Without JS
+  the stacked overlay column stays, so the menu is never unreachable.
+
+  Scrolling, on every template and layout: in the document at the top
+  (transparent over home's hero, on the page's white elsewhere), hidden on
+  the way down, sliding back on a solid ground on the way up — modelled on
+  hereustudio.com; see initStickyHeader in theme.js. Layout lives in base.css.
 {%- endcomment -%}
 
 {%- liquid

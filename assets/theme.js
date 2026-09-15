@@ -27,14 +27,21 @@
     if (!nav && !logo) return;
     var main = document.querySelector('main');
 
+    /* Measured from the header's own top, not the viewport's. The header
+       now moves — it scrolls away with the page and parks above the viewport
+       when hidden — and a resize caught in either state used to read a
+       scrolled or negative bottom, which collapsed the clearance and pulled
+       the whole page up under the nav. While the header sits at the top the
+       two readings are identical. */
     var set = function () {
+      var origin = header.getBoundingClientRect().top;
       var bottom = 0;
-      if (logo) bottom = logo.getBoundingClientRect().bottom;
+      if (logo) bottom = logo.getBoundingClientRect().bottom - origin;
       if (nav) {
         var navRect = nav.getBoundingClientRect();
         var gutter = main ? parseFloat(getComputedStyle(main).paddingLeft) : 0;
         if (!gutter || navRect.right > gutter) {
-          bottom = Math.max(bottom, navRect.bottom);
+          bottom = Math.max(bottom, navRect.bottom - origin);
         }
       }
       document.documentElement.style.setProperty('--header-height', Math.ceil(bottom) + 'px');
@@ -46,9 +53,11 @@
       [nav, logo].filter(Boolean).forEach(function (el) {
         observer.observe(el);
       });
-    } else {
-      window.addEventListener('resize', set);
     }
+    /* Always on resize too: crossing the 1200px breakpoint moves the
+       wordmark (centred → flush left) without necessarily resizing it, and a
+       ResizeObserver only hears about size. */
+    window.addEventListener('resize', set);
   }
 
   /* Home only: the header is deliberately transparent over full-bleed
@@ -92,7 +101,7 @@
     });
   }
 
-  /* Home header on scroll — Eugenia's ask, modelled on hereustudio.com and
+  /* Header on scroll — Eugenia's ask, modelled on hereustudio.com and
      measured there with real wheel scrolling (it runs Shopify Horizon's
      sticky="scroll-up" with transparent="not-sticky"):
 
@@ -108,8 +117,14 @@
        back to the very top (scrollY 0): transparent again, as HEREU does.
 
      Reduced motion gets no hiding and no sliding at all: `solid`, pinned and
-     on its ground from the first frame. Without JS none of this runs and the
-     header keeps its old fixed overlay. Inner pages never enter here.
+     on its ground from the first frame. Without JS none of this runs.
+
+     EVERY TEMPLATE, not only home, since the header became one row across
+     the site: a fixed row of links over a scrolling collection or product
+     page would sit on top of the content, which is exactly what this
+     behaviour exists to avoid. On inner pages the top state looks the same
+     as before — the header on the page's white, the content below it — it
+     simply leaves on the way down instead of floating over the page.
 
      Two guarantees beyond HEREU's own. The header can never be hidden while
      the mobile menu is open — state is frozen for as long as the drawer is,
@@ -117,7 +132,6 @@
      reveals it: a hidden header stays focusable (moved, not visibility),
      so Shift+Tab back into the nav brings the nav into view with it. */
   function initStickyHeader() {
-    if (!document.body.classList.contains('template-index')) return;
     var header = document.querySelector('.site-header');
     if (!header) return;
     var root = document.documentElement;
