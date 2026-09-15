@@ -2453,6 +2453,67 @@ html.lenis {
   }
 }
 
+/* SHOP IN THE ROW (1200px up): an overlay, not a drawer that pushes. In the
+   stacked column the panel opening downward and pushing the links under it
+   is the design (spartan-shop.com's behaviour) and it stays that way below
+   1200px and in the mobile drawer. In a single row the same push moved the
+   whole bar — every link re-centred on a taller row — so here the panel
+   floats instead, the way HEREU's does: out of the flow, hanging from the
+   bar's bottom edge, over the page and never over the bar itself.
+
+   Anchoring: the header is the nearest positioned ancestor (the nav and the
+   list items are static in the row), so `top: 100%` is the bar's bottom edge
+   in every scroll state. `left` stays auto, which keeps the panel's static
+   horizontal position under SHOP; the negative margin pulls it back by its
+   own border and padding so the first item lines up with the word SHOP.
+
+   The panel is opaque, on the page's own background, with a hairline in the
+   accent: the accent is 9.9:1 against that background, so whatever sits
+   behind the panel (a white page, a pale wall, a mid-tone photograph), either
+   the surface or the hairline stands at least √9.9 ≈ 3.1:1 off it. The muted
+   brown would guarantee only 2.3:1 there. Its links take the same accent,
+   never the light type the bar uses over home's hero, which would vanish on
+   it.
+
+   The header ignores the pointer by design (a transparent strip must not
+   block the page), so the panel opts back in; the strip under an open SHOP
+   label is a hover bridge, so moving the pointer down into the panel never
+   leaves the disclosure on the way. */
+@media (min-width: 1200px) {
+  .site-header__nav--primary .nav-disclosure__summary {
+    position: relative;
+  }
+
+  .site-header__nav--primary .nav-disclosure[open] > .nav-disclosure__summary::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    right: -12px;
+    left: -12px;
+    height: 40px;
+  }
+
+  .site-header__nav--primary .nav-disclosure__panel {
+    position: absolute;
+    top: 100%;
+    z-index: 1;
+    min-width: 240px;
+    margin-left: -25px;
+    background: var(--color-bg);
+    pointer-events: auto;
+  }
+
+  .site-header__nav--primary .nav-disclosure__panel > .site-header__sub {
+    margin: 0;
+    padding: 18px 24px 22px;
+    border: 1px solid var(--color-accent);
+  }
+
+  body .site-header .nav-disclosure__panel .site-header__link {
+    color: var(--color-accent);
+  }
+}
+
 /* --------------------------------------------------------------------------
    Colour swatches
    Circles under the title/price on every grid card and on the product page.

@@ -624,10 +624,11 @@
 
 
   /* SHOP dropdown. The markup is a real <details>, so with no JS the click
-     already toggles it — this only adds the open/close animation and the
-     close-on-click-outside, matching what spartan-shop.com does: the panel
-     animates its own height and pushes the column below it down, it never
-     floats over the page.
+     already toggles it — this adds the open/close animation and the
+     close-on-click-outside. In the vertical column and the drawer the panel
+     animates its own height and pushes the links below it down, the way
+     spartan-shop.com does; in the header row it is an overlay under the bar
+     that moves nothing (base.css), and a mouse opens it on hover.
 
      <details> collapses the instant `open` is removed, so closing has to be
      driven the other way round: animate first, drop the attribute on
@@ -639,12 +640,22 @@
 
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+    /* A run can be interrupted — hover out and back in, a second tap — so
+       each one cancels the one before it and starts from the height that one
+       reached, which also makes a reversal smooth. While a close is running
+       the attribute is still there, so "is it open" is the attribute minus a
+       close in flight (isOpen below), never the attribute alone. */
     var animate = function (details, panel, opening) {
+      var running = panel.hasAttribute('data-animating');
+      var start = running ? panel.getBoundingClientRect().height : (opening ? 0 : panel.scrollHeight);
+      if (panel._navStop) panel._navStop();
+      details._navClosing = !opening;
+
       if (reduce) {
         if (!opening) details.removeAttribute('open');
+        details._navClosing = false;
         return;
       }
-      var start = opening ? 0 : panel.scrollHeight;
       var end = opening ? panel.scrollHeight : 0;
 
       panel.setAttribute('data-animating', '');
@@ -653,16 +664,44 @@
       void panel.offsetHeight;
       panel.style.height = end + 'px';
 
-      var done = function (event) {
-        if (event && event.target !== panel) return;
-        panel.removeEventListener('transitionend', done);
+      var timer = null;
+      var stop = function () {
+        panel.removeEventListener('transitionend', onEnd);
+        clearTimeout(timer);
+        panel._navStop = null;
         panel.removeAttribute('data-animating');
         panel.style.height = '';
-        if (!opening) details.removeAttribute('open');
       };
-      panel.addEventListener('transitionend', done);
-      /* transitionend never fires if the panel has no height to travel */
-      if (start === end) done();
+      var finish = function () {
+        stop();
+        if (!opening) details.removeAttribute('open');
+        details._navClosing = false;
+      };
+      var onEnd = function (event) {
+        if (event.target === panel && event.propertyName === 'height') finish();
+      };
+      panel._navStop = stop;
+      panel.addEventListener('transitionend', onEnd);
+      /* transitionend never fires if the panel has no height to travel, and
+         is skipped if the transition is cut short some other way */
+      if (start === end) finish();
+      else timer = setTimeout(finish, 700);
+    };
+
+    var isOpen = function (details) {
+      return details.open && !details._navClosing;
+    };
+
+    /* In the header ROW (1200px up) the panel is an overlay (base.css), and
+       a mouse opens it on hover the way HEREU's does. Touch keeps the tap,
+       which the click handler below already is, and the keyboard keeps the
+       native <details>: Enter or Space on SHOP toggles it, Tab walks into the
+       panel, and leaving it with Tab closes it. Hover is mouse-only on
+       purpose — a tap also fires pointerenter, and opening on that plus
+       toggling on the click that follows would shut it again at once. */
+    var rowQuery = window.matchMedia ? window.matchMedia('(min-width: 1200px)') : null;
+    var inRow = function () {
+      return !!(rowQuery && rowQuery.matches);
     };
 
     groups.forEach(function (details) {
@@ -670,31 +709,78 @@
       var panel = details.querySelector('[data-nav-panel]');
       if (!summary || !panel) return;
 
+      var inBar = !!details.closest('.site-header__nav--primary');
+      var openedByHover = false;
+      var leaveTimer = null;
+
+      var open = function () {
+        details.setAttribute('open', '');
+        animate(details, panel, true);
+      };
+      var close = function () {
+        openedByHover = false;
+        if (isOpen(details)) animate(details, panel, false);
+      };
+
       summary.addEventListener('click', function (event) {
         event.preventDefault();
-        if (details.open) {
-          animate(details, panel, false);
-        } else {
-          details.setAttribute('open', '');
-          animate(details, panel, true);
-        }
+        /* A mouse that opened it by hovering and then clicks the label means
+           "yes, this" — not "close it". Keyboard clicks carry detail 0. */
+        if (openedByHover && event.detail > 0 && inRow()) return;
+        if (isOpen(details)) close();
+        else open();
+      });
+
+      if (!inBar) return;
+
+      details.addEventListener('pointerenter', function (event) {
+        if (event.pointerType !== 'mouse' || !inRow()) return;
+        clearTimeout(leaveTimer);
+        if (isOpen(details)) return;
+        openedByHover = true;
+        open();
+      });
+
+      /* a short grace period, so a pointer that grazes the edge on its way
+         into the panel does not shut it */
+      details.addEventListener('pointerleave', function (event) {
+        if (event.pointerType !== 'mouse' || !inRow()) return;
+        clearTimeout(leaveTimer);
+        leaveTimer = setTimeout(close, 140);
+      });
+
+      details.addEventListener('focusout', function (event) {
+        if (!inRow() || !isOpen(details)) return;
+        if (event.relatedTarget && details.contains(event.relatedTarget)) return;
+        close();
       });
     });
 
     /* A click anywhere that is not inside an open disclosure closes it. */
-    document.addEventListener('click', function (event) {
+    var closeOutside = function (event) {
       groups.forEach(function (details) {
-        if (!details.open) return;
+        if (!isOpen(details)) return;
         if (details.contains(event.target)) return;
         var panel = details.querySelector('[data-nav-panel]');
         if (panel) animate(details, panel, false);
       });
-    });
+    };
+    document.addEventListener('click', closeOutside);
+
+    /* In the row it also closes on the press itself, in the capture phase:
+       the home slider and other drag surfaces cancel the click a touch would
+       make, and the overlay must still shut when someone taps the page. Safe
+       there because closing an overlay moves nothing. Not in the column,
+       where the panel pushes: closing on press would slide the links below
+       it up before the release, and the click would land on another link. */
+    document.addEventListener('pointerdown', function (event) {
+      if (inRow()) closeOutside(event);
+    }, true);
 
     document.addEventListener('keydown', function (event) {
       if (event.key !== 'Escape') return;
       groups.forEach(function (details) {
-        if (!details.open) return;
+        if (!isOpen(details)) return;
         var panel = details.querySelector('[data-nav-panel]');
         if (panel) animate(details, panel, false);
         var summary = details.querySelector('.nav-disclosure__summary');
