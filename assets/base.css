@@ -291,20 +291,25 @@ body.template-index.header-ink .site-header__burger {
 
    top       transparent, in the document: it scrolls away with the hero
              rather than disappearing on the first pixel.
-   hidden    scrolled past going down. Instant, as on HEREU. Opacity rather
-             than visibility, so the links stay focusable and a keyboard user
-             tabbing back into the nav brings it into view (theme.js).
-   revealed  any upward scroll: pinned, on a solid ground, ink text, faded in.
-             The fade lives on this state only, so it plays on the way in and
-             never on the way out.
+   hidden    scrolled past going down: parked just above the viewport,
+             instantly, as on HEREU. Moved rather than made invisible, so the
+             links stay focusable and a keyboard user tabbing back into the
+             nav brings it into view (theme.js).
+   revealed  any upward scroll: pinned, on a solid ground, and it SLIDES down
+             from above (Eugenia). HEREU fades in over 125ms with no movement
+             at all; the slide is her call over the reference. The transition
+             lives on this state only, so it plays on the way in and never on
+             the way out.
    solid     reduced motion: pinned and on its ground from the first frame,
-             never hiding, never fading. */
+             never hiding, never sliding. */
 .site-header[data-header-state='top'] {
   position: absolute;
 }
 
 .site-header[data-header-state='hidden'] {
-  opacity: 0;
+  /* by the ground's own height (the header box itself measures 0), plus a
+     pixel so no hairline of it is left on screen */
+  transform: translateY(calc(-1 * var(--header-panel, 100px) - 1px));
 }
 
 .site-header[data-header-state='hidden'] a,
@@ -314,9 +319,10 @@ body.template-index.header-ink .site-header__burger {
 }
 
 .site-header[data-header-state='revealed'] {
-  /* HEREU: `opacity var(--animation-speed) var(--animation-easing)`, which
-     computes to 0.125s ease-in-out */
-  transition: opacity 0.125s ease-in-out;
+  /* 0.3s on the theme's own deceleration curve, the one the menu drawer and
+     the SHOP panel already open with: a slide at HEREU's 125ms reads as a
+     jump, not as something arriving from above */
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* The ground. The header box itself measures 0 — its children are all

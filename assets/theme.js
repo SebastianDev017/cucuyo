@@ -103,18 +103,18 @@
                  Hiding from the revealed state is instant, as on HEREU.
        revealed  on ANY upward scroll past that point (HEREU reacts to a
                  6px nudge — there is no threshold): pinned to the top on a
-                 solid ground with ink text, faded in over 125ms ease-in-out,
-                 HEREU's exact timing. No slide.
+                 solid ground, sliding down from above. HEREU itself fades in
+                 over 125ms without moving; the slide is Eugenia's call.
        back to the very top (scrollY 0): transparent again, as HEREU does.
 
-     Reduced motion gets no hiding and no fading at all: `solid`, pinned and
+     Reduced motion gets no hiding and no sliding at all: `solid`, pinned and
      on its ground from the first frame. Without JS none of this runs and the
      header keeps its old fixed overlay. Inner pages never enter here.
 
      Two guarantees beyond HEREU's own. The header can never be hidden while
      the mobile menu is open — state is frozen for as long as the drawer is,
      and an open drawer always has its header showing. And keyboard focus
-     reveals it: a hidden header stays focusable (opacity, not visibility),
+     reveals it: a hidden header stays focusable (moved, not visibility),
      so Shift+Tab back into the nav brings the nav into view with it. */
   function initStickyHeader() {
     if (!document.body.classList.contains('template-index')) return;
