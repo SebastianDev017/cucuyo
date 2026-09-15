@@ -1,9 +1,11 @@
 {%- comment -%}
   Header — fixed overlay with NO background (Figma): all links stacked in one
   column top-left (primary menu group, then search / account / cart below),
-  wordmark centered, light text over the hero. It stays fixed while scrolling
-  (spartan-shop.com behavior, inspected live) and has NO transitions of any
-  kind. Nested menu items render ALWAYS EXPANDED, indented under their parent
+  wordmark centered, light text over the hero. On inner pages it stays fixed
+  while scrolling (spartan-shop.com behavior, inspected live) and has NO
+  transitions of any kind. On HOME it hides on the way down and returns on the
+  way up on a solid ground with a 125ms fade (hereustudio.com, measured live;
+  Eugenia's ask) — see initStickyHeader in theme.js. Nested menu items render ALWAYS EXPANDED, indented under their parent
   (up to three levels) — shared via snippets/nav-links.
 
   Under 768px (JS available): the stacked column is replaced by a bar —

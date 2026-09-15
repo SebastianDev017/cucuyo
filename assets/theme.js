@@ -92,6 +92,149 @@
     });
   }
 
+  /* Home header on scroll — Eugenia's ask, modelled on hereustudio.com and
+     measured there with real wheel scrolling (it runs Shopify Horizon's
+     sticky="scroll-up" with transparent="not-sticky"):
+
+       top       at the top of the page: transparent over the hero, in the
+                 document, so it scrolls away WITH the content instead of
+                 vanishing on the first pixel.
+       hidden    once it has scrolled completely out of view going down.
+                 Hiding from the revealed state is instant, as on HEREU.
+       revealed  on ANY upward scroll past that point (HEREU reacts to a
+                 6px nudge — there is no threshold): pinned to the top on a
+                 solid ground with ink text, faded in over 125ms ease-in-out,
+                 HEREU's exact timing. No slide.
+       back to the very top (scrollY 0): transparent again, as HEREU does.
+
+     Reduced motion gets no hiding and no fading at all: `solid`, pinned and
+     on its ground from the first frame. Without JS none of this runs and the
+     header keeps its old fixed overlay. Inner pages never enter here.
+
+     Two guarantees beyond HEREU's own. The header can never be hidden while
+     the mobile menu is open — state is frozen for as long as the drawer is,
+     and an open drawer always has its header showing. And keyboard focus
+     reveals it: a hidden header stays focusable (opacity, not visibility),
+     so Shift+Tab back into the nav brings the nav into view with it. */
+  function initStickyHeader() {
+    if (!document.body.classList.contains('template-index')) return;
+    var header = document.querySelector('.site-header');
+    if (!header) return;
+    var root = document.documentElement;
+    var drawer = document.getElementById('NavDrawer');
+    var reduce = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+
+    var state = '';
+    var lastY = window.scrollY;
+    var reach = 0;
+    var ticking = false;
+
+    var set = function (next) {
+      if (next === state) return;
+      state = next;
+      header.setAttribute('data-header-state', next);
+    };
+
+    /* The header box measures 0 (its children are absolutely positioned),
+       so its reach is read off the children that are actually showing: the
+       wordmark and the stacked link column on a desktop, the wordmark and the
+       burger on a phone. The solid ground is as tall as that, plus the same
+       gap below the lowest item as there is above the highest — so it is
+       sized by the header's real content, and grows with the SHOP panel. */
+    var measure = function () {
+      var origin = header.getBoundingClientRect().top;
+      var high = Infinity;
+      var low = 0;
+      header.querySelectorAll('.site-header__logo, .site-header__nav--primary, .site-header__burger').forEach(function (el) {
+        var r = el.getBoundingClientRect();
+        if (!r.width || !r.height) return;
+        high = Math.min(high, r.top - origin);
+        low = Math.max(low, r.bottom - origin);
+      });
+      if (!isFinite(high)) return;
+      reach = low;
+      var panel = Math.ceil(low + high);
+      root.style.setProperty('--header-panel', panel + 'px');
+      /* keyboard focus and anchor jumps must land below the pinned ground,
+         never underneath it */
+      root.style.scrollPaddingTop = panel + 'px';
+    };
+
+    var update = function () {
+      ticking = false;
+      var y = window.scrollY;
+      if (drawer && drawer.open) {
+        lastY = y;
+        return;
+      }
+      if (reduce && reduce.matches) {
+        set('solid');
+      } else if (y <= 0) {
+        set('top');
+      } else if (y > lastY + 1) {
+        set(y > reach ? 'hidden' : 'top');
+      } else if (y < lastY - 1 && (y > reach || state !== 'top')) {
+        set('revealed');
+      } else if (!state) {
+        set(y > reach ? 'hidden' : 'top');
+      }
+      lastY = y;
+    };
+
+    var schedule = function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    };
+
+    measure();
+    update();
+
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', function () {
+      measure();
+      schedule();
+    });
+    if ('ResizeObserver' in window) {
+      var watch = new ResizeObserver(measure);
+      header.querySelectorAll('.site-header__logo, .site-header__nav--primary, .site-header__burger').forEach(function (el) {
+        watch.observe(el);
+      });
+    }
+    if (reduce) {
+      var onReduce = function () {
+        state = '';
+        update();
+      };
+      if (reduce.addEventListener) reduce.addEventListener('change', onReduce);
+      else if (reduce.addListener) reduce.addListener(onReduce);
+    }
+
+    header.addEventListener('focusin', function () {
+      if (state === 'hidden') set('revealed');
+    });
+
+    if (drawer) {
+      drawer.addEventListener('close', function () {
+        /* the scroll lock may have moved nothing, but the last reading is
+           stale either way: start the next comparison from where we are */
+        lastY = window.scrollY;
+      });
+      document.querySelectorAll('[data-drawer-open]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          if (state === 'hidden') set('revealed');
+        });
+      });
+    }
+
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+    window.addEventListener('pageshow', function () {
+      measure();
+      lastY = window.scrollY;
+      schedule();
+    });
+  }
+
   /* Mobile navigation drawer (native <dialog>: focus trap, Esc close and
      focus return to the trigger are built in). We add page scroll locking —
      Lenis owns wheel scrolling, so it gets stopped too — and close the
@@ -893,6 +1036,7 @@
     initHeaderTone();
     initNavDisclosure();
     initDrawer();
+    initStickyHeader();
     initAutoplayVideos();
     initCartCount();
     initTabs();

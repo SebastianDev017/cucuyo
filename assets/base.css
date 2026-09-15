@@ -192,10 +192,15 @@ a {
 
 /* --------------------------------------------------------------------------
    Header — fixed overlay with NO background (Figma): the nav floats over the
-   hero, all links stacked on the left, wordmark centered, light text. It
-   stays fixed while scrolling and deliberately has ZERO transitions — no
-   background fade, no color/font change, no hover animation on any level.
-   Only the open dropdown panel paints solid white so sublinks stay legible.
+   hero, all links stacked on the left, wordmark centered, light text. On
+   inner pages it stays fixed and has ZERO transitions — no background fade,
+   no color/font change, no hover animation on any level.
+
+   HOME IS THE ONE EXCEPTION, deliberately (Eugenia): there the header hides
+   on the way down and comes back on the way up on a solid ground, with a
+   125ms fade — HEREU's behaviour, measured live. See the data-header-state
+   block below and initStickyHeader in theme.js. It replaces the zero-
+   transition rule for home only.
    -------------------------------------------------------------------------- */
 
 .site-header {
@@ -278,6 +283,70 @@ body:not(.template-index) .site-header__burger {
 body.template-index.header-ink .site-header__logo,
 body.template-index.header-ink .site-header__link,
 body.template-index.header-ink .site-header__burger {
+  color: var(--color-ink);
+}
+
+/* Home scroll states, set by initStickyHeader (theme.js) — home only, and
+   only with JS; with no attribute the header is the fixed overlay above.
+
+   top       transparent, in the document: it scrolls away with the hero
+             rather than disappearing on the first pixel.
+   hidden    scrolled past going down. Instant, as on HEREU. Opacity rather
+             than visibility, so the links stay focusable and a keyboard user
+             tabbing back into the nav brings it into view (theme.js).
+   revealed  any upward scroll: pinned, on a solid ground, ink text, faded in.
+             The fade lives on this state only, so it plays on the way in and
+             never on the way out.
+   solid     reduced motion: pinned and on its ground from the first frame,
+             never hiding, never fading. */
+.site-header[data-header-state='top'] {
+  position: absolute;
+}
+
+.site-header[data-header-state='hidden'] {
+  opacity: 0;
+}
+
+.site-header[data-header-state='hidden'] a,
+.site-header[data-header-state='hidden'] button,
+.site-header[data-header-state='hidden'] summary {
+  pointer-events: none;
+}
+
+.site-header[data-header-state='revealed'] {
+  /* HEREU: `opacity var(--animation-speed) var(--animation-easing)`, which
+     computes to 0.125s ease-in-out */
+  transition: opacity 0.125s ease-in-out;
+}
+
+/* The ground. The header box itself measures 0 — its children are all
+   absolutely positioned — so the ground is a pseudo-element sized by
+   theme.js from the children that are actually showing (--header-panel).
+   Keyed on the attribute so it does not exist at all on inner pages, which
+   never receive one.
+   It takes the page's own background token (Theme settings → Colors →
+   Background, white on this store), so the revealed header is the same
+   surface every inner page sits on — change that one colour and both follow
+   together, instead of the header keeping a white of its own. It blocks the
+   pointer: a click on the solid band must not fall through to the photograph
+   underneath it. */
+.site-header[data-header-state]::before {
+  content: '';
+  display: none;
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: var(--header-panel, 0px);
+  background: var(--color-bg);
+  pointer-events: auto;
+}
+
+.site-header[data-header-state='revealed']::before,
+.site-header[data-header-state='solid']::before {
+  display: block;
+}
+
+.site-header[data-header-state='revealed'] :is(.site-header__logo, .site-header__link, .site-header__burger),
+.site-header[data-header-state='solid'] :is(.site-header__logo, .site-header__link, .site-header__burger) {
   color: var(--color-ink);
 }
 
