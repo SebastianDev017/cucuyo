@@ -14,7 +14,7 @@
     "header": {
       "type": "header",
       "settings": {
-        "wordmark": "CUCUYO HOME",
+        "wordmark": "CUCUYO",
         "menu": "main-menu",
         "show_search": true,
         "show_account": true,
