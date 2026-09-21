@@ -1,0 +1,88 @@
+{%- comment -%}
+  "You may like" — the same-category row on a product page, chosen without a
+  merchant having to curate it: the products of the collection this product
+  belongs to, in that collection's own order, minus the product being looked
+  at. Sold-out pieces are skipped so the row never leads anywhere dead.
+
+  Which collection: the product's first one, which is the category (Decor,
+  Tabletop, Accessories, Vases & Vessels, Seasonal). A product filed under a
+  second, non-category collection ("Hecho por Cucuyo", sale) keeps its
+  category as the source because that one is listed first on the product.
+
+  The row stays OUT of the page when there is nothing honest to put in it —
+  no siblings in the category — rather than padding itself with unrelated
+  products.
+{%- endcomment -%}
+{%- liquid
+  assign source = product.collections.first
+  if section.settings.collection != blank
+    assign source = section.settings.collection
+  endif
+  assign limit = section.settings.products_to_show
+-%}
+
+{%- capture cards -%}
+  {%- assign shown = 0 -%}
+  {%- for item in source.products -%}
+    {%- unless item.id == product.id or item.available == false -%}
+      {%- if shown < limit -%}
+        <li class="product-strip__item">
+          {% render 'product-card', product: item, show_price: section.settings.show_price %}
+        </li>
+        {%- assign shown = shown | plus: 1 -%}
+      {%- endif -%}
+    {%- endunless -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- if cards contains 'product-card' -%}
+  <section class="you-may-like" style="--strip-per-view: {{ section.settings.per_view }};">
+    {% render 'product-strip', strip_id: section.id, cards: cards, heading: section.settings.heading %}
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "You may like",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "You may like"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection",
+      "info": "Leave empty to use the product's own category."
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products to show",
+      "min": 4,
+      "max": 16,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "per_view",
+      "label": "Cards visible (desktop)",
+      "min": 3,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "Show price",
+      "default": true
+    }
+  ],
+  "presets": [{ "name": "You may like" }]
+}
+{% endschema %}

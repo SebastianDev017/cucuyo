@@ -852,7 +852,11 @@
           }
         };
 
-        swapImage(onCard.querySelector('.product-card__image, .image-card__media'), image, imageAlt);
+        swapImage(onCard.querySelector('.product-card__image:not(.product-card__image--hover), .image-card__media'), image, imageAlt);
+        /* the stored hover photograph belongs to the colour the card was
+           built with, so once another colour is showing it is dropped
+           instead of fading in over it */
+        if (image) onCard.setAttribute('data-hover-image', 'off');
         var cardPrice = onCard.querySelector('[data-card-price]');
         if (cardPrice && price) cardPrice.textContent = price;
         setCompare(onCard.querySelector('[data-card-compare]'));
@@ -1131,6 +1135,86 @@
     });
   }
 
+  /* PRODUCT STRIP arrows (us.thehoffbrand.com). The track scrolls on its own;
+     this only drives the two buttons and keeps them honest about what they
+     can still do. One click moves a whole screenful of cards, rounded down to
+     a whole number of them, and the snap points land the row on a card edge.
+
+     The arrows stay out of the way when they would be useless: hidden while
+     the cards fit without scrolling (a short "You may like" on a small
+     category), and disabled — invisible, unclickable, out of the tab order —
+     at each end. Without JS the arrows never appear and the row is still
+     swipeable, scrollable and tabbable. */
+  function initProductStrips() {
+    var strips = Array.prototype.slice.call(document.querySelectorAll('[data-product-strip]'));
+    if (!strips.length) return;
+
+    var reduce = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+
+    strips.forEach(function (strip) {
+      /* the customizer re-runs this on every section render, and a strip that
+         is already wired must not collect a second set of listeners */
+      if (strip.hasAttribute('data-strip-ready')) return;
+      strip.setAttribute('data-strip-ready', '');
+
+      var track = strip.querySelector('[data-strip-track]');
+      var arrows = strip.querySelector('[data-strip-arrows]');
+      var prev = strip.querySelector('[data-strip-prev]');
+      var next = strip.querySelector('[data-strip-next]');
+      if (!track || !arrows || !prev || !next) return;
+
+      var ticking = false;
+
+      var update = function () {
+        ticking = false;
+        /* sub-pixel track widths round the wrong way, hence the 2px slack */
+        var scrollable = track.scrollWidth - track.clientWidth > 2;
+        arrows.hidden = !scrollable;
+        if (!scrollable) return;
+        prev.disabled = track.scrollLeft <= 1;
+        next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 1;
+      };
+
+      var schedule = function () {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(update);
+      };
+
+      var step = function () {
+        var item = track.firstElementChild;
+        if (!item) return track.clientWidth;
+        var gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+        var pitch = item.getBoundingClientRect().width + gap;
+        if (!pitch) return track.clientWidth;
+        return Math.max(pitch, Math.floor(track.clientWidth / pitch) * pitch);
+      };
+
+      var move = function (dir) {
+        track.scrollBy({
+          left: dir * step(),
+          behavior: reduce && reduce.matches ? 'auto' : 'smooth'
+        });
+      };
+
+      prev.addEventListener('click', function () {
+        move(-1);
+      });
+      next.addEventListener('click', function () {
+        move(1);
+      });
+      track.addEventListener('scroll', schedule, { passive: true });
+      window.addEventListener('resize', schedule);
+      /* images arrive after the first measure and change the track's width */
+      window.addEventListener('load', update);
+      track.querySelectorAll('img').forEach(function (img) {
+        if (!img.complete) img.addEventListener('load', schedule, { once: true });
+      });
+
+      update();
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     trackHeaderHeight();
     initHeaderTone();
@@ -1141,6 +1225,7 @@
     initCartCount();
     initTabs();
     initCardSwatches();
+    initProductStrips();
     initVariantOptions();
     initFeaturedAlign();
     initStoryGallery();
@@ -1152,5 +1237,6 @@
   document.addEventListener('shopify:section:load', function () {
     initStoryGallery();
     initStorySequence();
+    initProductStrips();
   });
 })();

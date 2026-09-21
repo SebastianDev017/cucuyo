@@ -1,0 +1,77 @@
+{% doc %}
+  A row of product cards that scrolls sideways, with arrows — the pattern on
+  us.thehoffbrand.com: the cards sit on one scroll track with snap points, the
+  scrollbar is hidden, and two arrows at the right of the heading move it by a
+  screenful at a time. The track is a plain scroll container, so a trackpad, a
+  touch swipe and the keyboard all work whether or not the arrows are there;
+  the arrows are an addition, never the only way through (they are hidden
+  outright on phones, where swiping is the natural gesture).
+
+  @param {string} strip_id - unique id, used to tie the arrows to the track
+  @param {string} cards - the already-rendered <li> cards, in order. Captured
+    by the caller (as Related products does) because Liquid cannot build an
+    array of products one at a time: `concat` only joins two arrays.
+  @param {string} [heading] - shown at the left of the arrow row
+  @example
+  {% render 'product-strip', strip_id: section.id, cards: cards, heading: 'You may like' %}
+{% enddoc %}
+
+{%- liquid
+  assign prev_label = 'general.strip.previous' | t
+  assign next_label = 'general.strip.next' | t
+-%}
+
+{%- if cards contains 'product-card' -%}
+  <div class="product-strip" data-product-strip>
+    <div class="product-strip__head">
+      {%- if heading != blank -%}
+        <h2 class="product-strip__heading">{{ heading }}</h2>
+      {%- endif -%}
+
+      {%- comment -%}
+        Hidden until theme.js has measured that the track really does overflow
+        — arrows that cannot move anything are worse than no arrows.
+      {%- endcomment -%}
+      <div class="product-strip__arrows" data-strip-arrows hidden>
+        <button
+          type="button"
+          class="product-strip__arrow"
+          data-strip-prev
+          aria-controls="ProductStrip-{{ strip_id }}"
+          aria-label="{{ prev_label }}"
+        >
+          <svg class="product-strip__chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+            <path d="M15 4 L7 12 L15 20" stroke="currentColor" stroke-width="1.5" />
+          </svg>
+        </button>
+        <button
+          type="button"
+          class="product-strip__arrow"
+          data-strip-next
+          aria-controls="ProductStrip-{{ strip_id }}"
+          aria-label="{{ next_label }}"
+        >
+          <svg class="product-strip__chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+            <path d="M9 4 L17 12 L9 20" stroke="currentColor" stroke-width="1.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    {%- comment -%}
+      tabindex makes the scroll area reachable by keyboard: a region that
+      scrolls has to be operable without a mouse (WCAG 2.1.1), and browsers
+      only hand focus to such a container on their own in some engines.
+    {%- endcomment -%}
+    <ul
+      class="product-strip__track"
+      id="ProductStrip-{{ strip_id }}"
+      data-strip-track
+      tabindex="0"
+      role="list"
+      aria-label="{{ heading | default: next_label | escape }}"
+    >
+      {{ cards }}
+    </ul>
+  </div>
+{%- endif -%}

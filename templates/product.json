@@ -206,11 +206,21 @@
         "padding_bottom": 0,
         "header_tone": "ink"
       }
+    },
+    "you_may_like": {
+      "type": "you-may-like",
+      "settings": {
+        "heading": "You may like",
+        "products_to_show": 10,
+        "per_view": 4,
+        "show_price": true
+      }
     }
   },
   "order": [
     "main",
     "related",
+    "you_may_like",
     "grid_pair",
     "home_grid_nFCEgB"
   ]

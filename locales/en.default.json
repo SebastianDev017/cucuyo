@@ -16,6 +16,10 @@
     "breadcrumb": "Breadcrumb"
   },
   "general": {
+    "strip": {
+      "previous": "Previous products",
+      "next": "Next products"
+    },
     "pagination": {
       "page": "Page {{ page }}",
       "label": "Pagination",

@@ -1885,6 +1885,56 @@ html.no-js .variant-option__select-wrap {
   object-fit: cover;
 }
 
+/* HOVER PHOTOGRAPH (Cult Gaia). The second image sits on top of the first in
+   the same box and fades in; the first one never fades out, so there is no
+   moment where the tile is half-empty. Guarded by `hover: hover` and a fine
+   pointer: on a phone the second image is never shown (and, being
+   aria-hidden with an empty alt, it is silent for a screen reader anyway).
+   `visibility` rides along with the opacity so the hidden copy cannot be
+   picked up as an image when it is invisible — and the pair is one
+   transition, so an interrupted hover reverses from wherever it got to. */
+.product-card__media {
+  position: relative;
+}
+
+/* `.product-card__media img` above is (0,1,1) and would keep this displayed:
+   both of these have to out-rank it, not just read as more specific. */
+.product-card__media .product-card__image--hover {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .product-card__media .product-card__image--hover {
+    display: block;
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.45s cubic-bezier(0.45, 0.05, 0.55, 0.95), visibility 0s linear 0.45s;
+  }
+
+  .product-card:hover .product-card__image--hover,
+  .product-card__link:focus-visible .product-card__image--hover {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.45s cubic-bezier(0.45, 0.05, 0.55, 0.95), visibility 0s;
+  }
+
+  /* A card whose colour was switched by a swatch shows that colour's photo;
+     the stored second image belongs to another colour, so it is dropped
+     rather than shown over it (theme.js sets the flag). */
+  .product-card[data-hover-image='off'] .product-card__media .product-card__image--hover {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-card__image--hover {
+    transition: none;
+  }
+}
+
 .product-card__media--placeholder {
   background: #E5E1DC;
 }
@@ -3354,4 +3404,113 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
 .password-page :focus-visible {
   outline: 2px solid var(--cp-ink, #E9E3E0);
   outline-offset: 3px;
+}
+
+
+/* ---------------------------------------------------------------------------
+   PRODUCT STRIP — a row of cards that scrolls sideways, after the strip under
+   the hero on us.thehoffbrand.com. The track is an ordinary scroll container
+   with snap points and no visible scrollbar; the two arrows at the right of
+   the heading are an addition on top of it, so a trackpad, a swipe, the arrow
+   keys and Tab all keep working if they are not there. They are hidden on
+   phones, where the swipe is the gesture people already use, and hidden by
+   theme.js whenever the cards fit without scrolling.
+
+   Card widths are stated as a share of the track so a whole number of cards
+   is visible and the next one peeks in, which is what says "this scrolls".
+--------------------------------------------------------------------------- */
+.product-strip {
+  --strip-gap: var(--grid-gap, 16px);
+  --strip-per-view: 4;
+}
+
+.product-strip__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 18px;
+}
+
+.product-strip__heading {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: var(--strip-heading-size, 24px);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--color-ink);
+}
+
+.product-strip__arrows {
+  display: flex;
+  flex: none;
+  gap: 4px;
+}
+
+.product-strip__arrow {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.product-strip__arrow:disabled {
+  /* Hoff fades them out at the ends rather than removing them, so the row
+     does not change width as you scroll. Kept out of the tab order too. */
+  opacity: 0;
+  pointer-events: none;
+}
+
+.product-strip__chevron {
+  width: 22px;
+  height: 22px;
+}
+
+.product-strip__track {
+  display: flex;
+  gap: var(--strip-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.product-strip__track::-webkit-scrollbar {
+  display: none;
+}
+
+.product-strip__item {
+  flex: 0 0 calc((100% - (var(--strip-per-view) - 1) * var(--strip-gap)) / var(--strip-per-view));
+  scroll-snap-align: start;
+}
+
+.product-strip__track:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+@media (max-width: 989px) {
+  .product-strip {
+    --strip-per-view: 2.2;
+  }
+}
+
+@media (max-width: 749px) {
+  .product-strip {
+    --strip-per-view: 1.35;
+  }
+
+  /* On a phone the row is swiped, not clicked through. */
+  .product-strip__arrows {
+    display: none;
+  }
 }
