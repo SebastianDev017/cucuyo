@@ -9,102 +9,238 @@
  */
 {
   "sections": {
-    "hero": {
+    "band_one": {
       "type": "home-hero",
       "blocks": {
-        "hero_left": {
+        "left": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/496c1727798bf88926ad6f8feed984e76a7ad2a0_1.png",
-            "draft_asset": "figma-hero-left.jpg",
-            "label": "Petra\nVase",
-            "label_tone": "dark",
-            "link": ""
-          }
-        },
-        "hero_right": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/d7214cd48e81a21ea05cbe2b5037a08a06060704.png",
-            "draft_asset": "figma-hero-right.jpg",
+            "image": "",
+            "draft_asset": "figma-home-cheetah-sofa.jpg",
+            "heading": "Vases & Vessels",
+            "body": "Lorem ipsum dolor sit amet consectetur. Aliquam faucibus nec\nfacilisis consequat. Ut dolor pharetra vitae imperdiet. Tortor\nlacus dolor et et. Justo dignissim non nibh eget scelerisque mi.",
+            "cta_label": "Shop kitchenware",
             "label": "",
             "label_tone": "light",
-            "link": ""
+            "link": "/collections/vases-vessels"
+          }
+        },
+        "right": {
+          "type": "image",
+          "settings": {
+            "image": "",
+            "draft_asset": "figma-home-ojo-chair.jpg",
+            "heading": "",
+            "body": "",
+            "cta_label": "Vases",
+            "label": "",
+            "label_tone": "light",
+            "link": "/collections/vases-vessels"
           }
         }
       },
       "block_order": [
-        "hero_left",
-        "hero_right"
+        "left",
+        "right"
       ],
       "settings": {
-        "header_tone": "light"
+        "header_tone": "ink",
+        "ratio": "4 / 5"
       }
     },
-    "grid_one": {
-      "type": "home-grid",
+    "split_one": {
+      "type": "home-split",
       "blocks": {
-        "card_ojo": {
+        "media": {
+          "type": "media",
+          "settings": {
+            "image": "",
+            "draft_asset": "figma-home-bene-garden.jpg",
+            "alt_text": "Bene tote bag in the garden",
+            "heading": "",
+            "body": "",
+            "cta_label": "",
+            "link": "/collections/accessories",
+            "tone": "light"
+          }
+        },
+        "c1": {
           "type": "card",
           "settings": {
             "product": "",
-            "image": "shopify://shop_images/0e56ad7548bcfd72562b54a81622d4d111df7fcf.png",
             "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "Ojo de\nLibre Vase",
-            "label_font": "heading",
+            "alt_text": "Cheetah Pillow",
+            "draft_asset": "figma-home-cheetah.jpg",
+            "label": "Cheetah Pillow",
             "label_tone": "dark",
-            "label_color": "",
-            "link": "",
-            "draft_asset": "figma-prod-ojo-de-libre.jpg"
+            "link": "/products/cheetah-pillow"
           }
         },
-        "card_ghost": {
+        "c2": {
           "type": "card",
           "settings": {
-            "product": "ghost-checker-platter",
-            "image": "shopify://shop_images/db61882d79c9b2d3daa4dfeaa370ff9173b64610_1.jpg",
+            "product": "",
             "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "Ghost\nChecker Plate",
-            "label_font": "heading",
+            "alt_text": "Ojo de Liebre Vase",
+            "draft_asset": "figma-home-ojo.jpg",
+            "label": "Ojo de Liebre Vase",
             "label_tone": "dark",
-            "label_color": "",
-            "link": "",
-            "draft_asset": "figma-prod-ghost-plate.jpg"
+            "link": "/products/ojo-de-liebre-vase"
           }
         },
-        "card_ball": {
+        "c3": {
           "type": "card",
           "settings": {
-            "product": "ball-boy-bowl",
-            "image": "shopify://shop_images/4ea817ecb78e09ed6d26e33749c11e1dced6a44d.jpg",
+            "product": "",
             "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "Ball Boy\nBowl",
-            "label_font": "heading",
+            "alt_text": "Bene Tote Bag",
+            "draft_asset": "figma-home-bene-garden.jpg",
+            "label": "Bene Tote Bag",
+            "label_tone": "light",
+            "link": "/products/bene-tote-bag"
+          }
+        },
+        "c4": {
+          "type": "card",
+          "settings": {
+            "product": "",
+            "image_url": "",
+            "alt_text": "Laura Bandana",
+            "draft_asset": "figma-home-laura.jpg",
+            "label": "Laura Bandana",
             "label_tone": "dark",
-            "label_color": "",
-            "link": "",
-            "draft_asset": "figma-prod-ball-boy.jpg"
+            "link": "/products/laura-bandana"
           }
         }
       },
       "block_order": [
-        "card_ojo",
-        "card_ghost",
-        "card_ball"
+        "media",
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
+      "settings": {
+        "media_side": "left",
+        "show_collection_label": false,
+        "header_tone": "ink"
+      }
+    },
+    "note": {
+      "type": "home-note",
+      "settings": {
+        "heading": "Vases & Vessels",
+        "body": "Lorem ipsum dolor sit amet consectetur. Rhoncus semper ac lectus tincidunt volutpat ultrices lacus ornare. Velit ut ullamcorper molestie ultrices phasellus bibendum. Sapien aliquam hac sit nulla. Dictum consequat.",
+        "link_label": "Shop kitchenware",
+        "link": "/collections/vases-vessels",
+        "padding_top": 200,
+        "padding_bottom": 172
+      }
+    },
+    "band_two": {
+      "type": "home-hero",
+      "blocks": {
+        "left": {
+          "type": "image",
+          "settings": {
+            "image": "",
+            "draft_asset": "figma-home-frills-figs.jpg",
+            "heading": "",
+            "body": "",
+            "cta_label": "",
+            "label": "",
+            "label_tone": "light",
+            "link": "/products/frills-platter"
+          }
+        },
+        "right": {
+          "type": "image",
+          "settings": {
+            "image": "",
+            "draft_asset": "figma-home-fish-sea.jpg",
+            "heading": "",
+            "body": "",
+            "cta_label": "",
+            "label": "",
+            "label_tone": "light",
+            "link": "/products/swimming-fish-vase"
+          }
+        }
+      },
+      "block_order": [
+        "left",
+        "right"
+      ],
+      "settings": {
+        "header_tone": "ink",
+        "ratio": "4 / 5"
+      }
+    },
+    "row_one": {
+      "type": "home-grid",
+      "blocks": {
+        "c1": {
+          "type": "card",
+          "settings": {
+            "product": "",
+            "image_url": "",
+            "alt_text": "Frills Platter",
+            "draft_asset": "figma-home-frills.jpg",
+            "label": "Frills Platter",
+            "label_tone": "dark",
+            "link": "/products/frills-platter"
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "product": "",
+            "image_url": "",
+            "alt_text": "Ava Silverware",
+            "draft_asset": "figma-home-ava.jpg",
+            "label": "Ava Silverware",
+            "label_tone": "dark",
+            "link": "/products/ava-silverware-20pc-set"
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "product": "",
+            "image_url": "",
+            "alt_text": "Ghost Checker Platter",
+            "draft_asset": "figma-home-ghost.jpg",
+            "label": "Ghost Checker Platter",
+            "label_tone": "dark",
+            "link": "/products/ghost-checker-platter"
+          }
+        },
+        "c4": {
+          "type": "card",
+          "settings": {
+            "product": "",
+            "image_url": "",
+            "alt_text": "White Bone S&P Shakers",
+            "draft_asset": "figma-home-shakers.jpg",
+            "label": "White Bone S&P Shakers",
+            "label_tone": "dark",
+            "link": "/products/batik-bone-salt-and-pepper-shakers"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4"
       ],
       "settings": {
         "eyebrow": "",
         "heading": "",
         "heading_font": "heading",
         "heading_align": "center",
-        "columns_desktop": 3,
-        "columns_mobile": "1",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
         "flush": false,
         "show_collection_label": false,
         "show_swatches": false,
@@ -115,76 +251,151 @@
         "header_tone": "ink"
       }
     },
-    "band": {
-      "type": "home-image-band",
-      "settings": {
-        "image_url": "",
-        "alt_text": "Flock of flamingos wading through a tropical lagoon",
-        "media_ratio": "1512/835",
-        "draft_asset": "figma-band-flamingos.jpg",
-        "show_overlay": false,
-        "heading": "fawd",
-        "heading_font": "heading",
-        "body": "<p>awaw</p>",
-        "overlay_position": "center",
-        "cta_label": "",
-        "link": "",
-        "background_color": "",
-        "text_color": "",
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "header_tone": "light"
-      }
-    },
-    "editorial_duo": {
-      "type": "home-grid",
+    "split_two": {
+      "type": "home-split",
       "blocks": {
-        "duo_wabi": {
-          "type": "card",
+        "media": {
+          "type": "media",
           "settings": {
-            "product": "",
-            "image": "shopify://shop_images/Captura_de_pantalla_2026-08-04_193117.png",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "Wabi Sabi\nVase",
-            "label_font": "heading",
-            "label_tone": "light",
-            "label_color": "",
-            "link": "",
-            "draft_asset": "figma-edit-wabi-sabi.jpg"
+            "image": "",
+            "draft_asset": "figma-home-spiders-pumpkin.jpg",
+            "alt_text": "Clay and wire spiders beside a pumpkin",
+            "heading": "Vases & Vessels",
+            "body": "Lorem ipsum dolor sit amet consectetur. Aliquam faucibus nec\nfacilisis consequat. Ut dolor pharetra vitae imperdiet. Tortor\nlacus dolor et et. Justo dignissim non nibh eget scelerisque mi.",
+            "cta_label": "",
+            "link": "/collections/seasonal",
+            "tone": "light"
           }
         },
-        "duo_beaded": {
+        "c1": {
           "type": "card",
           "settings": {
             "product": "",
-            "image": "shopify://shop_images/bcb439cbcb9a5b3ed0361d966e0edac99e5f5fb1.png",
             "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "Beaded\nPlates",
-            "label_font": "heading",
-            "label_tone": "light",
-            "label_color": "",
-            "link": "",
-            "draft_asset": "figma-edit-beaded.jpg"
+            "alt_text": "Pumpkin Wreath",
+            "draft_asset": "figma-home-pumpkin.jpg",
+            "label": "Pumpkin Wreath",
+            "label_tone": "dark",
+            "link": "/products/pumpkin-wreath"
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "product": "",
+            "image_url": "",
+            "alt_text": "Clay & Wire Spiders",
+            "draft_asset": "figma-home-spiders.jpg",
+            "label": "Clay & Wire Spiders",
+            "label_tone": "dark",
+            "link": "/products/clay-and-wire-spiders"
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "product": "",
+            "image_url": "",
+            "alt_text": "Kenya Soapstone Nativity",
+            "draft_asset": "figma-home-nativity.jpg",
+            "label": "Kenya Soapstone Nativity",
+            "label_tone": "dark",
+            "link": "/products/kenya-soapstone-nativity"
+          }
+        },
+        "c4": {
+          "type": "card",
+          "settings": {
+            "product": "",
+            "image_url": "",
+            "alt_text": "Barro Ornaments",
+            "draft_asset": "figma-home-ornaments.jpg",
+            "label": "Barro Ornaments",
+            "label_tone": "dark",
+            "link": "/products/clay-barro-ornaments"
           }
         }
       },
       "block_order": [
-        "duo_wabi",
-        "duo_beaded"
+        "media",
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
+      "settings": {
+        "media_side": "left",
+        "show_collection_label": false,
+        "header_tone": "ink"
+      }
+    },
+    "row_two": {
+      "type": "home-grid",
+      "blocks": {
+        "c1": {
+          "type": "card",
+          "settings": {
+            "product": "",
+            "image_url": "",
+            "alt_text": "Swan Basket",
+            "draft_asset": "figma-home-swan.jpg",
+            "label": "Swan Basket",
+            "label_tone": "dark",
+            "link": "/products/swan-basket"
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "product": "",
+            "image_url": "",
+            "alt_text": "Tezon II Bowl",
+            "draft_asset": "figma-home-tezon.jpg",
+            "label": "Tezon II Bowl",
+            "label_tone": "dark",
+            "link": "/products/tezon-ii-bowl"
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "product": "",
+            "image_url": "",
+            "alt_text": "Petra Vessel",
+            "draft_asset": "figma-home-petra.jpg",
+            "label": "Petra Vessel",
+            "label_tone": "dark",
+            "link": "/products/petra-vessel"
+          }
+        },
+        "c4": {
+          "type": "card",
+          "settings": {
+            "product": "",
+            "image_url": "",
+            "alt_text": "Duck Woven Baskets",
+            "draft_asset": "figma-home-duck.jpg",
+            "label": "Duck Woven Baskets",
+            "label_tone": "dark",
+            "link": "/products/duck-woven-baskets"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4"
       ],
       "settings": {
         "eyebrow": "",
         "heading": "",
         "heading_font": "heading",
         "heading_align": "center",
-        "columns_desktop": 2,
-        "columns_mobile": "1",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
         "flush": false,
-        "show_collection_label": true,
+        "show_collection_label": false,
         "show_swatches": false,
         "background_color": "",
         "text_color": "",
@@ -193,86 +404,54 @@
         "header_tone": "ink"
       }
     },
-    "grid_two": {
-      "type": "home-grid",
+    "band_three": {
+      "type": "home-hero",
       "blocks": {
-        "card_wabi_vase": {
-          "type": "card",
+        "left": {
+          "type": "image",
           "settings": {
-            "product": "",
-            "image": "shopify://shop_images/6d30c681f98859a3240157a53c2e680f7d90ddbf.jpg",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "Wabi Sabi\nVase",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "link": "",
-            "draft_asset": "figma-prod-wabi-vase.jpg"
+            "image": "",
+            "draft_asset": "figma-home-tezon-painting.jpg",
+            "heading": "Vases & Vessels",
+            "body": "Lorem ipsum dolor sit amet consectetur. Aliquam faucibus nec\nfacilisis consequat. Ut dolor pharetra vitae imperdiet. Tortor\nlacus dolor et et. Justo dignissim non nibh eget scelerisque mi.",
+            "cta_label": "Shop kitchenware",
+            "label": "",
+            "label_tone": "light",
+            "link": "/collections/vases-vessels"
           }
         },
-        "card_ziggy": {
-          "type": "card",
+        "right": {
+          "type": "image",
           "settings": {
-            "product": "",
-            "image": "shopify://shop_images/0981f2fa9f897e69b6c456be1a85cad5032d773b.png",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "Ziggy Rattan\nCounter Stool",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "link": "",
-            "draft_asset": "figma-prod-ziggy-stool.jpg"
-          }
-        },
-        "card_ghost_2": {
-          "type": "card",
-          "settings": {
-            "product": "ghost-checker-platter",
-            "image": "shopify://shop_images/db61882d79c9b2d3daa4dfeaa370ff9173b64610.jpg",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "Ghost\nChecker Plate",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "link": "",
-            "draft_asset": "figma-prod-ghost-plate-2.jpg"
+            "image": "",
+            "draft_asset": "figma-home-petra-yellow.jpg",
+            "heading": "Vases & Vessels",
+            "body": "Lorem ipsum dolor sit amet consectetur. Aliquam faucibus nec\nfacilisis consequat. Ut dolor pharetra vitae imperdiet. Tortor\nlacus dolor et et. Justo dignissim non nibh eget scelerisque mi.",
+            "cta_label": "",
+            "label": "",
+            "label_tone": "light",
+            "link": "/collections/vases-vessels"
           }
         }
       },
       "block_order": [
-        "card_wabi_vase",
-        "card_ziggy",
-        "card_ghost_2"
+        "left",
+        "right"
       ],
       "settings": {
-        "eyebrow": "",
-        "heading": "",
-        "heading_font": "heading",
-        "heading_align": "center",
-        "columns_desktop": 3,
-        "columns_mobile": "1",
-        "flush": false,
-        "show_collection_label": true,
-        "show_swatches": false,
-        "background_color": "",
-        "text_color": "",
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "header_tone": "ink"
+        "header_tone": "ink",
+        "ratio": "3 / 4"
       }
     }
   },
   "order": [
-    "hero",
-    "grid_one",
-    "band",
-    "editorial_duo",
-    "grid_two"
+    "band_one",
+    "split_one",
+    "note",
+    "band_two",
+    "row_one",
+    "split_two",
+    "row_two",
+    "band_three"
   ]
 }

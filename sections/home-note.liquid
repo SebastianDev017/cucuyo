@@ -1,0 +1,46 @@
+{%- comment -%}
+  Centred note (Figma) — the typographic breather between two image bands: a
+  category title, a short paragraph, and one underlined link, centred on the
+  page's own background. No photograph, no button: on this homepage it is the
+  one place the eye rests.
+{%- endcomment -%}
+
+<section
+  class="home-note"
+  data-header-tone="ink"
+  style="--note-top: {{ section.settings.padding_top }}px; --note-bottom: {{ section.settings.padding_bottom }}px;"
+>
+  <div class="home-note__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="home-note__heading">{{ section.settings.heading | escape }}</h2>
+    {%- endif -%}
+
+    {%- if section.settings.body != blank -%}
+      <p class="home-note__body">{{ section.settings.body | escape | newline_to_br }}</p>
+    {%- endif -%}
+
+    {%- if section.settings.link_label != blank -%}
+      {%- if section.settings.link != blank -%}
+        <a href="{{ section.settings.link }}" class="home-note__cta type-label">{{ section.settings.link_label | escape }}</a>
+      {%- else -%}
+        <span class="home-note__cta type-label">{{ section.settings.link_label | escape }}</span>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Centred note",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Title", "default": "Vases & Vessels" },
+    { "type": "textarea", "id": "body", "label": "Paragraph" },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "Shop kitchenware" },
+    { "type": "url", "id": "link", "label": "Link" },
+    { "type": "range", "id": "padding_top", "label": "Space above", "min": 40, "max": 240, "step": 4, "unit": "px", "default": 200 },
+    { "type": "range", "id": "padding_bottom", "label": "Space below", "min": 40, "max": 240, "step": 4, "unit": "px", "default": 200 }
+  ],
+  "presets": [{ "name": "Centred note" }]
+}
+{% endschema %}

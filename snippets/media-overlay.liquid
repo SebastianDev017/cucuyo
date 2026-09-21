@@ -1,0 +1,45 @@
+{% doc %}
+  The text laid over a full-bleed photograph on the homepage (Figma): a
+  category title, a short paragraph and an underlined link, sitting at the
+  bottom-left of the image. Shared by the two-up band and the mixed band so
+  the three of them line up to the same inset.
+
+  The tone is the merchant's call because it depends on the photograph: over
+  a dark room, light type; over a pale seamless, ink. Neither is safe by
+  default, so the setting has no "auto" — whoever places the image looks at
+  it.
+
+  @param {string} [heading] - category title, set in caps by the stylesheet
+  @param {string} [body] - one short paragraph; line breaks are kept
+  @param {string} [cta_label] - the link's words, e.g. "Shop kitchenware"
+  @param {string} [link] - where the link goes. With no link the label is
+    still drawn (as plain text), so a band can carry a bare caption.
+  @param {string} [tone] - 'light' or 'ink'
+  @param {boolean} [scrim] - lay a soft gradient under the words. Off by
+    design: the brand does not use scrims. It exists because these
+    photographs are not all the same tone under the text, and measured
+    against the real pixels most of them leave light type under 4.5:1 — see
+    the QA note. Turning it on is a design call, not a default.
+  @example
+  {% render 'media-overlay', heading: 'Vases & vessels', body: text, cta_label: 'Shop kitchenware', link: url, tone: 'light' %}
+{% enddoc %}
+
+{%- if heading != blank or body != blank or cta_label != blank -%}
+  <div class="media-overlay{% if tone == 'light' %} media-overlay--light{% endif %}{% if scrim %} media-overlay--scrim{% endif %}">
+    {%- if heading != blank -%}
+      <h2 class="media-overlay__heading">{{ heading | escape | newline_to_br }}</h2>
+    {%- endif -%}
+
+    {%- if body != blank -%}
+      <p class="media-overlay__body">{{ body | escape | newline_to_br }}</p>
+    {%- endif -%}
+
+    {%- if cta_label != blank -%}
+      {%- if link != blank -%}
+        <a href="{{ link }}" class="media-overlay__cta type-label">{{ cta_label | escape }}</a>
+      {%- else -%}
+        <span class="media-overlay__cta type-label">{{ cta_label | escape }}</span>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+{%- endif -%}

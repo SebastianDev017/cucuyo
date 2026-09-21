@@ -692,6 +692,7 @@ html.nav-drawer-open body {
 .home-hero__grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  gap: var(--card-gap, 6px);
 }
 
 .home-hero__cell {
@@ -702,7 +703,7 @@ html.nav-drawer-open body {
 .home-hero__media {
   width: 100%;
   height: 100%;
-  aspect-ratio: 756 / 957;
+  aspect-ratio: var(--band-ratio, 756 / 957);
   object-fit: cover;
 }
 
@@ -3512,5 +3513,256 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
   /* On a phone the row is swiped, not clicked through. */
   .product-strip__arrows {
     display: none;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   Overlay text on a full-bleed photograph (two-up band, mixed band)
+   -------------------------------------------------------------------------- */
+
+/* Bottom-left of the image, inset to the same 60px the Figma uses. It is laid
+   over the photograph rather than in a scrim: the brand has no scrims, so the
+   tone is chosen per image by whoever places it (see media-overlay.liquid).
+   `right` is set as well as `left` so a long line wraps inside the image
+   instead of running under the next tile. */
+.media-overlay {
+  position: absolute;
+  right: 60px;
+  bottom: 46px;
+  left: 60px;
+  z-index: 2;
+  max-width: 560px;
+  color: var(--color-ink);
+  pointer-events: none;
+}
+
+.media-overlay--light {
+  color: var(--color-on-image);
+}
+
+/* Off unless a block asks for it. It bleeds past the overlay's own inset so
+   the gradient reaches the tile's edges instead of ending in a visible
+   rectangle around the words. */
+.media-overlay--scrim::before {
+  content: '';
+  position: absolute;
+  inset: -40px -60px -46px;
+  z-index: -1;
+  background: linear-gradient(to top, rgb(0 0 0 / 55%), rgb(0 0 0 / 0%));
+  pointer-events: none;
+}
+
+.media-overlay--scrim.media-overlay:not(.media-overlay--light)::before {
+  background: linear-gradient(to top, rgb(255 255 255 / 70%), rgb(255 255 255 / 0%));
+}
+
+/* the link is the one thing in here that can be clicked */
+.media-overlay__cta {
+  pointer-events: auto;
+}
+
+.media-overlay__heading {
+  margin: 0 0 14px;
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight, 500);
+  font-size: calc(1.4375rem * var(--heading-scale, 1));
+  letter-spacing: 0.02em;
+  line-height: 1.25;
+  text-transform: uppercase;
+  color: inherit;
+}
+
+.media-overlay__body {
+  margin: 0;
+  max-width: 44ch;
+  font-size: calc(1rem * var(--body-scale, 1));
+  line-height: 1.55;
+}
+
+.media-overlay__cta {
+  display: inline-block;
+  margin-top: 26px;
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  text-decoration-thickness: 1px;
+}
+
+@media (max-width: 989px) {
+  .media-overlay {
+    right: 28px;
+    bottom: 26px;
+    left: 28px;
+  }
+
+  .media-overlay__heading {
+    margin-bottom: 10px;
+  }
+
+  .media-overlay__cta {
+    margin-top: 18px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Mixed band — one tall photograph beside a 2x2 of cards (Figma)
+   -------------------------------------------------------------------------- */
+
+.home-split__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--card-gap, 6px);
+}
+
+/* Two columns wide and two rows tall: the photograph then ends exactly where
+   the second row of cards does, gutter included. */
+.home-split__media {
+  position: relative;
+  grid-column: span 2;
+  grid-row: span 2;
+  overflow: clip;
+}
+
+.home-split--right .home-split__media {
+  grid-column: 3 / span 2;
+  grid-row: 1 / span 2;
+}
+
+.home-split__media-link {
+  display: block;
+  height: 100%;
+}
+
+/* Taken out of the flow on purpose. Left in it, the photograph's own shape
+   (the files are 3:4) decides how tall the two rows it spans must be, and the
+   cards beside it get stretched to match — 475px tiles instead of their own
+   4:5. Absolute, the cards size the rows and the photograph fills whatever
+   that comes to. */
+.home-split__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (min-width: 750px) and (max-width: 989.98px) {
+  .home-split__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* the photograph takes the full width above the four cards, which keep
+     their own shape underneath it */
+  .home-split__media,
+  .home-split--right .home-split__media {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    aspect-ratio: 3 / 2;
+  }
+}
+
+@media (max-width: 749px) {
+  /* The photograph takes the full width and the four cards sit two up under
+     it — the same pairing the card rows use on a phone, rather than four
+     full-width tiles that would make this one band a screen and a half. */
+  .home-split__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .home-split__media,
+  .home-split--right .home-split__media {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    aspect-ratio: 4 / 5;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   Centred note — the text-only breather between image bands (Figma)
+   -------------------------------------------------------------------------- */
+
+.home-note {
+  padding: var(--note-top, 120px) var(--page-margin) var(--note-bottom, 120px);
+  text-align: center;
+}
+
+.home-note__inner {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.home-note__heading {
+  margin: 0 0 18px;
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight, 500);
+  font-size: calc(1.4375rem * var(--heading-scale, 1));
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.home-note__body {
+  margin: 0;
+  font-size: calc(1rem * var(--body-scale, 1));
+  line-height: 1.55;
+  color: var(--color-ink);
+}
+
+.home-note__cta {
+  display: inline-block;
+  margin-top: 30px;
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  text-decoration-thickness: 1px;
+}
+
+@media (max-width: 749px) {
+  .home-note {
+    padding-top: calc(var(--note-top, 120px) * 0.6);
+    padding-bottom: calc(var(--note-bottom, 120px) * 0.6);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Home: the header sits ON the page, not over the photography (final Figma)
+   -------------------------------------------------------------------------- */
+
+/* The homepage no longer opens on a full-bleed hero with the header floating
+   over it: the first band starts under a white header bar, exactly as every
+   other template does. So home reserves the header's own height — the band,
+   not the generous inner-page clearance, because the Figma has the first
+   photograph flush against it. */
+.template-index main {
+  padding-top: var(--header-band, 76px);
+}
+
+/* The band is what the sticky header already measures for its own ground
+   (--header-panel, set by theme.js on every template): the header's content
+   plus the same gap above and below. Without JS it falls back to the
+   wordmark's reach plus the header's bottom padding. */
+:root {
+  --header-band: var(--header-panel, calc(var(--header-height, 44px) + 16px));
+}
+
+/* and its type is the accent from the first frame, like the inner pages */
+body.template-index .site-header__logo,
+body.template-index .site-header__link,
+body.template-index .site-header__burger {
+  color: var(--color-ink);
+}
+
+@media (min-width: 1200px) {
+  body.template-index .site-header :is(.site-header__logo, .site-header__link) {
+    color: var(--color-accent);
+  }
+
+  /* The final Figma sets the bar at 62px: the wordmark's own box (43px) with
+     9px above and below, rather than the 16px the column layout used. Every
+     clearance downstream is measured off it by theme.js, so they follow. */
+  .site-header {
+    padding-block: 9px;
   }
 }
