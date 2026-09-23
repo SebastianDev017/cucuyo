@@ -7,18 +7,17 @@
      0). Inner pages pad their content below this so the header can never
      cover anything.
 
-     Only the wordmark counts by default. It is centred over the content
-     column, so content always has to clear it. The stacked link column is
-     not: inner pages start their content at --sidebar-gutter, far to the
-     right of it — that gutter is exactly what keeps them apart. Measuring the
-     column too was reserving its full height as vertical space as well,
-     ~180px of dead air, and made the whole page shift down by the height of
-     the SHOP panel every time the dropdown opened.
+     Only the wordmark counts by default. The nav is counted as well whenever
+     it actually reaches into the content band, which is what the gutter test
+     below decides. That mattered when a stacked link column ran down the
+     left of every page: measuring it reserved its whole height as vertical
+     space too, ~180px of dead air, and the page jumped by the height of the
+     SHOP panel every time it opened. The column is gone now — the row above
+     1200px, the burger bar below it — so in practice this measures the bar.
+     The test stays because it costs nothing and holds in either case.
 
-     The column is still counted whenever it actually reaches into the content
-     band — a very long menu label, or a layout with no gutter — so the
-     guarantee holds in every case rather than by assumption. With no JS at
-     all this never runs and the CSS keeps its generous 320px fallback. */
+     With no JS none of this runs and the CSS fallback applies: 80px, one bar
+     of header. */
   function trackHeaderHeight() {
     var header = document.querySelector('.site-header');
     if (!header) return;
@@ -149,12 +148,13 @@
       header.setAttribute('data-header-state', next);
     };
 
-    /* The header box measures 0 (its children are absolutely positioned),
-       so its reach is read off the children that are actually showing: the
-       wordmark and the stacked link column on a desktop, the wordmark and the
-       burger on a phone. The solid ground is as tall as that, plus the same
-       gap below the lowest item as there is above the highest — so it is
-       sized by the header's real content, and grows with the SHOP panel. */
+    /* Below 1200px the header's children are absolutely positioned, so the
+       header box itself measures 0: its reach is read off the children that
+       are actually showing — the wordmark and the burger on the bar, the
+       wordmark and the links in the row. The solid ground is as tall as
+       that, plus the same gap below the lowest item as there is above the
+       highest, so it is sized by the header's real content and grows with
+       the SHOP panel. */
     var measure = function () {
       var origin = header.getBoundingClientRect().top;
       var high = Infinity;
@@ -320,7 +320,8 @@
     });
 
     if (window.matchMedia) {
-      var mq = window.matchMedia('(min-width: 768px)');
+      /* the row takes over at 1200px; below that the drawer IS the menu */
+      var mq = window.matchMedia('(min-width: 1200px)');
       var onChange = function (event) {
         if (event.matches && drawer.open) drawer.close();
       };

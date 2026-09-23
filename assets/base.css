@@ -166,14 +166,22 @@ a {
      wordmark and the page's own first heading, which share a centre axis on
      inner pages and read as one block when they sit closer. The 320px
      fallback is the no-JS case, where the stacked column is still shown. */
-  --nav-clearance: calc(var(--header-height, 320px) + 40px);
+  /* theme.js measures the header's real reach into --header-height; the
+     fallback is for no-JS, and one bar of header fits in 80px whether it is
+     the row or the burger bar. It was 320px when a stacked column had to fit
+     in it. */
+  --nav-clearance: calc(var(--header-height, 80px) + 40px);
   /* Horizontal twin of the clearance: the left gutter that keeps content
      clear of the sidebar link column (Figma: content starts at x283 on the
      1512 frame — the product page's mechanism, now shared). It exists only
      where the column does: from 1200px up the header is a single row and
      the gutter becomes the plain page margin (block below), and under 768px
      the header is the mobile bar and it collapses the same way. */
-  --sidebar-gutter: clamp(220px, 18.7vw, 300px);
+  /* There is no stacked link column at any width any more — below 1200px the
+     header is the same bar a phone gets — so the gutter that existed to clear
+     it is the page margin everywhere. The token stays because the story
+     sections, the collection heading and every template's main align to it. */
+  --sidebar-gutter: var(--page-margin);
 
   /* Card grid spacing, deliberately two separate knobs (see .card-grid):
      --card-gap is the space between IMAGES, --card-text-inset is the space
@@ -184,29 +192,6 @@ a {
   --card-text-start: 5px;
   --card-text-top: 5px;
   --card-text-space: 44px;
-}
-
-@media (max-width: 767.98px) {
-  :root {
-    --sidebar-gutter: var(--page-margin);
-  }
-}
-
-/* The header is one row from 1200px up, on every template, so there is no
-   link column to keep clear of: every rule that insets content by
-   --sidebar-gutter (each template's main, the story sections, the collection
-   heading) falls back to the page margin through this one token, and comes
-   back to the column's gutter below 1200px the same way.
-
-   The clearance keeps its mechanism: theme.js still measures how far the
-   header reaches into the content into --header-height. Only the no-JS
-   fallback changes, because the fallback was sized for the stacked column;
-   one row of header fits in 80px. */
-@media (min-width: 1200px) {
-  :root {
-    --sidebar-gutter: var(--page-margin);
-    --nav-clearance: calc(var(--header-height, 80px) + 40px);
-  }
 }
 
 /* --------------------------------------------------------------------------
@@ -536,10 +521,12 @@ body.template-index.header-ink .site-header__burger {
   top: 25px;
 }
 
-/* Mobile header (<768px): hamburger left, wordmark right; the stacked
-   column moves into the drawer. 768px and up is untouched. The no-js
-   branch keeps the previous stacked-overlay mobile styles. */
-@media (max-width: 767.98px) {
+/* Burger bar — everything below the row (under 1200px): hamburger left,
+   wordmark right, the menu in the drawer. It used to stop at 768px and leave
+   768-1199 on the stacked column, which at those widths read as a list of
+   words floating over the page. 1200px and up is the row and is untouched.
+   The no-js branch keeps the stacked overlay as its reachable fallback. */
+@media (max-width: 1199.98px) {
   html.js .site-header__burger {
     display: block;
   }
