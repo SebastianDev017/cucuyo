@@ -3478,20 +3478,18 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
   color: var(--color-on-image);
 }
 
-/* Off unless a block asks for it. It bleeds past the overlay's own inset so
-   the gradient reaches the tile's edges instead of ending in a visible
-   rectangle around the words. */
-.media-overlay--scrim::before {
-  content: '';
+/* Off unless a block asks for it (Soften the photograph under the text).
+   A gradient over the photograph's lower part, strongest where the text sits
+   and gone by two thirds of the way up, so the photograph above the words is
+   untouched. Its strength is set by measurement, not by eye: with it on,
+   light type reads at AA (4.5:1) against the palest pixels behind it on
+   every photograph it was switched on for — see the QA notes. */
+.media-scrim {
   position: absolute;
-  inset: -40px -60px -46px;
-  z-index: -1;
-  background: linear-gradient(to top, rgb(0 0 0 / 55%), rgb(0 0 0 / 0%));
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(to top, rgb(0 0 0 / 62%) 0%, rgb(0 0 0 / 56%) 30%, rgb(0 0 0 / 0%) 62%);
   pointer-events: none;
-}
-
-.media-overlay--scrim.media-overlay:not(.media-overlay--light)::before {
-  background: linear-gradient(to top, rgb(255 255 255 / 70%), rgb(255 255 255 / 0%));
 }
 
 /* the link is the one thing in here that can be clicked */
@@ -3850,6 +3848,23 @@ html.no-js body .site-header.site-header--top-ink :is(
   .site-header__nav--primary > ul > li > details > summary
 ) {
   color: var(--header-top-ink);
+}
+
+/* The homepage's optional scrim under the transparent header (Header →
+   Soften the photograph under the header). Only while transparent: once the
+   header comes back on its white ground the scrim is gone with the state.
+   z-index -1 keeps it behind the header's own words, inside the header's
+   stacking context, above the page. Strength set by measurement: light type
+   at AA against the palest pixels of the first photograph. */
+.site-header--top-scrim[data-header-state='top']::after,
+html.no-js .site-header--top-scrim::after {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: -1;
+  height: calc(var(--header-panel, 76px) + 64px);
+  background: linear-gradient(to bottom, rgb(0 0 0 / 56%) 0%, rgb(0 0 0 / 48%) 55%, rgb(0 0 0 / 0%) 100%);
+  pointer-events: none;
 }
 
 /* --------------------------------------------------------------------------

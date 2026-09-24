@@ -32,13 +32,15 @@
   endif
 
   assign top_ink = section.settings.transparent_ink_pages
+  assign top_scrim = false
   if template.name == 'index'
     assign top_ink = section.settings.transparent_ink_home
+    assign top_scrim = section.settings.transparent_scrim_home
   endif
 -%}
 
 <header
-  class="site-header{% if top_ink != blank %} site-header--top-ink{% endif %}"
+  class="site-header{% if top_ink != blank %} site-header--top-ink{% endif %}{% if top_scrim %} site-header--top-scrim{% endif %}"
   {%- if top_ink != blank %} style="--header-top-ink: {{ top_ink }};"{% endif %}
 >
   <button
@@ -169,6 +171,13 @@
       "id": "transparent_ink_home",
       "label": "Text colour on the homepage",
       "info": "Over the first photograph. Leave empty to follow the first section's header tone."
+    },
+    {
+      "type": "checkbox",
+      "id": "transparent_scrim_home",
+      "label": "Soften the photograph under the header on the homepage",
+      "default": false,
+      "info": "A gradient at the top of the first photograph while the header is transparent, so light type reads on a pale picture."
     },
     {
       "type": "color",

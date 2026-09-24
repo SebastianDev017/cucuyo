@@ -69,18 +69,6 @@
             "link": ""
           }
         },
-        "c2": {
-          "type": "card",
-          "settings": {
-            "product": "",
-            "image_url": "",
-            "alt_text": "Travertine Lamp",
-            "draft_asset": "pdf-travertine-lamp-3060.jpg",
-            "label": "Travertine Lamp",
-            "label_tone": "dark",
-            "link": ""
-          }
-        },
         "c3": {
           "type": "card",
           "settings": {
@@ -108,7 +96,6 @@
       },
       "block_order": [
         "c1",
-        "c2",
         "c3",
         "c4"
       ],
@@ -117,7 +104,7 @@
         "heading": "",
         "heading_font": "heading",
         "heading_align": "center",
-        "columns_desktop": 4,
+        "columns_desktop": 3,
         "columns_mobile": "2",
         "flush": false,
         "show_collection_label": false,

@@ -233,7 +233,7 @@
             "label": "",
             "label_tone": "light",
             "link": "/collections/tabletop",
-            "scrim": false
+            "scrim": true
           }
         },
         "right": {

@@ -20,7 +20,8 @@
         "show_account": true,
         "drawer_note": "Sign up to our newsletter to receive exclusive offers.",
         "transparent_ink_home": "#FFFFFF",
-        "transparent_ink_pages": ""
+        "transparent_ink_pages": "",
+        "transparent_scrim_home": true
       }
     }
   },

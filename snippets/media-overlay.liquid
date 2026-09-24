@@ -25,7 +25,15 @@
 {% enddoc %}
 
 {%- if heading != blank or body != blank or cta_label != blank -%}
-  <div class="media-overlay{% if tone == 'light' %} media-overlay--light{% endif %}{% if scrim %} media-overlay--scrim{% endif %}">
+  {%- comment -%}
+    The scrim is a layer of the whole photograph, not of the text box: the
+    box has a max-width, and a gradient hung on it stopped short of the
+    image's right edge.
+  {%- endcomment -%}
+  {%- if scrim -%}
+    <span class="media-scrim" aria-hidden="true"></span>
+  {%- endif -%}
+  <div class="media-overlay{% if tone == 'light' %} media-overlay--light{% endif %}">
     {%- if heading != blank -%}
       <h2 class="media-overlay__heading">{{ heading | escape | newline_to_br }}</h2>
     {%- endif -%}

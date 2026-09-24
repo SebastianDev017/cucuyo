@@ -23,7 +23,7 @@
             "label": "",
             "label_tone": "light",
             "link": "/collections/all",
-            "scrim": false
+            "scrim": true
           }
         },
         "right": {
@@ -366,7 +366,7 @@
             "label": "",
             "label_tone": "light",
             "link": "/collections/decorative-seasonal",
-            "scrim": false
+            "scrim": true
           }
         },
         "right": {
