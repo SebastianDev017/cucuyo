@@ -3714,41 +3714,20 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
 }
 
 /* --------------------------------------------------------------------------
-   Home: the header sits ON the page, not over the photography (final Figma)
+   Home: the header floats over the first band at the top (HEREU)
    -------------------------------------------------------------------------- */
 
-/* The homepage no longer opens on a full-bleed hero with the header floating
-   over it: the first band starts under a white header bar, exactly as every
-   other template does. So home reserves the header's own height — the band,
-   not the generous inner-page clearance, because the Figma has the first
-   photograph flush against it. */
-.template-index main {
-  padding-top: var(--header-band, 76px);
-}
-
-/* The band is what the sticky header already measures for its own ground
-   (--header-panel, set by theme.js on every template): the header's content
-   plus the same gap above and below. Without JS it falls back to the
-   wordmark's reach plus the header's bottom padding. */
-:root {
-  --header-band: var(--header-panel, calc(var(--header-height, 44px) + 16px));
-}
-
-/* and its type is the accent from the first frame, like the inner pages */
-body.template-index .site-header__logo,
-body.template-index .site-header__link,
-body.template-index .site-header__burger {
-  color: var(--color-ink);
-}
+/* On load, and whenever the page is back at its very top, the homepage's
+   header has no ground: the first band's photographs run up under it and
+   the type takes the tone that band declares (initHeaderTone). Scrolling
+   down hides it; scrolling up brings it back pinned on a white ground in the
+   accent — the data-header-state rules above. So home does NOT reserve the
+   header's height the way inner pages do: the photograph starts at 0. */
 
 @media (min-width: 1200px) {
-  body.template-index .site-header :is(.site-header__logo, .site-header__link) {
-    color: var(--color-accent);
-  }
-
   /* The final Figma sets the bar at 62px: the wordmark's own box (43px) with
-     9px above and below, rather than the 16px the column layout used. Every
-     clearance downstream is measured off it by theme.js, so they follow. */
+     9px above and below, rather than 16px. Every clearance downstream is
+     measured off it by theme.js, so they follow. */
   .site-header {
     padding-block: 9px;
   }
