@@ -3714,6 +3714,34 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
 }
 
 /* --------------------------------------------------------------------------
+   Transparent header colour — the merchant's, from the Header section
+   -------------------------------------------------------------------------- */
+
+/* Only while the header is transparent (the `top` state, or no JS at all):
+   the wordmark, the bar's links and the burger. The burger's lines, the SHOP
+   caret and the cart count all draw in currentColor, so they follow. The
+   links inside the SHOP panel are NOT included — the panel sits on white and
+   keeps the accent. Revealed and solid states keep the theme's colours on
+   their white ground, and reduced motion (always solid) never sees this.
+
+   Out-ranks every automatic colour rule on purpose (tones on home, the
+   accent on inner pages): a colour someone picked has to be the one shown. */
+body .site-header.site-header--top-ink[data-header-state='top'] :is(
+  .site-header__logo,
+  .site-header__burger,
+  .site-header__nav--primary > ul > li > a,
+  .site-header__nav--primary > ul > li > details > summary
+),
+html.no-js body .site-header.site-header--top-ink :is(
+  .site-header__logo,
+  .site-header__burger,
+  .site-header__nav--primary > ul > li > a,
+  .site-header__nav--primary > ul > li > details > summary
+) {
+  color: var(--header-top-ink);
+}
+
+/* --------------------------------------------------------------------------
    Home: the header floats over the first band at the top (HEREU)
    -------------------------------------------------------------------------- */
 

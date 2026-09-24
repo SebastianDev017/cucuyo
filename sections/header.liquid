@@ -1,24 +1,25 @@
 {%- comment -%}
-  Header — no background of its own (Figma). Three layouts from one markup:
+  Header — no background of its own at the top of the page. Two layouts from
+  one markup:
 
   1200px and up, EVERY TEMPLATE: one row (Eugenia's comp) — wordmark flush
   left, the menu beside it, search / account / cart at the far right.
 
-  768–1199px: the stacked column — every link in one column top-left
-  (primary menu group, then search / account / cart below), wordmark centred
-  on the viewport. Nested menu items render ALWAYS EXPANDED, indented under
-  their parent (up to three levels) — shared via snippets/nav-links.
-
-  Under 768px (JS available): a bar — hamburger left, wordmark right — and
+  Below 1200px (JS available): a bar — hamburger left, wordmark right — and
   the menu moves into a native <dialog> drawer (100dvh, width from the "Menu
-  drawer width" theme setting): wordmark, the same always-expanded indented
-  menu, utilities with a live cart count, and the newsletter form. Without JS
-  the stacked overlay column stays, so the menu is never unreachable.
+  drawer width" theme setting): wordmark, the menu, utilities with a live cart
+  count, and the newsletter form. Without JS the stacked overlay column stays,
+  so the menu is never unreachable.
 
-  Scrolling, on every template and layout: in the document at the top
-  (transparent over home's hero, on the page's white elsewhere), hidden on
-  the way down, sliding back on a solid ground on the way up — modelled on
+  Scrolling, on every template and layout: transparent at the top (over the
+  first band's photographs on home, over the page elsewhere), hidden on the
+  way down, sliding back on a solid ground on the way up — modelled on
   hereustudio.com; see initStickyHeader in theme.js. Layout lives in base.css.
+
+  The colour of the type while it is transparent is the merchant's: one
+  setting for the homepage (over a photograph) and one for every other page
+  (over the page background), because a colour that reads on one can vanish
+  on the other. Empty keeps the automatic colour.
 {%- endcomment -%}
 
 {%- liquid
@@ -29,9 +30,17 @@
   if header_menu == blank
     assign header_menu = linklists['main-menu']
   endif
+
+  assign top_ink = section.settings.transparent_ink_pages
+  if template.name == 'index'
+    assign top_ink = section.settings.transparent_ink_home
+  endif
 -%}
 
-<header class="site-header">
+<header
+  class="site-header{% if top_ink != blank %} site-header--top-ink{% endif %}"
+  {%- if top_ink != blank %} style="--header-top-ink: {{ top_ink }};"{% endif %}
+>
   <button
     type="button"
     class="site-header__burger"
@@ -146,6 +155,26 @@
       "label": "Drawer newsletter note",
       "default": "Sign up to our newsletter to receive exclusive offers.",
       "info": "Shown under the newsletter form in the mobile menu drawer"
+    },
+    {
+      "type": "header",
+      "content": "Transparent header"
+    },
+    {
+      "type": "paragraph",
+      "content": "At the top of every page, before scrolling, the header has no background. These set the colour of the wordmark, the links and the menu icon while it is transparent. Once the page scrolls, it comes back on white in the theme's own colours."
+    },
+    {
+      "type": "color",
+      "id": "transparent_ink_home",
+      "label": "Text colour on the homepage",
+      "info": "Over the first photograph. Leave empty to follow the first section's header tone."
+    },
+    {
+      "type": "color",
+      "id": "transparent_ink_pages",
+      "label": "Text colour on every other page",
+      "info": "These pages start on the page background, so pick a colour that reads on it. Leave empty for the theme's accent."
     }
   ]
 }
