@@ -21,7 +21,7 @@
   assign next_label = 'general.strip.next' | t
 -%}
 
-{%- if cards contains 'product-card' -%}
+{%- if cards contains 'product-card' or cards contains 'image-card' -%}
   <div class="product-strip" data-product-strip>
     <div class="product-strip__head">
       {%- if heading != blank -%}

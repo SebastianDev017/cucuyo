@@ -1,0 +1,321 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "heading": {
+      "type": "mosaic-heading",
+      "settings": {}
+    },
+    "split_one": {
+      "type": "home-split",
+      "blocks": {
+        "media": {
+          "type": "media",
+          "settings": {
+            "image": "",
+            "draft_asset": "pdf-decor-62cd.jpg",
+            "alt_text": "",
+            "heading": "",
+            "body": "",
+            "cta_label": "",
+            "link": "",
+            "tone": "light",
+            "scrim": false
+          }
+        },
+        "c1": {
+          "type": "card",
+          "settings": {
+            "product": "nautilus-bowl",
+            "image_url": "",
+            "alt_text": "Nautilus Bowl",
+            "draft_asset": "pdf-nautilus-bowl-0648.jpg",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "product": "fish-jug",
+            "image_url": "",
+            "alt_text": "Fish Jug",
+            "draft_asset": "pdf-fish-jug-b0bb.jpg",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "product": "hand-etched-cup",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c4": {
+          "type": "card",
+          "settings": {
+            "product": "fleur-pedestal-bowl",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "media",
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
+      "settings": {
+        "media_side": "left",
+        "show_collection_label": false,
+        "header_tone": "ink"
+      }
+    },
+    "note": {
+      "type": "home-note",
+      "settings": {
+        "heading": "Vases & Vessels",
+        "body": "Lorem ipsum dolor sit amet consectetur. Rhoncus semper ac lectus tincidunt volutpat ultrices lacus ornare. Velit ut ullamcorper molestie ultrices phasellus bibendum. Sapien aliquam hac sit nulla. Dictum consequat.",
+        "link_label": "Shop kitchenware",
+        "link": "/collections/tabletop",
+        "padding_top": 208,
+        "padding_bottom": 208
+      }
+    },
+    "band_one": {
+      "type": "home-hero",
+      "blocks": {
+        "left": {
+          "type": "image",
+          "settings": {
+            "image": "",
+            "draft_asset": "pdf-decor-3345.jpg",
+            "heading": "",
+            "body": "",
+            "cta_label": "",
+            "label": "",
+            "label_tone": "light",
+            "link": "",
+            "scrim": false
+          }
+        },
+        "right": {
+          "type": "image",
+          "settings": {
+            "image": "",
+            "draft_asset": "pdf-decor-825d.jpg",
+            "heading": "",
+            "body": "",
+            "cta_label": "",
+            "label": "",
+            "label_tone": "light",
+            "link": "",
+            "scrim": false
+          }
+        }
+      },
+      "block_order": [
+        "left",
+        "right"
+      ],
+      "settings": {
+        "header_tone": "ink",
+        "ratio": "756 / 957"
+      }
+    },
+    "row_one": {
+      "type": "home-grid",
+      "blocks": {
+        "c1": {
+          "type": "card",
+          "settings": {
+            "product": "frills-platter",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "product": "gingham-dish-towels",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "product": "beaded-plate",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c4": {
+          "type": "card",
+          "settings": {
+            "product": "white-bone-salt-pepper-shakers",
+            "image_url": "",
+            "alt_text": "White Bone Salt & Pepper Shakers",
+            "draft_asset": "pdf-white-bone-s-p-shakers-e01b.jpg",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
+      "settings": {
+        "eyebrow": "",
+        "heading": "",
+        "heading_font": "heading",
+        "heading_align": "center",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "flush": false,
+        "show_collection_label": false,
+        "show_swatches": false,
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "header_tone": "ink"
+      }
+    },
+    "vases": {
+      "type": "image-text",
+      "settings": {
+        "image_side": "left",
+        "image": "",
+        "draft_asset": "pdf-decor-69d9.jpg",
+        "alt_text": "",
+        "image_link": "",
+        "heading": "Vases",
+        "body": "Lorem ipsum dolor sit amet consectetur. Aliquam faucibus nec\nfacilisis consequat. Ut dolor pharetra vitae imperdiet. Tortor\nlacus dolor et et. Justo dignissim non nibh eget scelerisque mi.",
+        "cta_label": "Shop vases",
+        "link": "/collections/vase"
+      }
+    },
+    "row_two": {
+      "type": "home-grid",
+      "blocks": {
+        "c1": {
+          "type": "card",
+          "settings": {
+            "product": "clay-pitcher",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "product": "ava-silverware",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "product": "ghost-checker-platter",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c4": {
+          "type": "card",
+          "settings": {
+            "product": "plume-dishtowels",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
+      "settings": {
+        "eyebrow": "",
+        "heading": "",
+        "heading_font": "heading",
+        "heading_align": "center",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "flush": false,
+        "show_collection_label": false,
+        "show_swatches": false,
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "header_tone": "ink"
+      }
+    }
+  },
+  "order": [
+    "heading",
+    "split_one",
+    "note",
+    "band_one",
+    "row_one",
+    "vases",
+    "row_two"
+  ]
+}

@@ -1,15 +1,13 @@
 {%- comment -%}
-  Project sequence — OPTION B. Full-height photographs travelling sideways
-  while the page scrolls down, with nothing written over them. The work is
-  the whole argument here; the interface is one hairline of progress.
+  Project sequence — full-height photographs in a row that moves sideways,
+  with nothing written over them.
 
-  It is built so the plain version is the one that always works: the track is
-  a real horizontal scroll container with snap points, which is what a phone,
-  a keyboard, a screen reader and a browser with no JS all get. theme.js only
-  upgrades it, pinning the viewport and driving the travel from page scroll,
-  and it declines to do that under reduced motion or on a narrow screen —
-  taking a visitor's scroll away is a thing to do lightly, and never to
-  someone who has asked the system for less movement.
+  It moves when it is asked to: the two arrows above it (the same arrows and
+  the same code as the product strips, snippets/product-strip + theme.js
+  initProductStrips), a trackpad, a swipe, or the keyboard on the focused
+  row. It used to pin itself to the screen and turn the page's own vertical
+  scroll into sideways travel, which meant the whole row had to be scrolled
+  through before the page would go on down (Jenn, 2026-09-24). That is gone.
 
   Each photograph is its own block: reorder by dragging, and a panel can be
   narrow or wide so the sequence has a rhythm instead of a filmstrip.
@@ -17,7 +15,7 @@
 
 <section
   class="story-sequence"
-  data-sequence-section
+  data-product-strip
   style="
     {% render 'section-style', section: section %}
     --seq-height: {{ section.settings.panel_height | default: 100 }}svh;
@@ -25,18 +23,39 @@
   "
 >
   {%- if section.blocks.size > 0 -%}
-    <div class="story-sequence__scroller" data-sequence>
-      <div class="story-sequence__viewport">
-        <div
-          class="story-sequence__track"
-          data-sequence-track
-          tabindex="0"
-          role="region"
-          aria-label="{{ section.settings.label | default: 'Projects' | escape }}"
-        >
+    {%- liquid
+      assign prev_label = 'general.strip.previous' | t
+      assign next_label = 'general.strip.next' | t
+    -%}
+    <div class="product-strip__head story-sequence__head">
+      <div class="product-strip__arrows" data-strip-arrows hidden>
+        <button type="button" class="product-strip__arrow" data-strip-prev aria-controls="Sequence-{{ section.id }}" aria-label="{{ prev_label }}">
+          <svg class="product-strip__chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+            <path d="M15 4 L7 12 L15 20" stroke="currentColor" stroke-width="1.5" />
+          </svg>
+        </button>
+        <button type="button" class="product-strip__arrow" data-strip-next aria-controls="Sequence-{{ section.id }}" aria-label="{{ next_label }}">
+          <svg class="product-strip__chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+            <path d="M9 4 L17 12 L9 20" stroke="currentColor" stroke-width="1.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="story-sequence__scroller">
+      <div
+        class="story-sequence__viewport"
+        id="Sequence-{{ section.id }}"
+        data-strip-track
+        tabindex="0"
+        role="region"
+        aria-label="{{ section.settings.label | default: 'Projects' | escape }}"
+      >
+        <div class="story-sequence__track">
           {%- for block in section.blocks -%}
             <figure
               class="story-sequence__panel story-sequence__panel--{{ block.settings.width }}"
+              data-strip-item
               {{ block.shopify_attributes }}
             >
               {% render 'media-image',
@@ -53,11 +72,6 @@
           {%- endfor -%}
         </div>
 
-        {%- if section.settings.show_progress -%}
-          <div class="story-sequence__progress" aria-hidden="true">
-            <span class="story-sequence__bar" data-sequence-bar></span>
-          </div>
-        {%- endif -%}
       </div>
     </div>
   {%- endif -%}
@@ -70,7 +84,7 @@
   "settings": [
     {
       "type": "paragraph",
-      "content": "Photographs travel sideways as the page scrolls. On phones and for visitors who ask for reduced motion it becomes an ordinary swipe, which is deliberate."
+      "content": "The photographs move sideways with the arrows above them, a trackpad or a swipe. The page keeps scrolling down normally."
     },
     {
       "type": "range",
@@ -91,12 +105,6 @@
       "step": 2,
       "unit": "px",
       "default": 6
-    },
-    {
-      "type": "checkbox",
-      "id": "show_progress",
-      "label": "Show the progress line",
-      "default": true
     },
     {
       "type": "text",
@@ -170,9 +178,18 @@
           "id": "width",
           "label": "Width",
           "options": [
-            { "value": "narrow", "label": "Narrow" },
-            { "value": "wide", "label": "Wide" },
-            { "value": "full", "label": "Full screen" }
+            {
+              "value": "narrow",
+              "label": "Narrow"
+            },
+            {
+              "value": "wide",
+              "label": "Wide"
+            },
+            {
+              "value": "full",
+              "label": "Full screen"
+            }
           ],
           "default": "narrow"
         }
@@ -183,11 +200,41 @@
     {
       "name": "Project sequence",
       "blocks": [
-        { "type": "panel", "settings": { "draft_asset": "story-pink-planes.jpg", "width": "narrow" } },
-        { "type": "panel", "settings": { "draft_asset": "story-linen-sofa.jpg", "width": "wide" } },
-        { "type": "panel", "settings": { "draft_asset": "story-arcade.jpg", "width": "narrow" } },
-        { "type": "panel", "settings": { "draft_asset": "story-hammock.jpg", "width": "wide" } },
-        { "type": "panel", "settings": { "draft_asset": "story-dried-grass.jpg", "width": "narrow" } }
+        {
+          "type": "panel",
+          "settings": {
+            "draft_asset": "story-pink-planes.jpg",
+            "width": "narrow"
+          }
+        },
+        {
+          "type": "panel",
+          "settings": {
+            "draft_asset": "story-linen-sofa.jpg",
+            "width": "wide"
+          }
+        },
+        {
+          "type": "panel",
+          "settings": {
+            "draft_asset": "story-arcade.jpg",
+            "width": "narrow"
+          }
+        },
+        {
+          "type": "panel",
+          "settings": {
+            "draft_asset": "story-hammock.jpg",
+            "width": "wide"
+          }
+        },
+        {
+          "type": "panel",
+          "settings": {
+            "draft_asset": "story-dried-grass.jpg",
+            "width": "narrow"
+          }
+        }
       ]
     }
   ]

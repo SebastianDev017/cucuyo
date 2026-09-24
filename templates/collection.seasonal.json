@@ -1,0 +1,364 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "heading": {
+      "type": "mosaic-heading",
+      "settings": {}
+    },
+    "split_one": {
+      "type": "home-split",
+      "blocks": {
+        "media": {
+          "type": "media",
+          "settings": {
+            "image": "",
+            "draft_asset": "pdf-shop-cucuyo-collection-df02.jpg",
+            "alt_text": "",
+            "heading": "Spooky candlesticks decor",
+            "body": "Lorem ipsum dolor sit amet consectetur. Aliquam faucibus nec\nfacilisis consequat. Ut dolor pharetra vitae imperdiet. Tortor\nlacus dolor et et. Justo dignissim non nibh eget scelerisque mi.",
+            "cta_label": "Shop Cucuyo collection",
+            "link": "/collections/all",
+            "tone": "light",
+            "scrim": false
+          }
+        },
+        "c1": {
+          "type": "card",
+          "settings": {
+            "product": "clay-wire-spiders",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "product": "pumpkin-wreath",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "product": "winding-candle-holders",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c4": {
+          "type": "card",
+          "settings": {
+            "product": "black-clay-jack-o-lantern",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "media",
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
+      "settings": {
+        "media_side": "left",
+        "show_collection_label": false,
+        "header_tone": "ink"
+      }
+    },
+    "band_one": {
+      "type": "home-hero",
+      "blocks": {
+        "left": {
+          "type": "image",
+          "settings": {
+            "image": "",
+            "draft_asset": "pdf-decor-efcd.jpg",
+            "heading": "",
+            "body": "",
+            "cta_label": "",
+            "label": "",
+            "label_tone": "light",
+            "link": "",
+            "scrim": false
+          }
+        },
+        "right": {
+          "type": "image",
+          "settings": {
+            "image": "",
+            "draft_asset": "pdf-decor-cc1e.jpg",
+            "heading": "",
+            "body": "",
+            "cta_label": "",
+            "label": "",
+            "label_tone": "light",
+            "link": "",
+            "scrim": false
+          }
+        }
+      },
+      "block_order": [
+        "left",
+        "right"
+      ],
+      "settings": {
+        "header_tone": "ink",
+        "ratio": "756 / 957"
+      }
+    },
+    "note": {
+      "type": "home-note",
+      "settings": {
+        "heading": "Festivities & fun title",
+        "body": "Lorem ipsum dolor sit amet consectetur. Aliquam faucibus nec facilisis consequat. Ut dolor pharetra vitae imperdiet. Tortor lacus dolor et et. Justo dignissim non nibh eget scelerisque mi.",
+        "link_label": "Shop vintage pieces",
+        "link": "/collections/all",
+        "padding_top": 208,
+        "padding_bottom": 208
+      }
+    },
+    "row_one": {
+      "type": "home-grid",
+      "blocks": {
+        "c1": {
+          "type": "card",
+          "settings": {
+            "product": "trumpet-candle-holders",
+            "image_url": "",
+            "alt_text": "Trumpet Candle Holders",
+            "draft_asset": "pdf-trumpet-candleholders-d727.jpg",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "product": "rattan-lantern-small",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "product": "antique-brass-candle-holders",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c4": {
+          "type": "card",
+          "settings": {
+            "product": "clay-san-antonio-mission-lantern",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
+      "settings": {
+        "eyebrow": "",
+        "heading": "",
+        "heading_font": "heading",
+        "heading_align": "center",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "flush": false,
+        "show_collection_label": false,
+        "show_swatches": false,
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "header_tone": "ink"
+      }
+    },
+    "band_two": {
+      "type": "home-hero",
+      "blocks": {
+        "left": {
+          "type": "image",
+          "settings": {
+            "image": "",
+            "draft_asset": "pdf-shop-kitchenware-526c.jpg",
+            "heading": "",
+            "body": "",
+            "cta_label": "Shop kitchenware",
+            "label": "",
+            "label_tone": "light",
+            "link": "/collections/tabletop",
+            "scrim": false
+          }
+        },
+        "right": {
+          "type": "image",
+          "settings": {
+            "image": "",
+            "draft_asset": "pdf-decor-97a6.jpg",
+            "heading": "",
+            "body": "",
+            "cta_label": "",
+            "label": "",
+            "label_tone": "light",
+            "link": "",
+            "scrim": false
+          }
+        }
+      },
+      "block_order": [
+        "left",
+        "right"
+      ],
+      "settings": {
+        "header_tone": "ink",
+        "ratio": "756 / 957"
+      }
+    },
+    "mission": {
+      "type": "image-text",
+      "settings": {
+        "image_side": "right",
+        "image": "",
+        "draft_asset": "pdf-decor-5e62.jpg",
+        "alt_text": "",
+        "image_link": "",
+        "heading": "Mission house history?",
+        "body": "Lorem ipsum dolor sit amet consectetur. Aliquam faucibus nec\nfacilisis consequat. Ut dolor pharetra vitae imperdiet. Tortor\nlacus dolor et et. Justo dignissim non nibh eget scelerisque mi.",
+        "cta_label": "Shop kitchenware",
+        "link": "/collections/tabletop"
+      }
+    },
+    "strip": {
+      "type": "card-strip",
+      "blocks": {
+        "c1": {
+          "type": "card",
+          "settings": {
+            "product": "clay-barro-ornaments",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "product": "kenya-kisii-soapstone-nativity",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "product": "kenya-soapstone-nativity",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c4": {
+          "type": "card",
+          "settings": {
+            "product": "christmas-canvas-tote-bag",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c5": {
+          "type": "card",
+          "settings": {
+            "product": "tinsel-tree-tea-towel",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5"
+      ],
+      "settings": {
+        "heading": "",
+        "per_view": 4
+      }
+    }
+  },
+  "order": [
+    "heading",
+    "split_one",
+    "band_one",
+    "note",
+    "row_one",
+    "band_two",
+    "mission",
+    "strip"
+  ]
+}

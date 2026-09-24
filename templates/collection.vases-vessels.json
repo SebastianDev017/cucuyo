@@ -1,0 +1,325 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "heading": {
+      "type": "mosaic-heading",
+      "settings": {}
+    },
+    "opening": {
+      "type": "image-text",
+      "settings": {
+        "image_side": "left",
+        "image": "",
+        "draft_asset": "pdf-decor-5345.jpg",
+        "alt_text": "",
+        "image_link": "",
+        "heading": "Vases & Vessels",
+        "body": "Lorem ipsum dolor sit amet consectetur. Aliquam faucibus nec\nfacilisis consequat. Ut dolor pharetra vitae imperdiet. Tortor\nlacus dolor et et. Justo dignissim non nibh eget scelerisque mi.",
+        "cta_label": "Shop kitchenware",
+        "link": "/collections/tabletop"
+      }
+    },
+    "row_one": {
+      "type": "home-grid",
+      "blocks": {
+        "c1": {
+          "type": "card",
+          "settings": {
+            "product": "ojo-de-liebre",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "product": "duck-woven-baskets",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "product": "footed-elephant-vase",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c4": {
+          "type": "card",
+          "settings": {
+            "product": "petra-vessel",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
+      "settings": {
+        "eyebrow": "",
+        "heading": "",
+        "heading_font": "heading",
+        "heading_align": "center",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "flush": false,
+        "show_collection_label": false,
+        "show_swatches": false,
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "header_tone": "ink"
+      }
+    },
+    "band_one": {
+      "type": "home-hero",
+      "blocks": {
+        "left": {
+          "type": "image",
+          "settings": {
+            "image": "",
+            "draft_asset": "pdf-decor-cefd.jpg",
+            "heading": "",
+            "body": "",
+            "cta_label": "",
+            "label": "",
+            "label_tone": "light",
+            "link": "",
+            "scrim": false
+          }
+        },
+        "right": {
+          "type": "image",
+          "settings": {
+            "image": "",
+            "draft_asset": "pdf-decor-c312.jpg",
+            "heading": "",
+            "body": "",
+            "cta_label": "",
+            "label": "",
+            "label_tone": "light",
+            "link": "",
+            "scrim": false
+          }
+        }
+      },
+      "block_order": [
+        "left",
+        "right"
+      ],
+      "settings": {
+        "header_tone": "ink",
+        "ratio": "756 / 957"
+      }
+    },
+    "note": {
+      "type": "home-note",
+      "settings": {
+        "heading": "Vintage & one-of-a-kind pieces",
+        "body": "Lorem ipsum dolor sit amet consectetur. Aliquam faucibus nec facilisis consequat. Ut dolor pharetra vitae imperdiet. Tortor lacus dolor et et. Justo dignissim non nibh eget scelerisque mi.",
+        "link_label": "Shop vintage pieces",
+        "link": "/collections/all",
+        "padding_top": 208,
+        "padding_bottom": 208
+      }
+    },
+    "split_one": {
+      "type": "home-split",
+      "blocks": {
+        "media": {
+          "type": "media",
+          "settings": {
+            "image": "",
+            "draft_asset": "pdf-decor-5f4d.jpg",
+            "alt_text": "",
+            "heading": "",
+            "body": "",
+            "cta_label": "",
+            "link": "",
+            "tone": "light",
+            "scrim": false
+          }
+        },
+        "c1": {
+          "type": "card",
+          "settings": {
+            "product": "onyx-tray",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "product": "tezon-li-bowl",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "product": "wabi-sabi-vase",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c4": {
+          "type": "card",
+          "settings": {
+            "product": "ball-boy-bowl-black",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "media",
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
+      "settings": {
+        "media_side": "right",
+        "show_collection_label": false,
+        "header_tone": "ink"
+      }
+    },
+    "split_two": {
+      "type": "home-split",
+      "blocks": {
+        "media": {
+          "type": "media",
+          "settings": {
+            "image": "",
+            "draft_asset": "pdf-decor-9822.jpg",
+            "alt_text": "",
+            "heading": "",
+            "body": "",
+            "cta_label": "",
+            "link": "",
+            "tone": "light",
+            "scrim": false
+          }
+        },
+        "c1": {
+          "type": "card",
+          "settings": {
+            "product": "swan-basket",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "product": "oranges-vase",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "product": "swimming-fish-vase",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c4": {
+          "type": "card",
+          "settings": {
+            "product": "ball-boy-bowl-natural",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "media",
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
+      "settings": {
+        "media_side": "left",
+        "show_collection_label": false,
+        "header_tone": "ink"
+      }
+    }
+  },
+  "order": [
+    "heading",
+    "opening",
+    "row_one",
+    "band_one",
+    "note",
+    "split_one",
+    "split_two"
+  ]
+}

@@ -107,7 +107,6 @@
       "settings": {
         "panel_height": 100,
         "gap": 4,
-        "show_progress": true,
         "label": "Projects",
         "background_color": "",
         "padding_top": 0,

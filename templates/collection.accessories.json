@@ -1,0 +1,363 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "heading": {
+      "type": "mosaic-heading",
+      "settings": {}
+    },
+    "band_one": {
+      "type": "home-hero",
+      "blocks": {
+        "left": {
+          "type": "image",
+          "settings": {
+            "image": "",
+            "draft_asset": "pdf-decor-2158.jpg",
+            "heading": "",
+            "body": "",
+            "cta_label": "",
+            "label": "",
+            "label_tone": "light",
+            "link": "",
+            "scrim": false
+          }
+        },
+        "right": {
+          "type": "image",
+          "settings": {
+            "image": "",
+            "draft_asset": "pdf-decor-406a.jpg",
+            "heading": "",
+            "body": "",
+            "cta_label": "",
+            "label": "",
+            "label_tone": "light",
+            "link": "",
+            "scrim": false
+          }
+        }
+      },
+      "block_order": [
+        "left",
+        "right"
+      ],
+      "settings": {
+        "header_tone": "ink",
+        "ratio": "756 / 957"
+      }
+    },
+    "row_one": {
+      "type": "home-grid",
+      "blocks": {
+        "c1": {
+          "type": "card",
+          "settings": {
+            "product": "horn-bead-necklace",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "product": "villa-tote-bag",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "product": "arara-bucket-bag",
+            "image_url": "",
+            "alt_text": "Arara Bucket Bag",
+            "draft_asset": "pdf-arara-bucket-bag-533b.jpg",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c4": {
+          "type": "card",
+          "settings": {
+            "product": "bene-tote-bag",
+            "image_url": "",
+            "alt_text": "Bene Tote Bag",
+            "draft_asset": "pdf-bene-tote-bag-6ba6.jpg",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
+      "settings": {
+        "eyebrow": "",
+        "heading": "",
+        "heading_font": "heading",
+        "heading_align": "center",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "flush": false,
+        "show_collection_label": false,
+        "show_swatches": false,
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "header_tone": "ink"
+      }
+    },
+    "ikat": {
+      "type": "image-text",
+      "settings": {
+        "image_side": "left",
+        "image": "",
+        "draft_asset": "pdf-decor-c108.jpg",
+        "alt_text": "",
+        "image_link": "",
+        "heading": "Ikat and straw title",
+        "body": "Lorem ipsum dolor sit amet consectetur. Aliquam faucibus nec\nfacilisis consequat. Ut dolor pharetra vitae imperdiet. Tortor\nlacus dolor et et. Justo dignissim non nibh eget scelerisque mi.",
+        "cta_label": "Shop kitchenware",
+        "link": "/collections/tabletop"
+      }
+    },
+    "row_two": {
+      "type": "home-grid",
+      "blocks": {
+        "c1": {
+          "type": "card",
+          "settings": {
+            "product": "ikat-espadrille",
+            "image_url": "",
+            "alt_text": "Ikat Espadrille",
+            "draft_asset": "pdf-ikat-espadrilles-86e2.jpg",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "product": "petit-tie-rainbow-bag",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "product": "ikat-clutch",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c4": {
+          "type": "card",
+          "settings": {
+            "product": "ikat-tote-bag",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
+      "settings": {
+        "eyebrow": "",
+        "heading": "",
+        "heading_font": "heading",
+        "heading_align": "center",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "flush": false,
+        "show_collection_label": false,
+        "show_swatches": false,
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "header_tone": "ink"
+      }
+    },
+    "band_two": {
+      "type": "home-hero",
+      "blocks": {
+        "left": {
+          "type": "image",
+          "settings": {
+            "image": "",
+            "draft_asset": "pdf-decor-521e.jpg",
+            "heading": "",
+            "body": "",
+            "cta_label": "",
+            "label": "",
+            "label_tone": "light",
+            "link": "",
+            "scrim": false
+          }
+        },
+        "right": {
+          "type": "image",
+          "settings": {
+            "image": "",
+            "draft_asset": "pdf-decor-01ed.jpg",
+            "heading": "",
+            "body": "",
+            "cta_label": "",
+            "label": "",
+            "label_tone": "light",
+            "link": "",
+            "scrim": false
+          }
+        }
+      },
+      "block_order": [
+        "left",
+        "right"
+      ],
+      "settings": {
+        "header_tone": "ink",
+        "ratio": "756 / 957"
+      }
+    },
+    "bandanas": {
+      "type": "image-text",
+      "settings": {
+        "image_side": "left",
+        "image": "",
+        "draft_asset": "pdf-decor-5bb6.jpg",
+        "alt_text": "",
+        "image_link": "",
+        "heading": "",
+        "body": "",
+        "cta_label": "",
+        "link": ""
+      }
+    },
+    "strip": {
+      "type": "card-strip",
+      "blocks": {
+        "c1": {
+          "type": "card",
+          "settings": {
+            "product": "sammie-bandana",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "product": "laura-bandana",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "product": "eliza-bandana",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c4": {
+          "type": "card",
+          "settings": {
+            "product": "desert-bandana",
+            "image_url": "",
+            "alt_text": "Desert Bandana",
+            "draft_asset": "pdf-desert-bandana-13ae.jpg",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c5": {
+          "type": "card",
+          "settings": {
+            "product": "johnny-bandana",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5"
+      ],
+      "settings": {
+        "heading": "",
+        "per_view": 4
+      }
+    }
+  },
+  "order": [
+    "heading",
+    "band_one",
+    "row_one",
+    "ikat",
+    "row_two",
+    "band_two",
+    "bandanas",
+    "strip"
+  ]
+}

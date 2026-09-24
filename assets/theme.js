@@ -1035,107 +1035,6 @@
     });
   }
 
-  /* Story sequence — page scroll becomes sideways travel.
-
-     The markup already works without this: the viewport is a horizontal
-     scroller with snap points. This upgrades it to a pinned run by giving the
-     scroller the height of the travel and translating the track against the
-     page's own scroll, which keeps the browser's scrollbar honest — nothing
-     is hijacked, the page really is that tall.
-
-     It declines on narrow screens and under reduced motion. Taking someone's
-     scroll direction away is not something to do to a visitor who asked the
-     system for less movement, and on a phone a swipe is already the better
-     gesture. */
-  function initStorySequence() {
-    var sections = document.querySelectorAll('[data-sequence-section]');
-    if (!sections.length) return;
-
-    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-    Array.prototype.forEach.call(sections, function (section) {
-      if (section.dataset.seqReady) return;
-      section.dataset.seqReady = '1';
-
-      var scroller = section.querySelector('[data-sequence]');
-      var viewport = section.querySelector('.story-sequence__viewport');
-      var track = section.querySelector('[data-sequence-track]');
-      var bar = section.querySelector('[data-sequence-bar]');
-      if (!scroller || !viewport || !track) return;
-
-      var travel = 0;
-      var stickyTop = 0;
-      var pinned = false;
-      var ticking = false;
-
-      var unpin = function () {
-        pinned = false;
-        section.removeAttribute('data-pinned');
-        scroller.style.height = '';
-        track.style.transform = '';
-        if (bar) bar.style.width = viewport.scrollWidth > viewport.clientWidth ? '0%' : '100%';
-      };
-
-      var measure = function () {
-        if (reduce.matches || window.innerWidth < 750) {
-          unpin();
-          return;
-        }
-        /* Pin FIRST, then measure. Pinning changes the viewport's own height
-           (it drops the wordmark's clearance), and a scroller sized from the
-           unpinned height overshoots the travel by exactly that much. A
-           sticky element still occupies its normal space, so clearing the
-           scroller's height here gives its true base. */
-        section.setAttribute('data-pinned', '');
-        scroller.style.height = '';
-        travel = track.scrollWidth - viewport.clientWidth;
-        if (travel <= 1) {
-          unpin();
-          return;
-        }
-        pinned = true;
-        stickyTop = parseFloat(getComputedStyle(viewport).top) || 0;
-        scroller.style.height = viewport.offsetHeight + travel + 'px';
-        update();
-      };
-
-      var update = function () {
-        ticking = false;
-        if (!pinned) {
-          if (bar) {
-            var max = viewport.scrollWidth - viewport.clientWidth;
-            bar.style.width = (max > 0 ? (viewport.scrollLeft / max) * 100 : 100) + '%';
-          }
-          return;
-        }
-        var total = scroller.offsetHeight - viewport.offsetHeight;
-        var progress = 0;
-        if (total > 0) {
-          /* measured against where the viewport parks, not against zero: it
-             sticks under the wordmark, so the travel starts that much later */
-          progress = Math.min(1, Math.max(0, (stickyTop - scroller.getBoundingClientRect().top) / total));
-        }
-        track.style.transform = 'translate3d(' + -(progress * travel).toFixed(2) + 'px, 0, 0)';
-        if (bar) bar.style.width = (progress * 100).toFixed(2) + '%';
-      };
-
-      var request = function () {
-        if (ticking) return;
-        ticking = true;
-        requestAnimationFrame(update);
-      };
-
-      window.addEventListener('scroll', request, { passive: true });
-      viewport.addEventListener('scroll', request, { passive: true });
-      window.addEventListener('resize', measure);
-      if (reduce.addEventListener) reduce.addEventListener('change', measure);
-      if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
-      window.addEventListener('load', measure);
-
-      measure();
-    });
-  }
-
   /* PRODUCT STRIP arrows (us.thehoffbrand.com). The track scrolls on its own;
      this only drives the two buttons and keeps them honest about what they
      can still do. One click moves a whole screenful of cards, rounded down to
@@ -1182,10 +1081,14 @@
         requestAnimationFrame(update);
       };
 
+      /* The pitch is read off the first ITEM, which is the track's first
+         child in a product strip but can sit one level deeper (the About
+         page's photographs live in a row inside the scrolling viewport), so
+         items can say so with data-strip-item. The gap is the items' own. */
       var step = function () {
-        var item = track.firstElementChild;
+        var item = track.querySelector('[data-strip-item]') || track.firstElementChild;
         if (!item) return track.clientWidth;
-        var gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+        var gap = parseFloat(getComputedStyle(item.parentElement).columnGap) || 0;
         var pitch = item.getBoundingClientRect().width + gap;
         if (!pitch) return track.clientWidth;
         return Math.max(pitch, Math.floor(track.clientWidth / pitch) * pitch);
@@ -1230,14 +1133,12 @@
     initVariantOptions();
     initFeaturedAlign();
     initStoryGallery();
-    initStorySequence();
   });
 
   /* The customizer re-renders one section at a time; both story helpers are
      idempotent, so re-running them only picks up what has just arrived. */
   document.addEventListener('shopify:section:load', function () {
     initStoryGallery();
-    initStorySequence();
     initProductStrips();
   });
 })();

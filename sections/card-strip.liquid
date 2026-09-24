@@ -1,0 +1,59 @@
+{%- comment -%}
+  Card strip (Eugenia's PDFs) — a row of hand-picked cards that runs past
+  the edge of the page and scrolls sideways with the arrows, the same strip
+  and the same arrows as "You may like" (snippets/product-strip). Four cards
+  fill the width at 1440px, exactly the size of a card in a static row, and
+  the rest wait off to the right. Nothing scrolls on its own and nothing
+  hijacks the page's vertical scroll: the arrows move it, and so do a
+  trackpad, a swipe and the keyboard.
+
+  Each card is the same block as in the rows and bands (featured-card): a
+  product, or a photograph with a label and a link.
+{%- endcomment -%}
+
+{%- capture cards -%}
+  {%- for block in section.blocks -%}
+    <li class="product-strip__item" {{ block.shopify_attributes }}>
+      {% render 'featured-card', block: block, columns: 4, show_swatches: false %}
+    </li>
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- if cards contains 'image-card' -%}
+  <section class="card-strip" style="--strip-per-view: {{ section.settings.per_view }};">
+    {% render 'product-strip', strip_id: section.id, cards: cards, heading: section.settings.heading %}
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Card strip",
+  "tag": "section",
+  "max_blocks": 16,
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "info": "Optional. The arrows sit at the right either way." },
+    { "type": "range", "id": "per_view", "label": "Cards visible (desktop)", "min": 3, "max": 6, "step": 1, "default": 4 }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "image_picker", "id": "image", "label": "Image", "info": "Overrides the product's own photograph" },
+        { "type": "text", "id": "image_url", "label": "Image URL" },
+        { "type": "text", "id": "alt_text", "label": "Alt text" },
+        { "type": "text", "id": "draft_asset", "label": "Draft asset filename", "info": "Theme asset shown instead of the product's photograph (design draft)" },
+        { "type": "textarea", "id": "label", "label": "Label", "info": "Defaults to the product's title" },
+        {
+          "type": "select", "id": "label_tone", "label": "Label tone",
+          "options": [{ "value": "dark", "label": "Dark" }, { "value": "light", "label": "Light" }],
+          "default": "dark"
+        },
+        { "type": "url", "id": "link", "label": "Link", "info": "Defaults to the product's page" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Card strip", "blocks": [{ "type": "card" }, { "type": "card" }, { "type": "card" }, { "type": "card" }, { "type": "card" }] }]
+}
+{% endschema %}

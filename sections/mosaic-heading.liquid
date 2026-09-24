@@ -1,0 +1,20 @@
+{%- comment -%}
+  The category pages are mosaics with no visible page title (Eugenia's PDFs),
+  but a page still needs one: this gives it the collection's name as its h1,
+  for screen readers and search engines, without drawing anything.
+{%- endcomment -%}
+<h1 class="visually-hidden">{{ collection.title | default: page_title | escape }}</h1>
+
+{% schema %}
+{
+  "name": "Page title (hidden)",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Gives the page its title for screen readers and search engines. Nothing is shown."
+    }
+  ],
+  "presets": [{ "name": "Page title (hidden)" }]
+}
+{% endschema %}

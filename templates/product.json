@@ -15,7 +15,7 @@
         "media": {
           "type": "media",
           "settings": {
-            "media_ratio": "3/4",
+            "media_ratio": "4/5",
             "gallery_gap": 24
           }
         },
@@ -87,124 +87,7 @@
       ],
       "settings": {
         "show_vendor": false,
-        "media_ratio": "3/4"
-      }
-    },
-    "related": {
-      "type": "related-products",
-      "settings": {
-        "heading": "Pair it with",
-        "products_to_show": 3,
-        "columns": 3,
-        "show_collection_label": true
-      }
-    },
-    "grid_pair": {
-      "type": "home-grid",
-      "blocks": {
-        "glass": {
-          "type": "card",
-          "settings": {
-            "product": "",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "Ghost\nChecker Plate",
-            "label_font": "heading",
-            "label_tone": "light",
-            "label_color": "",
-            "link": "",
-            "draft_asset": "figma-pdp-checker.jpg"
-          }
-        },
-        "stool": {
-          "type": "card",
-          "settings": {
-            "product": "",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "light",
-            "label_color": "",
-            "link": "",
-            "draft_asset": "figma-pdp-mangoes.jpg"
-          }
-        }
-      },
-      "block_order": [
-        "glass",
-        "stool"
-      ],
-      "settings": {
-        "eyebrow": "",
-        "heading": "",
-        "heading_font": "heading",
-        "heading_align": "center",
-        "columns_desktop": 2,
-        "columns_mobile": "1",
-        "flush": false,
-        "show_collection_label": true,
-        "background_color": "",
-        "text_color": "",
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "header_tone": "ink"
-      }
-    },
-    "home_grid_nFCEgB": {
-      "type": "home-grid",
-      "blocks": {
-        "card_tx7PLe": {
-          "type": "card",
-          "settings": {
-            "product": "",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "Dapple Dot\nGlass",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "link": "",
-            "draft_asset": "figma-pdp-glass.jpg"
-          }
-        },
-        "card_jAAWnw": {
-          "type": "card",
-          "settings": {
-            "product": "",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "Ziggy Rattan\nCounter Stool",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "link": "",
-            "draft_asset": "figma-pdp-stool.jpg"
-          }
-        }
-      },
-      "block_order": [
-        "card_tx7PLe",
-        "card_jAAWnw"
-      ],
-      "settings": {
-        "eyebrow": "",
-        "heading": "",
-        "heading_font": "heading",
-        "heading_align": "center",
-        "columns_desktop": 2,
-        "columns_mobile": "1",
-        "flush": false,
-        "show_collection_label": true,
-        "background_color": "",
-        "text_color": "",
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "header_tone": "ink"
+        "media_ratio": "4/5"
       }
     },
     "you_may_like": {
@@ -212,16 +95,12 @@
       "settings": {
         "heading": "You may like",
         "products_to_show": 10,
-        "per_view": 4,
-        "show_price": true
+        "per_view": 4
       }
     }
   },
   "order": [
     "main",
-    "related",
-    "you_may_like",
-    "grid_pair",
-    "home_grid_nFCEgB"
+    "you_may_like"
   ]
 }

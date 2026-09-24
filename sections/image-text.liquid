@@ -1,0 +1,95 @@
+{%- comment -%}
+  Text beside a photograph (Eugenia's PDFs, 2026-09-24) — one half is a
+  full-bleed photograph, the other half is the page's own background with a
+  title, a paragraph and an underlined link sitting at its bottom-left. The
+  category pages alternate the side from one of these to the next; the
+  format is identical either way, only the side changes.
+
+  Measured at 1440px: the two halves meet on the mosaic's 5px gutter, the
+  photograph keeps the card shape (756:957), and the text block sits 80px in
+  from its half's left edge and 77px up from the bottom. The type is the
+  shared editorial set (base.css, EDITORIAL TYPE).
+
+  On a phone the photograph comes first and the text follows it.
+{%- endcomment -%}
+
+{%- liquid
+  assign has_image = false
+  if section.settings.image != blank or section.settings.draft_asset != blank
+    assign has_image = true
+  endif
+-%}
+
+<section
+  class="image-text image-text--image-{{ section.settings.image_side }}"
+  data-header-tone="ink"
+>
+  <div class="image-text__grid">
+    <div class="image-text__media">
+      {%- if section.settings.image_link != blank -%}
+        <a href="{{ section.settings.image_link }}" class="image-text__media-link" tabindex="-1" aria-hidden="true">
+      {%- endif -%}
+      {%- if has_image -%}
+        {% render 'draft-image',
+          image: section.settings.image,
+          draft_asset: section.settings.draft_asset,
+          img_class: 'image-text__image',
+          sizes: '(min-width: 750px) 50vw, 100vw',
+          alt: section.settings.alt_text,
+          loading: 'lazy'
+        %}
+      {%- else -%}
+        <div class="image-text__image image-text__image--placeholder" aria-hidden="true"></div>
+      {%- endif -%}
+      {%- if section.settings.image_link != blank -%}</a>{%- endif -%}
+    </div>
+
+    <div class="image-text__copy">
+      <div class="image-text__inner">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="image-text__heading">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.body != blank -%}
+          <p class="image-text__body">{{ section.settings.body | escape | newline_to_br }}</p>
+        {%- endif -%}
+        {%- if section.settings.cta_label != blank and section.settings.link != blank -%}
+          <a href="{{ section.settings.link }}" class="image-text__cta">{{ section.settings.cta_label | escape }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Text beside image",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "image_side",
+      "label": "Photograph side",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left",
+      "info": "Alternate it from one of these sections to the next."
+    },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    {
+      "type": "text",
+      "id": "draft_asset",
+      "label": "Draft asset filename",
+      "info": "Theme asset shown while no image is selected (design draft)"
+    },
+    { "type": "text", "id": "alt_text", "label": "Alt text" },
+    { "type": "url", "id": "image_link", "label": "Photograph link", "info": "Optional. The text's link below stays the one keyboard stop." },
+    { "type": "text", "id": "heading", "label": "Title", "default": "Section title" },
+    { "type": "textarea", "id": "body", "label": "Paragraph" },
+    { "type": "text", "id": "cta_label", "label": "Link label", "default": "Shop the collection" },
+    { "type": "url", "id": "link", "label": "Link" }
+  ],
+  "presets": [{ "name": "Text beside image" }]
+}
+{% endschema %}

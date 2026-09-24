@@ -131,7 +131,13 @@
     {%- endcomment -%}
     {%- assign card_ratio = block.settings.ratio -%}
     {%- assign card_alt = block.settings.alt_text | default: card_label -%}
-    {%- if card_image == blank and block.settings.image_url == blank and cp.featured_media -%}
+    {%- comment -%}
+      A card can point at a product for its name and link and still show a
+      photograph of its own — the PDFs sometimes use a different shot from the
+      product's main image. Any image set on the block wins; only a block
+      with none falls back to the product's photographs.
+    {%- endcomment -%}
+    {%- if card_image == blank and block.settings.image_url == blank and block.settings.draft_asset == blank and cp.featured_media -%}
       {{-
         cp.featured_media
         | image_url: width: 2400
@@ -143,6 +149,25 @@
           loading: 'lazy',
           style: ratio_style
       -}}
+      {%- comment -%}
+        The same hover photograph as the product grids: the product's second
+        image, stacked and faded in under a real pointer (base.css). Only when
+        the card IS the product — a merchant-picked image has no second one.
+      {%- endcomment -%}
+      {%- if cp.images[1] -%}
+        {{-
+          cp.images[1]
+          | image_url: width: 2400
+          | image_tag:
+            widths: '400, 700, 1000, 1200, 1600, 2000, 2400',
+            sizes: card_sizes,
+            class: 'image-card__media image-card__media--hover',
+            alt: '',
+            aria-hidden: 'true',
+            loading: 'lazy',
+            style: ratio_style
+        -}}
+      {%- endif -%}
     {%- else -%}
       {% render 'media-image',
         image: card_image,

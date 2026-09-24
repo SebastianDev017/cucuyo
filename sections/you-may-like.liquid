@@ -27,7 +27,7 @@
     {%- unless item.id == product.id or item.available == false -%}
       {%- if shown < limit -%}
         <li class="product-strip__item">
-          {% render 'product-card', product: item, show_price: section.settings.show_price %}
+          {% render 'product-card', product: item %}
         </li>
         {%- assign shown = shown | plus: 1 -%}
       {%- endif -%}
@@ -75,14 +75,12 @@
       "max": 6,
       "step": 1,
       "default": 4
-    },
-    {
-      "type": "checkbox",
-      "id": "show_price",
-      "label": "Show price",
-      "default": true
     }
   ],
-  "presets": [{ "name": "You may like" }]
+  "presets": [
+    {
+      "name": "You may like"
+    }
+  ]
 }
 {% endschema %}

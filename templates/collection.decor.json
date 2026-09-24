@@ -1,0 +1,314 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "heading": {
+      "type": "mosaic-heading",
+      "settings": {}
+    },
+    "band_one": {
+      "type": "home-hero",
+      "blocks": {
+        "left": {
+          "type": "image",
+          "settings": {
+            "image": "",
+            "draft_asset": "pdf-shop-cucuyo-collection-9828.jpg",
+            "heading": "Lighting section title",
+            "body": "Lorem ipsum dolor sit amet consectetur. Aliquam faucibus nec\nfacilisis consequat. Ut dolor pharetra vitae imperdiet. Tortor\nlacus dolor et et. Justo dignissim non nibh eget scelerisque mi.",
+            "cta_label": "Shop Cucuyo collection",
+            "label": "",
+            "label_tone": "light",
+            "link": "/collections/all",
+            "scrim": false
+          }
+        },
+        "right": {
+          "type": "image",
+          "settings": {
+            "image": "",
+            "draft_asset": "pdf-decor-4e43.jpg",
+            "heading": "",
+            "body": "",
+            "cta_label": "",
+            "label": "",
+            "label_tone": "light",
+            "link": "",
+            "scrim": false
+          }
+        }
+      },
+      "block_order": [
+        "left",
+        "right"
+      ],
+      "settings": {
+        "header_tone": "ink",
+        "ratio": "756 / 957"
+      }
+    },
+    "row_one": {
+      "type": "home-grid",
+      "blocks": {
+        "c1": {
+          "type": "card",
+          "settings": {
+            "product": "appenzell-red-burgundy-lamp",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "product": "",
+            "image_url": "",
+            "alt_text": "Travertine Lamp",
+            "draft_asset": "pdf-travertine-lamp-3060.jpg",
+            "label": "Travertine Lamp",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "product": "memphis-burgundy-lamp",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c4": {
+          "type": "card",
+          "settings": {
+            "product": "woven-cane-side-table",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
+      "settings": {
+        "eyebrow": "",
+        "heading": "",
+        "heading_font": "heading",
+        "heading_align": "center",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "flush": false,
+        "show_collection_label": false,
+        "show_swatches": false,
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "header_tone": "ink"
+      }
+    },
+    "lanterns": {
+      "type": "image-text",
+      "settings": {
+        "image_side": "right",
+        "image": "",
+        "draft_asset": "pdf-decor-4d71.jpg",
+        "alt_text": "",
+        "image_link": "",
+        "heading": "Lanterns, planters & candlesticks",
+        "body": "Lorem ipsum dolor sit amet consectetur. Aliquam faucibus nec\nfacilisis consequat. Ut dolor pharetra vitae imperdiet. Tortor\nlacus dolor et et. Justo dignissim non nibh eget scelerisque mi.",
+        "cta_label": "Shop kitchenware",
+        "link": "/collections/tabletop"
+      }
+    },
+    "band_two": {
+      "type": "home-hero",
+      "blocks": {
+        "left": {
+          "type": "image",
+          "settings": {
+            "image": "",
+            "draft_asset": "pdf-decor-b042.jpg",
+            "heading": "",
+            "body": "",
+            "cta_label": "",
+            "label": "",
+            "label_tone": "light",
+            "link": "",
+            "scrim": false
+          }
+        },
+        "right": {
+          "type": "image",
+          "settings": {
+            "image": "",
+            "draft_asset": "pdf-decor-575b.jpg",
+            "heading": "",
+            "body": "",
+            "cta_label": "",
+            "label": "",
+            "label_tone": "light",
+            "link": "",
+            "scrim": false
+          }
+        }
+      },
+      "block_order": [
+        "left",
+        "right"
+      ],
+      "settings": {
+        "header_tone": "ink",
+        "ratio": "756 / 957"
+      }
+    },
+    "strip": {
+      "type": "card-strip",
+      "blocks": {
+        "c1": {
+          "type": "card",
+          "settings": {
+            "product": "antique-brass-candle-holders",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "product": "green-marble-door-pulls",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "product": "trumpet-candle-holders",
+            "image_url": "",
+            "alt_text": "Trumpet Candle Holders",
+            "draft_asset": "pdf-trumpet-candleholders-d727.jpg",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c4": {
+          "type": "card",
+          "settings": {
+            "product": "pink-florette-planter-small",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        },
+        "c5": {
+          "type": "card",
+          "settings": {
+            "product": "winding-candle-holders",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5"
+      ],
+      "settings": {
+        "heading": "",
+        "per_view": 4
+      }
+    },
+    "band_three": {
+      "type": "home-hero",
+      "blocks": {
+        "left": {
+          "type": "image",
+          "settings": {
+            "image": "",
+            "draft_asset": "pdf-decor-733b.jpg",
+            "heading": "",
+            "body": "",
+            "cta_label": "",
+            "label": "",
+            "label_tone": "light",
+            "link": "",
+            "scrim": false
+          }
+        },
+        "right": {
+          "type": "image",
+          "settings": {
+            "image": "",
+            "draft_asset": "pdf-decor-a49b.jpg",
+            "heading": "",
+            "body": "",
+            "cta_label": "",
+            "label": "",
+            "label_tone": "light",
+            "link": "",
+            "scrim": false
+          }
+        }
+      },
+      "block_order": [
+        "left",
+        "right"
+      ],
+      "settings": {
+        "header_tone": "ink",
+        "ratio": "756 / 957"
+      }
+    }
+  },
+  "order": [
+    "heading",
+    "band_one",
+    "row_one",
+    "lanterns",
+    "band_two",
+    "strip",
+    "band_three"
+  ]
+}

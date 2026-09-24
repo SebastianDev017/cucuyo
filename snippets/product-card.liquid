@@ -1,49 +1,36 @@
 {% doc %}
-  Product card for collection/search grids: image tile at the global card
-  ratio, then the text block — name + price on one line, the short subtitle
-  under it, and the colour swatches under that (they took over the slot that
-  used to be reserved empty for a selector).
+  Product card for every product grid and strip on the site — collection,
+  search, "You may like". The final layout (Eugenia's PDFs, 2026-09-24) is
+  the photograph with the product's name laid over its bottom-left corner and
+  nothing under it: no price, no category, no colour swatches. The price
+  lives on the product page only, in the add-to-cart button. The same name
+  format is used by the curated cards on the homepage and the category pages
+  (featured-card), so a product looks the same wherever it appears.
 
-  The grid's own gap is tight so the images sit close together; the air the
-  text needs is inside the card instead (see .product-card__info in base.css),
-  which is why the two are tuned separately.
+  On a real pointer the second photograph fades in on hover (see base.css).
 
   @param {product} product - the product to render
   @param {boolean} [featured] - oversized lead tile (spans 2×2 grid cells on
     desktop); also loads its image eagerly
-  @param {boolean} [show_price] - defaults to true
-  @param {boolean} [show_collection] - render the product's first collection
-    title under the name (11px caps, muted); defaults to false
   @example
   {% render 'product-card', product: product %}
   {% render 'product-card', product: product, featured: true %}
 {% enddoc %}
 
 {%- liquid
-  assign price_visible = true
-  if show_price == false
-    assign price_visible = false
-  endif
-
   comment
-    Card widths written out rather than approximated with one vw figure — see
-    the long note in main-product.liquid. Same reason: the left gutter is
-    clamped, so the share of the viewport a card occupies changes with it, and
-    an understated `sizes` is exactly what serves a too-small file.
-
-    Four columns of (content - gaps), where content = 100vw - gutter - 40.
-    The gap is a merchant setting (0-40px), so these solve for a gap of ZERO:
-    that is the widest a card can ever be, and only the widest case is safe —
-    a `sizes` that comes out under the real slot is what serves a too-small
-    file. A wider gap just means a little unused resolution.
-      >= 1604px : (100vw - 340) / 4          gutter pinned at 300
-      >=  990px : (81.3vw - 40) / 4          gutter still 18.7vw
-      750-989px : the grid drops to TWO columns
-      <   750px : one column, full width less the page margins
-    The featured tile spans two of those columns plus the gap between them.
+    Card widths written out rather than approximated with one vw figure, and
+    solved for a gap of ZERO: that is the widest a card can ever be, and a
+    `sizes` that comes out under the real slot is exactly what serves a
+    too-small file. The grid sits inside the page margins (40px each side —
+    the left gutter the stacked nav needed is gone at every width), so:
+      >= 990px : four columns of (100vw - 80px)
+      750-989  : two columns
+      <  750px : the widest a phone card gets, one column
+    The featured tile spans two columns.
   endcomment
-  assign card_sizes = '(min-width: 1604px) calc(25vw - 85px), (min-width: 990px) calc(20.4vw - 10px), (min-width: 750px) calc(40.7vw - 20px), calc(100vw - 80px)'
-  assign card_sizes_featured = '(min-width: 1604px) calc(50vw - 170px), (min-width: 990px) calc(40.8vw - 20px), (min-width: 750px) calc(81.3vw - 40px), calc(100vw - 80px)'
+  assign card_sizes = '(min-width: 990px) calc(25vw - 20px), (min-width: 750px) calc(50vw - 40px), calc(100vw - 80px)'
+  assign card_sizes_featured = '(min-width: 990px) calc(50vw - 40px), calc(100vw - 80px)'
 -%}
 
 {%- comment -%}
@@ -100,44 +87,9 @@
             data-card-hover-image: ''
         -}}
       {%- endif -%}
+
+      <h3 class="product-card__title">{{ product.title }}</h3>
     </div>
 
-    {%- comment -%}
-      Name, subtitle and category stack on the left; price and compare-at sit
-      opposite them on ONE line. Both come from the shown variant rather than
-      the product, because compare-at can differ per colour — theme.js swaps
-      the pair when a swatch is picked. The swatches themselves are links and
-      so live outside this one, below the category.
-    {%- endcomment -%}
-    {%- assign shown = product.selected_or_first_available_variant -%}
-    <div class="product-card__info">
-      <div class="product-card__row">
-        <div class="product-card__text">
-          <h3 class="product-card__title">{{ product.title }}</h3>
-
-          {% render 'product-subtitle', product: product, class: 'product-card__subtitle' %}
-
-          {%- if show_collection -%}
-            {%- capture card_category %}{% render 'product-category', product: product %}{% endcapture -%}
-            {%- if card_category != blank -%}
-              <p class="product-card__collection">{{ card_category }}</p>
-            {%- endif -%}
-          {%- endif -%}
-        </div>
-
-        {%- if price_visible -%}
-          <p class="product-card__prices">
-            <span class="product-card__price" data-card-price>{{ shown.price | money }}</span>
-            {%- if shown.compare_at_price > shown.price -%}
-              <s class="product-card__compare" data-card-compare>{{ shown.compare_at_price | money }}</s>
-            {%- else -%}
-              <s class="product-card__compare" data-card-compare hidden></s>
-            {%- endif -%}
-          </p>
-        {%- endif -%}
-      </div>
-    </div>
   </a>
-
-  {% render 'color-swatches', product: product, context: 'card' %}
 </article>

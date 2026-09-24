@@ -111,8 +111,7 @@
             {%- if product -%}
               {% render 'product-card',
                 product: product,
-                featured: is_featured,
-                show_collection: section.settings.show_collection_label
+                featured: is_featured
               %}
             {%- endif -%}
           {%- endif -%}
@@ -153,17 +152,16 @@
       "id": "columns_mobile",
       "label": "Columns (mobile)",
       "options": [
-        { "value": "1", "label": "1" },
-        { "value": "2", "label": "2" }
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        }
       ],
       "default": "1"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_collection_label",
-      "label": "Show collection label",
-      "default": true,
-      "info": "The product's category, under its name. Comes from the collection whose title matches the product's Type, so it stays the real category even when a product sits in several collections."
     },
     {
       "type": "checkbox",

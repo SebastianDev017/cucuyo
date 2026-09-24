@@ -29,7 +29,6 @@
         "products_per_page": 24,
         "columns_desktop": 4,
         "columns_mobile": "1",
-        "show_collection_label": true,
         "feature_first": true
       }
     }

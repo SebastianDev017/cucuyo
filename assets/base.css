@@ -187,7 +187,7 @@ a {
      --card-gap is the space between IMAGES, --card-text-inset is the space
      the text block keeps to its right so adjacent cards' text never meets,
      and --card-text-space is the room under the text before the next row. */
-  --card-gap: 6px;
+  --card-gap: 5px;
   --card-text-inset: 18px;
   --card-text-start: 5px;
   --card-text-top: 5px;
@@ -800,9 +800,35 @@ html.nav-drawer-open body {
 /* The frame is what clips the hover zoom, so a label sitting BELOW the image
    never gets covered when the media scales. */
 .image-card__frame {
+  position: relative;
   display: block;
   height: 100%;
   overflow: clip;
+}
+
+/* A curated card that points at a product gets the product grids' hover
+   photograph too, on the same terms: stacked on the first image, faded in,
+   only where a real pointer can hover. */
+.image-card__frame .image-card__media--hover {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .image-card__frame .image-card__media--hover {
+    display: block;
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.45s cubic-bezier(0.45, 0.05, 0.55, 0.95), visibility 0s linear 0.45s;
+  }
+
+  .image-card:hover .image-card__media--hover,
+  .image-card__link:focus-visible .image-card__media--hover {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.45s cubic-bezier(0.45, 0.05, 0.55, 0.95), visibility 0s;
+  }
 }
 
 /* Auto-fill repeats only make sense at desktop column counts — on mobile
@@ -824,24 +850,44 @@ html.nav-drawer-open body {
   background: #E5E1DC;
 }
 
-/* Label overlaid on the image, bottom-left (Figma) */
-/* The three vars are per-card overrides emitted by the block; each names its
-   previous hardcoded value as the fallback, so a card that sets nothing —
-   and .home-hero__label, which has no block behind it — is unchanged. */
+/* THE CARD NAME — one format for every card on the site (Eugenia's PDFs,
+   2026-09-24): the curated cards on the homepage and the category pages
+   (.image-card__label), the product grids and strips (.product-card__title),
+   and the corner label a band can carry. Laid over the photograph's
+   bottom-left corner, in the accent, measured off the PDFs at 1440px and
+   fitted against the theme's own fonts: the heading face at 13.3px with no
+   tracking, 20px in from the left and 16px up from the bottom. `right`
+   keeps a long name wrapping inside the tile instead of running under the
+   next one.
+
+   The three vars are per-card overrides emitted by a block; each names the
+   PDF's value as its fallback. */
 .image-card__label,
-.home-hero__label {
+.home-hero__label,
+.product-card__title {
   position: absolute;
-  left: 30px;
-  bottom: 22px;
+  right: 20px;
+  bottom: 16px;
+  left: 20px;
   z-index: 2;
-  max-width: 60%;
+  margin: 0;
   font-family: var(--card-label-font, var(--font-heading));
   font-weight: var(--card-label-weight, var(--font-heading-weight, 500));
-  font-size: calc(0.8125rem * var(--heading-scale, 1));
-  letter-spacing: 0.1em;
+  font-size: calc(0.756rem * var(--heading-scale, 1));
+  letter-spacing: 0;
   text-transform: uppercase;
-  line-height: 1.55;
-  color: var(--card-label-ink, var(--color-ink));
+  line-height: 1.27;
+  color: var(--card-label-ink, var(--color-accent));
+}
+
+@media (max-width: 749px) {
+  .image-card__label,
+  .home-hero__label,
+  .product-card__title {
+    right: 12px;
+    bottom: 12px;
+    left: 12px;
+  }
 }
 
 .image-card__label--light,
@@ -1435,6 +1481,24 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
   align-items: start;
 }
 
+/* PRODUCT_PAGE PDF (2026-09-24): the photograph runs flush to the left edge
+   of the screen, 707px wide at 1440, with the information starting at 799.
+   Main keeps its padding; the photograph (and the gallery under it) steps
+   back out of the left one, and the columns are re-split so the info column
+   still begins where the PDF puts it: 667 + 92 + 601 of the 1360px inside
+   the margins. Tablet and phone keep the stacked layout they had. */
+@media (min-width: 990px) {
+  .main-product__grid {
+    grid-template-columns: minmax(0, 667fr) minmax(0, 601fr);
+    column-gap: clamp(40px, 6.4vw, 92px);
+  }
+
+  .main-product__media,
+  .pdp-gallery {
+    margin-left: calc(-1 * var(--page-margin));
+  }
+}
+
 /* The gallery is a grid child (see main-product.liquid) so mobile can order
    it after the info panel. On desktop it belongs back under the hero, in
    the left column. */
@@ -1822,28 +1886,20 @@ html.no-js .variant-option__select-wrap {
   padding: 48px 0;
 }
 
-/* Info-row grids (collection, search) need real breathing room between
-   cards — with the hairline gap a card's price sat against its neighbor's
-   title, worst with 2-line names. Overlay-label grids (home, Pair it with)
-   keep the Figma hairline. */
+/* Collection and search grids: the same 5px mosaic as the homepage and the
+   category pages. There is no text under the cards any more (the name sits on
+   the photograph), so the gap between images is the only space between
+   tiles and nothing has to be kept clear of a neighbour's price. */
 .card-grid.collection-grid {
-  /* Two DIFFERENT spaces, tuned apart. The grid gap is the space between
-     IMAGES and is deliberately tight (hereustudio.com measures 1px), so the
-     photographs read as one continuous field. The space the text needs is
-     inside the card instead: .product-card__info insets its own right edge so
-     one card's price still clears the next card's title by ~24px even though
-     the pictures nearly touch. Changing the gap alone would re-open the
-     collision this inset exists to prevent. */
   gap: var(--card-gap) var(--card-gap);
 }
 
-/* Product card — image tile, then the text block: name + price on one line,
-   the short subtitle under it, and the colour swatches under that (they took
-   over the slot that used to be reserved empty for a selector). */
+/* Product card — the photograph, with the name laid over it (the card-name
+   rule above). Nothing sits under the image any more, so the card is as tall
+   as its photograph and the grid's gap is the only space between tiles. */
 .product-card {
   display: flex;
   flex-direction: column;
-  padding-bottom: var(--card-text-space);
 }
 
 /* NOT flex:1. Grid rows stretch every card to the tallest one, and a growing
@@ -1927,45 +1983,11 @@ html.no-js .variant-option__select-wrap {
   background: #E5E1DC;
 }
 
-.product-card__info {
-  /* The fallback has to match the emitted default (Theme settings → Product
-     cards): if css-variables ever fails to load, this is what applies. */
-  padding-top: var(--card-text-top, 5px);
-  /* the text's own horizontal breathing room — see the note on .card-grid */
-  padding-inline-end: var(--card-text-inset);
-  /* and a small inset on the leading edge so the name does not sit flush
-     against the photograph's edge */
-  padding-inline-start: var(--card-text-start, 5px);
-}
-
-/* Name / subtitle / category stack on the left, the price pair opposite. */
-.product-card__row {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 12px;
-}
-
-.product-card__text {
-  min-width: 0;
-}
-
-/* Price and compare-at on ONE line, never wrapping between them. */
-.product-card__prices {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  margin: 0;
-  white-space: nowrap;
-}
-
-.product-card__compare,
 .button--atc__compare {
   text-decoration: line-through;
   color: var(--color-muted);
 }
 
-.product-card__compare[hidden],
 .button--atc__compare[hidden] {
   display: none;
 }
@@ -1974,42 +1996,6 @@ html.no-js .variant-option__select-wrap {
   margin-inline-start: 8px;
   color: inherit;
   opacity: 0.65;
-}
-
-.product-card__title {
-  margin: 0;
-  font-family: var(--font-heading);
-  font-weight: var(--font-heading-weight, 500);
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  line-height: 1.5;
-  color: var(--color-ink);
-}
-
-.product-card__price {
-  font-size: 0.8125rem;
-  color: var(--color-muted);
-  white-space: nowrap;
-}
-
-/* The line under the title is Junction (the body face), not the heading
-   face — same family as the title read as one block and gave no hierarchy. */
-.product-card__collection {
-  margin-top: 4px;
-  font-family: var(--font-body);
-  font-weight: 400;
-  font-size: 0.6875rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-muted);
-}
-
-.product-card__subtitle {
-  margin: 3px 0 0;
-  font-size: 0.8125rem;
-  line-height: 1.45;
-  color: var(--color-muted);
 }
 
 /* Context image — a photograph placed among the products, carrying no name,
@@ -2043,22 +2029,19 @@ html.no-js .variant-option__select-wrap {
     aspect-ratio: auto;
   }
 
-  /* ...and it reserves the same room under itself that every product card
-     reserves under its text (.product-card padding-bottom). Without it the
-     photograph ran past the ink beside it by exactly one --card-text-space:
-     measured 44px, card box bottom 1125 against the neighbouring swatch at
-     1081, which is the overshoot in Jenn's screenshot.
-
-     This is the whole of the height matching a context image needs, and it
-     is why it does not go through initFeaturedAlign. That function exists
-     because the featured PRODUCT's image has to stop mid-card, level with
-     its neighbours' images, and how much of the card its own text takes is
-     not knowable in CSS — it has to be measured. A context image ends at the
-     end of the rows it spans, and the tallest card in that row ends exactly
-     one --card-text-space above the row's bottom by construction. Measuring
-     it would arrive at this same number the long way round. */
+  /* It ends exactly where the two rows it spans end. The cards carry no
+     text any more, so there is no room to reserve under it; and its
+     photograph is taken out of the flow, because left in it the file's own
+     shape decided how tall the rows had to be and stretched every card in
+     them (46px of white under each, measured). Absolute, the cards size the
+     rows and the photograph fills the span. */
   .collection-grid .context-image {
-    padding-bottom: var(--card-text-space);
+    position: relative;
+  }
+
+  .collection-grid .context-image__media {
+    position: absolute;
+    inset: 0;
   }
 
   .collection-grid .product-card--featured .product-card__media {
@@ -3011,6 +2994,11 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
   background: var(--section-bg, transparent);
 }
 
+/* The arrows sit above the row, at the right, on the page margin. */
+.story-sequence__head {
+  padding: 0 var(--page-margin) 12px;
+}
+
 .story-sequence__viewport {
   position: relative;
   /* THE LEFT EDGE IS NOT NEGOTIABLE. Photographs travelling leftwards would
@@ -3020,9 +3008,8 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
      and the rail keeps a clean background under it at every moment. */
   margin-left: var(--sidebar-gutter);
   height: var(--seq-height, 100svh);
-  /* THE FALLBACK IS THE DEFAULT. With no JS, under reduced motion, and on a
-     phone this stays an ordinary horizontal scroller with snap points. The
-     pinned version is an upgrade theme.js opts into. */
+  /* An ordinary horizontal scroller with snap points, everywhere: the
+     arrows drive it, and so do a trackpad, a swipe and the keyboard. */
   overflow-x: auto;
   overflow-y: hidden;
   overscroll-behavior-x: contain;
@@ -3071,41 +3058,6 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
   object-fit: cover;
   -webkit-user-drag: none;
   user-select: none;
-}
-
-.story-sequence__progress {
-  position: absolute;
-  right: var(--page-margin);
-  bottom: 28px;
-  left: 0;
-  height: 1px;
-  background: var(--color-border);
-}
-
-.story-sequence__bar {
-  display: block;
-  width: 0;
-  height: 100%;
-  background: var(--color-ink);
-}
-
-/* Pinned: theme.js gives the scroller the height of the travel, the viewport
-   sticks to the top of the screen, and page scroll becomes sideways motion. */
-.story-sequence[data-pinned] .story-sequence__viewport {
-  position: sticky;
-  /* parked under the wordmark, not over it. The mark is fixed, centred and
-     set in the page's own ink, so a photograph behind it is legible or not
-     depending on the photograph — and this section holds one on the screen
-     for its whole length. Every other inner template clears the wordmark the
-     same way; this one is not the place to make an exception. */
-  top: var(--nav-clearance);
-  height: calc(var(--seq-height, 100svh) - var(--nav-clearance));
-  overflow: clip;
-  scroll-snap-type: none;
-}
-
-.story-sequence[data-pinned] .story-sequence__track {
-  will-change: transform;
 }
 
 @media (max-width: 767.98px) {
@@ -3164,10 +3116,6 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
   /* no rail to protect on a phone: the navigation is a bar across the top */
   .story-sequence__viewport {
     margin-left: 0;
-  }
-
-  .story-sequence__progress {
-    left: var(--page-margin);
   }
 
   .story-gallery__track {
@@ -3433,6 +3381,8 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
   display: flex;
   flex: none;
   gap: 4px;
+  /* at the right whether or not the strip has a heading */
+  margin-left: auto;
 }
 
 .product-strip__arrow {
@@ -3515,12 +3465,12 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
    instead of running under the next tile. */
 .media-overlay {
   position: absolute;
-  right: 60px;
-  bottom: 46px;
-  left: 60px;
+  right: 50px;
+  bottom: 65px;
+  left: 50px;
   z-index: 2;
-  max-width: 560px;
-  color: var(--color-ink);
+  max-width: 500px;
+  color: var(--color-accent);
   pointer-events: none;
 }
 
@@ -3549,47 +3499,223 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
   pointer-events: auto;
 }
 
-.media-overlay__heading {
-  margin: 0 0 14px;
+/* EDITORIAL TYPE — the title / paragraph / link set used everywhere text
+   sits on its own: over a photograph (.media-overlay), beside one
+   (.image-text) and on its own (.home-note). Measured off Eugenia's PDFs at
+   1440px and fitted against the theme's fonts: the title is the heading face
+   at 26.9px, the paragraph and the link are the body face at 16px on a 27px
+   line, the link in caps and underlined — not the tracked small-caps label
+   face, which the PDFs never use here. Each component only sets where the
+   block sits and what colour it is. */
+.media-overlay__heading,
+.image-text__heading,
+.home-note__heading {
+  margin: 0;
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight, 500);
-  font-size: calc(1.4375rem * var(--heading-scale, 1));
-  letter-spacing: 0.02em;
-  line-height: 1.25;
+  font-size: calc(1.528rem * var(--heading-scale, 1));
+  letter-spacing: 0;
+  line-height: 1.3;
   text-transform: uppercase;
   color: inherit;
 }
 
-.media-overlay__body {
+.media-overlay__body,
+.image-text__body,
+.home-note__body {
   margin: 0;
-  max-width: 44ch;
-  font-size: calc(1rem * var(--body-scale, 1));
-  line-height: 1.55;
+  font-family: var(--font-body);
+  font-size: calc(1.111rem * var(--body-scale, 1));
+  line-height: 1.69;
+  color: inherit;
 }
 
-.media-overlay__cta {
+.media-overlay__cta,
+.image-text__cta,
+.home-note__cta {
   display: inline-block;
-  margin-top: 26px;
-  color: inherit;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: calc(1.111rem * var(--body-scale, 1));
+  letter-spacing: 0;
+  line-height: 1.69;
+  text-transform: uppercase;
   text-decoration: underline;
-  text-underline-offset: 5px;
   text-decoration-thickness: 1px;
+  text-underline-offset: 5px;
+  color: inherit;
+}
+
+/* the gaps between the three, as the PDFs space them */
+.media-overlay__heading + .media-overlay__body,
+.image-text__heading + .image-text__body {
+  margin-top: 4px;
+}
+
+.media-overlay__body + .media-overlay__cta,
+.image-text__body + .image-text__cta {
+  margin-top: 20px;
+}
+
+.media-overlay__heading + .media-overlay__cta,
+.image-text__heading + .image-text__cta {
+  margin-top: 12px;
 }
 
 @media (max-width: 989px) {
   .media-overlay {
-    right: 28px;
-    bottom: 26px;
-    left: 28px;
+    right: 24px;
+    bottom: 28px;
+    left: 24px;
   }
 
-  .media-overlay__heading {
-    margin-bottom: 10px;
+  .media-overlay__heading,
+  .image-text__heading,
+  .home-note__heading {
+    font-size: calc(1.3rem * var(--heading-scale, 1));
   }
 
-  .media-overlay__cta {
-    margin-top: 18px;
+  .media-overlay__body,
+  .image-text__body,
+  .home-note__body,
+  .media-overlay__cta,
+  .image-text__cta,
+  .home-note__cta {
+    font-size: calc(1rem * var(--body-scale, 1));
+    line-height: 1.6;
   }
+}
+
+/* --------------------------------------------------------------------------
+   Text beside image — half photograph, half text (Eugenia's PDFs)
+   -------------------------------------------------------------------------- */
+
+.image-text__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--card-gap, 5px);
+}
+
+.image-text--image-right .image-text__media {
+  order: 2;
+}
+
+.image-text__media {
+  position: relative;
+  overflow: clip;
+}
+
+.image-text__media-link {
+  display: block;
+}
+
+/* The card shape, so the section is exactly as tall as a band beside it. */
+.image-text__image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 756 / 957;
+  object-fit: cover;
+}
+
+.image-text__image--placeholder {
+  background: #E5E1DC;
+}
+
+/* The text block sits at the bottom-left of its half, 80px in and 77px up,
+   whichever side the photograph is on. */
+.image-text__copy {
+  display: flex;
+  align-items: flex-end;
+  padding: 40px 40px 77px 80px;
+  color: var(--color-accent);
+}
+
+.image-text__inner {
+  max-width: 500px;
+}
+
+@media (min-width: 750px) and (max-width: 989px) {
+  .image-text__copy {
+    padding: 32px 32px 48px 40px;
+  }
+}
+
+@media (max-width: 749px) {
+  .image-text__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* photograph first on a phone, whichever side it takes on a desktop */
+  .image-text--image-right .image-text__media {
+    order: 0;
+  }
+
+  .image-text__copy {
+    padding: 32px var(--page-margin) 56px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Mosaic pages — the category pages are full-bleed like the homepage
+   -------------------------------------------------------------------------- */
+
+/* A collection template with a suffix is a category page built as a mosaic
+   (layout/theme.liquid sets the class): no page margins, no clearance — the
+   first photograph runs up under the transparent header exactly as it does on
+   the homepage. The plain collection template (All) keeps its padded grid. */
+body.layout-mosaic.template-collection main {
+  padding: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Card strip — curated cards on the product strip's track (PDFs)
+   -------------------------------------------------------------------------- */
+
+/* Full-bleed and on the mosaic's 5px gutter, so four cards at 1440px are
+   exactly the size of a card in a static row. The arrow row keeps the page
+   margin. */
+.card-strip .product-strip {
+  --strip-gap: var(--card-gap, 5px);
+}
+
+.card-strip .product-strip__head {
+  margin-bottom: 0;
+  padding: 8px var(--page-margin);
+}
+
+@media (max-width: 749px) {
+  .card-strip .product-strip {
+    --strip-per-view: 2.2;
+  }
+}
+
+/* "You may like" on the product page runs full-bleed in the PDF: four cards
+   of 356px across 1440, on the mosaic's 5px gutter, with its title at the
+   page margin. The product page's main is padded, so the section steps back
+   out of that padding. */
+.you-may-like {
+  margin-inline: calc(-1 * var(--page-margin));
+}
+
+.you-may-like .product-strip {
+  --strip-gap: var(--card-gap, 5px);
+}
+
+.you-may-like .product-strip__head {
+  margin-bottom: 12px;
+  padding-inline: var(--page-margin);
+}
+
+/* The PDF titles the row in the card-name format, small, not as a section
+   heading. */
+.you-may-like .product-strip__heading {
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight, 500);
+  font-size: calc(0.756rem * var(--heading-scale, 1));
+  letter-spacing: 0;
+  line-height: 1.27;
+  text-transform: uppercase;
+  color: var(--color-accent);
 }
 
 /* --------------------------------------------------------------------------
@@ -3671,45 +3797,30 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
    -------------------------------------------------------------------------- */
 
 .home-note {
-  padding: var(--note-top, 120px) var(--page-margin) var(--note-bottom, 120px);
+  padding: var(--note-top, 208px) var(--page-margin) var(--note-bottom, 208px);
   text-align: center;
+  color: var(--color-accent);
 }
 
+/* The PDFs run the paragraph to ~770px, two lines at 1440. */
 .home-note__inner {
-  max-width: 760px;
+  max-width: 780px;
   margin: 0 auto;
 }
 
-.home-note__heading {
-  margin: 0 0 18px;
-  font-family: var(--font-heading);
-  font-weight: var(--font-heading-weight, 500);
-  font-size: calc(1.4375rem * var(--heading-scale, 1));
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  color: var(--color-accent);
+.home-note__heading + .home-note__body {
+  margin-top: 9px;
 }
 
-.home-note__body {
-  margin: 0;
-  font-size: calc(1rem * var(--body-scale, 1));
-  line-height: 1.55;
-  color: var(--color-ink);
-}
-
-.home-note__cta {
-  display: inline-block;
-  margin-top: 30px;
-  color: var(--color-accent);
-  text-decoration: underline;
-  text-underline-offset: 5px;
-  text-decoration-thickness: 1px;
+.home-note__body + .home-note__cta,
+.home-note__heading + .home-note__cta {
+  margin-top: 20px;
 }
 
 @media (max-width: 749px) {
   .home-note {
-    padding-top: calc(var(--note-top, 120px) * 0.6);
-    padding-bottom: calc(var(--note-bottom, 120px) * 0.6);
+    padding-top: calc(var(--note-top, 208px) * 0.45);
+    padding-bottom: calc(var(--note-bottom, 208px) * 0.45);
   }
 }
 

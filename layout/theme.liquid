@@ -25,8 +25,23 @@
     {{ content_for_header }}
   </head>
 
+  {%- liquid
+    comment
+      Mosaic pages (Eugenia's PDFs): the homepage and the category pages are
+      full-bleed mosaics whose first photograph runs up under the transparent
+      header, with no page margins. The category pages are collection
+      templates with a suffix (collection.tabletop.json …); the plain
+      collection template (All) keeps its grid inside the margins.
+    endcomment
+    assign mosaic = false
+    if template.name == 'index'
+      assign mosaic = true
+    elsif template.name == 'collection' and template.suffix != blank
+      assign mosaic = true
+    endif
+  -%}
   <body
-    class="template-{{ request.page_type | handle }}"
+    class="template-{{ request.page_type | handle }}{% if mosaic %} layout-mosaic{% endif %}"
     data-scroll-animations="{{ settings.enable_scroll_animations }}"
     data-smooth-scroll="{{ settings.enable_smooth_scroll }}"
   >
