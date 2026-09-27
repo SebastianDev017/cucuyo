@@ -1626,6 +1626,12 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
   display: none;
 }
 
+/* A variant whose set is one photograph has every gallery copy hidden; the
+   gallery then takes no room, or its top margin leaves a gap under the hero. */
+.pdp-gallery:not(:has(> .pdp-gallery__item:not([hidden]))) {
+  display: none;
+}
+
 .pdp-gallery__item img {
   display: block;
   width: 100%;

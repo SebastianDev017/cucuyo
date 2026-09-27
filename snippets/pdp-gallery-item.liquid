@@ -1,0 +1,38 @@
+{%- comment -%}
+  One photograph of the product page gallery. main-product decides everything
+  about it (its label, its alt, whether it is on screen) and this only draws
+  it, so image 1 of the set, which is drawn after the loop, and the rest can
+  never drift apart.
+
+  Accepts:
+  - media {Object} the image
+  - index {Number} its position among the product's images, from 1. The page
+    arrives with image 1 of the set moved to the top of the gallery, so the
+    script needs this to put the rest back in product order after a switch.
+  - label {String} the option value it belongs to, lower-cased; blank = shared
+  - alt {String} the composed alt ("Product — Black")
+  - hidden {Boolean} off screen for the variant being shown
+  - sizes {String} the column's sizes attribute
+{%- endcomment -%}
+<div
+  class="pdp-gallery__item"
+  data-gallery-item
+  data-media-id="{{ media.id }}"
+  data-media-index="{{ index }}"
+  {% if label != blank %}
+    data-variant-label="{{ label | escape }}"
+  {% endif %}
+  {% if hidden %}
+    hidden
+  {% endif %}
+>
+  {{-
+    media
+    | image_url: width: 2400
+    | image_tag:
+      widths: '550, 750, 1100, 1500, 2000, 2400',
+      sizes: sizes,
+      loading: 'lazy',
+      alt: alt
+  -}}
+</div>

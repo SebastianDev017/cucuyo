@@ -205,14 +205,18 @@
         the page could only follow the link it was given, which is right for
         one option and wrong for two — picking a size has to keep the colour
         already chosen. compare_at and the image ride along so the whole
-        display updates from one source.
+        display updates from one source. "media" is image 1 of the variant's
+        gallery set, the same fallback main-product uses for the hero; the
+        image URL is only for products without a gallery.
       {%- endcomment -%}
       <script type="application/json" data-variant-data>
         [
           {%- for variant in product.variants -%}
             {%- assign v_image = variant.featured_media | default: variant.image -%}
+            {%- assign v_first = variant.featured_media | default: product.featured_media -%}
             {
               "id": {{ variant.id | json }},
+              "media": {% if v_first %}{{ v_first.id | json }}{% else %}null{% endif %},
               "available": {{ variant.available | json }},
               "price": {{ variant.price | money | json }},
               "compare": {% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money | json }}{% else %}null{% endif %},

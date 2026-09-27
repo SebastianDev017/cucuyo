@@ -439,7 +439,14 @@
     var idInput = root.querySelector('[data-variant-id]');
     var heroImg = document.querySelector('.main-product__media-item--hero img');
     var colorLine = document.querySelector('[data-pdp-color]');
-    var galleryItems = Array.prototype.slice.call(document.querySelectorAll('[data-gallery-item]'));
+    var gallery = document.querySelector('[data-pdp-gallery]');
+    /* in product order: the page arrives with image 1 of the set moved to the
+       top of the gallery, so markup order is not it */
+    var galleryItems = Array.prototype.slice
+      .call(document.querySelectorAll('[data-gallery-item]'))
+      .sort(function (a, b) {
+        return a.getAttribute('data-media-index') - b.getAttribute('data-media-index');
+      });
 
     /* current combination, taken from whatever the server rendered as chosen */
     var current = variants.filter(function (v) {
@@ -483,6 +490,57 @@
       img.removeAttribute('sizes');
       img.src = src;
       if (alt) img.alt = alt;
+    };
+
+    /* The variant's set, built exactly as main-product.liquid builds it for
+       the page as it arrives: the variant's own image, then every photograph
+       the filter keeps — labelled for one of the chosen values, or unlabelled
+       and so shared — in product order. The second of the set leads in the
+       hero (it is the one in context); the first opens the gallery and the
+       rest follow. A set of one is shown alone. */
+    var showSet = function (variant) {
+      var chosenLower = chosen.map(function (v) {
+        return String(v).toLowerCase();
+      });
+      var own = null;
+      galleryItems.forEach(function (item) {
+        if (item.getAttribute('data-media-id') === String(variant.media)) own = item;
+      });
+      var set = galleryItems.filter(function (item) {
+        if (item === own) return false;
+        var label = item.getAttribute('data-variant-label');
+        return label ? chosenLower.indexOf(label) !== -1 : true;
+      });
+      if (own) set.unshift(own);
+      if (!set.length) return;
+
+      var lead = set.length > 1 ? set[1] : set[0];
+      var leadImg = lead.querySelector('img');
+      if (heroImg && leadImg && heroImg.getAttribute('src') !== leadImg.getAttribute('src')) {
+        /* the gallery copy carries the same widths and sizes as the hero, so
+           the hero keeps a full srcset instead of one fixed-width file */
+        ['srcset', 'sizes', 'src', 'width', 'height', 'alt'].forEach(function (name) {
+          var value = leadImg.getAttribute(name);
+          if (value === null) heroImg.removeAttribute(name);
+          else heroImg.setAttribute(name, value);
+        });
+      }
+
+      /* shown in set order, then the hidden ones, so reading order and
+         visual order stay the same */
+      var shown = set.filter(function (item) {
+        return item !== lead;
+      });
+      galleryItems.forEach(function (item) {
+        item.hidden = shown.indexOf(item) === -1;
+      });
+      shown
+        .concat(galleryItems.filter(function (item) {
+          return shown.indexOf(item) === -1;
+        }))
+        .forEach(function (item) {
+          gallery.appendChild(item);
+        });
     };
 
     var apply = function (variant) {
@@ -533,21 +591,8 @@
           compareEl.hidden = true;
         }
       }
-      swapImage(heroImg, variant.image, variant.imageAlt);
-
-      /* Gallery: keep the photographs labelled for this variant, plus every
-         unlabelled one — those are shared (packaging, scale) and belong to
-         all of them. Liquid already did this for the page as it arrived; this
-         only re-does it when the shopper switches without a reload. */
-      if (galleryItems.length) {
-        var chosenLower = chosen.map(function (v) {
-          return String(v).toLowerCase();
-        });
-        galleryItems.forEach(function (item) {
-          var label = item.getAttribute('data-variant-label');
-          item.hidden = label ? chosenLower.indexOf(label) === -1 : false;
-        });
-      }
+      if (gallery && galleryItems.length) showSet(variant);
+      else swapImage(heroImg, variant.image, variant.imageAlt);
 
       if (colorLine) {
         /* the Product details block prints the chosen colour by name */

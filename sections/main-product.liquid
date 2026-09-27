@@ -116,23 +116,151 @@
       endfor
     endfor
   endunless
+
+  comment
+    THE LEAD PHOTOGRAPH (Eugenia, 2026-09-27). A product's image 2 is the one
+    in context and image 1 the e-commerce shot on white; the page opens on
+    image 2. Both are counted inside the set the variant filter leaves on
+    screen, never in the product's raw list: the variant's own image, then
+    every photograph the filter keeps, in product order. The second of that
+    set leads in the hero, the first opens the gallery, the rest follow in
+    their usual order. A set of one has nothing to promote and shows alone.
+
+    Collection cards are untouched: their hover reads images 1 and 2 by
+    position, straight from the product.
+
+    It runs here, before any markup, because the hero is drawn first and has
+    to know which photograph won. The gallery is captured now and printed
+    further down; image 1 of the set is drawn last, once it is known whether
+    anything was promoted over it (if not, it stays the hero and its gallery
+    copy stays hidden).
+  endcomment
+  assign lead_media = hero_media
+  assign lead_alt = hero_alt
+  assign lead_found = false
+  assign first_found = false
+  assign gallery_first = ''
+  assign gallery_rest = ''
+
+  assign show_gallery = false
+  if show_media and product_images.size > 1
+    assign show_gallery = true
+  endif
+
+  if show_gallery
+    assign filter_on = true
+    if media_block.settings.gallery_filter == false
+      assign filter_on = false
+    endif
+
+    for media in product_images
+      comment
+        The whole alt is the label. Trimmed and lower-cased so "  black " and
+        "Black" both land on the same option value. Shopify falls back to the
+        product title when an image has no alt of its own — see the note
+        above. Treat that as unwritten.
+      endcomment
+      assign raw_alt = media.alt | default: '' | strip
+      assign raw_alt_key = raw_alt | downcase
+      if raw_alt_key == title_key
+        assign raw_alt = ''
+      endif
+      assign label = ''
+      if filter_on and raw_alt != blank
+        assign probe = '|' | append: raw_alt | downcase | append: '|'
+        if option_vocab contains probe
+          assign label = raw_alt | downcase
+        endif
+      endif
+
+      comment
+        What a screen reader gets, composed rather than typed. An image with
+        nothing written keeps just the product title instead of a dangling
+        dash.
+      endcomment
+      if raw_alt != blank
+        assign clean_alt = product.title | append: ' — ' | append: raw_alt
+      else
+        assign clean_alt = product.title
+      endif
+
+      comment
+        Hidden server-side when the label belongs to another variant, so the
+        page arrives already filtered and the browser never fetches those
+        files (they are lazy AND display:none). The script only flips the
+        same attribute when the shopper switches.
+      endcomment
+      assign hide = false
+      if label != blank
+        assign in_current = false
+        for opt_value in current_variant.options
+          assign opt_key = opt_value | downcase
+          if opt_key == label
+            assign in_current = true
+          endif
+        endfor
+        unless in_current
+          assign hide = true
+        endunless
+      endif
+
+      comment
+        Image 1 of the set is matched by IDENTITY, not by position: it is the
+        selected variant's own image, which may sit anywhere in the list.
+      endcomment
+      if media.id == hero_media.id
+        assign first_found = true
+        assign first_index = forloop.index
+        assign first_label = label
+        assign first_alt = clean_alt
+        continue
+      endif
+
+      comment
+        Image 2 of the set: the first photograph after it that the filter
+        keeps. It moves up to the hero, so its gallery copy is hidden.
+      endcomment
+      assign item_hidden = hide
+      if lead_found == false and hide == false
+        assign lead_found = true
+        assign lead_media = media
+        assign lead_alt = clean_alt
+        assign item_hidden = true
+      endif
+
+      capture item
+        render 'pdp-gallery-item', media: media, index: forloop.index, label: label, alt: clean_alt, hidden: item_hidden, sizes: pdp_media_sizes
+      endcapture
+      assign gallery_rest = gallery_rest | append: item
+    endfor
+
+    if first_found
+      assign first_hidden = true
+      if lead_found
+        assign first_hidden = false
+      endif
+      capture gallery_first
+        render 'pdp-gallery-item', media: hero_media, index: first_index, label: first_label, alt: first_alt, hidden: first_hidden, sizes: pdp_media_sizes
+      endcapture
+    endif
+  endif
 -%}
 
 <section class="main-product" style="--media-ratio: {{ media_ratio }}; --pdp-gallery-gap: {{ gallery_gap }}px;">
   <div class="main-product__grid">
     {%- if show_media -%}
       <div class="main-product__media" {{ media_block.shopify_attributes }}>
-        {%- if hero_media -%}
+        {%- if lead_media -%}
           <div class="main-product__media-item main-product__media-item--hero">
             {{-
-              hero_media
+              lead_media
               | image_url: width: 2400
               | image_tag:
                 widths: '550, 750, 1100, 1500, 2000, 2400',
                 sizes: pdp_media_sizes,
                 loading: 'eager',
                 fetchpriority: 'high',
-                alt: hero_alt
+                alt: lead_alt
             -}}
           </div>
         {%- else -%}
@@ -161,108 +289,20 @@
     </div>
 
     {%- comment -%}
-      Gallery: every image after the hero, full column width, height from the
-      image's own aspect ratio. Nothing is ever cropped — editorial rule. It is
-      a grid child rather than a child of the media column so the single column
-      on mobile can put it AFTER the info panel: otherwise the title, price and
-      add-to-cart sit below three full-bleed photos. On desktop it lands back
-      under the hero in the left column. A single-image product renders no
-      gallery at all (no empty state, no placeholder).
+      Gallery: every photograph of the set but the one in the hero, full column
+      width, height from the image's own aspect ratio. Nothing is ever cropped
+      — editorial rule. It is a grid child rather than a child of the media
+      column so the single column on mobile can put it AFTER the info panel:
+      otherwise the title, price and add-to-cart sit below three full-bleed
+      photos. On desktop it lands back under the hero in the left column. A
+      single-image product renders no gallery at all (no empty state, no
+      placeholder). Every image is in the markup, hidden when it is not in the
+      set on screen, so a variant switch never has to fetch markup.
     {%- endcomment -%}
-    {%- if show_media and product_images.size > 1 -%}
-      {%- liquid
-        assign filter_on = true
-        if media_block.settings.gallery_filter == false
-          assign filter_on = false
-        endif
-        comment
-          Whichever image is currently the hero is skipped by IDENTITY, not by
-          position: the hero is now the selected variant's image, which may sit
-          anywhere in the list, so "offset: 1" would have shown it twice and
-          hidden an unrelated photo.
-        endcomment
-      -%}
+    {%- if show_gallery -%}
       <div class="pdp-gallery" data-pdp-gallery>
-        {%- for media in product_images -%}
-          {%- if media.id == hero_media.id -%}
-            {%- continue -%}
-          {%- endif -%}
-
-          {%- liquid
-            comment
-              The whole alt is the label. Trimmed and lower-cased so "  black "
-              and "Black" both land on the same option value.
-            endcomment
-            assign raw_alt = media.alt | default: '' | strip
-            comment
-              Shopify falls back to the product title when an image has no alt
-              of its own — see the note above. Treat that as unwritten.
-            endcomment
-            assign raw_alt_key = raw_alt | downcase
-            if raw_alt_key == title_key
-              assign raw_alt = ''
-            endif
-            assign label = ''
-            if filter_on and raw_alt != blank
-              assign probe = '|' | append: raw_alt | downcase | append: '|'
-              if option_vocab contains probe
-                assign label = raw_alt | downcase
-              endif
-            endif
-
-            comment
-              What a screen reader gets, composed rather than typed. An image
-              with nothing written keeps just the product title instead of a
-              dangling dash.
-            endcomment
-            if raw_alt != blank
-              assign clean_alt = product.title | append: ' — ' | append: raw_alt
-            else
-              assign clean_alt = product.title
-            endif
-
-            comment
-              Hidden server-side when the label belongs to another variant, so
-              the page arrives already filtered and the browser never fetches
-              those files (they are lazy AND display:none). The script only
-              flips the same attribute when the shopper switches.
-            endcomment
-            assign hide = false
-            if label != blank
-              assign in_current = false
-              for opt_value in current_variant.options
-                assign opt_key = opt_value | downcase
-                if opt_key == label
-                  assign in_current = true
-                endif
-              endfor
-              unless in_current
-                assign hide = true
-              endunless
-            endif
-          -%}
-
-          <div
-            class="pdp-gallery__item"
-            data-gallery-item
-            {% if label != blank %}
-              data-variant-label="{{ label | escape }}"
-            {% endif %}
-            {% if hide %}
-              hidden
-            {% endif %}
-          >
-            {{-
-              media
-              | image_url: width: 2400
-              | image_tag:
-                widths: '550, 750, 1100, 1500, 2000, 2400',
-                sizes: pdp_media_sizes,
-                loading: 'lazy',
-                alt: clean_alt
-            -}}
-          </div>
-        {%- endfor -%}
+        {{- gallery_first -}}
+        {{- gallery_rest -}}
       </div>
     {%- endif -%}
   </div>
