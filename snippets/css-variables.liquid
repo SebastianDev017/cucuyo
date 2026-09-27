@@ -77,4 +77,15 @@
     --swatch-gap: {{ settings.swatch_gap | default: 13 }}px;
     --swatch-margin: {{ settings.swatch_margin | default: 16 }}px;
   }
+
+  /* Phones get their own, tighter page margin (Theme settings → Page margin on
+     mobile): 40px of 390 left the content 79% of the screen; 10px matches the
+     share of the width that 40px takes on a 1440 desktop. Everything that
+     spaces itself by the page margin — main, the footer, the header's two
+     ends, the text blocks — follows. */
+  @media (max-width: 749px) {
+    :root {
+      --page-margin: {{ settings.page_margin_mobile | default: 10 }}px;
+    }
+  }
 {% endstyle %}

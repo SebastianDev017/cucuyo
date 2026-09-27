@@ -481,14 +481,14 @@ body.template-index.header-ink .site-header__burger {
   line-height: 1.5;
 }
 
-/* Hamburger — shown only under 768px with JS available (without JS the
+/* Hamburger — shown below 1200px with JS available, at the right of the bar (without JS the
    stacked overlay column below stays as the reachable fallback). Two
    hairlines drawn with pseudo-elements, 44px tap target. */
 .site-header__burger {
   display: none;
   position: absolute;
   top: 12px;
-  left: calc(var(--page-margin) - 12px);
+  right: max(0px, calc(var(--page-margin) - 12px));
   width: 44px;
   height: 44px;
   padding: 0;
@@ -521,8 +521,10 @@ body.template-index.header-ink .site-header__burger {
   top: 25px;
 }
 
-/* Burger bar — everything below the row (under 1200px): hamburger left,
-   wordmark right, the menu in the drawer. It used to stop at 768px and leave
+/* Burger bar — everything below the row (under 1200px): wordmark left,
+   hamburger right, the menu in a drawer that comes in from the right (Jenn,
+   2026-09-27; it was hamburger left, wordmark right). The wordmark sits on
+   the page margin, as it does in the desktop row. It used to stop at 768px and leave
    768-1199 on the stacked column, which at those widths read as a list of
    words floating over the page. 1200px and up is the row and is untouched.
    The no-js branch keeps the stacked overlay as its reachable fallback. */
@@ -536,8 +538,8 @@ body.template-index.header-ink .site-header__burger {
   }
 
   html.js .site-header__logo {
-    left: auto;
-    right: var(--page-margin);
+    right: auto;
+    left: var(--page-margin);
     top: 22px;
     transform: none;
     font-size: calc(1.125rem * var(--heading-scale, 1) * 1.05);
@@ -570,9 +572,11 @@ body.template-index.header-ink .site-header__burger {
    with live cart count, newsletter.
    -------------------------------------------------------------------------- */
 
+/* Anchored to the right and entering from the right: the side of the button
+   that opens it, so its close button lands where that button was. */
 .nav-drawer {
   position: fixed;
-  inset: 0 auto 0 0;
+  inset: 0 0 0 auto;
   margin: 0;
   padding: 0;
   border: none;
@@ -598,7 +602,7 @@ body.template-index.header-ink .site-header__burger {
 
 @keyframes nav-drawer-in {
   from {
-    transform: translateX(-100%);
+    transform: translateX(100%);
   }
 }
 
@@ -637,7 +641,9 @@ body.template-index.header-ink .site-header__burger {
   place-items: center;
   width: 44px;
   height: 44px;
-  margin-inline-end: -12px;
+  /* Optical overhang, capped at the page margin so the 44px box never runs
+     off screen on phones (10px margin) — it lands where the burger was. */
+  margin-inline-end: max(-12px, calc(-1 * var(--page-margin)));
   padding: 0;
   background: none;
   border: none;

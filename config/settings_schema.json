@@ -95,6 +95,17 @@
       },
       {
         "type": "range",
+        "id": "page_margin_mobile",
+        "label": "Page margin on mobile",
+        "min": 0,
+        "max": 40,
+        "step": 1,
+        "unit": "px",
+        "default": 10,
+        "info": "Phones only (under 750px). Desktop and tablet keep the page margin above."
+      },
+      {
+        "type": "range",
         "id": "grid_gap",
         "label": "Grid gap",
         "min": 0,
