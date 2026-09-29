@@ -30,6 +30,11 @@
     can state the card's real width. It must be passed: a flat "33vw" served a
     two-column home grid a file a third narrower than the slot it lands in,
     which is blur. Defaults to 3 only so an un-updated caller stays safe.
+  @param {string} [label_tone] - "dark" | "light", for a card with no block
+    (Dynamic collection passes its section's setting); a block's own wins
+  @param {string} [label_color] - the name's colour, same precedence
+  @param {string} [label_hover_color] - the name's colour on hover, same
+  @param {string} [label_font] - "heading" | "body", same
   @param {boolean} [inset] - true when the grid sits inside the content column
     (its left gutter is clamp(220px, 18.7vw, 300px)) rather than full-bleed.
   @example
@@ -48,6 +53,16 @@
   if cp and card_url == blank
     assign card_url = cp.url
   endif
+
+  comment
+    The name's type settings: the card block's own, or — for a card with no
+    block, such as the ones Dynamic collection draws from a collection — the
+    ones its section passes in for all of them.
+  endcomment
+  assign card_tone = block.settings.label_tone | default: label_tone
+  assign card_ink = block.settings.label_color | default: label_color
+  assign card_hover_ink = block.settings.label_hover_color | default: label_hover_color
+  assign card_font = block.settings.label_font | default: label_font
 
   comment
     Real card width per breakpoint. Full-bleed grids simply divide the
@@ -179,70 +194,87 @@
         alt: card_alt
       %}
     {%- endif -%}
-    {%- comment -%}
-      The CH monogram follows the product the card points at, whichever
-      photograph the block shows.
-    {%- endcomment -%}
-    {%- if cp -%}
-      {% render 'card-badge', product: cp %}
-    {%- endif -%}
   </span>
 
-  {%- if card_label != blank -%}
-    {%- capture label_style -%}
-      {% render 'font-vars', prefix: 'card-label', choice: block.settings.label_font %}
-      {%- if block.settings.label_color != blank %} --card-label-ink: {{ block.settings.label_color }};{% endif -%}
+  {%- comment -%}
+    The caption row: the label, and the Cucuyo bug at its far end when the
+    card points at one of the brand's own pieces (whichever photograph the
+    block shows). Laid over the photograph's bottom edge from 750px up and
+    under it on phones — or always under it on a stacked card.
+  {%- endcomment -%}
+  {%- capture card_badge -%}
+    {%- if cp -%}{% render 'card-badge', product: cp %}{%- endif -%}
+  {%- endcapture -%}
+  {%- assign card_badge = card_badge | strip -%}
+  {%- if card_label != blank or card_badge != blank -%}
+    {%- comment -%}
+      The card's own type settings live on the row, not on the label, so the
+      bug beside the name follows them too: typeface, colour, Light tone and
+      the colour on hover (per card, Eugenia 2026-09-29).
+    {%- endcomment -%}
+    {%- capture caption_style -%}
+      {% render 'font-vars', prefix: 'card-label', choice: card_font %}
+      {%- if card_ink != blank %} --card-label-ink: {{ card_ink }};{% endif -%}
+      {%- if card_hover_ink != blank %} --card-label-hover-ink: {{ card_hover_ink }};{% endif -%}
     {%- endcapture -%}
-    <span
-      class="image-card__label{% if label_below %} image-card__label--below{% elsif block.settings.label_tone == 'light' %} image-card__label--light{% endif %}"
-      {% if label_style != blank %}
-        style="{{ label_style | strip }}"
-      {% endif %}
-    >
-      {%- comment -%}
-        Price and compare-at ride along on the stacked (product-sourced) card,
-        the same pair the grid card shows and read the same way: from the SHOWN
-        VARIANT, because compare-at can be set on one colour and not another.
-        theme.js finds [data-card-price]/[data-card-compare] inside any card
-        and swaps them together when a swatch is picked, so this inherits that
-        behaviour rather than repeating it.
-      {%- endcomment -%}
-      {%- if label_below and cp -%}
-        {%- assign shown = cp.selected_or_first_available_variant -%}
-        <span class="image-card__line">
-          <span class="image-card__name">{{ card_label | escape | newline_to_br }}</span>
-          <span class="image-card__prices">
-            <span class="image-card__price" data-card-price>{{ shown.price | money }}</span>
-            <s
-              class="image-card__compare"
-              data-card-compare
-              {% unless shown.compare_at_price > shown.price %}
-                hidden
-              {% endunless %}
-            >
-              {{- shown.compare_at_price | money -}}
-            </s>
+  <span
+    class="card-caption{% if label_below %} card-caption--below{% elsif card_tone == 'light' %} card-caption--light{% endif %}{% if card_hover_ink != blank %} card-caption--hover-ink{% endif %}"
+    {% if caption_style != blank %}
+      style="{{ caption_style | strip }}"
+    {% endif %}
+  >
+    {%- if card_label != blank -%}
+      <span
+        class="image-card__label{% if label_below %} image-card__label--below{% elsif card_tone == 'light' %} image-card__label--light{% endif %}"
+      >
+        {%- comment -%}
+          Price and compare-at ride along on the stacked (product-sourced) card,
+          the same pair the grid card shows and read the same way: from the SHOWN
+          VARIANT, because compare-at can be set on one colour and not another.
+          theme.js finds [data-card-price]/[data-card-compare] inside any card
+          and swaps them together when a swatch is picked, so this inherits that
+          behaviour rather than repeating it.
+        {%- endcomment -%}
+        {%- if label_below and cp -%}
+          {%- assign shown = cp.selected_or_first_available_variant -%}
+          <span class="image-card__line">
+            <span class="image-card__name">{{ card_label | escape | newline_to_br }}</span>
+            <span class="image-card__prices">
+              <span class="image-card__price" data-card-price>{{ shown.price | money }}</span>
+              <s
+                class="image-card__compare"
+                data-card-compare
+                {% unless shown.compare_at_price > shown.price %}
+                  hidden
+                {% endunless %}
+              >
+                {{- shown.compare_at_price | money -}}
+              </s>
+            </span>
           </span>
-        </span>
-      {%- else -%}
-        {{- card_label | escape | newline_to_br -}}
-      {%- endif -%}
-      {%- comment -%}
-        The subtitle only joins the label where the label sits BELOW the
-        image. Overlaid on a curated photo it would be a second line of text
-        on unknown tone, and there the label is a design caption ("Petra
-        Vase") rather than the product name, so a subtitle would not follow.
-      {%- endcomment -%}
-      {%- if label_below and cp -%}
-        {% render 'product-subtitle', product: cp, class: 'image-card__subtitle' %}
-      {%- endif -%}
-      {%- if show_collection and cp -%}
-        {%- capture card_category %}{% render 'product-category', product: cp %}{% endcapture -%}
-        {%- if card_category != blank -%}
-          <span class="image-card__collection">{{ card_category }}</span>
+        {%- else -%}
+          {{- card_label | escape | newline_to_br -}}
         {%- endif -%}
-      {%- endif -%}
-    </span>
+        {%- comment -%}
+          The subtitle only joins the label where the label sits BELOW the
+          image. Overlaid on a curated photo it would be a second line of text
+          on unknown tone, and there the label is a design caption ("Petra
+          Vase") rather than the product name, so a subtitle would not follow.
+        {%- endcomment -%}
+        {%- if label_below and cp -%}
+          {% render 'product-subtitle', product: cp, class: 'image-card__subtitle' %}
+        {%- endif -%}
+        {%- if show_collection and cp -%}
+          {%- capture card_category %}{% render 'product-category', product: cp %}{% endcapture -%}
+          {%- if card_category != blank -%}
+            <span class="image-card__collection">{{ card_category }}</span>
+          {%- endif -%}
+        {%- endif -%}
+      </span>
+    {%- endif -%}
+
+    {{- card_badge -}}
+  </span>
   {%- endif -%}
 
   {%- if card_url != blank -%}

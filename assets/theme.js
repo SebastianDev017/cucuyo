@@ -1142,7 +1142,11 @@
          page's photographs live in a row inside the scrolling viewport), so
          items can say so with data-strip-item. The gap is the items' own. */
       var step = function () {
-        var item = track.querySelector('[data-strip-item]') || track.firstElementChild;
+        /* the first item actually showing: a Dynamic collection keeps the
+           candidates it does not show in the track, hidden */
+        var item = Array.prototype.slice.call(track.querySelectorAll('[data-strip-item]')).filter(function (el) {
+          return el.offsetWidth > 0;
+        })[0] || track.firstElementChild;
         if (!item) return track.clientWidth;
         var gap = parseFloat(getComputedStyle(item.parentElement).columnGap) || 0;
         var pitch = item.getBoundingClientRect().width + gap;
@@ -1202,8 +1206,22 @@
 
   /* The customizer re-renders one section at a time; both story helpers are
      idempotent, so re-running them only picks up what has just arrived. */
+  /* Dynamic collections share out the collection's products among
+     themselves in page order (see sections/dynamic-collection.liquid); any
+     change in the editor — a section edited, removed or moved — can change
+     who gets what, so it is dealt again. After the event, not during it:
+     an unloading section is still in the page while its event runs. */
+  var redealDynamic = function () {
+    setTimeout(function () {
+      if (window.cucuyoDynamicCollections) window.cucuyoDynamicCollections();
+    }, 0);
+  };
+
   document.addEventListener('shopify:section:load', function () {
+    if (window.cucuyoDynamicCollections) window.cucuyoDynamicCollections();
     initStoryGallery();
     initProductStrips();
   });
+  document.addEventListener('shopify:section:unload', redealDynamic);
+  document.addEventListener('shopify:section:reorder', redealDynamic);
 })();

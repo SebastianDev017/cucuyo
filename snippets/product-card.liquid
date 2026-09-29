@@ -7,6 +7,10 @@
   format is used by the curated cards on the homepage and the category pages
   (featured-card), so a product looks the same wherever it appears.
 
+  On phones (under 750px) the name moves under the photograph instead
+  (Eugenia, 2026-09-29); tablet and desktop keep it laid over. Cucuyo's own
+  pieces add the bug at the far end of the same row (snippets/card-badge).
+
   On a real pointer the second photograph fades in on hover (see base.css).
 
   @param {product} product - the product to render
@@ -87,10 +91,17 @@
             data-card-hover-image: ''
         -}}
       {%- endif -%}
+    </div>
 
+    {%- comment -%}
+      The caption row: the name, and the Cucuyo bug at the far end on the
+      brand's own pieces. Outside the photograph's box so that on a phone it
+      can drop below the photograph; from 750px up base.css lays it back over
+      the photograph's bottom edge, where the name has always been.
+    {%- endcomment -%}
+    <div class="card-caption">
       <h3 class="product-card__title">{{ product.title }}</h3>
       {% render 'card-badge', product: product %}
     </div>
-
   </a>
 </article>

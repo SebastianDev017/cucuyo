@@ -56,6 +56,9 @@
     --grid-gap: {{ settings.grid_gap | default: 4 }}px;
     --section-gap: {{ settings.section_gap | default: 4 }}px;
     --drawer-width: {{ settings.drawer_width | default: 80 }}vw;
+    /* The Cucuyo bug's drawing, used as a mask so the bug takes the colour of
+       the card name beside it (snippets/card-badge). */
+    --cucuyo-bug: url("{{ 'cucuyo-bug.svg' | asset_url }}");
 
     --heading-scale: {{ settings.heading_scale | default: 100 | divided_by: 100.0 }};
     --body-scale: {{ settings.body_scale | default: 100 | divided_by: 100.0 }};

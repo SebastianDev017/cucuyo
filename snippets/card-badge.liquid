@@ -1,13 +1,18 @@
 {% doc %}
-  The CH monogram on a card (Eugenia, 2026-09-29): Cucuyo's own pieces carry
-  it, top-left of the photograph. Decided by the product's Vendor field and
-  nothing else — no flag of its own to keep in step: Vendor "Cucuyo", in any
-  capitalisation. Shared by the grid card and the curated card so both show
-  it the same way.
+  The Cucuyo bug on a card: Cucuyo's own pieces carry it at the far end of
+  the name's row, bottom-right of the card (Eugenia, 2026-09-29 — it replaced
+  a CH monogram at the top-left, which ran into the transparent header on
+  pages that open on a row of cards). Decided by the product's Vendor field
+  and nothing else — no flag of its own to keep in step: Vendor "Cucuyo", in
+  any capitalisation. Shared by the grid card and the curated card, and drawn
+  inside their caption row (.card-caption), which places it.
 
-  The alt says what the mark means rather than what it looks like, and it
-  sits after the name in the link, so the link reads "Cheetah Pillow, Made by
-  Cucuyo".
+  It takes the colour of the name next to it — the card's label colour, its
+  Light tone, its hover colour — so it is not an <img> (an image keeps the
+  brown it was drawn in): the drawing, assets/cucuyo-bug.svg as delivered,
+  is the MASK of an element painted in currentColor (--cucuyo-bug, see
+  snippets/css-variables). role="img" with the label a screen reader reads
+  after the name: "Cheetah Pillow, Made by Cucuyo".
 
   @param {product} product
   @example
@@ -16,12 +21,5 @@
 
 {%- assign vendor_key = product.vendor | downcase | strip -%}
 {%- if vendor_key == 'cucuyo' -%}
-  <img
-    class="card-badge"
-    src="{{ 'ch-monogram.svg' | asset_url }}"
-    width="36"
-    height="37"
-    alt="{{ 'products.made_by_cucuyo' | t }}"
-    loading="lazy"
-  >
+  <span class="card-badge" role="img" aria-label="{{ 'products.made_by_cucuyo' | t }}"></span>
 {%- endif -%}

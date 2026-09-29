@@ -880,23 +880,17 @@ body:not(.template-page) main > .section-page-title + .shopify-section {
 /* THE CARD NAME — one format for every card on the site (Eugenia's PDFs,
    2026-09-24): the curated cards on the homepage and the category pages
    (.image-card__label), the product grids and strips (.product-card__title),
-   and the corner label a band can carry. Laid over the photograph's
-   bottom-left corner, in the accent, measured off the PDFs at 1440px and
-   fitted against the theme's own fonts: the heading face at 13.3px with no
-   tracking, 20px in from the left and 16px up from the bottom. `right`
-   keeps a long name wrapping inside the tile instead of running under the
-   next one.
+   and the corner label a band can carry. In the accent, measured off the
+   PDFs at 1440px and fitted against the theme's own fonts: the heading face
+   at 13.3px with no tracking. Where it sits is the caption row's business
+   (.card-caption below): over the photograph's bottom-left corner, 20px in
+   and 16px up, from 750px; under the photograph on phones.
 
    The three vars are per-card overrides emitted by a block; each names the
    PDF's value as its fallback. */
 .image-card__label,
 .home-hero__label,
 .product-card__title {
-  position: absolute;
-  right: 20px;
-  bottom: 16px;
-  left: 20px;
-  z-index: 2;
   margin: 0;
   font-family: var(--card-label-font, var(--font-heading));
   font-weight: var(--card-label-weight, var(--font-heading-weight, 500));
@@ -907,42 +901,145 @@ body:not(.template-page) main > .section-page-title + .shopify-section {
   color: var(--card-label-ink, var(--color-accent));
 }
 
+/* A band's corner label keeps its own place on the photograph. */
+.home-hero__label {
+  position: absolute;
+  right: 20px;
+  bottom: 16px;
+  left: 20px;
+  z-index: 2;
+}
+
 @media (max-width: 749px) {
-  .image-card__label,
-  .home-hero__label,
-  .product-card__title {
+  .home-hero__label {
     right: 12px;
     bottom: 12px;
     left: 12px;
   }
 }
 
-/* The CH monogram on Cucuyo's own pieces (snippets/card-badge): top-left of
-   the photograph, on the name's left inset, scaled off Eugenia's screenshot
-   (29px wide where the name is 13px). Above the hover photograph, like the
-   name. Two classes because `.product-card__media img` would otherwise make
-   it a full-width photograph. */
-.product-card__media .card-badge,
-.image-card__frame .card-badge {
+/* THE CAPTION ROW of a card (Eugenia, 2026-09-29): the name, and on
+   Cucuyo's own pieces the bug at the far end (snippets/card-badge). From
+   750px up it lies over the photograph's bottom edge with the name exactly
+   where it always was, 20px in and 16px up; above the hover photograph. The
+   row sits on the bottom of the name's last line, so a long name grows
+   upward, wraps before it reaches the bug, and the bug stands on the name's
+   baseline — her screenshot, measured: the bug 1.9 times the name's size,
+   20px in from the right. Its font-size is the name's so the bug is sized
+   in the name's own ems and follows the heading scale. */
+.card-caption {
   position: absolute;
-  top: 24px;
+  right: 20px;
+  bottom: 16px;
   left: 20px;
   z-index: 2;
-  display: block;
-  width: 29px;
-  height: auto;
-  aspect-ratio: auto;
-  object-fit: contain;
-  pointer-events: none;
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  font-size: calc(0.756rem * var(--heading-scale, 1));
+  color: var(--card-label-ink, var(--color-accent));
 }
 
-@media (max-width: 749px) {
-  .product-card__media .card-badge,
-  .image-card__frame .card-badge {
-    top: 14px;
-    left: 12px;
-    width: 26px;
+/* The row holds the colour and the name inherits it, so the bug beside the
+   name is always the name's colour: the card's Label colour, its Light tone,
+   its colour on hover. */
+.card-caption > .image-card__label,
+.card-caption > .product-card__title {
+  flex: 1 1 auto;
+  min-width: 0;
+  color: inherit;
+}
+
+.card-caption--light {
+  color: var(--card-label-ink, var(--color-on-image));
+}
+
+/* The bug: the delivered drawing as a mask over the text colour, at 1.9
+   times the name's size and the drawing's own proportions (140.53 : 266.94). */
+.card-caption .card-badge {
+  display: block;
+  flex: none;
+  width: calc(1.9em * 0.5265);
+  height: 1.9em;
+  margin-left: auto;
+  background-color: currentColor;
+  -webkit-mask: var(--cucuyo-bug) center / contain no-repeat;
+  mask: var(--cucuyo-bug) center / contain no-repeat;
+}
+
+/* High-contrast modes repaint backgrounds; keep the bug in the text colour. */
+@media (forced-colors: active) {
+  .card-caption .card-badge {
+    forced-color-adjust: none;
+    background-color: CanvasText;
   }
+}
+
+/* The card's colour on hover (Card → Label colour on hover): the name and
+   the bug change together while a pointer is over the card or the keyboard
+   is on its link, on the same curve and time as the second photograph fading
+   in. Only where the row lies over the photograph — under it, on a phone,
+   the page is white whatever colour was picked for over the photograph. */
+@media (min-width: 750px) and (hover: hover) and (pointer: fine) {
+  .card-caption--hover-ink {
+    transition: color 0.45s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  }
+
+  .image-card:hover .card-caption--hover-ink,
+  .image-card__link:focus-visible .card-caption--hover-ink {
+    color: var(--card-label-hover-ink);
+  }
+}
+
+/* The card's link is the caption's frame of reference: it is exactly as tall
+   as the photograph. */
+.product-card__link,
+.image-card__link {
+  position: relative;
+}
+
+/* Phones: the name goes under the photograph (a name laid over a small
+   photograph read as a stray mark), on the same 12px inset it had over it,
+   always in the accent — the page is white under there, whatever colour
+   the card asked for over its photograph. */
+@media (max-width: 749px) {
+  /* Under the photograph the names of one row must start on one line, bug
+     or no bug, one line or two: the row hangs from its top, and the bug is
+     centred on the name's first line instead of standing on its last. */
+  .card-caption {
+    position: static;
+    align-items: flex-start;
+    padding: 10px 12px 14px;
+  }
+
+  /* Centred on the first line and pulled in by the same amount below, so a
+     bug adds no height: a card with one is exactly as tall as a card
+     without, and a one-column grid keeps one rhythm (it was 4px taller). */
+  .card-caption .card-badge {
+    margin-block: calc((1.27em - 1.9em) / 2);
+  }
+
+  .image-card .card-caption,
+  .product-card .card-caption {
+    color: var(--color-accent);
+  }
+}
+
+/* A stacked card (auto-sourced "Pair it with") has its caption under the
+   photograph at every width. */
+.card-caption.card-caption--below {
+  position: static;
+  align-items: flex-start;
+  margin-top: 14px;
+  padding: 0;
+  color: var(--card-label-ink, var(--color-ink));
+}
+
+/* Under the photograph the bug goes where it goes on a phone: centred on the
+   name's first line — a stacked card also carries a price and a subtitle
+   under the name, and standing on those it read as a stray mark. */
+.card-caption--below .card-badge {
+  margin-block: calc((1.27em - 1.9em) / 2);
 }
 
 .image-card__label--light,
@@ -971,11 +1068,8 @@ body:not(.template-page) main > .section-page-title + .shopify-section {
   flex: 0 0 auto;
 }
 
-.image-card__label--below {
-  position: static;
+.card-caption > .image-card__label--below {
   max-width: none;
-  margin-top: 14px;
-  color: var(--card-label-ink, var(--color-ink));
 }
 
 /* Optional collection line under the overlaid card label (11px caps, same
@@ -1012,7 +1106,6 @@ body:not(.template-page) main > .section-page-title + .shopify-section {
    is gone. Keyboard focus stays visible through the theme's outline rules. */
 
 @media (max-width: 749px) {
-  .image-card__label,
   .home-hero__label {
     left: 20px;
     bottom: 16px;
@@ -3622,6 +3715,32 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
   .home-grid__carousel .product-strip {
     --strip-per-view: calc(var(--cols-mobile, 1) + 0.2);
   }
+}
+
+/* Dynamic collection: the Featured collection's shell (it carries the
+   home-grid class too). Its candidates past the ones it shows are hidden —
+   explicitly, because grid and list items may be given a display of their
+   own elsewhere, which would out-rank the hidden attribute. */
+.dynamic-collection [data-dyn-item][hidden] {
+  display: none;
+}
+
+.dynamic-collection__item {
+  display: block;
+  min-width: 0;
+}
+
+/* Theme editor only: why a Dynamic collection shows nothing. */
+.dynamic-collection__note {
+  margin: 0;
+  padding: 24px var(--page-margin);
+  font-size: 0.8125rem;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+.dynamic-collection__note[hidden] {
+  display: none;
 }
 
 

@@ -1,0 +1,336 @@
+{%- comment -%}
+  Dynamic collection (Eugenia, 2026-09-29) — the Featured collection's cards,
+  grid and carousel, filled from a collection instead of picked by hand: the
+  collection the page belongs to on a category page, or the one chosen here.
+  A product added to or removed from the collection shows up, or goes, with
+  no change to the template.
+
+  NO REPEATS: several of these on one page each show the NEXT products in the
+  collection's order, never one a Dynamic collection above has already shown.
+  Shopify renders every section on its own — one cannot read another's
+  variables — so the page is put together in the browser: each section
+  carries the collection's products as candidates (up to 50, the first N
+  shown), and the script right after it walks every Dynamic collection so far
+  in page order and gives each product to the first one with room for it. It
+  runs as the page is read, before the section is painted, so nothing jumps.
+  A section left with nothing to show hides itself. Without scripts each one
+  shows the collection's first N.
+
+  Only other Dynamic collections count: the hand-picked sections on the page
+  (Featured collection, Card strip, Mixed band) are left as they are.
+{%- endcomment -%}
+
+{%- liquid
+  assign source = section.settings.collection
+  if source == blank and collection
+    assign source = collection
+  endif
+  assign show = section.settings.products_to_show | default: 4
+  assign cols_desktop = section.settings.columns_desktop | default: 4
+  assign cols_mobile = section.settings.columns_mobile | default: 2
+  assign carousel = section.settings.carousel
+-%}
+
+<section
+  class="home-grid dynamic-collection"
+  data-dynamic-collection
+  data-show="{{ show }}"
+  data-header-tone="{{ section.settings.header_tone | default: 'ink' }}"
+  style="{% render 'section-style', section: section %}"
+>
+  {%- if section.settings.heading != blank or section.settings.eyebrow != blank -%}
+    <div class="home-grid__head home-grid__head--{{ section.settings.heading_align | default: 'center' }}">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="home-grid__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="home-grid__heading">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- if source != blank and source.products_count > 0 -%}
+    {%- capture cards -%}
+      {%- for product in source.products limit: 50 -%}
+        {%- capture card -%}
+          {% render 'featured-card',
+            card_product: product,
+            columns: cols_desktop,
+            show_collection: false,
+            show_swatches: false,
+            label_tone: section.settings.label_tone,
+            label_color: section.settings.label_color,
+            label_hover_color: section.settings.label_hover_color
+          %}
+        {%- endcapture -%}
+        {%- if carousel -%}
+          <li
+            class="product-strip__item"
+            data-strip-item
+            data-dyn-item
+            data-product-id="{{ product.id }}"
+            {% if forloop.index > show %}
+              hidden
+            {% endif %}
+          >
+            {{- card -}}
+          </li>
+        {%- else -%}
+          <div
+            class="dynamic-collection__item"
+            data-dyn-item
+            data-product-id="{{ product.id }}"
+            {% if forloop.index > show %}
+              hidden
+            {% endif %}
+          >
+            {{- card -}}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endcapture -%}
+
+    {%- if carousel -%}
+      <div
+        class="home-grid__carousel{% if section.settings.flush %} home-grid__carousel--flush{% endif %}"
+        style="--cols-desktop: {{ cols_desktop }}; --cols-mobile: {{ cols_mobile }};"
+      >
+        {% render 'product-strip',
+          strip_id: section.id,
+          cards: cards,
+          heading: section.settings.heading,
+          arrows: 'sides',
+          loop: section.settings.carousel_loop
+        %}
+      </div>
+    {%- else -%}
+      <div
+        class="card-grid{% if section.settings.flush %} card-grid--flush{% endif %}"
+        style="--cols-desktop: {{ cols_desktop }}; --cols-mobile: {{ cols_mobile }};"
+      >
+        {{- cards -}}
+      </div>
+    {%- endif -%}
+
+    {%- if request.design_mode -%}
+      <p class="dynamic-collection__note" data-dyn-empty hidden>
+        Every product of {{ source.title | escape }} is already shown by the Dynamic collection sections above, so this one is hidden on the store.
+      </p>
+    {%- endif -%}
+
+    <script>
+      (function () {
+        if (!window.cucuyoDynamicCollections) {
+          /* Every Dynamic collection on the page, in page order: each keeps
+             its first N products that no section above it has shown. Safe to
+             run again at any time (the editor calls it after every change). */
+          window.cucuyoDynamicCollections = function () {
+            var seen = {};
+            var design = !!(window.Shopify && window.Shopify.designMode);
+            document.querySelectorAll('[data-dynamic-collection]').forEach(function (sec) {
+              var want = parseInt(sec.getAttribute('data-show'), 10) || 0;
+              var shown = 0;
+              sec.querySelectorAll('[data-dyn-item]').forEach(function (item) {
+                var id = item.getAttribute('data-product-id');
+                var keep = shown < want && !seen[id];
+                item.hidden = !keep;
+                if (keep) {
+                  seen[id] = true;
+                  shown += 1;
+                }
+              });
+              var wrap = sec.closest('.shopify-section') || sec;
+              var note = sec.querySelector('[data-dyn-empty]');
+              if (design) {
+                wrap.hidden = false;
+                if (note) note.hidden = shown > 0;
+              } else {
+                wrap.hidden = shown === 0;
+              }
+            });
+          };
+        }
+        window.cucuyoDynamicCollections();
+      })();
+    </script>
+  {%- elsif request.design_mode -%}
+    <p class="dynamic-collection__note">
+      Choose a collection, or add this section to a collection page to use that page's own.
+    </p>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Dynamic collection",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Fills itself from a collection. Several of these on one page never repeat a product: each shows the next ones in the collection's order."
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection",
+      "info": "Leave empty on a category page to use the page's own collection."
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products to show",
+      "min": 1,
+      "max": 16,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "info": "Small line above the heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Leave empty for no heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_align",
+      "label": "Heading alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Centre" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns (desktop)",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns (mobile)",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "checkbox",
+      "id": "flush",
+      "label": "Flush (no gap)",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel",
+      "label": "Carousel",
+      "default": false,
+      "info": "One sliding row with an arrow at each end, over the photographs. Columns sets how many show at once; the arrows appear when there are more products than that."
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel_loop",
+      "label": "Loop the carousel",
+      "default": false,
+      "info": "Past the last card the arrow goes back to the first, and the other way round."
+    },
+    {
+      "type": "header",
+      "content": "Card names"
+    },
+    {
+      "type": "select",
+      "id": "label_tone",
+      "label": "Label tone",
+      "options": [
+        { "value": "dark", "label": "Dark" },
+        { "value": "light", "label": "Light" }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Label colour",
+      "info": "Empty uses the tone above. Also colours the Cucuyo bug."
+    },
+    {
+      "type": "color",
+      "id": "label_hover_color",
+      "label": "Label colour on hover",
+      "info": "The name and the Cucuyo bug while the pointer is over a card (tablet and desktop). Empty leaves them as they are."
+    },
+    {
+      "type": "header",
+      "content": "Colour and spacing"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "info": "Empty uses the theme's"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "info": "Empty uses the theme's"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "header_tone",
+      "label": "Header text over this section",
+      "options": [
+        { "value": "light", "label": "Light, for a dark photograph" },
+        { "value": "ink", "label": "Brown, for a pale photograph" }
+      ],
+      "default": "ink",
+      "info": "Homepage and category pages: as the first section, it sets the header colour at the top of the page. Light only reads on a dark photograph."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Dynamic collection"
+    }
+  ]
+}
+{% endschema %}
