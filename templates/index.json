@@ -128,6 +128,8 @@
         "columns_desktop": 4,
         "columns_mobile": "2",
         "flush": false,
+        "carousel": false,
+        "carousel_loop": false,
         "show_collection_label": false,
         "show_swatches": false,
         "background_color": "",
@@ -158,7 +160,7 @@
             "draft_asset": "",
             "heading": "",
             "body": "",
-            "cta_label": "Discover kitchenware",
+            "cta_label": "Discover tabletop",
             "label": "",
             "label_tone": "light",
             "link": "/collections/tabletop",
@@ -267,6 +269,8 @@
         "columns_desktop": 4,
         "columns_mobile": "2",
         "flush": false,
+        "carousel": false,
+        "carousel_loop": false,
         "show_collection_label": false,
         "show_swatches": false,
         "background_color": "",
@@ -286,7 +290,8 @@
         "heading": "Vases",
         "body": "Lorem ipsum dolor sit amet consectetur. Aliquam faucibus nec\nfacilisis consequat. Ut dolor pharetra vitae imperdiet. Tortor\nlacus dolor et et. Justo dignissim non nibh eget scelerisque mi.",
         "cta_label": "Shop vases",
-        "link": "/collections/vase"
+        "link": "/collections/vase",
+        "header_tone": "ink"
       }
     },
     "row_three": {
@@ -367,6 +372,8 @@
         "columns_desktop": 4,
         "columns_mobile": "2",
         "flush": false,
+        "carousel": false,
+        "carousel_loop": false,
         "show_collection_label": false,
         "show_swatches": false,
         "background_color": "",
@@ -506,6 +513,8 @@
         "columns_desktop": 4,
         "columns_mobile": "2",
         "flush": false,
+        "carousel": false,
+        "carousel_loop": false,
         "show_collection_label": false,
         "show_swatches": false,
         "background_color": "",
@@ -525,7 +534,8 @@
         "heading": "Shop trays & storage vessels",
         "body": "Lorem ipsum dolor sit amet consectetur. Aliquam faucibus nec\nfacilisis consequat. Ut dolor pharetra vitae imperdiet. Tortor\nlacus dolor et et. Justo dignissim non nibh eget scelerisque mi.",
         "cta_label": "Shop Cucuyo collection",
-        "link": "/collections/all"
+        "link": "/collections/all",
+        "header_tone": "ink"
       }
     },
     "row_five": {
@@ -606,6 +616,8 @@
         "columns_desktop": 4,
         "columns_mobile": "2",
         "flush": false,
+        "carousel": false,
+        "carousel_loop": false,
         "show_collection_label": false,
         "show_swatches": false,
         "background_color": "",

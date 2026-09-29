@@ -132,6 +132,8 @@
         "columns_desktop": 4,
         "columns_mobile": "2",
         "flush": false,
+        "carousel": false,
+        "carousel_loop": false,
         "show_collection_label": false,
         "show_swatches": false,
         "background_color": "",
@@ -152,7 +154,8 @@
         "heading": "Ikat and straw title",
         "body": "Lorem ipsum dolor sit amet consectetur. Aliquam faucibus nec\nfacilisis consequat. Ut dolor pharetra vitae imperdiet. Tortor\nlacus dolor et et. Justo dignissim non nibh eget scelerisque mi.",
         "cta_label": "Shop kitchenware",
-        "link": "/collections/tabletop"
+        "link": "/collections/tabletop",
+        "header_tone": "ink"
       }
     },
     "row_two": {
@@ -233,6 +236,8 @@
         "columns_desktop": 4,
         "columns_mobile": "2",
         "flush": false,
+        "carousel": false,
+        "carousel_loop": false,
         "show_collection_label": false,
         "show_swatches": false,
         "background_color": "",
@@ -283,17 +288,45 @@
         "ratio": "756 / 957"
       }
     },
-    "bandanas": {
-      "type": "image-text",
+    "home_hero_U4JznN": {
+      "type": "home-hero",
+      "blocks": {
+        "image_gCmwa3": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/SMM_BNDN_05.png",
+            "draft_asset": "",
+            "heading": "",
+            "body": "",
+            "cta_label": "",
+            "label": "",
+            "label_tone": "light",
+            "link": "",
+            "scrim": false
+          }
+        },
+        "image_9jn8Gi": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/SMM_BNDN_02.jpg",
+            "draft_asset": "",
+            "heading": "",
+            "body": "",
+            "cta_label": "",
+            "label": "",
+            "label_tone": "light",
+            "link": "",
+            "scrim": false
+          }
+        }
+      },
+      "block_order": [
+        "image_gCmwa3",
+        "image_9jn8Gi"
+      ],
       "settings": {
-        "image_side": "left",
-        "draft_asset": "pdf-decor-5bb6.jpg",
-        "alt_text": "",
-        "image_link": "",
-        "heading": "",
-        "body": "",
-        "cta_label": "",
-        "link": ""
+        "header_tone": "ink",
+        "ratio": "756 / 957"
       }
     },
     "strip": {
@@ -380,7 +413,7 @@
     "ikat",
     "row_two",
     "band_two",
-    "bandanas",
+    "home_hero_U4JznN",
     "strip"
   ]
 }
