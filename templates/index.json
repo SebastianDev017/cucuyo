@@ -68,7 +68,37 @@
             "draft_asset": ""
           }
         },
+        "card_rp49YC": {
+          "type": "card",
+          "settings": {
+            "product": "cheetah-pillow",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
         "c2": {
+          "type": "card",
+          "settings": {
+            "product": "martha-bandana",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_VwfxjF": {
           "type": "card",
           "settings": {
             "product": "martha-bandana",
@@ -98,7 +128,37 @@
             "draft_asset": ""
           }
         },
+        "card_Ccg89K": {
+          "type": "card",
+          "settings": {
+            "product": "petit-tie-rainbow-bag",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
         "c4": {
+          "type": "card",
+          "settings": {
+            "product": "duck-woven-baskets",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_ReUeDj": {
           "type": "card",
           "settings": {
             "product": "duck-woven-baskets",
@@ -116,9 +176,13 @@
       },
       "block_order": [
         "c1",
+        "card_rp49YC",
         "c2",
+        "card_VwfxjF",
         "c3",
-        "c4"
+        "card_Ccg89K",
+        "c4",
+        "card_ReUeDj"
       ],
       "settings": {
         "eyebrow": "",
@@ -128,8 +192,8 @@
         "columns_desktop": 4,
         "columns_mobile": "2",
         "flush": false,
-        "carousel": false,
-        "carousel_loop": false,
+        "carousel": true,
+        "carousel_loop": true,
         "show_collection_label": false,
         "show_swatches": false,
         "background_color": "",
@@ -269,8 +333,8 @@
         "columns_desktop": 4,
         "columns_mobile": "2",
         "flush": false,
-        "carousel": false,
-        "carousel_loop": false,
+        "carousel": true,
+        "carousel_loop": true,
         "show_collection_label": false,
         "show_swatches": false,
         "background_color": "",
@@ -372,8 +436,8 @@
         "columns_desktop": 4,
         "columns_mobile": "2",
         "flush": false,
-        "carousel": false,
-        "carousel_loop": false,
+        "carousel": true,
+        "carousel_loop": true,
         "show_collection_label": false,
         "show_swatches": false,
         "background_color": "",
@@ -513,8 +577,8 @@
         "columns_desktop": 4,
         "columns_mobile": "2",
         "flush": false,
-        "carousel": false,
-        "carousel_loop": false,
+        "carousel": true,
+        "carousel_loop": true,
         "show_collection_label": false,
         "show_swatches": false,
         "background_color": "",
