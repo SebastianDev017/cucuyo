@@ -7,56 +7,80 @@
   the arrows are an addition, never the only way through (they are hidden
   outright on phones, where swiping is the natural gesture).
 
+  The Featured collection carousel (Eugenia, 2026-09-29) uses the same track
+  with the arrows on the sides instead, centred over the photographs, and can
+  loop: past the last card the next arrow goes back to the first.
+
   @param {string} strip_id - unique id, used to tie the arrows to the track
   @param {string} cards - the already-rendered <li> cards, in order. Captured
     by the caller (as Related products does) because Liquid cannot build an
     array of products one at a time: `concat` only joins two arrays.
   @param {string} [heading] - shown at the left of the arrow row
+  @param {string} [arrows] - "head" (default): at the right of the heading;
+    "sides": over the photographs, one at each end, vertically centred
+  @param {boolean} [loop] - the arrows wrap around instead of stopping
   @example
   {% render 'product-strip', strip_id: section.id, cards: cards, heading: 'You may like' %}
+  {% render 'product-strip', strip_id: section.id, cards: cards, arrows: 'sides', loop: true %}
 {% enddoc %}
 
 {%- liquid
   assign prev_label = 'general.strip.previous' | t
   assign next_label = 'general.strip.next' | t
+  assign list_label = 'general.strip.label' | t
+  assign on_sides = false
+  if arrows == 'sides'
+    assign on_sides = true
+  endif
 -%}
 
 {%- if cards contains 'product-card' or cards contains 'image-card' -%}
-  <div class="product-strip" data-product-strip>
-    <div class="product-strip__head">
-      {%- if heading != blank -%}
-        <h2 class="product-strip__heading">{{ heading }}</h2>
-      {%- endif -%}
-
-      {%- comment -%}
-        Hidden until theme.js has measured that the track really does overflow
-        — arrows that cannot move anything are worse than no arrows.
-      {%- endcomment -%}
-      <div class="product-strip__arrows" data-strip-arrows hidden>
-        <button
-          type="button"
-          class="product-strip__arrow"
-          data-strip-prev
-          aria-controls="ProductStrip-{{ strip_id }}"
-          aria-label="{{ prev_label }}"
-        >
-          <svg class="product-strip__chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
-            <path d="M15 4 L7 12 L15 20" stroke="currentColor" stroke-width="1.5" />
-          </svg>
-        </button>
-        <button
-          type="button"
-          class="product-strip__arrow"
-          data-strip-next
-          aria-controls="ProductStrip-{{ strip_id }}"
-          aria-label="{{ next_label }}"
-        >
-          <svg class="product-strip__chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
-            <path d="M9 4 L17 12 L9 20" stroke="currentColor" stroke-width="1.5" />
-          </svg>
-        </button>
-      </div>
+  {%- comment -%}
+    Hidden until theme.js has measured that the track really does overflow
+    — arrows that cannot move anything are worse than no arrows.
+  {%- endcomment -%}
+  {%- capture strip_arrows -%}
+    <div class="product-strip__arrows{% if on_sides %} product-strip__arrows--sides{% endif %}" data-strip-arrows hidden>
+      <button
+        type="button"
+        class="product-strip__arrow"
+        data-strip-prev
+        aria-controls="ProductStrip-{{ strip_id }}"
+        aria-label="{{ prev_label }}"
+      >
+        <svg class="product-strip__chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+          <path d="M15 4 L7 12 L15 20" stroke="currentColor" stroke-width="1.5" />
+        </svg>
+      </button>
+      <button
+        type="button"
+        class="product-strip__arrow"
+        data-strip-next
+        aria-controls="ProductStrip-{{ strip_id }}"
+        aria-label="{{ next_label }}"
+      >
+        <svg class="product-strip__chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+          <path d="M9 4 L17 12 L9 20" stroke="currentColor" stroke-width="1.5" />
+        </svg>
+      </button>
     </div>
+  {%- endcapture -%}
+
+  <div
+    class="product-strip{% if on_sides %} product-strip--sides{% endif %}"
+    data-product-strip
+    {% if loop %}
+      data-strip-loop
+    {% endif %}
+  >
+    {%- unless on_sides -%}
+      <div class="product-strip__head">
+        {%- if heading != blank -%}
+          <h2 class="product-strip__heading">{{ heading }}</h2>
+        {%- endif -%}
+        {{ strip_arrows }}
+      </div>
+    {%- endunless -%}
 
     {%- comment -%}
       tabindex makes the scroll area reachable by keyboard: a region that
@@ -69,9 +93,13 @@
       data-strip-track
       tabindex="0"
       role="list"
-      aria-label="{{ heading | default: next_label | escape }}"
+      aria-label="{{ heading | default: list_label | escape }}"
     >
       {{ cards }}
     </ul>
+
+    {%- if on_sides -%}
+      {{ strip_arrows }}
+    {%- endif -%}
   </div>
 {%- endif -%}

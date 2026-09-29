@@ -59,14 +59,17 @@
     window.addEventListener('resize', set);
   }
 
-  /* Home only: the header is deliberately transparent over full-bleed
-     imagery, so its ink has to follow whatever section is passing under it.
-     Each home section declares data-header-tone; the probe sits at the
-     vertical middle of the header's text block. Inner pages keep their
-     static ink and never enter here. Failure mode is the light tone the
-     hero is built for, so the hero always reads correctly. */
+  /* Pages that open on a photograph — home and the category pages, whose
+     header carries site-header--over-photo — let the section under the
+     header choose its colour at the top: "Header text over this section" in
+     the editor, emitted as data-header-tone. Light gives the light type,
+     anything else the brown of every other state. Other pages never enter.
+     The fallback is brown, not light: a pale photograph cannot carry white
+     type (1.0–2.9:1 on the current ones, measured 2026-09-29), so light has
+     to be asked for, section by section. */
   function initHeaderTone() {
-    if (!document.body.classList.contains('template-index')) return;
+    var header = document.querySelector('.site-header');
+    if (!header || !header.classList.contains('site-header--over-photo')) return;
     var zones = Array.prototype.slice.call(document.querySelectorAll('[data-header-tone]'));
     if (!zones.length) return;
 
@@ -74,15 +77,15 @@
     var ticking = false;
     var apply = function () {
       ticking = false;
-      var tone = 'light';
+      var tone = 'ink';
       for (var i = 0; i < zones.length; i++) {
         var rect = zones[i].getBoundingClientRect();
         if (rect.top <= PROBE && rect.bottom > PROBE) {
-          tone = zones[i].getAttribute('data-header-tone') || 'light';
+          tone = zones[i].getAttribute('data-header-tone') || 'ink';
           break;
         }
       }
-      document.body.classList.toggle('header-ink', tone === 'ink');
+      document.body.classList.toggle('header-light', tone === 'light');
     };
     var schedule = function () {
       if (ticking) return;
@@ -1109,6 +1112,9 @@
       if (!track || !arrows || !prev || !next) return;
 
       var ticking = false;
+      /* Loop (the Featured collection carousel's option): the arrows never
+         fade out at the ends; they wrap round instead (see move). */
+      var loop = strip.hasAttribute('data-strip-loop');
 
       var update = function () {
         ticking = false;
@@ -1116,6 +1122,11 @@
         var scrollable = track.scrollWidth - track.clientWidth > 2;
         arrows.hidden = !scrollable;
         if (!scrollable) return;
+        if (loop) {
+          prev.disabled = false;
+          next.disabled = false;
+          return;
+        }
         prev.disabled = track.scrollLeft <= 1;
         next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 1;
       };
@@ -1140,10 +1151,19 @@
       };
 
       var move = function (dir) {
-        track.scrollBy({
-          left: dir * step(),
-          behavior: reduce && reduce.matches ? 'auto' : 'smooth'
-        });
+        var behavior = reduce && reduce.matches ? 'auto' : 'smooth';
+        if (loop) {
+          var end = track.scrollWidth - track.clientWidth;
+          if (dir > 0 && track.scrollLeft >= end - 1) {
+            track.scrollTo({ left: 0, behavior: behavior });
+            return;
+          }
+          if (dir < 0 && track.scrollLeft <= 1) {
+            track.scrollTo({ left: end, behavior: behavior });
+            return;
+          }
+        }
+        track.scrollBy({ left: dir * step(), behavior: behavior });
       };
 
       prev.addEventListener('click', function () {

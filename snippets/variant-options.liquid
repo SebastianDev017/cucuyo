@@ -26,6 +26,10 @@
   @param {string} [style] - "buttons" (default) or "dropdown", for non-colour
     options only
   @param {string} [id_prefix] - unique prefix for label/aria ids
+  @param {boolean} [hide_single_colour] - hide the colour swatches when the
+    colour option has only one value (a lone circle offers no choice). They
+    stay in the markup, hidden, so the variant script finds exactly what it
+    always found; turning the setting off brings them back unchanged.
   @example
   {% render 'variant-options', product: product, style: block.settings.option_style %}
 {% enddoc %}
@@ -57,7 +61,18 @@
     -%}
 
     {%- if is_colour -%}
-      {% render 'color-swatches', product: product, context: 'pdp' %}
+      {%- comment -%}
+        Eugenia, 2026-09-29: the lone circle goes. Of 70 products, 37 had a
+        single colour and 2 had a real choice (Silée, Ikat Espadrille), so
+        only the single ones are hidden and the choice stays where it exists.
+      {%- endcomment -%}
+      {%- if hide_single_colour and option.values.size == 1 -%}
+        <div class="variant-option--single-colour" hidden>
+          {% render 'color-swatches', product: product, context: 'pdp' %}
+        </div>
+      {%- else -%}
+        {% render 'color-swatches', product: product, context: 'pdp' %}
+      {%- endif -%}
     {%- else -%}
       {%- assign group_id = prefix | append: '-opt-' | append: forloop.index -%}
       {%- comment -%}

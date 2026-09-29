@@ -38,7 +38,8 @@
   endif
 
   assign media_ratio = media_block.settings.media_ratio | default: section.settings.media_ratio | default: '4/5'
-  assign gallery_gap = media_block.settings.gallery_gap | default: 24
+  assign gallery_gap = media_block.settings.gallery_gap | default: 10
+  assign column_gap = section.settings.column_gap | default: 10
 
   comment
     The media column's real width, expressed rather than guessed. A single vw
@@ -246,7 +247,7 @@
   endif
 -%}
 
-<section class="main-product" style="--media-ratio: {{ media_ratio }}; --pdp-gallery-gap: {{ gallery_gap }}px;">
+<section class="main-product" style="--media-ratio: {{ media_ratio }}; --pdp-gallery-gap: {{ gallery_gap }}px; --pdp-column-gap: {{ column_gap }}px;">
   <div class="main-product__grid">
     {%- if show_media -%}
       <div class="main-product__media" {{ media_block.shopify_attributes }}>
@@ -329,6 +330,17 @@
       ],
       "default": "4/5",
       "info": "Applies to the hero image only — gallery images are never cropped"
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "label": "Space between the images and the information",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 10,
+      "info": "Where the two sit side by side (tablet and desktop)."
     }
   ],
   "blocks": [
@@ -405,6 +417,13 @@
           ],
           "default": "buttons",
           "info": "Colour always uses swatches"
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_single_colour",
+          "label": "Hide the colour swatch when there is only one colour",
+          "default": true,
+          "info": "A single circle offers no choice. Products with two or more colours keep theirs. The colour is still named in Product Details."
         }
       ]
     },
@@ -432,9 +451,9 @@
           "label": "Space between gallery images",
           "min": 0,
           "max": 64,
-          "step": 4,
+          "step": 2,
           "unit": "px",
-          "default": 24,
+          "default": 10,
           "info": "The air between the stacked photographs, and between the hero and the first of them"
         },
         {

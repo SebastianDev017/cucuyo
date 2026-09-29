@@ -1,0 +1,27 @@
+{% doc %}
+  The CH monogram on a card (Eugenia, 2026-09-29): Cucuyo's own pieces carry
+  it, top-left of the photograph. Decided by the product's Vendor field and
+  nothing else — no flag of its own to keep in step: Vendor "Cucuyo", in any
+  capitalisation. Shared by the grid card and the curated card so both show
+  it the same way.
+
+  The alt says what the mark means rather than what it looks like, and it
+  sits after the name in the link, so the link reads "Cheetah Pillow, Made by
+  Cucuyo".
+
+  @param {product} product
+  @example
+  {% render 'card-badge', product: product %}
+{% enddoc %}
+
+{%- assign vendor_key = product.vendor | downcase | strip -%}
+{%- if vendor_key == 'cucuyo' -%}
+  <img
+    class="card-badge"
+    src="{{ 'ch-monogram.svg' | asset_url }}"
+    width="36"
+    height="37"
+    alt="{{ 'products.made_by_cucuyo' | t }}"
+    loading="lazy"
+  >
+{%- endif -%}

@@ -18,7 +18,8 @@
   "general": {
     "strip": {
       "previous": "Previous products",
-      "next": "Next products"
+      "next": "Next products",
+      "label": "Featured products"
     },
     "pagination": {
       "page": "Page {{ page }}",
@@ -89,7 +90,8 @@
     "select_variant": "Select variant",
     "from_price": "From {{ price }}",
     "notes": "Notes",
-    "color_options": "Colour"
+    "color_options": "Colour",
+    "made_by_cucuyo": "Made by Cucuyo"
   },
   "onboarding": {
     "product_title": "Example product"

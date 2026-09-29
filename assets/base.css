@@ -196,7 +196,8 @@ a {
 
 /* --------------------------------------------------------------------------
    Header — fixed overlay with NO background (Figma): the nav floats over the
-   hero, all links stacked on the left, wordmark centered, light text. On
+   hero, all links stacked on the left, wordmark centered; brown text, light
+   only over a section set to Light (see the colour note below). On
    inner pages it stays fixed and has ZERO transitions — no background fade,
    no color/font change, no hover animation on any level.
 
@@ -234,7 +235,7 @@ a {
   text-transform: uppercase;
   line-height: 1;
   text-decoration: none;
-  color: var(--color-on-image);
+  color: var(--color-accent);
   white-space: nowrap;
   pointer-events: auto;
 }
@@ -268,29 +269,27 @@ a {
   text-transform: uppercase;
   line-height: 1.5;
   text-decoration: none;
-  color: var(--color-on-image);
+  color: var(--color-accent);
   cursor: pointer;
 }
 
-/* Inner pages: ink text on the page's white, for the stacked column and the
-   mobile bar. From 1200px the row takes the accent instead (row block below).
-   They share home's scroll states (theme.js): in the document at the top,
-   hidden on the way down, back on a solid ground on the way up — a header
-   that never floats over the page as it scrolls. */
-body:not(.template-index) .site-header__logo,
-body:not(.template-index) .site-header__link,
-body:not(.template-index) .site-header__burger {
-  color: var(--color-ink);
-}
-
-/* Home keeps the transparent header over full-bleed imagery, so its ink has
-   to follow whatever is passing underneath: each home section declares a
-   tone and theme.js flips this class as the header band crosses it. Without
-   JS the header simply keeps the light tone the hero is built for. */
-body.template-index.header-ink .site-header__logo,
-body.template-index.header-ink .site-header__link,
-body.template-index.header-ink .site-header__burger {
-  color: var(--color-ink);
+/* Header colour (Eugenia, 2026-09-29): the accent brown above is the colour
+   in every state, on every page, at every width. The one exception is the
+   top of a page that opens on a photograph (home, the category pages) while
+   the section under the header is set to Light: theme.js (initHeaderTone)
+   puts header-light on the body, and the wordmark, the row's links and the
+   burger take the light type (Header → Light text colour; the theme's
+   off-white when empty). Nothing else sets that class, so without JS, once
+   the page scrolls, and on every page that opens on white, it is brown.
+   Light is opt-in per photograph because it was measured before choosing:
+   white failed at the top of every page with the current photographs. */
+body.header-light .site-header[data-header-state='top'] :is(
+  .site-header__logo,
+  .site-header__burger,
+  .site-header__nav--primary > ul > li > a,
+  .site-header__nav--primary > ul > li > details > summary
+) {
+  color: var(--header-light-ink, var(--color-on-image));
 }
 
 /* Scroll states, set by initStickyHeader (theme.js) on every template, and
@@ -363,10 +362,8 @@ body.template-index.header-ink .site-header__burger {
   display: block;
 }
 
-.site-header[data-header-state='revealed'] :is(.site-header__logo, .site-header__link, .site-header__burger),
-.site-header[data-header-state='solid'] :is(.site-header__logo, .site-header__link, .site-header__burger) {
-  color: var(--color-ink);
-}
+/* On its ground the header needs no colour rule of its own: brown is the
+   base, and the light type only ever applies in the top state. */
 
 /* DESKTOP, EVERY TEMPLATE: one horizontal bar (Eugenia's comp) instead of the
    stacked column — wordmark flush left, the menu in a row beside it, the
@@ -423,16 +420,13 @@ body.template-index.header-ink .site-header__burger {
     margin-left: auto;
   }
 
-  /* On white the bar takes the comp's brown, the theme's accent: on its
-     ground when it comes back, and on inner pages, whose header always sits
-     on the page's white. Home at the top keeps the light type over the hero.
-     `body` in front so this outranks the older ink rules for the column
-     (`body:not(.template-index) …`, `body.template-index.header-ink …`),
-     which it follows in the file. */
-  body .site-header[data-header-state='revealed'] :is(.site-header__logo, .site-header__link),
-  body .site-header[data-header-state='solid'] :is(.site-header__logo, .site-header__link),
-  body:not(.template-index) .site-header :is(.site-header__logo, .site-header__link) {
-    color: var(--color-accent);
+  /* The row's own links (Header → Menu text size, 17px by default; Eugenia
+     asked for them larger, 2026-09-29). Top level only: the SHOP panel keeps
+     its own step down. Capped at 18px in the editor because at 1200px the row
+     has 47px to spare at 18px and none at 19. */
+  .site-header__nav--primary > ul > li > a,
+  .site-header__nav--primary > ul > li > details > summary {
+    font-size: var(--header-link-size, 0.9375rem);
   }
 
   /* Without JS there are no scroll states; rather than leave one row of
@@ -494,7 +488,7 @@ body.template-index.header-ink .site-header__burger {
   padding: 0;
   background: none;
   border: none;
-  color: var(--color-on-image);
+  color: var(--color-accent);
   cursor: pointer;
 }
 
@@ -766,6 +760,33 @@ html.nav-drawer-open body {
   margin-top: 0;
 }
 
+/* In a Featured collection the white line above the row is the section's
+   own separator now (see "The white line between sections"), not the grid's:
+   left here it would add to it wherever the two stop collapsing. */
+.home-grid .card-grid {
+  margin-top: 0;
+}
+
+/* --------------------------------------------------------------------------
+   The white line between sections (Eugenia, 2026-09-29: "en TODAS las
+   secciones"). Measured before: only the Featured collection rows had one
+   (the grid's own 4px top margin); every other pair of photographs touched —
+   grid to Text beside image, band to band, Mixed to Mixed. Now every section
+   that follows another opens with the same line (Theme settings → Space
+   between sections, 4px, the one she approved). Above a text section it is
+   only 4px more of the page's white. The first section keeps none, so the
+   first photograph still runs up under the header — which on the category
+   pages means looking past the hidden page title that comes first. The
+   Interior Design / About page is left exactly as it was (on hold).
+   -------------------------------------------------------------------------- */
+body:not(.template-page) main > .shopify-section + .shopify-section {
+  margin-top: var(--section-gap, 4px);
+}
+
+body:not(.template-page) main > .section-page-title + .shopify-section {
+  margin-top: 0;
+}
+
 /* Column counts come from section settings via CSS vars (desktop 2-5,
    mobile 1-2), emitted inline by the section. */
 /* minmax(0, 1fr), not 1fr: a bare 1fr track cannot shrink below its content's
@@ -893,6 +914,34 @@ html.nav-drawer-open body {
     right: 12px;
     bottom: 12px;
     left: 12px;
+  }
+}
+
+/* The CH monogram on Cucuyo's own pieces (snippets/card-badge): top-left of
+   the photograph, on the name's left inset, scaled off Eugenia's screenshot
+   (29px wide where the name is 13px). Above the hover photograph, like the
+   name. Two classes because `.product-card__media img` would otherwise make
+   it a full-width photograph. */
+.product-card__media .card-badge,
+.image-card__frame .card-badge {
+  position: absolute;
+  top: 24px;
+  left: 20px;
+  z-index: 2;
+  display: block;
+  width: 29px;
+  height: auto;
+  aspect-ratio: auto;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+@media (max-width: 749px) {
+  .product-card__media .card-badge,
+  .image-card__frame .card-badge {
+    top: 14px;
+    left: 12px;
+    width: 26px;
   }
 }
 
@@ -1075,29 +1124,34 @@ html.nav-drawer-open body {
   padding: 72px var(--page-margin) 56px;
 }
 
+/* Eugenia's layout (2026-09-29), in proportions measured on her screenshot:
+   the mark's area takes the first third, the links start a third of the way
+   across, the newsletter owns the last ~30% and sits against the right edge,
+   and all three are centred on one line. Fractions rather than fixed gaps so
+   the same composition holds from 1200 to 1512px. */
 .site-footer__inner {
   display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 56px;
-  align-items: start;
+  grid-template-columns: minmax(0, 34fr) minmax(0, 36fr) minmax(0, 30fr);
+  gap: 0;
+  align-items: center;
   max-width: 1512px;
   margin-inline: auto;
 }
 
 .site-footer__mark {
-  width: 96px;
+  width: min(var(--footer-mark-width, 300px), 100%);
 }
 
 .site-footer__mark img {
+  display: block;
   width: 100%;
   height: auto;
 }
 
 .site-footer__columns {
   display: grid;
-  grid-template-columns: repeat(3, minmax(120px, max-content));
-  gap: 64px;
-  padding-top: 6px;
+  grid-template-columns: repeat(3, max-content);
+  column-gap: clamp(24px, 3.7vw, 56px);
 }
 
 .site-footer__links {
@@ -1117,8 +1171,39 @@ html.nav-drawer-open body {
 }
 
 .site-footer__newsletter {
-  width: min(420px, 100%);
-  padding-top: 6px;
+  justify-self: end;
+  width: min(395px, 100%);
+}
+
+/* Two boxes of the same width with a gap between them, not one joined
+   field-and-button bar (the drawer keeps that one). Two grid columns, not
+   flex: 1 1 0 — flexbox still reserves each box's own padding before
+   sharing the rest (16px on the field, 28px on the button), which left the
+   button 22px wider. The label is visually hidden (absolute), so it takes
+   no cell. */
+.site-footer .newsletter-form__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+}
+
+.site-footer .newsletter-form__row .field,
+.site-footer .newsletter-form__row .button {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+}
+
+.site-footer .newsletter-form__row .field {
+  border-inline-end: 1px solid var(--color-border);
+}
+
+.site-footer .newsletter-form__row .field:focus {
+  border-color: var(--color-accent);
+}
+
+.site-footer .newsletter-form__row .button {
+  text-align: center;
 }
 
 .newsletter-form__row {
@@ -1164,6 +1249,7 @@ html.nav-drawer-open body {
   margin-top: 12px;
   font-size: 0.75rem;
   color: var(--color-muted);
+  text-align: right;
 }
 
 .newsletter-form__success {
@@ -1171,16 +1257,15 @@ html.nav-drawer-open body {
   color: var(--color-ink);
 }
 
-/* The three-across footer needs 1196px to hold its own minimums (96 mark +
-   56 gap + 488 link columns + 56 gap + 420 newsletter + 80 page margin), so
-   it stacks below that, not at 990 — between the two the newsletter pushed
-   past the right edge and the whole page scrolled sideways. Stacked, the
-   link columns take fluid 1fr tracks and the newsletter the full width, so
-   nothing hugs the left with dead space beside it. */
+/* One line only holds from 1200px (300 mark area + three columns + a 395px
+   newsletter); below it the footer stacks — the mark, then the columns on
+   fluid tracks, then the newsletter at full width — so nothing is squeezed
+   past the right edge. */
 @media (max-width: 1199.98px) {
   .site-footer__inner {
     grid-template-columns: 1fr;
     gap: 40px;
+    align-items: start;
   }
 
   .site-footer__columns {
@@ -1190,6 +1275,7 @@ html.nav-drawer-open body {
   }
 
   .site-footer__newsletter {
+    justify-self: stretch;
     width: 100%;
   }
 }
@@ -1197,6 +1283,10 @@ html.nav-drawer-open body {
 @media (max-width: 749px) {
   .site-footer {
     padding: 56px var(--page-margin) 48px;
+  }
+
+  .site-footer__mark {
+    width: min(var(--footer-mark-width, 300px), 62vw);
   }
 
   .site-footer__columns {
@@ -1469,6 +1559,13 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
 
 .template-product main {
   padding: var(--nav-clearance) var(--page-margin) 112px var(--sidebar-gutter);
+  /* Eugenia, 2026-09-29: the photograph sat too far down — the clearance is
+     the header's measured reach plus 40px of air meant for a page heading.
+     The product page has none, so it starts where the header's own band
+     ends: --header-panel, measured by theme.js off the header's real
+     content (the same measurement that sizes its white ground), with the
+     full clearance as the no-JS fallback. */
+  padding-top: var(--header-panel, var(--nav-clearance));
 }
 
 @media (max-width: 749px) {
@@ -1480,10 +1577,14 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
 /* Product hero: single portrait image left (Figma 582×721 ≈ 4:5 — the v1
    STYLE-GUIDE said 3:4, the approved Figma measures 4:5), info panel right.
    Column ratio + gap are 1:1 from the frame: 581 / 80 / 527. */
+/* The gap between the two columns is the template's (Product page → Space
+   between the images and the information), 10px since Eugenia asked for it
+   on 2026-09-29; it was clamp(40px, 5.3vw, 84px) here and up to 92px from
+   990px. The fr split still decides how the width is shared. */
 .main-product__grid {
   display: grid;
   grid-template-columns: minmax(0, 581fr) minmax(0, 527fr);
-  column-gap: clamp(40px, 5.3vw, 84px);
+  column-gap: var(--pdp-column-gap, 10px);
   align-items: start;
 }
 
@@ -1496,7 +1597,6 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
 @media (min-width: 990px) {
   .main-product__grid {
     grid-template-columns: minmax(0, 667fr) minmax(0, 601fr);
-    column-gap: clamp(40px, 6.4vw, 92px);
   }
 
   .main-product__media,
@@ -3462,6 +3562,65 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
   /* On a phone the row is swiped, not clicked through. */
   .product-strip__arrows {
     display: none;
+  }
+}
+
+/* theme.js hides the arrows while the cards fit without scrolling; the
+   class's own display would otherwise out-rank the hidden attribute and
+   leave two arrows that cannot move anything. */
+.product-strip__arrows[hidden] {
+  display: none;
+}
+
+/* Arrows on the sides (the Featured collection carousel): one at each end,
+   over the photographs and centred on them — the cards carry their names on
+   the photograph, so the track is exactly the photographs' height. The layer
+   lets the pointer through to the cards except on the two buttons. */
+.product-strip--sides {
+  position: relative;
+}
+
+.product-strip__arrows--sides {
+  position: absolute;
+  inset: 0;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0 4px;
+  pointer-events: none;
+}
+
+.product-strip__arrows--sides .product-strip__arrow {
+  pointer-events: auto;
+  color: var(--color-accent);
+}
+
+.product-strip__arrows--sides .product-strip__chevron {
+  width: 30px;
+  height: 30px;
+}
+
+/* Featured collection as a carousel: Columns becomes how many cards show at
+   once, the gap is the grid's hairline, and phones keep a sliver of the next
+   card in view so the row says it scrolls. */
+.home-grid__carousel .product-strip {
+  --strip-gap: var(--grid-gap, 4px);
+  --strip-per-view: var(--cols-desktop, 4);
+}
+
+.home-grid__carousel--flush .product-strip {
+  --strip-gap: 0px;
+}
+
+@media (min-width: 750px) and (max-width: 989.98px) {
+  .home-grid__carousel .product-strip {
+    --strip-per-view: 2;
+  }
+}
+
+@media (max-width: 749px) {
+  .home-grid__carousel .product-strip {
+    --strip-per-view: calc(var(--cols-mobile, 1) + 0.2);
   }
 }
 

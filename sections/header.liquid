@@ -16,10 +16,14 @@
   way down, sliding back on a solid ground on the way up — modelled on
   hereustudio.com; see initStickyHeader in theme.js. Layout lives in base.css.
 
-  The colour of the type while it is transparent is the merchant's: one
-  setting for the homepage (over a photograph) and one for every other page
-  (over the page background), because a colour that reads on one can vanish
-  on the other. Empty keeps the automatic colour.
+  COLOUR (Eugenia, 2026-09-29): brown, the theme's accent, in every state and
+  on every page, except at the top of a page that opens on a photograph (home
+  and the category pages) while the section under the header is set to Light
+  ("Header text over this section") — there it takes the light type. Light
+  is asked for per photograph, never assumed: measured before choosing, white
+  at the top failed on every page with the current photographs (1.0–2.9:1),
+  and on pages that open on the white background it is invisible (1:1). The
+  switch itself is initHeaderTone in theme.js.
 {%- endcomment -%}
 
 {%- liquid
@@ -31,17 +35,34 @@
     assign header_menu = linklists['main-menu']
   endif
 
-  assign top_ink = section.settings.transparent_ink_pages
+  # A page opens on a photograph when its first section runs up under the
+  # header: the homepage and the category pages (collection templates with a
+  # suffix) — the same test layout/theme.liquid uses for layout-mosaic.
+  assign over_photo = false
+  if template.name == 'index'
+    assign over_photo = true
+  elsif template.name == 'collection' and template.suffix != blank
+    assign over_photo = true
+  endif
+
+  # Over a photograph the light colour is the one a Light section asks for;
+  # on every other page the merchant can still pick a colour for the top.
+  assign light_ink = section.settings.transparent_ink_home
+  assign top_ink = ''
+  unless over_photo
+    assign top_ink = section.settings.transparent_ink_pages
+  endunless
   assign top_scrim = false
   if template.name == 'index'
-    assign top_ink = section.settings.transparent_ink_home
     assign top_scrim = section.settings.transparent_scrim_home
   endif
 -%}
 
 <header
-  class="site-header{% if top_ink != blank %} site-header--top-ink{% endif %}{% if top_scrim %} site-header--top-scrim{% endif %}"
-  {%- if top_ink != blank %} style="--header-top-ink: {{ top_ink }};"{% endif %}
+  class="site-header{% if over_photo %} site-header--over-photo{% endif %}{% if top_ink != blank %} site-header--top-ink{% endif %}{% if top_scrim %} site-header--top-scrim{% endif %}"
+  style="--header-link-size: {{ section.settings.menu_size | default: 17 }}px;
+    {%- if light_ink != blank %} --header-light-ink: {{ light_ink }};{% endif -%}
+    {%- if top_ink != blank %} --header-top-ink: {{ top_ink }};{% endif -%}"
 >
   <button
     type="button"
@@ -159,18 +180,29 @@
       "info": "Shown under the newsletter form in the mobile menu drawer"
     },
     {
+      "type": "range",
+      "id": "menu_size",
+      "label": "Menu text size",
+      "min": 13,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 17,
+      "info": "The links in the desktop row (1200px and up). Above 18px the menu no longer fits on one row at 1200px."
+    },
+    {
       "type": "header",
       "content": "Transparent header"
     },
     {
       "type": "paragraph",
-      "content": "At the top of every page, before scrolling, the header has no background. These set the colour of the wordmark, the links and the menu icon while it is transparent. Once the page scrolls, it comes back on white in the theme's own colours."
+      "content": "At the top of every page, before scrolling, the header has no background and its text is brown. On the homepage and the category pages the first section decides instead: set its 'Header text over this section' to Light when its photograph is dark enough for light text. Once the page scrolls, the header comes back on white, in brown."
     },
     {
       "type": "color",
       "id": "transparent_ink_home",
-      "label": "Text colour on the homepage",
-      "info": "Over the first photograph. Leave empty to follow the first section's header tone."
+      "label": "Light text colour",
+      "info": "Used at the top of the homepage and the category pages, over a section set to Light. Leave empty for the theme's off-white."
     },
     {
       "type": "checkbox",
@@ -182,8 +214,8 @@
     {
       "type": "color",
       "id": "transparent_ink_pages",
-      "label": "Text colour on every other page",
-      "info": "These pages start on the page background, so pick a colour that reads on it. Leave empty for the theme's accent."
+      "label": "Text colour at the top of other pages",
+      "info": "Pages that open on the page background (product, All, cart, search, pages), so pick a colour that reads on it. Leave empty for the theme's brown."
     }
   ]
 }

@@ -19,6 +19,15 @@
 
   (`columns` is the legacy pre-range setting, honored as a fallback so
   templates saved before the rename keep their layout.)
+
+  CAROUSEL (Eugenia, 2026-09-29, off by default): the same cards on ONE
+  sliding row — her reference is a single row with an arrow at each end,
+  centred over the photographs — rather than the grid paged. Columns becomes
+  how many show at once; the arrows only appear when there are more cards
+  than that, and Loop sends them round from the last card to the first. It is
+  the product-strip track "You may like" already uses, so swipe, trackpad and
+  keyboard work with or without the arrows; no auto-fill here, a carousel has
+  no last row to complete.
 {%- endcomment -%}
 {%- liquid
   assign cols_desktop = section.settings.columns_desktop | default: section.settings.columns | default: 3
@@ -57,32 +66,59 @@
     </div>
   {%- endif -%}
 
-  <div
-    class="card-grid{% if section.settings.flush %} card-grid--flush{% endif %}"
-    style="--cols-desktop: {{ cols_desktop }}; --cols-mobile: {{ cols_mobile }};"
-  >
-    {%- for block in section.blocks -%}
-      {% render 'featured-card',
-        block: block,
-        columns: cols_desktop,
-        show_collection: section.settings.show_collection_label,
-        show_swatches: section.settings.show_swatches
+  {%- if section.settings.carousel -%}
+    {%- capture cards -%}
+      {%- for block in section.blocks -%}
+        <li class="product-strip__item" data-strip-item>
+          {% render 'featured-card',
+            block: block,
+            columns: cols_desktop,
+            show_collection: section.settings.show_collection_label,
+            show_swatches: section.settings.show_swatches
+          %}
+        </li>
+      {%- endfor -%}
+    {%- endcapture -%}
+    <div
+      class="home-grid__carousel{% if section.settings.flush %} home-grid__carousel--flush{% endif %}"
+      style="--cols-desktop: {{ cols_desktop }}; --cols-mobile: {{ cols_mobile }};"
+    >
+      {% render 'product-strip',
+        strip_id: section.id,
+        cards: cards,
+        heading: section.settings.heading,
+        arrows: 'sides',
+        loop: section.settings.carousel_loop
       %}
-    {%- endfor -%}
-
-    {%- if fillers > 0 -%}
-      {%- for i in (1..fillers) -%}
-        {%- assign filler_index = i | minus: 1 | modulo: total -%}
+    </div>
+  {%- else -%}
+    <div
+      class="card-grid{% if section.settings.flush %} card-grid--flush{% endif %}"
+      style="--cols-desktop: {{ cols_desktop }}; --cols-mobile: {{ cols_mobile }};"
+    >
+      {%- for block in section.blocks -%}
         {% render 'featured-card',
-          block: section.blocks[filler_index],
-          is_filler: true,
+          block: block,
           columns: cols_desktop,
           show_collection: section.settings.show_collection_label,
           show_swatches: section.settings.show_swatches
         %}
       {%- endfor -%}
-    {%- endif -%}
-  </div>
+
+      {%- if fillers > 0 -%}
+        {%- for i in (1..fillers) -%}
+          {%- assign filler_index = i | minus: 1 | modulo: total -%}
+          {% render 'featured-card',
+            block: section.blocks[filler_index],
+            is_filler: true,
+            columns: cols_desktop,
+            show_collection: section.settings.show_collection_label,
+            show_swatches: section.settings.show_swatches
+          %}
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  {%- endif -%}
 </section>
 
 {% schema %}
@@ -158,6 +194,20 @@
     },
     {
       "type": "checkbox",
+      "id": "carousel",
+      "label": "Carousel",
+      "default": false,
+      "info": "One sliding row with an arrow at each end, over the photographs, instead of a grid. Columns sets how many show at once; the arrows appear when there are more cards than that."
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel_loop",
+      "label": "Loop the carousel",
+      "default": false,
+      "info": "Past the last card the arrow goes back to the first, and the other way round."
+    },
+    {
+      "type": "checkbox",
       "id": "show_collection_label",
       "label": "Show collection label",
       "default": true,
@@ -209,13 +259,13 @@
     {
       "type": "select",
       "id": "header_tone",
-      "label": "Header ink over this section",
+      "label": "Header text over this section",
       "options": [
-        { "value": "light", "label": "Light (over dark imagery)" },
-        { "value": "ink", "label": "Ink (over pale imagery)" }
+        { "value": "light", "label": "Light, for a dark photograph" },
+        { "value": "ink", "label": "Brown, for a pale photograph" }
       ],
       "default": "ink",
-      "info": "Home only — the header follows the section under it"
+      "info": "Homepage and category pages: as the first section, it sets the header colour at the top of the page. Light only reads on a dark photograph."
     }
   ],
   "max_blocks": 10,

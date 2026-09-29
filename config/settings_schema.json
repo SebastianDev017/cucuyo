@@ -117,6 +117,17 @@
       },
       {
         "type": "range",
+        "id": "section_gap",
+        "label": "Space between sections",
+        "min": 0,
+        "max": 40,
+        "step": 1,
+        "unit": "px",
+        "default": 4,
+        "info": "The white line between one section and the next, on every page. 4px is the design's."
+      },
+      {
+        "type": "range",
         "id": "drawer_width",
         "label": "Menu drawer width",
         "min": 50,

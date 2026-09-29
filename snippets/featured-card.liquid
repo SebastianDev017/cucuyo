@@ -179,6 +179,13 @@
         alt: card_alt
       %}
     {%- endif -%}
+    {%- comment -%}
+      The CH monogram follows the product the card points at, whichever
+      photograph the block shows.
+    {%- endcomment -%}
+    {%- if cp -%}
+      {% render 'card-badge', product: cp %}
+    {%- endif -%}
   </span>
 
   {%- if card_label != blank -%}

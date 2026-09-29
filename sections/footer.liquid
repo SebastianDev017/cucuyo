@@ -1,19 +1,27 @@
 {%- comment -%}
-  Footer — Figma: circular lowercase mark on the left, three columns of
-  lowercase links, newsletter (bordered email field + accent Subscribe button
-  + microcopy note) on the right. Columns are menu-driven; until the menus
-  exist in Admin, each column falls back to its draft labels (one per line)
-  so the layout always matches the design.
+  Footer — the brand mark on the left, three columns of lowercase links,
+  newsletter (email field + accent Subscribe button + microcopy note) on the
+  right. Columns are menu-driven; until the menus exist in Admin, each column
+  falls back to its draft labels (one per line) so the layout always matches
+  the design.
+
+  Layout per Eugenia's screenshot (2026-09-29), measured on it: the mark much
+  larger (a fifth of the width, "Logo width" below), the three areas centred
+  on one line, the links starting a third of the way across, and the email
+  field and the button as two boxes of the same width with a gap between
+  them, the note right-aligned under the button.
 {%- endcomment -%}
 
-<footer class="site-footer">
+{%- assign mark_width = section.settings.mark_width | default: 300 -%}
+<footer class="site-footer" style="--footer-mark-width: {{ mark_width }}px;">
   <div class="site-footer__inner">
     <div class="site-footer__mark" aria-hidden="true">
       {%- if section.settings.mark_image -%}
+        {%- capture mark_sizes -%}(min-width: 750px) {{ mark_width }}px, min({{ mark_width }}px, 62vw){%- endcapture -%}
         {{-
           section.settings.mark_image
-          | image_url: width: 240
-          | image_tag: widths: '120, 240', sizes: '96px', alt: ''
+          | image_url: width: 1200
+          | image_tag: widths: '300, 450, 600, 900, 1200', sizes: mark_sizes, alt: '', loading: 'lazy'
         -}}
       {%- else -%}
         <img src="{{ 'figma-footer-mark.png' | asset_url }}" width="162" height="145" alt="" loading="lazy">
@@ -73,7 +81,18 @@
       "type": "image_picker",
       "id": "mark_image",
       "label": "Brand mark",
-      "info": "The circular lowercase mark. Falls back to the draft asset when empty."
+      "info": "Falls back to the draft asset when empty."
+    },
+    {
+      "type": "range",
+      "id": "mark_width",
+      "label": "Logo width",
+      "min": 80,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "default": 300,
+      "info": "On desktop. Phones cap it at about two thirds of the screen."
     },
     {
       "type": "checkbox",
