@@ -55,87 +55,18 @@
       }
     },
     "row_one": {
-      "type": "home-grid",
-      "blocks": {
-        "c1": {
-          "type": "card",
-          "settings": {
-            "product": "horn-bead-necklace",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "c2": {
-          "type": "card",
-          "settings": {
-            "product": "villa-tote-bag",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "c3": {
-          "type": "card",
-          "settings": {
-            "product": "arara-bucket-bag",
-            "image_url": "",
-            "alt_text": "Arara Bucket Bag",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "c4": {
-          "type": "card",
-          "settings": {
-            "product": "bene-tote-bag",
-            "image_url": "",
-            "alt_text": "Bene Tote Bag",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        }
-      },
-      "block_order": [
-        "c1",
-        "c2",
-        "c3",
-        "c4"
-      ],
+      "type": "dynamic-collection",
       "settings": {
+        "products_to_show": 4,
         "eyebrow": "",
         "heading": "",
-        "heading_font": "heading",
         "heading_align": "center",
         "columns_desktop": 4,
         "columns_mobile": "2",
         "flush": false,
         "carousel": false,
         "carousel_loop": false,
-        "show_collection_label": false,
-        "show_swatches": false,
+        "label_tone": "dark",
         "background_color": "",
         "text_color": "",
         "padding_top": 0,
@@ -159,87 +90,18 @@
       }
     },
     "row_two": {
-      "type": "home-grid",
-      "blocks": {
-        "c1": {
-          "type": "card",
-          "settings": {
-            "product": "ikat-espadrille",
-            "image_url": "",
-            "alt_text": "Ikat Espadrille",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "c2": {
-          "type": "card",
-          "settings": {
-            "product": "petit-tie-rainbow-bag",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "c3": {
-          "type": "card",
-          "settings": {
-            "product": "ikat-clutch",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "c4": {
-          "type": "card",
-          "settings": {
-            "product": "ikat-tote-bag",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        }
-      },
-      "block_order": [
-        "c1",
-        "c2",
-        "c3",
-        "c4"
-      ],
+      "type": "dynamic-collection",
       "settings": {
+        "products_to_show": 4,
         "eyebrow": "",
         "heading": "",
-        "heading_font": "heading",
         "heading_align": "center",
         "columns_desktop": 4,
         "columns_mobile": "2",
         "flush": false,
         "carousel": false,
         "carousel_loop": false,
-        "show_collection_label": false,
-        "show_swatches": false,
+        "label_tone": "dark",
         "background_color": "",
         "text_color": "",
         "padding_top": 0,
@@ -341,6 +203,7 @@
             "draft_asset": "",
             "label": "",
             "label_tone": "dark",
+            "label_hover_color": "",
             "link": ""
           }
         },
@@ -353,6 +216,7 @@
             "draft_asset": "",
             "label": "",
             "label_tone": "dark",
+            "label_hover_color": "",
             "link": ""
           }
         },
@@ -365,6 +229,7 @@
             "draft_asset": "",
             "label": "",
             "label_tone": "dark",
+            "label_hover_color": "",
             "link": ""
           }
         },
@@ -377,6 +242,7 @@
             "draft_asset": "",
             "label": "",
             "label_tone": "dark",
+            "label_hover_color": "",
             "link": ""
           }
         },
@@ -389,6 +255,7 @@
             "draft_asset": "",
             "label": "",
             "label_tone": "dark",
+            "label_hover_color": "",
             "link": ""
           }
         }

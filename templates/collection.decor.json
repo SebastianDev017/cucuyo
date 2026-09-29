@@ -53,85 +53,18 @@
       }
     },
     "row_one": {
-      "type": "home-grid",
-      "blocks": {
-        "c1": {
-          "type": "card",
-          "settings": {
-            "product": "appenzell-red-burgundy-lamp",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "c3": {
-          "type": "card",
-          "settings": {
-            "product": "memphis-burgundy-lamp",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "c4": {
-          "type": "card",
-          "settings": {
-            "product": "woven-cane-side-table",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "card_W3KpaJ": {
-          "type": "card",
-          "settings": {
-            "product": "silee-travertinen-lamp",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        }
-      },
-      "block_order": [
-        "c1",
-        "c3",
-        "c4",
-        "card_W3KpaJ"
-      ],
+      "type": "dynamic-collection",
       "settings": {
+        "products_to_show": 4,
         "eyebrow": "",
         "heading": "",
-        "heading_font": "heading",
         "heading_align": "center",
         "columns_desktop": 4,
         "columns_mobile": "2",
         "flush": false,
-        "show_collection_label": false,
-        "show_swatches": false,
+        "carousel": false,
+        "carousel_loop": false,
+        "label_tone": "dark",
         "background_color": "",
         "text_color": "",
         "padding_top": 0,

@@ -28,85 +28,18 @@
       }
     },
     "row_one": {
-      "type": "home-grid",
-      "blocks": {
-        "c1": {
-          "type": "card",
-          "settings": {
-            "product": "ojo-de-liebre",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "c2": {
-          "type": "card",
-          "settings": {
-            "product": "duck-woven-baskets",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "c3": {
-          "type": "card",
-          "settings": {
-            "product": "footed-elephant-vase",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "c4": {
-          "type": "card",
-          "settings": {
-            "product": "petra-vessel",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        }
-      },
-      "block_order": [
-        "c1",
-        "c2",
-        "c3",
-        "c4"
-      ],
+      "type": "dynamic-collection",
       "settings": {
+        "products_to_show": 4,
         "eyebrow": "",
         "heading": "",
-        "heading_font": "heading",
         "heading_align": "center",
         "columns_desktop": 4,
         "columns_mobile": "2",
         "flush": false,
-        "show_collection_label": false,
-        "show_swatches": false,
+        "carousel": false,
+        "carousel_loop": false,
+        "label_tone": "dark",
         "background_color": "",
         "text_color": "",
         "padding_top": 0,

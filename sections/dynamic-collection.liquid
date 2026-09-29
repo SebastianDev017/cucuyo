@@ -50,8 +50,17 @@
   {%- endif -%}
 
   {%- if source != blank and source.products_count > 0 -%}
+    {%- assign candidate = 0 -%}
     {%- capture cards -%}
       {%- for product in source.products limit: 50 -%}
+        {%- comment -%}
+          A product with no photograph yet would be an empty tile on a page
+          nobody arranged by hand; it joins the moment it has one.
+        {%- endcomment -%}
+        {%- if product.featured_media == blank -%}
+          {%- continue -%}
+        {%- endif -%}
+        {%- assign candidate = candidate | plus: 1 -%}
         {%- capture card -%}
           {% render 'featured-card',
             card_product: product,
@@ -69,7 +78,7 @@
             data-strip-item
             data-dyn-item
             data-product-id="{{ product.id }}"
-            {% if forloop.index > show %}
+            {% if candidate > show %}
               hidden
             {% endif %}
           >
@@ -80,7 +89,7 @@
             class="dynamic-collection__item"
             data-dyn-item
             data-product-id="{{ product.id }}"
-            {% if forloop.index > show %}
+            {% if candidate > show %}
               hidden
             {% endif %}
           >
