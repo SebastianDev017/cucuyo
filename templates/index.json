@@ -16,27 +16,27 @@
           "type": "image",
           "settings": {
             "image": "shopify://shop_images/CH_PW_02.png",
-            "draft_asset": "pdf-decor-733b.jpg",
-            "heading": "Cucuyo section title",
-            "body": "Lorem ipsum dolor sit amet consectetur. Aliquam faucibus nec\nfacilisis consequat. Ut dolor pharetra vitae imperdiet. Tortor\nlacus dolor et et. Justo dignissim non nibh eget scelerisque mi.",
+            "draft_asset": "",
+            "heading": "",
+            "body": "",
             "cta_label": "Shop Cucuyo collection",
             "label": "",
             "label_tone": "light",
-            "link": "/collections/all",
-            "scrim": true
+            "link": "shopify://collections/all",
+            "scrim": false
           }
         },
         "right": {
           "type": "image",
           "settings": {
-            "image": "",
-            "draft_asset": "pdf-landing-2-b222.jpg",
+            "image": "shopify://shop_images/PT_RB_02.png",
+            "draft_asset": "",
             "heading": "",
             "body": "",
-            "cta_label": "",
+            "cta_label": "shop accessories",
             "label": "",
             "label_tone": "light",
-            "link": "",
+            "link": "shopify://collections/accessories",
             "scrim": false
           }
         }
@@ -59,10 +59,13 @@
             "product": "cheetah-pillow",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
         "c2": {
@@ -71,10 +74,13 @@
             "product": "martha-bandana",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
         "c3": {
@@ -83,10 +89,13 @@
             "product": "petit-tie-rainbow-bag",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
         "c4": {
@@ -95,10 +104,13 @@
             "product": "duck-woven-baskets",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         }
       },
@@ -142,8 +154,8 @@
         "left": {
           "type": "image",
           "settings": {
-            "image": "",
-            "draft_asset": "pdf-discover-kitchenware-70f3.jpg",
+            "image": "shopify://shop_images/FRLS_PLTR_05.png",
+            "draft_asset": "",
             "heading": "",
             "body": "",
             "cta_label": "Discover kitchenware",
@@ -156,8 +168,8 @@
         "right": {
           "type": "image",
           "settings": {
-            "image": "",
-            "draft_asset": "pdf-landing-8-8b40.jpg",
+            "image": "shopify://shop_images/FLR_PB_06_21cfbaa3-5310-4c3a-9bde-650219c24d3d.png",
+            "draft_asset": "",
             "heading": "",
             "body": "",
             "cta_label": "",
@@ -186,10 +198,13 @@
             "product": "frills-platter",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
         "c2": {
@@ -198,10 +213,13 @@
             "product": "ava-silverware",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
         "c3": {
@@ -210,10 +228,13 @@
             "product": "ghost-checker-platter",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
         "c4": {
@@ -222,10 +243,13 @@
             "product": "white-bone-salt-pepper-shakers",
             "image_url": "",
             "alt_text": "White Bone Salt & Pepper Shakers",
-            "draft_asset": "pdf-white-bone-s-p-shakers-e01b.jpg",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         }
       },
@@ -256,7 +280,6 @@
       "type": "image-text",
       "settings": {
         "image_side": "left",
-        "image": "",
         "draft_asset": "pdf-landing-13-ebf2.jpg",
         "alt_text": "",
         "image_link": "",
@@ -275,10 +298,13 @@
             "product": "petra-vessel",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
         "c2": {
@@ -287,10 +313,13 @@
             "product": "ojo-de-liebre",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
         "c3": {
@@ -299,10 +328,13 @@
             "product": "swimming-fish-vase",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
         "c4": {
@@ -311,10 +343,13 @@
             "product": "footed-elephant-vase",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         }
       },
@@ -358,22 +393,22 @@
         "left": {
           "type": "image",
           "settings": {
-            "image": "",
-            "draft_asset": "pdf-shop-seasonal-cc42.jpg",
+            "image": "shopify://shop_images/CL_WR_SP_02.png",
+            "draft_asset": "",
             "heading": "",
             "body": "",
             "cta_label": "Shop seasonal",
             "label": "",
             "label_tone": "light",
             "link": "/collections/decorative-seasonal",
-            "scrim": true
+            "scrim": false
           }
         },
         "right": {
           "type": "image",
           "settings": {
-            "image": "",
-            "draft_asset": "pdf-decor-e05e.jpg",
+            "image": "shopify://shop_images/CLY_BRR_ORN_02.png",
+            "draft_asset": "",
             "heading": "",
             "body": "",
             "cta_label": "",
@@ -402,10 +437,13 @@
             "product": "clay-wire-spiders",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
         "c2": {
@@ -414,10 +452,13 @@
             "product": "pumpkin-wreath",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
         "c3": {
@@ -426,10 +467,13 @@
             "product": "kenya-soapstone-nativity",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
         "c4": {
@@ -438,10 +482,13 @@
             "product": "clay-barro-ornaments",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         }
       },
@@ -472,7 +519,6 @@
       "type": "image-text",
       "settings": {
         "image_side": "right",
-        "image": "",
         "draft_asset": "pdf-decor-8ffe.jpg",
         "alt_text": "",
         "image_link": "",
@@ -491,10 +537,13 @@
             "product": "tezon-li-bowl",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
         "c2": {
@@ -503,10 +552,13 @@
             "product": "swan-basket",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
         "c3": {
@@ -515,10 +567,13 @@
             "product": "duck-woven-baskets",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
         "c4": {
@@ -527,10 +582,13 @@
             "product": "ball-boy-bowl-black",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         }
       },

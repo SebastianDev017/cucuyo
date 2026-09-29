@@ -19,7 +19,7 @@
         "media": {
           "type": "media",
           "settings": {
-            "image": "",
+            "image": "shopify://shop_images/GH_CK_PLTR_02.png",
             "draft_asset": "pdf-decor-62cd.jpg",
             "alt_text": "",
             "heading": "",
@@ -36,7 +36,7 @@
             "product": "nautilus-bowl",
             "image_url": "",
             "alt_text": "Nautilus Bowl",
-            "draft_asset": "pdf-nautilus-bowl-0648.jpg",
+            "draft_asset": "",
             "label": "",
             "label_tone": "dark",
             "link": ""
@@ -48,7 +48,7 @@
             "product": "fish-jug",
             "image_url": "",
             "alt_text": "Fish Jug",
-            "draft_asset": "pdf-fish-jug-b0bb.jpg",
+            "draft_asset": "",
             "label": "",
             "label_tone": "dark",
             "link": ""
@@ -109,8 +109,8 @@
         "left": {
           "type": "image",
           "settings": {
-            "image": "",
-            "draft_asset": "pdf-decor-3345.jpg",
+            "image": "shopify://shop_images/HE_G_02.png",
+            "draft_asset": "",
             "heading": "",
             "body": "",
             "cta_label": "",
@@ -123,8 +123,8 @@
         "right": {
           "type": "image",
           "settings": {
-            "image": "",
-            "draft_asset": "pdf-decor-825d.jpg",
+            "image": "shopify://shop_images/BB_SP_S_02_db728677-0e8e-4d28-8b4f-a40ef3b51015.png",
+            "draft_asset": "",
             "heading": "",
             "body": "",
             "cta_label": "",
@@ -153,10 +153,13 @@
             "product": "frills-platter",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
         "c2": {
@@ -165,10 +168,13 @@
             "product": "gingham-dish-towels",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
         "c3": {
@@ -177,10 +183,13 @@
             "product": "beaded-plate",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
         "c4": {
@@ -189,10 +198,13 @@
             "product": "white-bone-salt-pepper-shakers",
             "image_url": "",
             "alt_text": "White Bone Salt & Pepper Shakers",
-            "draft_asset": "pdf-white-bone-s-p-shakers-e01b.jpg",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         }
       },
@@ -223,8 +235,8 @@
       "type": "image-text",
       "settings": {
         "image_side": "left",
-        "image": "",
-        "draft_asset": "pdf-decor-69d9.jpg",
+        "image": "shopify://shop_images/NAU_BW_02.png",
+        "draft_asset": "",
         "alt_text": "",
         "image_link": "",
         "heading": "Vases",
@@ -242,10 +254,13 @@
             "product": "clay-pitcher",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
         "c2": {
@@ -254,10 +269,13 @@
             "product": "ava-silverware",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
         "c3": {
@@ -266,10 +284,13 @@
             "product": "ghost-checker-platter",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
         "c4": {
@@ -278,10 +299,13 @@
             "product": "plume-dishtowels",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         }
       },

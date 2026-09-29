@@ -19,8 +19,8 @@
         "left": {
           "type": "image",
           "settings": {
-            "image": "",
-            "draft_asset": "pdf-decor-2158.jpg",
+            "image": "shopify://shop_images/HB_NCK_02.png",
+            "draft_asset": "",
             "heading": "",
             "body": "",
             "cta_label": "",
@@ -33,8 +33,8 @@
         "right": {
           "type": "image",
           "settings": {
-            "image": "",
-            "draft_asset": "pdf-decor-406a.jpg",
+            "image": "shopify://shop_images/ARA_BG_02_f504dedc-433a-455e-ab62-812c14c0f813.png",
+            "draft_asset": "",
             "heading": "",
             "body": "",
             "cta_label": "",
@@ -63,10 +63,13 @@
             "product": "horn-bead-necklace",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
         "c2": {
@@ -75,10 +78,13 @@
             "product": "villa-tote-bag",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
         "c3": {
@@ -87,10 +93,13 @@
             "product": "arara-bucket-bag",
             "image_url": "",
             "alt_text": "Arara Bucket Bag",
-            "draft_asset": "pdf-arara-bucket-bag-533b.jpg",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
         "c4": {
@@ -99,10 +108,13 @@
             "product": "bene-tote-bag",
             "image_url": "",
             "alt_text": "Bene Tote Bag",
-            "draft_asset": "pdf-bene-tote-bag-6ba6.jpg",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         }
       },
@@ -133,8 +145,8 @@
       "type": "image-text",
       "settings": {
         "image_side": "left",
-        "image": "",
-        "draft_asset": "pdf-decor-c108.jpg",
+        "image": "shopify://shop_images/IKT_ES_02.png",
+        "draft_asset": "",
         "alt_text": "",
         "image_link": "",
         "heading": "Ikat and straw title",
@@ -152,10 +164,13 @@
             "product": "ikat-espadrille",
             "image_url": "",
             "alt_text": "Ikat Espadrille",
-            "draft_asset": "pdf-ikat-espadrilles-86e2.jpg",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
         "c2": {
@@ -164,10 +179,13 @@
             "product": "petit-tie-rainbow-bag",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
         "c3": {
@@ -176,10 +194,13 @@
             "product": "ikat-clutch",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
         "c4": {
@@ -188,10 +209,13 @@
             "product": "ikat-tote-bag",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         }
       },
@@ -224,8 +248,8 @@
         "left": {
           "type": "image",
           "settings": {
-            "image": "",
-            "draft_asset": "pdf-decor-521e.jpg",
+            "image": "shopify://shop_images/IKT_CL_06.png",
+            "draft_asset": "",
             "heading": "",
             "body": "",
             "cta_label": "",
@@ -238,8 +262,8 @@
         "right": {
           "type": "image",
           "settings": {
-            "image": "",
-            "draft_asset": "pdf-decor-01ed.jpg",
+            "image": "shopify://shop_images/IKT_TB_02.png",
+            "draft_asset": "",
             "heading": "",
             "body": "",
             "cta_label": "",
@@ -263,7 +287,6 @@
       "type": "image-text",
       "settings": {
         "image_side": "left",
-        "image": "",
         "draft_asset": "pdf-decor-5bb6.jpg",
         "alt_text": "",
         "image_link": "",
@@ -318,7 +341,7 @@
             "product": "desert-bandana",
             "image_url": "",
             "alt_text": "Desert Bandana",
-            "draft_asset": "pdf-desert-bandana-13ae.jpg",
+            "draft_asset": "",
             "label": "",
             "label_tone": "dark",
             "link": ""

@@ -17,8 +17,8 @@
       "type": "image-text",
       "settings": {
         "image_side": "left",
-        "image": "",
-        "draft_asset": "pdf-decor-5345.jpg",
+        "image": "shopify://shop_images/BBB_BL_05.png",
+        "draft_asset": "",
         "alt_text": "",
         "image_link": "",
         "heading": "Vases & Vessels",
@@ -36,10 +36,13 @@
             "product": "ojo-de-liebre",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
         "c2": {
@@ -48,10 +51,13 @@
             "product": "duck-woven-baskets",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
         "c3": {
@@ -60,10 +66,13 @@
             "product": "footed-elephant-vase",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
         "c4": {
@@ -72,10 +81,13 @@
             "product": "petra-vessel",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         }
       },
@@ -108,8 +120,8 @@
         "left": {
           "type": "image",
           "settings": {
-            "image": "",
-            "draft_asset": "pdf-decor-cefd.jpg",
+            "image": "shopify://shop_images/WS_VS_02.png",
+            "draft_asset": "",
             "heading": "",
             "body": "",
             "cta_label": "",
@@ -122,8 +134,8 @@
         "right": {
           "type": "image",
           "settings": {
-            "image": "",
-            "draft_asset": "pdf-decor-c312.jpg",
+            "image": "shopify://shop_images/DW_BSKT_02.png",
+            "draft_asset": "",
             "heading": "",
             "body": "",
             "cta_label": "",
@@ -160,8 +172,8 @@
         "media": {
           "type": "media",
           "settings": {
-            "image": "",
-            "draft_asset": "pdf-decor-5f4d.jpg",
+            "image": "shopify://shop_images/TII_BW06.png",
+            "draft_asset": "",
             "alt_text": "",
             "heading": "",
             "body": "",
@@ -239,8 +251,8 @@
         "media": {
           "type": "media",
           "settings": {
-            "image": "",
-            "draft_asset": "pdf-decor-9822.jpg",
+            "image": "shopify://shop_images/ORG_VS_02.png",
+            "draft_asset": "",
             "alt_text": "",
             "heading": "",
             "body": "",

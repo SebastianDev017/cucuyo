@@ -19,7 +19,6 @@
         "left": {
           "type": "image",
           "settings": {
-            "image": "",
             "draft_asset": "pdf-shop-cucuyo-collection-9828.jpg",
             "heading": "Lighting section title",
             "body": "Lorem ipsum dolor sit amet consectetur. Aliquam faucibus nec\nfacilisis consequat. Ut dolor pharetra vitae imperdiet. Tortor\nlacus dolor et et. Justo dignissim non nibh eget scelerisque mi.",
@@ -33,7 +32,6 @@
         "right": {
           "type": "image",
           "settings": {
-            "image": "",
             "draft_asset": "pdf-decor-4e43.jpg",
             "heading": "",
             "body": "",
@@ -63,10 +61,13 @@
             "product": "appenzell-red-burgundy-lamp",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
         "c3": {
@@ -75,10 +76,13 @@
             "product": "memphis-burgundy-lamp",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
         "c4": {
@@ -87,24 +91,43 @@
             "product": "woven-cane-side-table",
             "image_url": "",
             "alt_text": "",
-            "draft_asset": "",
+            "ratio": "756/957",
             "label": "",
+            "label_font": "heading",
             "label_tone": "dark",
-            "link": ""
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_W3KpaJ": {
+          "type": "card",
+          "settings": {
+            "product": "silee-travertinen-lamp",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         }
       },
       "block_order": [
         "c1",
         "c3",
-        "c4"
+        "c4",
+        "card_W3KpaJ"
       ],
       "settings": {
         "eyebrow": "",
         "heading": "",
         "heading_font": "heading",
         "heading_align": "center",
-        "columns_desktop": 3,
+        "columns_desktop": 4,
         "columns_mobile": "2",
         "flush": false,
         "show_collection_label": false,
@@ -120,7 +143,6 @@
       "type": "image-text",
       "settings": {
         "image_side": "right",
-        "image": "",
         "draft_asset": "pdf-decor-4d71.jpg",
         "alt_text": "",
         "image_link": "",
@@ -136,7 +158,6 @@
         "left": {
           "type": "image",
           "settings": {
-            "image": "",
             "draft_asset": "pdf-decor-b042.jpg",
             "heading": "",
             "body": "",
@@ -150,7 +171,6 @@
         "right": {
           "type": "image",
           "settings": {
-            "image": "",
             "draft_asset": "pdf-decor-575b.jpg",
             "heading": "",
             "body": "",
@@ -204,7 +224,7 @@
             "product": "trumpet-candle-holders",
             "image_url": "",
             "alt_text": "Trumpet Candle Holders",
-            "draft_asset": "pdf-trumpet-candleholders-d727.jpg",
+            "draft_asset": "",
             "label": "",
             "label_tone": "dark",
             "link": ""
@@ -253,7 +273,6 @@
         "left": {
           "type": "image",
           "settings": {
-            "image": "",
             "draft_asset": "pdf-decor-733b.jpg",
             "heading": "",
             "body": "",
@@ -267,7 +286,6 @@
         "right": {
           "type": "image",
           "settings": {
-            "image": "",
             "draft_asset": "pdf-decor-a49b.jpg",
             "heading": "",
             "body": "",
