@@ -64,21 +64,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "card_rp49YC": {
-          "type": "card",
-          "settings": {
-            "product": "cheetah-pillow",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
+            "label_hover_color": "#FFFFFF",
             "link": "",
             "draft_asset": ""
           }
@@ -94,21 +80,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "card_VwfxjF": {
-          "type": "card",
-          "settings": {
-            "product": "martha-bandana",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
+            "label_hover_color": "#FFFFFF",
             "link": "",
             "draft_asset": ""
           }
@@ -124,21 +96,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "card_Ccg89K": {
-          "type": "card",
-          "settings": {
-            "product": "petit-tie-rainbow-bag",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
+            "label_hover_color": "#F3F3F3",
             "link": "",
             "draft_asset": ""
           }
@@ -154,21 +112,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "card_ReUeDj": {
-          "type": "card",
-          "settings": {
-            "product": "duck-woven-baskets",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
+            "label_hover_color": "#FFFFFF",
             "link": "",
             "draft_asset": ""
           }
@@ -176,13 +120,9 @@
       },
       "block_order": [
         "c1",
-        "card_rp49YC",
         "c2",
-        "card_VwfxjF",
         "c3",
-        "card_Ccg89K",
-        "c4",
-        "card_ReUeDj"
+        "c4"
       ],
       "settings": {
         "eyebrow": "",
@@ -269,6 +209,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
+            "label_hover_color": "",
             "link": "",
             "draft_asset": ""
           }
@@ -284,6 +225,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
+            "label_hover_color": "",
             "link": "",
             "draft_asset": ""
           }
@@ -299,6 +241,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
+            "label_hover_color": "#FFFFFF",
             "link": "",
             "draft_asset": ""
           }
@@ -314,6 +257,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
+            "label_hover_color": "",
             "link": "",
             "draft_asset": ""
           }
@@ -372,6 +316,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
+            "label_hover_color": "#FFFFFF",
             "link": "",
             "draft_asset": ""
           }
@@ -387,6 +332,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
+            "label_hover_color": "#FFFFFF",
             "link": "",
             "draft_asset": ""
           }
@@ -402,6 +348,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
+            "label_hover_color": "#FFFFFF",
             "link": "",
             "draft_asset": ""
           }
@@ -417,6 +364,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
+            "label_hover_color": "#FFFFFF",
             "link": "",
             "draft_asset": ""
           }
@@ -513,6 +461,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
+            "label_hover_color": "",
             "link": "",
             "draft_asset": ""
           }
@@ -528,6 +477,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
+            "label_hover_color": "#FFFFFF",
             "link": "",
             "draft_asset": ""
           }
@@ -543,6 +493,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
+            "label_hover_color": "#FFFFFF",
             "link": "",
             "draft_asset": ""
           }
@@ -558,6 +509,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
+            "label_hover_color": "#FFFFFF",
             "link": "",
             "draft_asset": ""
           }
@@ -616,6 +568,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
+            "label_hover_color": "",
             "link": "",
             "draft_asset": ""
           }
@@ -631,6 +584,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
+            "label_hover_color": "",
             "link": "",
             "draft_asset": ""
           }
@@ -646,6 +600,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
+            "label_hover_color": "",
             "link": "",
             "draft_asset": ""
           }
@@ -661,6 +616,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
+            "label_hover_color": "",
             "link": "",
             "draft_asset": ""
           }
