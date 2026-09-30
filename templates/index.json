@@ -64,7 +64,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
-            "label_hover_color": "#FFFFFF",
+            "label_hover_color": "#ffffff",
             "link": "",
             "draft_asset": ""
           }
@@ -80,7 +80,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
-            "label_hover_color": "#FFFFFF",
+            "label_hover_color": "#ffffff",
             "link": "",
             "draft_asset": ""
           }
@@ -96,7 +96,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
-            "label_hover_color": "#F3F3F3",
+            "label_hover_color": "#f3f3f3",
             "link": "",
             "draft_asset": ""
           }
@@ -112,7 +112,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
-            "label_hover_color": "#FFFFFF",
+            "label_hover_color": "#ffffff",
             "link": "",
             "draft_asset": ""
           }
@@ -146,10 +146,10 @@
     "note_one": {
       "type": "home-note",
       "settings": {
-        "heading": "Gifts for everyone",
-        "body": "Lorem ipsum dolor sit amet consectetur. Aliquam faucibus nec facilisis consequat. Ut dolor pharetra vitae imperdiet. Tortor lacus dolor et et. Justo dignissim non nibh eget scelerisque mi.",
-        "link_label": "Explore tabletop",
-        "link": "/collections/tabletop",
+        "heading": "THE GIFT EDIT",
+        "body": "Explore a collection of distinctive finds for hosts, friends, and the people who appreciate something little unexpected. Objects with character, chosen for the pleasure of giving.",
+        "link_label": "Explore gifts",
+        "link": "shopify://collections/gifts-under-50",
         "padding_top": 208,
         "padding_bottom": 208
       }
@@ -241,7 +241,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
-            "label_hover_color": "#FFFFFF",
+            "label_hover_color": "#ffffff",
             "link": "",
             "draft_asset": ""
           }
@@ -249,7 +249,7 @@
         "c4": {
           "type": "card",
           "settings": {
-            "product": "white-bone-salt-pepper-shakers",
+            "product": "batik-bone-salt-pepper-shakers",
             "image_url": "",
             "alt_text": "White Bone Salt & Pepper Shakers",
             "ratio": "756/957",
@@ -295,10 +295,10 @@
         "draft_asset": "pdf-landing-13-ebf2.jpg",
         "alt_text": "",
         "image_link": "",
-        "heading": "Vases",
-        "body": "Lorem ipsum dolor sit amet consectetur. Aliquam faucibus nec\nfacilisis consequat. Ut dolor pharetra vitae imperdiet. Tortor\nlacus dolor et et. Justo dignissim non nibh eget scelerisque mi.",
-        "cta_label": "Shop vases",
-        "link": "/collections/vase",
+        "heading": "VASES & VESSELS",
+        "body": "From understated pieces to more expressive designs, discover thoughtful details that bring warmth and character to your space.",
+        "cta_label": "SHOP VASES & VESSELS",
+        "link": "shopify://collections/vases",
         "header_tone": "ink"
       }
     },
@@ -316,7 +316,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
-            "label_hover_color": "#FFFFFF",
+            "label_hover_color": "#ffffff",
             "link": "",
             "draft_asset": ""
           }
@@ -332,7 +332,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
-            "label_hover_color": "#FFFFFF",
+            "label_hover_color": "#ffffff",
             "link": "",
             "draft_asset": ""
           }
@@ -348,7 +348,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
-            "label_hover_color": "#FFFFFF",
+            "label_hover_color": "#ffffff",
             "link": "",
             "draft_asset": ""
           }
@@ -364,7 +364,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
-            "label_hover_color": "#FFFFFF",
+            "label_hover_color": "#ffffff",
             "link": "",
             "draft_asset": ""
           }
@@ -398,10 +398,10 @@
     "note_two": {
       "type": "home-note",
       "settings": {
-        "heading": "Tis the season title",
-        "body": "Lorem ipsum dolor sit amet consectetur. Aliquam faucibus nec facilisis consequat. Ut dolor pharetra vitae imperdiet. Tortor lacus dolor et et. Justo dignissim non nibh eget scelerisque mi.",
+        "heading": "TIS THE SEASON",
+        "body": "A changing collection for this fall’s gatherings and celebrations, with distinctive pieces that bring warmth and character to the home as the season unfolds.",
         "link_label": "Shop seasonal decor",
-        "link": "/collections/decorative-seasonal",
+        "link": "shopify://collections/decorative",
         "padding_top": 208,
         "padding_bottom": 208
       }
@@ -419,7 +419,7 @@
             "cta_label": "Shop seasonal",
             "label": "",
             "label_tone": "light",
-            "link": "/collections/decorative-seasonal",
+            "link": "shopify://collections/decorative-seasonal",
             "scrim": false
           }
         },
@@ -477,7 +477,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
-            "label_hover_color": "#FFFFFF",
+            "label_hover_color": "#ffffff",
             "link": "",
             "draft_asset": ""
           }
@@ -493,7 +493,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
-            "label_hover_color": "#FFFFFF",
+            "label_hover_color": "#ffffff",
             "link": "",
             "draft_asset": ""
           }
@@ -509,7 +509,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
-            "label_hover_color": "#FFFFFF",
+            "label_hover_color": "#ffffff",
             "link": "",
             "draft_asset": ""
           }
@@ -547,10 +547,10 @@
         "draft_asset": "pdf-decor-8ffe.jpg",
         "alt_text": "",
         "image_link": "",
-        "heading": "Shop trays & storage vessels",
-        "body": "Lorem ipsum dolor sit amet consectetur. Aliquam faucibus nec\nfacilisis consequat. Ut dolor pharetra vitae imperdiet. Tortor\nlacus dolor et et. Justo dignissim non nibh eget scelerisque mi.",
-        "cta_label": "Shop Cucuyo collection",
-        "link": "/collections/all",
+        "heading": "A CLOSER LOOK",
+        "body": "From sculptural bowls to one of a kind vintage finds, each piece has something that sets it apart, with playful forms and details you don’t come across every day.",
+        "cta_label": "SHOP VASES & VESSELS",
+        "link": "shopify://collections/vases",
         "header_tone": "ink"
       }
     },

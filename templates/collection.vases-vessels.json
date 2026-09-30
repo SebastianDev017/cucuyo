@@ -43,7 +43,7 @@
         "carousel_loop": true,
         "label_tone": "dark",
         "label_color": "",
-        "label_hover_color": "",
+        "label_hover_color": "#FFFFFF",
         "background_color": "",
         "text_color": "",
         "padding_top": 0,

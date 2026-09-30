@@ -19,10 +19,9 @@
         "media": {
           "type": "media",
           "settings": {
-            "image": "",
             "draft_asset": "pdf-shop-cucuyo-collection-df02.jpg",
             "alt_text": "",
-            "heading": "Spooky candlesticks decor",
+            "heading": "SPOOKY CANDLESTICKS DECOR",
             "body": "Lorem ipsum dolor sit amet consectetur. Aliquam faucibus nec\nfacilisis consequat. Ut dolor pharetra vitae imperdiet. Tortor\nlacus dolor et et. Justo dignissim non nibh eget scelerisque mi.",
             "cta_label": "Shop Cucuyo collection",
             "link": "/collections/all",
@@ -39,6 +38,7 @@
             "draft_asset": "",
             "label": "",
             "label_tone": "dark",
+            "label_hover_color": "",
             "link": ""
           }
         },
@@ -51,6 +51,7 @@
             "draft_asset": "",
             "label": "",
             "label_tone": "dark",
+            "label_hover_color": "",
             "link": ""
           }
         },
@@ -63,6 +64,7 @@
             "draft_asset": "",
             "label": "",
             "label_tone": "dark",
+            "label_hover_color": "",
             "link": ""
           }
         },
@@ -75,6 +77,7 @@
             "draft_asset": "",
             "label": "",
             "label_tone": "dark",
+            "label_hover_color": "",
             "link": ""
           }
         }
@@ -98,7 +101,6 @@
         "left": {
           "type": "image",
           "settings": {
-            "image": "",
             "draft_asset": "pdf-decor-efcd.jpg",
             "heading": "",
             "body": "",
@@ -112,7 +114,6 @@
         "right": {
           "type": "image",
           "settings": {
-            "image": "",
             "draft_asset": "pdf-decor-cc1e.jpg",
             "heading": "",
             "body": "",
@@ -136,10 +137,10 @@
     "note": {
       "type": "home-note",
       "settings": {
-        "heading": "Festivities & fun title",
-        "body": "Lorem ipsum dolor sit amet consectetur. Aliquam faucibus nec facilisis consequat. Ut dolor pharetra vitae imperdiet. Tortor lacus dolor et et. Justo dignissim non nibh eget scelerisque mi.",
-        "link_label": "Shop vintage pieces",
-        "link": "/collections/all",
+        "heading": "seasonal",
+        "body": "We follow the seasons through the objects that make them feel distinct, starting with fall’s warm colors, natural textures, and a little more reason to gather",
+        "link_label": "",
+        "link": "",
         "padding_top": 208,
         "padding_bottom": 208
       }
@@ -147,16 +148,19 @@
     "row_one": {
       "type": "dynamic-collection",
       "settings": {
-        "products_to_show": 4,
+        "collection": "decorative-seasonal",
+        "products_to_show": 16,
         "eyebrow": "",
         "heading": "",
         "heading_align": "center",
         "columns_desktop": 4,
         "columns_mobile": "2",
         "flush": false,
-        "carousel": false,
-        "carousel_loop": false,
+        "carousel": true,
+        "carousel_loop": true,
         "label_tone": "dark",
+        "label_color": "",
+        "label_hover_color": "#ffffff",
         "background_color": "",
         "text_color": "",
         "padding_top": 0,
@@ -170,21 +174,19 @@
         "left": {
           "type": "image",
           "settings": {
-            "image": "",
             "draft_asset": "pdf-shop-kitchenware-526c.jpg",
             "heading": "",
             "body": "",
-            "cta_label": "Shop kitchenware",
+            "cta_label": "Shop tabletop",
             "label": "",
             "label_tone": "light",
             "link": "/collections/tabletop",
-            "scrim": true
+            "scrim": false
           }
         },
         "right": {
           "type": "image",
           "settings": {
-            "image": "",
             "draft_asset": "pdf-decor-97a6.jpg",
             "heading": "",
             "body": "",
@@ -209,90 +211,37 @@
       "type": "image-text",
       "settings": {
         "image_side": "right",
-        "image": "",
         "draft_asset": "pdf-decor-5e62.jpg",
         "alt_text": "",
         "image_link": "",
-        "heading": "Mission house history?",
-        "body": "Lorem ipsum dolor sit amet consectetur. Aliquam faucibus nec\nfacilisis consequat. Ut dolor pharetra vitae imperdiet. Tortor\nlacus dolor et et. Justo dignissim non nibh eget scelerisque mi.",
-        "cta_label": "Shop kitchenware",
-        "link": "/collections/tabletop"
+        "heading": "the holidays at home",
+        "body": "Dressing your home for the holidays is part of the fun, with ornaments and festive details that set the mood for hosting, celebrating, and all the moments in between.",
+        "cta_label": "Shop tabletop",
+        "link": "/collections/tabletop",
+        "header_tone": "ink"
       }
     },
-    "strip": {
-      "type": "card-strip",
-      "blocks": {
-        "c1": {
-          "type": "card",
-          "settings": {
-            "product": "clay-barro-ornaments",
-            "image_url": "",
-            "alt_text": "",
-            "draft_asset": "",
-            "label": "",
-            "label_tone": "dark",
-            "link": ""
-          }
-        },
-        "c2": {
-          "type": "card",
-          "settings": {
-            "product": "kenya-kisii-soapstone-nativity",
-            "image_url": "",
-            "alt_text": "",
-            "draft_asset": "",
-            "label": "",
-            "label_tone": "dark",
-            "link": ""
-          }
-        },
-        "c3": {
-          "type": "card",
-          "settings": {
-            "product": "kenya-soapstone-nativity",
-            "image_url": "",
-            "alt_text": "",
-            "draft_asset": "",
-            "label": "",
-            "label_tone": "dark",
-            "link": ""
-          }
-        },
-        "c4": {
-          "type": "card",
-          "settings": {
-            "product": "christmas-canvas-tote-bag",
-            "image_url": "",
-            "alt_text": "",
-            "draft_asset": "",
-            "label": "",
-            "label_tone": "dark",
-            "link": ""
-          }
-        },
-        "c5": {
-          "type": "card",
-          "settings": {
-            "product": "tinsel-tree-tea-towel",
-            "image_url": "",
-            "alt_text": "",
-            "draft_asset": "",
-            "label": "",
-            "label_tone": "dark",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "c1",
-        "c2",
-        "c3",
-        "c4",
-        "c5"
-      ],
+    "dynamic_collection_jYfU84": {
+      "type": "dynamic-collection",
       "settings": {
+        "collection": "christmas",
+        "products_to_show": 16,
+        "eyebrow": "",
         "heading": "",
-        "per_view": 4
+        "heading_align": "center",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "flush": false,
+        "carousel": true,
+        "carousel_loop": true,
+        "label_tone": "dark",
+        "label_color": "",
+        "label_hover_color": "#ffffff",
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "header_tone": "ink"
       }
     }
   },
@@ -304,6 +253,6 @@
     "row_one",
     "band_two",
     "mission",
-    "strip"
+    "dynamic_collection_jYfU84"
   ]
 }

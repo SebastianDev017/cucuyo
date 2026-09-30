@@ -152,7 +152,7 @@
       "type": "dynamic-collection",
       "settings": {
         "collection": "tabletop",
-        "products_to_show": 8,
+        "products_to_show": 16,
         "eyebrow": "",
         "heading": "",
         "heading_align": "center",
@@ -186,93 +186,22 @@
         "header_tone": "ink"
       }
     },
-    "home_grid_aQaYVE": {
-      "type": "home-grid",
-      "blocks": {
-        "card_LKj7E7": {
-          "type": "card",
-          "settings": {
-            "product": "clay-pitcher",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "card_Y3AyaK": {
-          "type": "card",
-          "settings": {
-            "product": "ava-silverware",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "card_cWMiD4": {
-          "type": "card",
-          "settings": {
-            "product": "ghost-checker-platter",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "card_xEacCy": {
-          "type": "card",
-          "settings": {
-            "product": "plume-dishtowels",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        }
-      },
-      "block_order": [
-        "card_LKj7E7",
-        "card_Y3AyaK",
-        "card_cWMiD4",
-        "card_xEacCy"
-      ],
-      "name": "Featured collection",
+    "dynamic_collection_69dcrU": {
+      "type": "dynamic-collection",
       "settings": {
+        "collection": "serving-bowls-platters",
+        "products_to_show": 16,
         "eyebrow": "",
         "heading": "",
-        "heading_font": "heading",
         "heading_align": "center",
         "columns_desktop": 4,
-        "columns_mobile": "1",
+        "columns_mobile": "2",
         "flush": false,
-        "carousel": false,
-        "carousel_loop": false,
-        "show_collection_label": false,
-        "show_swatches": false,
+        "carousel": true,
+        "carousel_loop": true,
+        "label_tone": "dark",
+        "label_color": "",
+        "label_hover_color": "#ffffff",
         "background_color": "",
         "text_color": "",
         "padding_top": 0,
@@ -288,6 +217,6 @@
     "band_one",
     "row_one",
     "vases",
-    "home_grid_aQaYVE"
+    "dynamic_collection_69dcrU"
   ]
 }
