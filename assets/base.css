@@ -3717,20 +3717,9 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
   }
 }
 
-/* Dynamic collection: the Featured collection's shell (it carries the
-   home-grid class too). Its candidates past the ones it shows are hidden —
-   explicitly, because grid and list items may be given a display of their
-   own elsewhere, which would out-rank the hidden attribute. */
-.dynamic-collection [data-dyn-item][hidden] {
-  display: none;
-}
-
-.dynamic-collection__item {
-  display: block;
-  min-width: 0;
-}
-
-/* Theme editor only: why a Dynamic collection shows nothing. */
+/* Dynamic collection wears the Featured collection's shell (it carries the
+   home-grid class too), so nothing of its own is needed but this:
+   theme editor only, why a Dynamic collection shows nothing. */
 .dynamic-collection__note {
   margin: 0;
   padding: 24px var(--page-margin);
@@ -3739,9 +3728,6 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
   text-align: center;
 }
 
-.dynamic-collection__note[hidden] {
-  display: none;
-}
 
 
 /* --------------------------------------------------------------------------

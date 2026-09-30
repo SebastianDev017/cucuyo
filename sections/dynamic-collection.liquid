@@ -1,23 +1,16 @@
 {%- comment -%}
   Dynamic collection (Eugenia, 2026-09-29) — the Featured collection's cards,
   grid and carousel, filled from a collection instead of picked by hand: the
-  collection the page belongs to on a category page, or the one chosen here.
-  A product added to or removed from the collection shows up, or goes, with
-  no change to the template.
+  collection the page belongs to on a category page, or the one chosen here
+  (a subcollection, say). A product added to or removed from the collection
+  shows up, or goes, with no change to the template.
 
-  NO REPEATS: several of these on one page each show the NEXT products in the
-  collection's order, never one a Dynamic collection above has already shown.
-  Shopify renders every section on its own — one cannot read another's
-  variables — so the page is put together in the browser: each section
-  carries the collection's products as candidates (up to 50, the first N
-  shown), and the script right after it walks every Dynamic collection so far
-  in page order and gives each product to the first one with room for it. It
-  runs as the page is read, before the section is painted, so nothing jumps.
-  A section left with nothing to show hides itself. Without scripts each one
-  shows the collection's first N.
-
-  Only other Dynamic collections count: the hand-picked sections on the page
-  (Featured collection, Card strip, Mixed band) are left as they are.
+  Each section shows the first N products of its own collection, in the
+  collection's order, whatever the other sections on the page show. Several
+  subcollections share products, and a product that belongs to two of them
+  appears in both (2026-09-30: an earlier version dealt the products out so
+  that no two sections repeated one, and that was taken out on purpose). Two
+  sections on the SAME collection therefore show the same products.
 {%- endcomment -%}
 
 {%- liquid
@@ -33,8 +26,6 @@
 
 <section
   class="home-grid dynamic-collection"
-  data-dynamic-collection
-  data-show="{{ show }}"
   data-header-tone="{{ section.settings.header_tone | default: 'ink' }}"
   style="{% render 'section-style', section: section %}"
 >
@@ -49,10 +40,13 @@
     </div>
   {%- endif -%}
 
+  {%- assign shown = 0 -%}
   {%- if source != blank and source.products_count > 0 -%}
-    {%- assign candidate = 0 -%}
     {%- capture cards -%}
       {%- for product in source.products limit: 50 -%}
+        {%- if shown >= show -%}
+          {%- break -%}
+        {%- endif -%}
         {%- comment -%}
           A product with no photograph yet would be an empty tile on a page
           nobody arranged by hand; it joins the moment it has one.
@@ -60,7 +54,7 @@
         {%- if product.featured_media == blank -%}
           {%- continue -%}
         {%- endif -%}
-        {%- assign candidate = candidate | plus: 1 -%}
+        {%- assign shown = shown | plus: 1 -%}
         {%- capture card -%}
           {% render 'featured-card',
             card_product: product,
@@ -73,32 +67,17 @@
           %}
         {%- endcapture -%}
         {%- if carousel -%}
-          <li
-            class="product-strip__item"
-            data-strip-item
-            data-dyn-item
-            data-product-id="{{ product.id }}"
-            {% if candidate > show %}
-              hidden
-            {% endif %}
-          >
+          <li class="product-strip__item" data-strip-item>
             {{- card -}}
           </li>
         {%- else -%}
-          <div
-            class="dynamic-collection__item"
-            data-dyn-item
-            data-product-id="{{ product.id }}"
-            {% if candidate > show %}
-              hidden
-            {% endif %}
-          >
-            {{- card -}}
-          </div>
+          {{- card -}}
         {%- endif -%}
       {%- endfor -%}
     {%- endcapture -%}
+  {%- endif -%}
 
+  {%- if shown > 0 -%}
     {%- if carousel -%}
       <div
         class="home-grid__carousel{% if section.settings.flush %} home-grid__carousel--flush{% endif %}"
@@ -120,51 +99,13 @@
         {{- cards -}}
       </div>
     {%- endif -%}
-
-    {%- if request.design_mode -%}
-      <p class="dynamic-collection__note" data-dyn-empty hidden>
-        Every product of {{ source.title | escape }} is already shown by the Dynamic collection sections above, so this one is hidden on the store.
-      </p>
-    {%- endif -%}
-
-    <script>
-      (function () {
-        if (!window.cucuyoDynamicCollections) {
-          /* Every Dynamic collection on the page, in page order: each keeps
-             its first N products that no section above it has shown. Safe to
-             run again at any time (the editor calls it after every change). */
-          window.cucuyoDynamicCollections = function () {
-            var seen = {};
-            var design = !!(window.Shopify && window.Shopify.designMode);
-            document.querySelectorAll('[data-dynamic-collection]').forEach(function (sec) {
-              var want = parseInt(sec.getAttribute('data-show'), 10) || 0;
-              var shown = 0;
-              sec.querySelectorAll('[data-dyn-item]').forEach(function (item) {
-                var id = item.getAttribute('data-product-id');
-                var keep = shown < want && !seen[id];
-                item.hidden = !keep;
-                if (keep) {
-                  seen[id] = true;
-                  shown += 1;
-                }
-              });
-              var wrap = sec.closest('.shopify-section') || sec;
-              var note = sec.querySelector('[data-dyn-empty]');
-              if (design) {
-                wrap.hidden = false;
-                if (note) note.hidden = shown > 0;
-              } else {
-                wrap.hidden = shown === 0;
-              }
-            });
-          };
-        }
-        window.cucuyoDynamicCollections();
-      })();
-    </script>
   {%- elsif request.design_mode -%}
     <p class="dynamic-collection__note">
-      Choose a collection, or add this section to a collection page to use that page's own.
+      {%- if source == blank -%}
+        Choose a collection, or add this section to a collection page to use that page's own.
+      {%- else -%}
+        No product of {{ source.title | escape }} has a photograph yet, so nothing shows here on the store.
+      {%- endif -%}
     </p>
   {%- endif -%}
 </section>
@@ -176,13 +117,13 @@
   "settings": [
     {
       "type": "paragraph",
-      "content": "Fills itself from a collection. Several of these on one page never repeat a product: each shows the next ones in the collection's order."
+      "content": "Fills itself from a collection: its first products, in the collection's order. Products that belong to several collections can appear in more than one of these sections."
     },
     {
       "type": "collection",
       "id": "collection",
       "label": "Collection",
-      "info": "Leave empty on a category page to use the page's own collection."
+      "info": "Leave empty on a category page to use the page's own collection. Two sections on the same collection show the same products."
     },
     {
       "type": "range",
