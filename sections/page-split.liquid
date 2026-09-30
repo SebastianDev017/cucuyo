@@ -1,0 +1,167 @@
+{%- comment -%}
+  Text and photo — a page that is one column of text beside one photograph
+  (Eugenia's Interior design page, 2026-09-30): a small title under the
+  header, the text lower down, and the photograph filling the other side from
+  the header's band to the bottom of the screen, cropped around its middle
+  (or around the focal point set on it in Files). Nothing else, no scroll of
+  its own.
+
+  Measured on her PDF at 1440: photograph from x 777.5 to the edge, text
+  column on the page margin up to 712px, title in the body face at 8px in
+  capitals, text 12px on a 20px line with a blank line between paragraphs,
+  all in the accent. Phones stack it: text first, then the photograph whole.
+
+  The text is the section's own; left empty it falls back to the page's
+  content (Online Store → Pages), so it can live in either place. The title
+  is the page's h1 and falls back to the page's title.
+{%- endcomment -%}
+
+{%- liquid
+  assign title = section.settings.title | default: page.title
+  assign body = section.settings.text
+  if body == blank
+    assign body = page.content
+  endif
+  assign text_size = section.settings.text_size | default: 12
+  assign side = section.settings.image_side | default: 'right'
+  assign image = section.settings.image
+  assign alt_text = section.settings.alt_text | default: image.alt
+  assign focal = image.presentation.focal_point | default: 'center'
+  assign photo_style = 'object-position: ' | append: focal | append: ';'
+
+  comment
+    The photograph is laid out by its height (it fills the screen below the
+    header and is cropped to the column), so the file it needs is set by the
+    height too: a 3:2 photograph at the full height of a 900px screen wants
+    about 1.5 times that in width. Stated that way the browser picks a sharp
+    enough candidate; on a phone it is simply the screen's width.
+  endcomment
+  assign photo_sizes = '(min-width: 750px) calc(150vh - 93px), 100vw'
+-%}
+
+<section
+  class="page-split page-split--image-{{ side }}"
+  style="--page-split-text: {{ text_size }}px;"
+>
+  <div class="page-split__copy">
+    {%- if title != blank -%}
+      <h1 class="page-split__title">{{ title | escape }}</h1>
+    {%- endif -%}
+    {%- if body != blank -%}
+      <div class="page-split__text rte">{{ body }}</div>
+    {%- endif -%}
+  </div>
+
+  <div class="page-split__media">
+    {%- if image -%}
+      {{-
+        image
+        | image_url: width: 3000
+        | image_tag:
+          widths: '750, 1100, 1500, 2000, 2600, 3000',
+          sizes: photo_sizes,
+          class: 'page-split__image',
+          alt: alt_text,
+          loading: 'eager',
+          fetchpriority: 'high',
+          style: photo_style
+      -}}
+    {%- elsif section.settings.draft_asset != blank -%}
+      {%- comment -%}
+        A design photograph kept in the theme's assets until it is uploaded
+        to Files: the large file, plus a smaller one for phones when given.
+      {%- endcomment -%}
+      <img
+        class="page-split__image"
+        src="{{ section.settings.draft_asset | asset_url }}"
+        {% if section.settings.draft_asset_small != blank %}
+          srcset="{{ section.settings.draft_asset_small | asset_url }} 1400w, {{ section.settings.draft_asset | asset_url }} 2600w"
+          sizes="{{ photo_sizes }}"
+        {% endif %}
+        width="2600"
+        height="1734"
+        alt="{{ alt_text | escape }}"
+        loading="eager"
+        fetchpriority="high"
+      >
+    {%- else -%}
+      <div class="page-split__image page-split__image--empty" aria-hidden="true"></div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Text and photo",
+  "tag": "section",
+  "class": "section-page-split",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "info": "The small line at the top, which is also the page's title for search engines. Empty uses the page's own title."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "info": "Empty uses the page's own content (Online Store → Pages)."
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text size",
+      "min": 11,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 12,
+      "info": "Desktop and tablet, in pixels (the PDF sets 12). Phones never go below 14px."
+    },
+    {
+      "type": "header",
+      "content": "Photograph"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Photograph",
+      "info": "Cropped to its column around its focal point (set it in Files)."
+    },
+    {
+      "type": "text",
+      "id": "alt_text",
+      "label": "Image description",
+      "info": "For screen readers. Empty uses the image's own alt text."
+    },
+    {
+      "type": "select",
+      "id": "image_side",
+      "label": "Photograph side",
+      "options": [
+        { "value": "right", "label": "Right" },
+        { "value": "left", "label": "Left" }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "text",
+      "id": "draft_asset",
+      "label": "Draft photograph file",
+      "info": "Theme asset shown while no photograph is picked (design draft)."
+    },
+    {
+      "type": "text",
+      "id": "draft_asset_small",
+      "label": "Draft photograph file, small",
+      "info": "A 1400px-wide copy of the draft for phones."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Text and photo"
+    }
+  ]
+}
+{% endschema %}

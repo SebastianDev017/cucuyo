@@ -4162,3 +4162,131 @@ html.no-js .site-header--top-scrim::after {
     padding-block: 9px;
   }
 }
+
+/* --------------------------------------------------------------------------
+   Text and photo (sections/page-split) — Eugenia's Interior design page,
+   measured on her PDF at 1440: the text column on the page margin, the
+   photograph from x 777.5 to the edge, from the header's band to the bottom
+   of the screen. The photograph starts where the header's measured band
+   ends (--header-panel), the same mechanism as the product page.
+   -------------------------------------------------------------------------- */
+
+/* The page's own padding is for pages of plain text; this one runs its
+   photograph to the edges. Same selector as that rule, plus the :has. */
+body:not(.template-index):not(.template-product):not(.template-collection):not(.template-search):not(.template-cart):not(.template-password) main:has(> .shopify-section > .page-split) {
+  padding: 0;
+}
+
+.page-split {
+  display: grid;
+  grid-template-columns: minmax(0, 777fr) minmax(0, 663fr);
+  min-height: calc(100svh - var(--header-panel, var(--nav-clearance)));
+  margin-top: var(--header-panel, var(--nav-clearance));
+  color: var(--color-accent);
+}
+
+.page-split--image-left {
+  grid-template-columns: minmax(0, 663fr) minmax(0, 777fr);
+}
+
+.page-split__copy {
+  padding: 0 64px 64px var(--page-margin);
+}
+
+.page-split--image-left .page-split__copy {
+  order: 2;
+  padding: 0 var(--page-margin) 64px 64px;
+}
+
+/* The page's h1, set as the small line of the PDF: the body face in
+   capitals at 8px. */
+.page-split__title {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.5rem;
+  letter-spacing: 0;
+  line-height: 1.3;
+  text-transform: uppercase;
+  color: inherit;
+}
+
+/* 12px on a 20px line, a blank line between paragraphs, 146px under the
+   title at 1440. The size is the section's own setting, in pixels as the
+   PDF measures them — deliberately NOT scaled by the theme's body scale
+   (90% on this store), which turned 12 into 10.8. */
+.page-split__text {
+  max-width: 672px;
+  margin-top: clamp(48px, 9.7vw, 140px);
+  font-family: var(--font-body);
+  font-size: var(--page-split-text, 12px);
+  line-height: 1.667;
+  color: inherit;
+}
+
+.page-split__text p {
+  margin: 0 0 1.667em;
+}
+
+.page-split__text p:last-child {
+  margin-bottom: 0;
+}
+
+/* The photograph fills its column at whatever height the row takes, cropped
+   around its middle (or its focal point) rather than stretched. */
+.page-split__media {
+  position: relative;
+  min-height: 100%;
+}
+
+.page-split__image {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+}
+
+.page-split__image--empty {
+  background: #E5E1DC;
+}
+
+/* Phones: the text, then the photograph whole (a 3:2 room shot cropped to
+   a phone's width would lose the room). Type is kept readable on a small
+   screen: the title at 10px, the text never under 14px. */
+@media (max-width: 749px) {
+  .page-split {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+  }
+
+  .page-split__copy,
+  .page-split--image-left .page-split__copy {
+    order: 0;
+    padding: 12px var(--page-margin) 40px;
+  }
+
+  .page-split__title {
+    font-size: 0.625rem;
+  }
+
+  .page-split__text {
+    margin-top: 32px;
+    font-size: max(14px, var(--page-split-text, 12px));
+  }
+
+  .page-split__media {
+    min-height: 0;
+  }
+
+  .page-split__image {
+    position: static;
+    height: auto;
+  }
+
+  .page-split__image--empty {
+    aspect-ratio: 3 / 2;
+  }
+}
