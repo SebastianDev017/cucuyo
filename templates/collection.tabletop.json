@@ -39,6 +39,7 @@
             "draft_asset": "",
             "label": "",
             "label_tone": "dark",
+            "label_hover_color": "",
             "link": ""
           }
         },
@@ -51,6 +52,7 @@
             "draft_asset": "",
             "label": "",
             "label_tone": "dark",
+            "label_hover_color": "",
             "link": ""
           }
         },
@@ -63,6 +65,7 @@
             "draft_asset": "",
             "label": "",
             "label_tone": "dark",
+            "label_hover_color": "",
             "link": ""
           }
         },
@@ -75,6 +78,7 @@
             "draft_asset": "",
             "label": "",
             "label_tone": "dark",
+            "label_hover_color": "",
             "link": ""
           }
         }
@@ -95,9 +99,9 @@
     "note": {
       "type": "home-note",
       "settings": {
-        "heading": "Vases & Vessels",
-        "body": "Lorem ipsum dolor sit amet consectetur. Rhoncus semper ac lectus tincidunt volutpat ultrices lacus ornare. Velit ut ullamcorper molestie ultrices phasellus bibendum. Sapien aliquam hac sit nulla. Dictum consequat.",
-        "link_label": "Shop kitchenware",
+        "heading": "FOR THE TABLE",
+        "body": "A collection of useful pieces with distinctive shapes, textures, and unexpected details, each chosen for the little something that makes it stand out.",
+        "link_label": "",
         "link": "/collections/tabletop",
         "padding_top": 208,
         "padding_bottom": 208
@@ -147,16 +151,19 @@
     "row_one": {
       "type": "dynamic-collection",
       "settings": {
-        "products_to_show": 4,
+        "collection": "tabletop",
+        "products_to_show": 8,
         "eyebrow": "",
         "heading": "",
         "heading_align": "center",
         "columns_desktop": 4,
         "columns_mobile": "2",
         "flush": false,
-        "carousel": false,
-        "carousel_loop": false,
+        "carousel": true,
+        "carousel_loop": true,
         "label_tone": "dark",
+        "label_color": "",
+        "label_hover_color": "#ffffff",
         "background_color": "",
         "text_color": "",
         "padding_top": 0,
@@ -172,25 +179,100 @@
         "draft_asset": "",
         "alt_text": "",
         "image_link": "",
-        "heading": "Vases",
-        "body": "Lorem ipsum dolor sit amet consectetur. Aliquam faucibus nec\nfacilisis consequat. Ut dolor pharetra vitae imperdiet. Tortor\nlacus dolor et et. Justo dignissim non nibh eget scelerisque mi.",
-        "cta_label": "Shop vases",
-        "link": "/collections/vase"
+        "heading": "A SENSE OF OCCASION",
+        "body": "For dinners that start casually and run late, a few distinctive pieces can make the setting feel special without taking the ease out of it.",
+        "cta_label": "",
+        "link": "",
+        "header_tone": "ink"
       }
     },
-    "row_two": {
-      "type": "dynamic-collection",
+    "home_grid_aQaYVE": {
+      "type": "home-grid",
+      "blocks": {
+        "card_LKj7E7": {
+          "type": "card",
+          "settings": {
+            "product": "clay-pitcher",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_Y3AyaK": {
+          "type": "card",
+          "settings": {
+            "product": "ava-silverware",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_cWMiD4": {
+          "type": "card",
+          "settings": {
+            "product": "ghost-checker-platter",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_xEacCy": {
+          "type": "card",
+          "settings": {
+            "product": "plume-dishtowels",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        }
+      },
+      "block_order": [
+        "card_LKj7E7",
+        "card_Y3AyaK",
+        "card_cWMiD4",
+        "card_xEacCy"
+      ],
+      "name": "Featured collection",
       "settings": {
-        "products_to_show": 4,
         "eyebrow": "",
         "heading": "",
+        "heading_font": "heading",
         "heading_align": "center",
         "columns_desktop": 4,
-        "columns_mobile": "2",
+        "columns_mobile": "1",
         "flush": false,
         "carousel": false,
         "carousel_loop": false,
-        "label_tone": "dark",
+        "show_collection_label": false,
+        "show_swatches": false,
         "background_color": "",
         "text_color": "",
         "padding_top": 0,
@@ -206,6 +288,6 @@
     "band_one",
     "row_one",
     "vases",
-    "row_two"
+    "home_grid_aQaYVE"
   ]
 }

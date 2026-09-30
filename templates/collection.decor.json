@@ -20,9 +20,9 @@
           "type": "image",
           "settings": {
             "draft_asset": "pdf-shop-cucuyo-collection-9828.jpg",
-            "heading": "Lighting section title",
-            "body": "Lorem ipsum dolor sit amet consectetur. Aliquam faucibus nec\nfacilisis consequat. Ut dolor pharetra vitae imperdiet. Tortor\nlacus dolor et et. Justo dignissim non nibh eget scelerisque mi.",
-            "cta_label": "Shop Cucuyo collection",
+            "heading": "",
+            "body": "",
+            "cta_label": "",
             "label": "",
             "label_tone": "light",
             "link": "/collections/all",
@@ -55,16 +55,19 @@
     "row_one": {
       "type": "dynamic-collection",
       "settings": {
-        "products_to_show": 4,
+        "collection": "decorative",
+        "products_to_show": 8,
         "eyebrow": "",
         "heading": "",
         "heading_align": "center",
         "columns_desktop": 4,
         "columns_mobile": "2",
         "flush": false,
-        "carousel": false,
-        "carousel_loop": false,
+        "carousel": true,
+        "carousel_loop": true,
         "label_tone": "dark",
+        "label_color": "",
+        "label_hover_color": "#FFFFFF",
         "background_color": "",
         "text_color": "",
         "padding_top": 0,
@@ -79,10 +82,11 @@
         "draft_asset": "pdf-decor-4d71.jpg",
         "alt_text": "",
         "image_link": "",
-        "heading": "Lanterns, planters & candlesticks",
-        "body": "Lorem ipsum dolor sit amet consectetur. Aliquam faucibus nec\nfacilisis consequat. Ut dolor pharetra vitae imperdiet. Tortor\nlacus dolor et et. Justo dignissim non nibh eget scelerisque mi.",
-        "cta_label": "Shop kitchenware",
-        "link": "/collections/tabletop"
+        "heading": "OBJECTS OF INTEREST",
+        "body": "These carefully chosen pieces give a room its own kind of character, with warm light, rich textures, and unexpected details that invite a second look.",
+        "cta_label": "",
+        "link": "",
+        "header_tone": "ink"
       }
     },
     "band_two": {
@@ -124,80 +128,40 @@
         "ratio": "756 / 957"
       }
     },
-    "strip": {
-      "type": "card-strip",
-      "blocks": {
-        "c1": {
-          "type": "card",
-          "settings": {
-            "product": "antique-brass-candle-holders",
-            "image_url": "",
-            "alt_text": "",
-            "draft_asset": "",
-            "label": "",
-            "label_tone": "dark",
-            "link": ""
-          }
-        },
-        "c2": {
-          "type": "card",
-          "settings": {
-            "product": "green-marble-door-pulls",
-            "image_url": "",
-            "alt_text": "",
-            "draft_asset": "",
-            "label": "",
-            "label_tone": "dark",
-            "link": ""
-          }
-        },
-        "c3": {
-          "type": "card",
-          "settings": {
-            "product": "trumpet-candle-holders",
-            "image_url": "",
-            "alt_text": "Trumpet Candle Holders",
-            "draft_asset": "",
-            "label": "",
-            "label_tone": "dark",
-            "link": ""
-          }
-        },
-        "c4": {
-          "type": "card",
-          "settings": {
-            "product": "pink-florette-planter-small",
-            "image_url": "",
-            "alt_text": "",
-            "draft_asset": "",
-            "label": "",
-            "label_tone": "dark",
-            "link": ""
-          }
-        },
-        "c5": {
-          "type": "card",
-          "settings": {
-            "product": "winding-candle-holders",
-            "image_url": "",
-            "alt_text": "",
-            "draft_asset": "",
-            "label": "",
-            "label_tone": "dark",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "c1",
-        "c2",
-        "c3",
-        "c4",
-        "c5"
-      ],
+    "dynamic_collection_MtPT6n": {
+      "type": "dynamic-collection",
+      "name": "Dynamic collection",
       "settings": {
+        "collection": "decorative",
+        "products_to_show": 8,
+        "eyebrow": "",
         "heading": "",
-        "per_view": 4
+        "heading_align": "center",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "flush": false,
+        "carousel": true,
+        "carousel_loop": true,
+        "label_tone": "dark",
+        "label_color": "",
+        "label_hover_color": "#FFFFFF",
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "header_tone": "ink"
+      }
+    },
+    "home_note_HTHUUm": {
+      "type": "home-note",
+      "name": "Centred note",
+      "settings": {
+        "heading": "MADE BY CUCUYO",
+        "body": "A limited selection of pieces created by Cucuyo, made in small batches or just once, with carefully considered finishes and custom details you won’t find anywhere else.",
+        "link_label": "SHOP THE CUCUYO COLLECTION",
+        "link": "shopify://collections/all",
+        "padding_top": 208,
+        "padding_bottom": 208
       }
     },
     "band_three": {
@@ -246,7 +210,8 @@
     "row_one",
     "lanterns",
     "band_two",
-    "strip",
+    "dynamic_collection_MtPT6n",
+    "home_note_HTHUUm",
     "band_three"
   ]
 }

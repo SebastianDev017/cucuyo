@@ -57,16 +57,19 @@
     "row_one": {
       "type": "dynamic-collection",
       "settings": {
-        "products_to_show": 4,
+        "collection": "accessories",
+        "products_to_show": 7,
         "eyebrow": "",
         "heading": "",
         "heading_align": "center",
         "columns_desktop": 4,
         "columns_mobile": "2",
         "flush": false,
-        "carousel": false,
-        "carousel_loop": false,
+        "carousel": true,
+        "carousel_loop": true,
         "label_tone": "dark",
+        "label_color": "",
+        "label_hover_color": "",
         "background_color": "",
         "text_color": "",
         "padding_top": 0,
@@ -92,16 +95,19 @@
     "row_two": {
       "type": "dynamic-collection",
       "settings": {
-        "products_to_show": 4,
+        "collection": "bags",
+        "products_to_show": 8,
         "eyebrow": "",
         "heading": "",
         "heading_align": "center",
         "columns_desktop": 4,
         "columns_mobile": "2",
         "flush": false,
-        "carousel": false,
-        "carousel_loop": false,
+        "carousel": true,
+        "carousel_loop": true,
         "label_tone": "dark",
+        "label_color": "",
+        "label_hover_color": "",
         "background_color": "",
         "text_color": "",
         "padding_top": 0,
@@ -191,85 +197,27 @@
         "ratio": "756 / 957"
       }
     },
-    "strip": {
-      "type": "card-strip",
-      "blocks": {
-        "c1": {
-          "type": "card",
-          "settings": {
-            "product": "sammie-bandana",
-            "image_url": "",
-            "alt_text": "",
-            "draft_asset": "",
-            "label": "",
-            "label_tone": "dark",
-            "label_hover_color": "",
-            "link": ""
-          }
-        },
-        "c2": {
-          "type": "card",
-          "settings": {
-            "product": "laura-bandana",
-            "image_url": "",
-            "alt_text": "",
-            "draft_asset": "",
-            "label": "",
-            "label_tone": "dark",
-            "label_hover_color": "",
-            "link": ""
-          }
-        },
-        "c3": {
-          "type": "card",
-          "settings": {
-            "product": "eliza-bandana",
-            "image_url": "",
-            "alt_text": "",
-            "draft_asset": "",
-            "label": "",
-            "label_tone": "dark",
-            "label_hover_color": "",
-            "link": ""
-          }
-        },
-        "c4": {
-          "type": "card",
-          "settings": {
-            "product": "desert-bandana",
-            "image_url": "",
-            "alt_text": "Desert Bandana",
-            "draft_asset": "",
-            "label": "",
-            "label_tone": "dark",
-            "label_hover_color": "",
-            "link": ""
-          }
-        },
-        "c5": {
-          "type": "card",
-          "settings": {
-            "product": "johnny-bandana",
-            "image_url": "",
-            "alt_text": "",
-            "draft_asset": "",
-            "label": "",
-            "label_tone": "dark",
-            "label_hover_color": "",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "c1",
-        "c2",
-        "c3",
-        "c4",
-        "c5"
-      ],
+    "dynamic_collection_jP3ff6": {
+      "type": "dynamic-collection",
       "settings": {
+        "collection": "scarves-bandanas",
+        "products_to_show": 16,
+        "eyebrow": "",
         "heading": "",
-        "per_view": 4
+        "heading_align": "center",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "flush": false,
+        "carousel": true,
+        "carousel_loop": true,
+        "label_tone": "dark",
+        "label_color": "",
+        "label_hover_color": "",
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "header_tone": "ink"
       }
     }
   },
@@ -281,6 +229,6 @@
     "row_two",
     "band_two",
     "home_hero_U4JznN",
-    "strip"
+    "dynamic_collection_jP3ff6"
   ]
 }

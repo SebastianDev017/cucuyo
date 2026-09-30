@@ -22,24 +22,28 @@
         "alt_text": "",
         "image_link": "",
         "heading": "Vases & Vessels",
-        "body": "Lorem ipsum dolor sit amet consectetur. Aliquam faucibus nec\nfacilisis consequat. Ut dolor pharetra vitae imperdiet. Tortor\nlacus dolor et et. Justo dignissim non nibh eget scelerisque mi.",
-        "cta_label": "Shop kitchenware",
-        "link": "/collections/tabletop"
+        "body": "Our vases and vessels bring together work by artists, artisans, and designers from around the world, each with a different approach to material, color, and finish.",
+        "cta_label": "",
+        "link": "",
+        "header_tone": "ink"
       }
     },
     "row_one": {
       "type": "dynamic-collection",
       "settings": {
-        "products_to_show": 4,
+        "collection": "vases",
+        "products_to_show": 16,
         "eyebrow": "",
         "heading": "",
         "heading_align": "center",
         "columns_desktop": 4,
         "columns_mobile": "2",
         "flush": false,
-        "carousel": false,
-        "carousel_loop": false,
+        "carousel": true,
+        "carousel_loop": true,
         "label_tone": "dark",
+        "label_color": "",
+        "label_hover_color": "",
         "background_color": "",
         "text_color": "",
         "padding_top": 0,
@@ -91,10 +95,10 @@
     "note": {
       "type": "home-note",
       "settings": {
-        "heading": "Vintage & one-of-a-kind pieces",
-        "body": "Lorem ipsum dolor sit amet consectetur. Aliquam faucibus nec facilisis consequat. Ut dolor pharetra vitae imperdiet. Tortor lacus dolor et et. Justo dignissim non nibh eget scelerisque mi.",
-        "link_label": "Shop vintage pieces",
-        "link": "/collections/all",
+        "heading": "made and found",
+        "body": "New designs sit alongside vintage finds selected one at a time, including pieces with a particular pull when you know they may not come around again.",
+        "link_label": "",
+        "link": "",
         "padding_top": 208,
         "padding_bottom": 208
       }
@@ -125,6 +129,7 @@
             "draft_asset": "",
             "label": "",
             "label_tone": "dark",
+            "label_hover_color": "",
             "link": ""
           }
         },
@@ -137,6 +142,7 @@
             "draft_asset": "",
             "label": "",
             "label_tone": "dark",
+            "label_hover_color": "",
             "link": ""
           }
         },
@@ -149,6 +155,7 @@
             "draft_asset": "",
             "label": "",
             "label_tone": "dark",
+            "label_hover_color": "",
             "link": ""
           }
         },
@@ -161,6 +168,7 @@
             "draft_asset": "",
             "label": "",
             "label_tone": "dark",
+            "label_hover_color": "",
             "link": ""
           }
         }
@@ -204,6 +212,7 @@
             "draft_asset": "",
             "label": "",
             "label_tone": "dark",
+            "label_hover_color": "",
             "link": ""
           }
         },
@@ -216,6 +225,7 @@
             "draft_asset": "",
             "label": "",
             "label_tone": "dark",
+            "label_hover_color": "",
             "link": ""
           }
         },
@@ -228,6 +238,7 @@
             "draft_asset": "",
             "label": "",
             "label_tone": "dark",
+            "label_hover_color": "",
             "link": ""
           }
         },
@@ -240,6 +251,7 @@
             "draft_asset": "",
             "label": "",
             "label_tone": "dark",
+            "label_hover_color": "",
             "link": ""
           }
         }
