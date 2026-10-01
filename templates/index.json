@@ -15,7 +15,7 @@
         "left": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/CH_PW_02.png",
+            "image": "shopify://shop_images/CH_PW_02_ff7b8c4a-d922-409d-bf6a-393b9df97451.png",
             "draft_asset": "",
             "heading": "",
             "body": "",
@@ -292,7 +292,7 @@
       "type": "image-text",
       "settings": {
         "image_side": "left",
-        "image": "shopify://shop_images/ODL_VS_02_3f793db7-2393-477e-aeb3-82bf5d572f0c.png",
+        "image": "shopify://shop_images/ODL_VS_02_97d128d9-cf71-4c91-b8c3-e1c8305c7d72.png",
         "draft_asset": "",
         "alt_text": "",
         "image_link": "",
@@ -545,7 +545,8 @@
       "type": "image-text",
       "settings": {
         "image_side": "right",
-        "draft_asset": "pdf-decor-8ffe.jpg",
+        "image": "shopify://shop_images/TII_BW02.png",
+        "draft_asset": "",
         "alt_text": "",
         "image_link": "",
         "heading": "A CLOSER LOOK",
