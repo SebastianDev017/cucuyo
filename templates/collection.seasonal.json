@@ -263,7 +263,7 @@
         "heading": "the holidays at home",
         "body": "Dressing your home for the holidays is part of the fun, with ornaments and festive details that set the mood for hosting, celebrating, and all the moments in between.",
         "cta_label": "Shop tabletop",
-        "link": "/collections/tabletop",
+        "link": "shopify://collections/tabletop",
         "header_tone": "ink"
       }
     },
