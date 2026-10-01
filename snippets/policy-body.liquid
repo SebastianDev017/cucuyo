@@ -1,0 +1,105 @@
+{% doc %}
+  The store policies (/policies/shipping-policy and the rest) are pages
+  Shopify renders itself: there is no template for them, only the text the
+  merchant pastes in Settings → Policies, handed to the layout as
+  content_for_layout. That text arrives as lines separated by <br>, with each
+  heading a line that is nothing but bold — "Order Processing" — so CSS cannot
+  tell a heading from a bold phrase inside a sentence ("within 2–4 business
+  days") and cannot give the sections the blank line between them that
+  Eugenia's page has (2026-10-01).
+
+  This marks those heading lines, server-side, with class="policy-heading",
+  and nothing else; base.css does the rest. A line counts as a heading when:
+  - it is a single <b> or <strong> and nothing else, from the start of the
+    line to its <br>;
+  - it does not end like a sentence (. , : ; ! ?), so a bold sentence such as
+    "Oversized items are available for local pickup only…" stays text.
+  Empty lines (a run of <br>) right before a heading are dropped, because the
+  heading brings its own space; empty lines anywhere else stay as written.
+  Text with no <br> in it (privacy policy, which comes as <h2>/<p>) passes
+  through untouched.
+
+  @param {string} content - content_for_layout of a policy page
+  @example
+  {% render 'policy-body', content: content_for_layout %}
+{% enddoc %}
+
+{%- liquid
+  assign segments = content | split: '<br>'
+  assign heading_tags = 'b,strong' | split: ','
+  assign pending_breaks = 0
+
+  for segment in segments
+    assign line = segment | strip
+    assign kind = 'text'
+    assign opening = ''
+
+    if line == blank
+      assign kind = 'empty'
+    else
+      for tag in heading_tags
+        assign close_tag = '</' | append: tag | append: '>'
+        assign close_size = close_tag | size
+        assign close_from = 0 | minus: close_size
+        assign line_end = line | slice: close_from, close_size
+        if line_end != close_tag
+          continue
+        endif
+
+        assign open_tag = '<' | append: tag | append: '>'
+        assign inner = line | split: open_tag | last
+        assign words = inner | remove_last: close_tag | strip
+        assign before = line | remove_last: inner | remove_last: open_tag | strip
+        assign last_char = words | slice: -1, 1
+        assign before_tag = before | split: '<' | last
+        assign words_size = words | size
+
+        assign starts_line = false
+        if before == blank
+          assign starts_line = true
+        else
+          case before_tag
+            when 'div>', 'p>', '/div>', '/p>', '/ul>', '/ol>', '/h2>', '/h3>'
+              assign starts_line = true
+          endcase
+        endif
+
+        if starts_line and words != blank and words_size < 90
+          unless words contains '<' or '.,:;!?' contains last_char
+            assign kind = 'heading'
+            assign opening = open_tag
+          endunless
+        endif
+        break
+      endfor
+    endif
+
+    if kind == 'heading'
+      assign marked = opening | remove_last: '>' | append: ' class="policy-heading">'
+    endif
+
+    if forloop.first
+      if kind == 'heading'
+        echo segment | replace_last: opening, marked
+      else
+        echo segment
+      endif
+      continue
+    endif
+
+    case kind
+      when 'empty'
+        assign pending_breaks = pending_breaks | plus: 1
+      when 'heading'
+        echo '<br>'
+        echo segment | replace_last: opening, marked
+        assign pending_breaks = 0
+      else
+        for i in (0..pending_breaks)
+          echo '<br>'
+        endfor
+        echo segment
+        assign pending_breaks = 0
+    endcase
+  endfor
+-%}
