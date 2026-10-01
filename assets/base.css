@@ -4373,7 +4373,8 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
    text in the product description's size, all in the accent brown, left
    aligned over the two middle columns of the four-column product grid. Each
    section is a bold line at text size with its text straight under it, and
-   one empty line between sections.
+   one empty line between sections — the same structure on every policy
+   (snippets/policy-body drops the empty lines the texts bring).
 
    Shopify loads its own policy.css on /policies/* (a 65ch centred column,
    centred title); the body.template-policy prefix out-ranks it.
@@ -4405,14 +4406,15 @@ body.template-policy .shopify-policy__body .rte,
   line-height: inherit;
 }
 
+/* Paragraphs stack like the lines of the shipping policy: no space between
+   them, the only gap in a policy is the empty line above a heading. */
 body.template-policy .shopify-policy__body p,
 .policy-page__text p {
-  margin: 0 0 1.55em;
+  margin: 0;
 }
 
-body.template-policy .shopify-policy__body p:last-child,
-.policy-page__text p:last-child {
-  margin-bottom: 0;
+body.template-policy .shopify-policy__body p:empty {
+  display: none;
 }
 
 body.template-policy .shopify-policy__body ul,
@@ -4465,8 +4467,8 @@ body.template-policy .shopify-policy__body .policy-heading + br {
   display: none;
 }
 
-body.template-policy .shopify-policy__body .rte > :first-child > .policy-heading:first-child,
-body.template-policy .shopify-policy__body .rte > h2:first-child,
+body.template-policy .shopify-policy__body .rte > :first-child > :is(.policy-heading, h2, h3):first-child,
+body.template-policy .shopify-policy__body .rte > :is(h2, h3):first-child,
 .policy-page__part:first-of-type .policy-page__heading {
   margin-top: 0;
 }

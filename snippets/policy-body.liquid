@@ -14,10 +14,15 @@
     line to its <br>;
   - it does not end like a sentence (. , : ; ! ?), so a bold sentence such as
     "Oversized items are available for local pickup only…" stays text.
-  Empty lines (a run of <br>) right before a heading are dropped, because the
-  heading brings its own space; empty lines anywhere else stay as written.
-  Text with no <br> in it (privacy policy, which comes as <h2>/<p>) passes
-  through untouched.
+  Every policy then gets the same structure as Eugenia's shipping page
+  (user, 2026-10-01: "las políticas deben tener la misma estructura"): each
+  paragraph starts on its own line, there are no empty lines inside a section,
+  and the only space is the one empty line above each heading. So empty lines
+  — a run of <br>, or the empty paragraph (<p><br></p>) the policy editor
+  writes for a blank line — are dropped wherever they are; base.css takes the
+  margins off <p> and puts one line above every heading. Text with no <br> in
+  it (the privacy policy, which comes as <h2>/<p>) only loses its empty
+  paragraphs.
 
   @param {string} content - content_for_layout of a policy page
   @example
@@ -25,9 +30,8 @@
 {% enddoc %}
 
 {%- liquid
-  assign segments = content | split: '<br>'
+  assign segments = content | remove: '<p><br></p>' | remove: '<div><br></div>' | remove: '<p>&nbsp;</p>' | split: '<br>'
   assign heading_tags = 'b,strong' | split: ','
-  assign pending_breaks = 0
 
   for segment in segments
     assign line = segment | strip
@@ -89,17 +93,13 @@
 
     case kind
       when 'empty'
-        assign pending_breaks = pending_breaks | plus: 1
+        continue
       when 'heading'
         echo '<br>'
         echo segment | replace_last: opening, marked
-        assign pending_breaks = 0
       else
-        for i in (0..pending_breaks)
-          echo '<br>'
-        endfor
+        echo '<br>'
         echo segment
-        assign pending_breaks = 0
     endcase
   endfor
 -%}
