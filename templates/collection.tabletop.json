@@ -25,7 +25,7 @@
             "heading": "",
             "body": "",
             "cta_label": "",
-            "link": "",
+            "link": "shopify://products/ghost-checker-platter",
             "tone": "light",
             "scrim": false
           }
@@ -107,45 +107,66 @@
         "padding_bottom": 208
       }
     },
-    "band_one": {
-      "type": "home-hero",
+    "home_grid_JFJw8m": {
+      "type": "home-grid",
       "blocks": {
-        "left": {
-          "type": "image",
+        "card_Tt3r9m": {
+          "type": "card",
           "settings": {
+            "product": "",
             "image": "shopify://shop_images/HE_G_02.png",
-            "draft_asset": "",
-            "heading": "",
-            "body": "",
-            "cta_label": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
             "label": "",
-            "label_tone": "light",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
             "link": "",
-            "scrim": false
+            "draft_asset": ""
           }
         },
-        "right": {
-          "type": "image",
+        "card_ECKMCQ": {
+          "type": "card",
           "settings": {
+            "product": "",
             "image": "shopify://shop_images/BB_SP_S_02_db728677-0e8e-4d28-8b4f-a40ef3b51015.png",
-            "draft_asset": "",
-            "heading": "",
-            "body": "",
-            "cta_label": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
             "label": "",
-            "label_tone": "light",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "#ffffff",
+            "label_hover_color": "",
             "link": "",
-            "scrim": false
+            "draft_asset": ""
           }
         }
       },
       "block_order": [
-        "left",
-        "right"
+        "card_Tt3r9m",
+        "card_ECKMCQ"
       ],
+      "name": "Featured collection",
       "settings": {
-        "header_tone": "ink",
-        "ratio": "756 / 957"
+        "eyebrow": "",
+        "heading": "",
+        "heading_font": "heading",
+        "heading_align": "center",
+        "columns_desktop": 2,
+        "columns_mobile": "1",
+        "flush": false,
+        "carousel": false,
+        "carousel_loop": false,
+        "show_collection_label": false,
+        "show_swatches": false,
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "header_tone": "ink"
       }
     },
     "row_one": {
@@ -189,7 +210,7 @@
     "dynamic_collection_69dcrU": {
       "type": "dynamic-collection",
       "settings": {
-        "collection": "serving-bowls-platters",
+        "collection": "serveware",
         "products_to_show": 16,
         "eyebrow": "",
         "heading": "",
@@ -214,7 +235,7 @@
     "heading",
     "split_one",
     "note",
-    "band_one",
+    "home_grid_JFJw8m",
     "row_one",
     "vases",
     "dynamic_collection_69dcrU"

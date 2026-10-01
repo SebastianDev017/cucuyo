@@ -16,11 +16,13 @@
           "type": "media",
           "settings": {
             "media_ratio": "4/5",
-            "gallery_gap": 10
+            "gallery_gap": 10,
+            "gallery_filter": true
           }
         },
         "breadcrumb": {
           "type": "breadcrumb",
+          "disabled": true,
           "settings": {}
         },
         "title": {
@@ -37,7 +39,8 @@
           "type": "variant_picker",
           "settings": {
             "spacing_top": 26,
-            "option_style": "buttons"
+            "option_style": "buttons",
+            "hide_single_colour": true
           }
         },
         "description": {
@@ -46,6 +49,7 @@
         },
         "dimensions": {
           "type": "accordion",
+          "disabled": true,
           "settings": {
             "title": "Dimensions",
             "content": "{{ product.metafields.custom.product_details | metafield_tag }}"
@@ -71,6 +75,7 @@
         },
         "details": {
           "type": "product_details",
+          "disabled": true,
           "settings": {
             "title": "Product Details",
             "content": "",
@@ -96,13 +101,14 @@
       "settings": {
         "show_vendor": false,
         "media_ratio": "4/5",
-        "column_gap": 10
+        "column_gap": 30
       }
     },
     "you_may_like": {
       "type": "you-may-like",
       "settings": {
         "heading": "You may like",
+        "collection": "",
         "products_to_show": 10,
         "per_view": 4
       }

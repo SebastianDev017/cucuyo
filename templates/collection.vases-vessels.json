@@ -24,7 +24,7 @@
         "heading": "Vases & Vessels",
         "body": "Our vases and vessels bring together work by artists, artisans, and designers from around the world, each with a different approach to material, color, and finish.",
         "cta_label": "",
-        "link": "",
+        "link": "shopify://products/ball-boy-bowl-black",
         "header_tone": "ink"
       }
     },
@@ -43,7 +43,7 @@
         "carousel_loop": true,
         "label_tone": "dark",
         "label_color": "",
-        "label_hover_color": "#FFFFFF",
+        "label_hover_color": "#ffffff",
         "background_color": "",
         "text_color": "",
         "padding_top": 0,
@@ -51,45 +51,66 @@
         "header_tone": "ink"
       }
     },
-    "band_one": {
-      "type": "home-hero",
+    "home_grid_KAQfJG": {
+      "type": "home-grid",
       "blocks": {
-        "left": {
-          "type": "image",
+        "card_Cdfk6g": {
+          "type": "card",
           "settings": {
+            "product": "",
             "image": "shopify://shop_images/WS_VS_02.png",
-            "draft_asset": "",
-            "heading": "",
-            "body": "",
-            "cta_label": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
             "label": "",
-            "label_tone": "light",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "#ffffff",
+            "label_hover_color": "",
             "link": "",
-            "scrim": false
+            "draft_asset": ""
           }
         },
-        "right": {
-          "type": "image",
+        "card_JRTjpQ": {
+          "type": "card",
           "settings": {
+            "product": "",
             "image": "shopify://shop_images/DW_BSKT_02.png",
-            "draft_asset": "",
-            "heading": "",
-            "body": "",
-            "cta_label": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
             "label": "",
-            "label_tone": "light",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "#ffffff",
+            "label_hover_color": "",
             "link": "",
-            "scrim": false
+            "draft_asset": ""
           }
         }
       },
       "block_order": [
-        "left",
-        "right"
+        "card_Cdfk6g",
+        "card_JRTjpQ"
       ],
+      "name": "Featured collection",
       "settings": {
-        "header_tone": "ink",
-        "ratio": "756 / 957"
+        "eyebrow": "",
+        "heading": "",
+        "heading_font": "heading",
+        "heading_align": "center",
+        "columns_desktop": 2,
+        "columns_mobile": "1",
+        "flush": false,
+        "carousel": false,
+        "carousel_loop": false,
+        "show_collection_label": false,
+        "show_swatches": false,
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "header_tone": "ink"
       }
     },
     "note": {
@@ -115,7 +136,7 @@
             "heading": "",
             "body": "",
             "cta_label": "",
-            "link": "",
+            "link": "shopify://products/tezon-li-bowl",
             "tone": "light",
             "scrim": false
           }
@@ -198,7 +219,7 @@
             "heading": "",
             "body": "",
             "cta_label": "",
-            "link": "",
+            "link": "shopify://products/oranges-vase",
             "tone": "light",
             "scrim": false
           }
@@ -274,7 +295,7 @@
     "heading",
     "opening",
     "row_one",
-    "band_one",
+    "home_grid_KAQfJG",
     "note",
     "split_one",
     "split_two"

@@ -13,45 +13,66 @@
       "type": "mosaic-heading",
       "settings": {}
     },
-    "band_one": {
-      "type": "home-hero",
+    "home_grid_Vtk8P9": {
+      "type": "home-grid",
       "blocks": {
-        "left": {
-          "type": "image",
+        "card_xwVmYD": {
+          "type": "card",
           "settings": {
+            "product": "",
             "image": "shopify://shop_images/HB_NCK_02.png",
-            "draft_asset": "",
-            "heading": "",
-            "body": "",
-            "cta_label": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
             "label": "",
-            "label_tone": "light",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "#ffffff",
+            "label_hover_color": "",
             "link": "",
-            "scrim": false
+            "draft_asset": ""
           }
         },
-        "right": {
-          "type": "image",
+        "card_AhJ3Gg": {
+          "type": "card",
           "settings": {
+            "product": "",
             "image": "shopify://shop_images/ARA_BG_02_f504dedc-433a-455e-ab62-812c14c0f813.png",
-            "draft_asset": "",
-            "heading": "",
-            "body": "",
-            "cta_label": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
             "label": "",
-            "label_tone": "light",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "#ffffff",
+            "label_hover_color": "",
             "link": "",
-            "scrim": false
+            "draft_asset": ""
           }
         }
       },
       "block_order": [
-        "left",
-        "right"
+        "card_xwVmYD",
+        "card_AhJ3Gg"
       ],
+      "name": "Featured collection",
       "settings": {
-        "header_tone": "ink",
-        "ratio": "756 / 957"
+        "eyebrow": "",
+        "heading": "",
+        "heading_font": "heading",
+        "heading_align": "center",
+        "columns_desktop": 2,
+        "columns_mobile": "1",
+        "flush": false,
+        "carousel": false,
+        "carousel_loop": false,
+        "show_collection_label": false,
+        "show_swatches": false,
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "header_tone": "ink"
       }
     },
     "row_one": {
@@ -69,7 +90,7 @@
         "carousel_loop": true,
         "label_tone": "dark",
         "label_color": "",
-        "label_hover_color": "#FFFFFF",
+        "label_hover_color": "#ffffff",
         "background_color": "",
         "text_color": "",
         "padding_top": 0,
@@ -85,10 +106,10 @@
         "draft_asset": "",
         "alt_text": "",
         "image_link": "",
-        "heading": "Ikat and straw title",
-        "body": "Lorem ipsum dolor sit amet consectetur. Aliquam faucibus nec\nfacilisis consequat. Ut dolor pharetra vitae imperdiet. Tortor\nlacus dolor et et. Justo dignissim non nibh eget scelerisque mi.",
-        "cta_label": "Shop kitchenware",
-        "link": "/collections/tabletop",
+        "heading": "IKAT AND STRAW TITLE",
+        "body": "From handwoven textures to bold color and pattern, these pieces bring Cucuyo’s love of distinctive objects into what you wear and carry.",
+        "cta_label": "",
+        "link": "shopify://products/ikat-espadrille",
         "header_tone": "ink"
       }
     },
@@ -107,7 +128,7 @@
         "carousel_loop": true,
         "label_tone": "dark",
         "label_color": "",
-        "label_hover_color": "#FFFFFF",
+        "label_hover_color": "#ffffff",
         "background_color": "",
         "text_color": "",
         "padding_top": 0,
@@ -115,92 +136,134 @@
         "header_tone": "ink"
       }
     },
-    "band_two": {
-      "type": "home-hero",
+    "home_grid_N8RzJ6": {
+      "type": "home-grid",
       "blocks": {
-        "left": {
-          "type": "image",
+        "card_ne33Yd": {
+          "type": "card",
           "settings": {
+            "product": "",
             "image": "shopify://shop_images/IKT_CL_06.png",
-            "draft_asset": "",
-            "heading": "",
-            "body": "",
-            "cta_label": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
             "label": "",
-            "label_tone": "light",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "#ffffff",
+            "label_hover_color": "",
             "link": "",
-            "scrim": false
+            "draft_asset": ""
           }
         },
-        "right": {
-          "type": "image",
+        "card_kbEYpb": {
+          "type": "card",
           "settings": {
+            "product": "",
             "image": "shopify://shop_images/IKT_TB_02.png",
-            "draft_asset": "",
-            "heading": "",
-            "body": "",
-            "cta_label": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
             "label": "",
-            "label_tone": "light",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "#ffffff",
+            "label_hover_color": "",
             "link": "",
-            "scrim": false
+            "draft_asset": ""
           }
         }
       },
       "block_order": [
-        "left",
-        "right"
+        "card_ne33Yd",
+        "card_kbEYpb"
       ],
+      "name": "Featured collection",
       "settings": {
-        "header_tone": "ink",
-        "ratio": "756 / 957"
+        "eyebrow": "",
+        "heading": "",
+        "heading_font": "heading",
+        "heading_align": "center",
+        "columns_desktop": 2,
+        "columns_mobile": "1",
+        "flush": false,
+        "carousel": false,
+        "carousel_loop": false,
+        "show_collection_label": false,
+        "show_swatches": false,
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "header_tone": "ink"
       }
     },
-    "home_hero_U4JznN": {
-      "type": "home-hero",
+    "home_grid_fWmKQj": {
+      "type": "home-grid",
       "blocks": {
-        "image_gCmwa3": {
-          "type": "image",
+        "card_GzqF7Q": {
+          "type": "card",
           "settings": {
+            "product": "",
             "image": "shopify://shop_images/SMM_BNDN_05.png",
-            "draft_asset": "",
-            "heading": "",
-            "body": "",
-            "cta_label": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
             "label": "",
-            "label_tone": "light",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "#ffffff",
+            "label_hover_color": "",
             "link": "",
-            "scrim": false
+            "draft_asset": ""
           }
         },
-        "image_9jn8Gi": {
-          "type": "image",
+        "card_jyLLtV": {
+          "type": "card",
           "settings": {
+            "product": "",
             "image": "shopify://shop_images/SMM_BNDN_02.jpg",
-            "draft_asset": "",
-            "heading": "",
-            "body": "",
-            "cta_label": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
             "label": "",
-            "label_tone": "light",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "#ffffff",
+            "label_hover_color": "",
             "link": "",
-            "scrim": false
+            "draft_asset": ""
           }
         }
       },
       "block_order": [
-        "image_gCmwa3",
-        "image_9jn8Gi"
+        "card_GzqF7Q",
+        "card_jyLLtV"
       ],
+      "name": "Featured collection",
       "settings": {
-        "header_tone": "ink",
-        "ratio": "756 / 957"
+        "eyebrow": "",
+        "heading": "",
+        "heading_font": "heading",
+        "heading_align": "center",
+        "columns_desktop": 2,
+        "columns_mobile": "1",
+        "flush": false,
+        "carousel": false,
+        "carousel_loop": false,
+        "show_collection_label": false,
+        "show_swatches": false,
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "header_tone": "ink"
       }
     },
     "dynamic_collection_jP3ff6": {
       "type": "dynamic-collection",
       "settings": {
-        "collection": "scarves-bandanas",
+        "collection": "wearables",
         "products_to_show": 16,
         "eyebrow": "",
         "heading": "",
@@ -223,12 +286,12 @@
   },
   "order": [
     "heading",
-    "band_one",
+    "home_grid_Vtk8P9",
     "row_one",
     "ikat",
     "row_two",
-    "band_two",
-    "home_hero_U4JznN",
+    "home_grid_N8RzJ6",
+    "home_grid_fWmKQj",
     "dynamic_collection_jP3ff6"
   ]
 }

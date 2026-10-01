@@ -13,43 +13,66 @@
       "type": "mosaic-heading",
       "settings": {}
     },
-    "band_one": {
-      "type": "home-hero",
+    "home_grid_AfdHKJ": {
+      "type": "home-grid",
       "blocks": {
-        "left": {
-          "type": "image",
+        "card_kgr7WF": {
+          "type": "card",
           "settings": {
-            "draft_asset": "pdf-shop-cucuyo-collection-9828.jpg",
-            "heading": "",
-            "body": "",
-            "cta_label": "",
+            "product": "",
+            "image": "shopify://shop_images/SL_TR_06_5de5b11c-6fa4-4cd6-a0a3-24543f2b3389.png",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
             "label": "",
-            "label_tone": "light",
-            "link": "/collections/all",
-            "scrim": false
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "#ffffff",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
-        "right": {
-          "type": "image",
+        "card_6MyQen": {
+          "type": "card",
           "settings": {
-            "draft_asset": "pdf-decor-4e43.jpg",
-            "heading": "",
-            "body": "",
-            "cta_label": "",
+            "product": "",
+            "image": "shopify://shop_images/APP_LMP_02.png",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
             "label": "",
-            "label_tone": "light",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
             "link": "",
-            "scrim": false
+            "draft_asset": ""
           }
         }
       },
       "block_order": [
-        "left",
-        "right"
+        "card_kgr7WF",
+        "card_6MyQen"
       ],
+      "name": "Featured collection",
       "settings": {
-        "header_tone": "ink",
-        "ratio": "756 / 957"
+        "eyebrow": "",
+        "heading": "",
+        "heading_font": "heading",
+        "heading_align": "center",
+        "columns_desktop": 2,
+        "columns_mobile": "1",
+        "flush": false,
+        "carousel": false,
+        "carousel_loop": false,
+        "show_collection_label": false,
+        "show_swatches": false,
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "header_tone": "ink"
       }
     },
     "row_one": {
@@ -84,48 +107,70 @@
         "image_link": "",
         "heading": "OBJECTS OF INTEREST",
         "body": "These carefully chosen pieces give a room its own kind of character, with warm light, rich textures, and unexpected details that invite a second look.",
-        "cta_label": "",
-        "link": "",
+        "cta_label": "large rattan lanterns",
+        "link": "shopify://products/rattan-lanterns",
         "header_tone": "ink"
       }
     },
-    "band_two": {
-      "type": "home-hero",
+    "home_grid_E46Nhg": {
+      "type": "home-grid",
       "blocks": {
-        "left": {
-          "type": "image",
+        "card_dhRmJg": {
+          "type": "card",
           "settings": {
-            "draft_asset": "pdf-decor-b042.jpg",
-            "heading": "",
-            "body": "",
-            "cta_label": "",
+            "product": "",
+            "image": "shopify://shop_images/PFP_SM_02.png",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
             "label": "",
-            "label_tone": "light",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "#ffffff",
+            "label_hover_color": "",
             "link": "",
-            "scrim": false
+            "draft_asset": ""
           }
         },
-        "right": {
-          "type": "image",
+        "card_Hrhj4W": {
+          "type": "card",
           "settings": {
-            "draft_asset": "pdf-decor-575b.jpg",
-            "heading": "",
-            "body": "",
-            "cta_label": "",
+            "product": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
             "label": "",
-            "label_tone": "light",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "#ffffff",
+            "label_hover_color": "",
             "link": "",
-            "scrim": false
+            "draft_asset": "pdf-decor-575b.jpg"
           }
         }
       },
       "block_order": [
-        "left",
-        "right"
+        "card_dhRmJg",
+        "card_Hrhj4W"
       ],
+      "name": "Featured collection",
       "settings": {
-        "header_tone": "ink",
-        "ratio": "756 / 957"
+        "eyebrow": "",
+        "heading": "",
+        "heading_font": "heading",
+        "heading_align": "center",
+        "columns_desktop": 2,
+        "columns_mobile": "1",
+        "flush": false,
+        "carousel": false,
+        "carousel_loop": false,
+        "show_collection_label": false,
+        "show_swatches": false,
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "header_tone": "ink"
       }
     },
     "dynamic_collection_MtPT6n": {
@@ -164,54 +209,77 @@
         "padding_bottom": 208
       }
     },
-    "band_three": {
-      "type": "home-hero",
+    "home_grid_NaJqPk": {
+      "type": "home-grid",
       "blocks": {
-        "left": {
-          "type": "image",
+        "card_ACmxQ4": {
+          "type": "card",
           "settings": {
-            "draft_asset": "pdf-decor-733b.jpg",
-            "heading": "",
-            "body": "",
-            "cta_label": "",
+            "product": "",
+            "image": "shopify://shop_images/CH_PW_07.png",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
             "label": "",
-            "label_tone": "light",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "#ffffff",
+            "label_hover_color": "",
             "link": "",
-            "scrim": false
+            "draft_asset": ""
           }
         },
-        "right": {
-          "type": "image",
+        "card_TnrBNE": {
+          "type": "card",
           "settings": {
-            "draft_asset": "pdf-decor-a49b.jpg",
-            "heading": "",
-            "body": "",
-            "cta_label": "",
+            "product": "",
+            "image": "shopify://shop_images/CH_PW_05.jpg",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
             "label": "",
-            "label_tone": "light",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "#ffffff",
+            "label_hover_color": "",
             "link": "",
-            "scrim": false
+            "draft_asset": ""
           }
         }
       },
       "block_order": [
-        "left",
-        "right"
+        "card_ACmxQ4",
+        "card_TnrBNE"
       ],
+      "name": "Featured collection",
       "settings": {
-        "header_tone": "ink",
-        "ratio": "756 / 957"
+        "eyebrow": "",
+        "heading": "",
+        "heading_font": "heading",
+        "heading_align": "center",
+        "columns_desktop": 2,
+        "columns_mobile": "1",
+        "flush": false,
+        "carousel": false,
+        "carousel_loop": false,
+        "show_collection_label": false,
+        "show_swatches": false,
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "header_tone": "ink"
       }
     }
   },
   "order": [
     "heading",
-    "band_one",
+    "home_grid_AfdHKJ",
     "row_one",
     "lanterns",
-    "band_two",
+    "home_grid_E46Nhg",
     "dynamic_collection_MtPT6n",
     "home_note_HTHUUm",
-    "band_three"
+    "home_grid_NaJqPk"
   ]
 }

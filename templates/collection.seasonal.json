@@ -21,10 +21,10 @@
           "settings": {
             "draft_asset": "pdf-shop-cucuyo-collection-df02.jpg",
             "alt_text": "",
-            "heading": "SPOOKY CANDLESTICKS DECOR",
-            "body": "Lorem ipsum dolor sit amet consectetur. Aliquam faucibus nec\nfacilisis consequat. Ut dolor pharetra vitae imperdiet. Tortor\nlacus dolor et et. Justo dignissim non nibh eget scelerisque mi.",
-            "cta_label": "Shop Cucuyo collection",
-            "link": "/collections/all",
+            "heading": "",
+            "body": "",
+            "cta_label": "winding candle holders",
+            "link": "shopify://products/winding-candle-holders",
             "tone": "light",
             "scrim": false
           }
@@ -95,43 +95,66 @@
         "header_tone": "ink"
       }
     },
-    "band_one": {
-      "type": "home-hero",
+    "home_grid_Ww3X9T": {
+      "type": "home-grid",
       "blocks": {
-        "left": {
-          "type": "image",
+        "card_U6JCtA": {
+          "type": "card",
           "settings": {
-            "draft_asset": "pdf-decor-efcd.jpg",
-            "heading": "",
-            "body": "",
-            "cta_label": "",
+            "product": "pumpkin-wreath",
+            "image": "shopify://shop_images/PMP_WRT_02.png",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
             "label": "",
-            "label_tone": "light",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "#FFFFFF",
+            "label_hover_color": "",
             "link": "",
-            "scrim": false
+            "draft_asset": ""
           }
         },
-        "right": {
-          "type": "image",
+        "card_wXe8NX": {
+          "type": "card",
           "settings": {
-            "draft_asset": "pdf-decor-cc1e.jpg",
-            "heading": "",
-            "body": "",
-            "cta_label": "",
+            "product": "clay-wire-spiders",
+            "image": "shopify://shop_images/CL_WR_SP_05.png",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
             "label": "",
-            "label_tone": "light",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
             "link": "",
-            "scrim": false
+            "draft_asset": ""
           }
         }
       },
       "block_order": [
-        "left",
-        "right"
+        "card_U6JCtA",
+        "card_wXe8NX"
       ],
+      "name": "Featured collection",
       "settings": {
-        "header_tone": "ink",
-        "ratio": "756 / 957"
+        "eyebrow": "",
+        "heading": "",
+        "heading_font": "heading",
+        "heading_align": "center",
+        "columns_desktop": 2,
+        "columns_mobile": "1",
+        "flush": false,
+        "carousel": false,
+        "carousel_loop": false,
+        "show_collection_label": false,
+        "show_swatches": false,
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "header_tone": "ink"
       }
     },
     "note": {
@@ -148,7 +171,7 @@
     "row_one": {
       "type": "dynamic-collection",
       "settings": {
-        "collection": "decorative-seasonal",
+        "collection": "holiday-decor",
         "products_to_show": 16,
         "eyebrow": "",
         "heading": "",
@@ -168,43 +191,66 @@
         "header_tone": "ink"
       }
     },
-    "band_two": {
-      "type": "home-hero",
+    "home_grid_7EC4h4": {
+      "type": "home-grid",
       "blocks": {
-        "left": {
-          "type": "image",
+        "card_TRmqGT": {
+          "type": "card",
           "settings": {
-            "draft_asset": "pdf-shop-kitchenware-526c.jpg",
-            "heading": "",
-            "body": "",
-            "cta_label": "Shop tabletop",
+            "product": "tinsel-tree-tea-towel",
+            "image": "shopify://shop_images/TT_TT_02.png",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
             "label": "",
-            "label_tone": "light",
-            "link": "/collections/tabletop",
-            "scrim": false
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "#FFFFFF",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         },
-        "right": {
-          "type": "image",
+        "card_Xn9rC8": {
+          "type": "card",
           "settings": {
-            "draft_asset": "pdf-decor-97a6.jpg",
-            "heading": "",
-            "body": "",
-            "cta_label": "",
+            "product": "clay-barro-ornaments",
+            "image": "shopify://shop_images/CLY_BRR_ORN_02.png",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "756/957",
             "label": "",
-            "label_tone": "light",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "#FFFFFF",
+            "label_hover_color": "",
             "link": "",
-            "scrim": false
+            "draft_asset": ""
           }
         }
       },
       "block_order": [
-        "left",
-        "right"
+        "card_TRmqGT",
+        "card_Xn9rC8"
       ],
+      "name": "Featured collection",
       "settings": {
-        "header_tone": "ink",
-        "ratio": "756 / 957"
+        "eyebrow": "",
+        "heading": "",
+        "heading_font": "heading",
+        "heading_align": "center",
+        "columns_desktop": 2,
+        "columns_mobile": "1",
+        "flush": false,
+        "carousel": false,
+        "carousel_loop": false,
+        "show_collection_label": false,
+        "show_swatches": false,
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "header_tone": "ink"
       }
     },
     "mission": {
@@ -248,10 +294,10 @@
   "order": [
     "heading",
     "split_one",
-    "band_one",
+    "home_grid_Ww3X9T",
     "note",
     "row_one",
-    "band_two",
+    "home_grid_7EC4h4",
     "mission",
     "dynamic_collection_jYfU84"
   ]

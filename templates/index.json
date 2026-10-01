@@ -178,10 +178,10 @@
             "draft_asset": "",
             "heading": "",
             "body": "",
-            "cta_label": "",
+            "cta_label": "Fleur Pedestal Bowl",
             "label": "",
             "label_tone": "light",
-            "link": "",
+            "link": "shopify://products/fleur-pedestal-bowl",
             "scrim": false
           }
         }
@@ -292,7 +292,8 @@
       "type": "image-text",
       "settings": {
         "image_side": "left",
-        "draft_asset": "pdf-landing-13-ebf2.jpg",
+        "image": "shopify://shop_images/ODL_VS_02_3f793db7-2393-477e-aeb3-82bf5d572f0c.png",
+        "draft_asset": "",
         "alt_text": "",
         "image_link": "",
         "heading": "VASES & VESSELS",
