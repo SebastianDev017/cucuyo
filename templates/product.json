@@ -58,8 +58,15 @@
         "shipping": {
           "type": "accordion",
           "settings": {
-            "title": "Shipping & returns",
-            "content": "<p>Share your shipping and returns policy here.</p>"
+            "title": "Shipping & Delivery",
+            "content": "<p>Orders are typically processed within <strong>2–4 business days</strong>, with standard shipping taking an additional <strong>3–7 business days</strong>. Shipping costs are calculated at checkout, and tracking information will be emailed once your order ships.</p><p>Oversized items are not eligible for standard shipping and are available through <strong>local pickup or local delivery/drop-off only</strong>, as noted on the product page.</p><p>If your order arrives damaged, please contact us within <strong>48 hours of delivery</strong>.</p><p>For additional details, please refer to our <a href=\"/pages/shipping-returns-policy#shipping\" title=\"Shipping Policy\">Shipping Policy</a>.</p>"
+          }
+        },
+        "returns": {
+          "type": "accordion",
+          "settings": {
+            "title": "Returns & Store Credit",
+            "content": "<p>Eligible items may be returned within <strong>14 days of delivery for store credit</strong>. Items must be unused, in their original condition, and returned in their original packaging when applicable.</p><p><strong>Oversized items, final-sale merchandise, gift cards, and custom or personalized items are final sale.</strong> Customers are responsible for return shipping costs unless an item arrives damaged, defective, or incorrect.</p><p>If there is an issue with your order, please contact us within <strong>48 hours of delivery</strong>.</p><p>For additional details, please refer to our <a href=\"/pages/shipping-returns-policy#returns\" title=\"Return &amp; Store Credit Policy\">Return &amp; Store Credit Policy</a>.</p>"
           }
         },
         "ask": {
@@ -94,6 +101,7 @@
         "description",
         "dimensions",
         "shipping",
+        "returns",
         "ask",
         "add_to_cart",
         "details"

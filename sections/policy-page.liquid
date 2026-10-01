@@ -1,0 +1,115 @@
+{%- comment -%}
+  Policy page — text only (Eugenia, 2026-10-01, after hereustudio.com/pages/
+  shipping): the page's title, then one part per policy, each under its own
+  heading — Shipping Policy, then Return & Store Credit Policy. The product
+  page's Shipping & Delivery and Returns & Store Credit dropdowns end with a
+  link to their part (#shipping, #returns): the anchor is each block's own,
+  and the header's measured band is kept clear of it (scroll-padding, set by
+  theme.js), so the heading lands in view.
+
+  Each part's text is written in its block, or taken from the store's own
+  policy (Settings → Policies, the text checkout links to as well) when the
+  block says so and that policy has been written; until then the block's
+  text shows.
+{%- endcomment -%}
+
+{%- assign title = section.settings.title | default: page.title -%}
+
+<section class="policy-page">
+  {%- if title != blank -%}
+    <h1 class="policy-page__title">{{ title | escape }}</h1>
+  {%- endif -%}
+
+  {%- for block in section.blocks -%}
+    {%- liquid
+      assign policy = nil
+      case block.settings.source
+        when 'shipping'
+          assign policy = shop.shipping_policy
+        when 'refund'
+          assign policy = shop.refund_policy
+        when 'privacy'
+          assign policy = shop.privacy_policy
+        when 'terms'
+          assign policy = shop.terms_of_service
+      endcase
+      assign body = block.settings.text
+      if policy and policy.body != blank
+        assign body = policy.body
+      endif
+      assign anchor = block.settings.anchor | default: block.settings.heading | handleize
+    -%}
+    <section class="policy-page__part" id="{{ anchor }}" {{ block.shopify_attributes }}>
+      {%- if block.settings.heading != blank -%}
+        <h2 class="policy-page__heading">{{ block.settings.heading | escape }}</h2>
+      {%- endif -%}
+      {%- if body != blank -%}
+        <div class="policy-page__text rte">{{ body }}</div>
+      {%- endif -%}
+    </section>
+  {%- endfor -%}
+</section>
+
+{% schema %}
+{
+  "name": "Policy page",
+  "tag": "section",
+  "class": "section-policy-page",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "info": "Empty uses the page's own title."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "policy",
+      "name": "Policy",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Policy"
+        },
+        {
+          "type": "text",
+          "id": "anchor",
+          "label": "Link anchor",
+          "info": "Links to this part end in #anchor, e.g. shipping → /pages/shipping-returns-policy#shipping. Empty uses the heading."
+        },
+        {
+          "type": "select",
+          "id": "source",
+          "label": "Text from",
+          "options": [
+            { "value": "text", "label": "The text below" },
+            { "value": "shipping", "label": "Store policy: Shipping" },
+            { "value": "refund", "label": "Store policy: Refund" },
+            { "value": "privacy", "label": "Store policy: Privacy" },
+            { "value": "terms", "label": "Store policy: Terms of service" }
+          ],
+          "default": "text",
+          "info": "Store policies are written in Settings → Policies. While the one chosen is empty, the text below shows."
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Policy page",
+      "blocks": [
+        { "type": "policy", "settings": { "heading": "Shipping Policy", "anchor": "shipping" } },
+        { "type": "policy", "settings": { "heading": "Return & Store Credit Policy", "anchor": "returns" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

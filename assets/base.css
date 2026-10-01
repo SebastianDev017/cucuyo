@@ -1794,11 +1794,12 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
 }
 
 /* Shared with the Interior design page's title (Text and photo → Title
-   style → Like the product title; Eugenia, 2026-10-01): one rule, so the two
-   can never drift apart. Two classes on that side, to out-rank the
+   style → Like the product title; Eugenia, 2026-10-01) and the policy
+   page's: one rule, so they can never drift apart. Two classes on that side, to out-rank the
    section's own small-line title. */
 .main-product__title,
-.page-split__title.page-split__title--product {
+.page-split__title.page-split__title--product,
+.policy-page__title {
   font-family: var(--pdp-title-font, var(--font-heading));
   font-weight: var(--pdp-title-weight, var(--font-heading-weight, 500));
   font-size: calc(1.5rem * var(--heading-scale, 1));
@@ -1945,6 +1946,12 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
   font-size: calc(0.875rem * var(--body-scale, 1));
   line-height: 1.55;
   color: var(--color-muted);
+}
+
+/* The Shipping & Delivery and Returns dropdowns end with a link to the
+   policy page; it reads as a link, set a little off the baseline. */
+.accordion__content a {
+  text-underline-offset: 3px;
 }
 
 /* Add to cart — accent bar with the price built into the label, separated by
@@ -4354,5 +4361,57 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
 
   .page-split__image--empty {
     aspect-ratio: 3 / 2;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Policy page (sections/policy-page) — text only: the page's title in the
+   product title's type, then each policy under its own heading (Eugenia,
+   2026-10-01, after HEREU's shipping page). One column of reading width in
+   the middle of the page; headings in the dropdowns' face, in the accent.
+   -------------------------------------------------------------------------- */
+.policy-page {
+  max-width: 760px;
+  margin-inline: auto;
+  color: var(--color-accent);
+}
+
+.policy-page__title {
+  margin: 0 0 56px;
+}
+
+.policy-page__part + .policy-page__part {
+  margin-top: 56px;
+}
+
+.policy-page__heading {
+  margin: 0 0 16px;
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight, 500);
+  font-size: 0.9375rem;
+  letter-spacing: 0.1em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: inherit;
+}
+
+.policy-page__text {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  line-height: 1.667;
+  color: inherit;
+}
+
+.policy-page__text a {
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 749px) {
+  .policy-page__title {
+    margin-bottom: 40px;
+  }
+
+  .policy-page__part + .policy-page__part {
+    margin-top: 44px;
   }
 }

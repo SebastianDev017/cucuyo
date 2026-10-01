@@ -1,0 +1,46 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "policy-page",
+      "blocks": {
+        "shipping": {
+          "type": "policy",
+          "settings": {
+            "heading": "Shipping Policy",
+            "anchor": "shipping",
+            "source": "text",
+            "text": "<p>Orders are typically processed within <strong>2–4 business days</strong>, with standard shipping taking an additional <strong>3–7 business days</strong>. Shipping costs are calculated at checkout, and tracking information will be emailed once your order ships.</p><p>Oversized items are not eligible for standard shipping and are available through <strong>local pickup or local delivery/drop-off only</strong>, as noted on the product page.</p><p>If your order arrives damaged, please contact us within <strong>48 hours of delivery</strong>.</p>"
+          }
+        },
+        "returns": {
+          "type": "policy",
+          "settings": {
+            "heading": "Return & Store Credit Policy",
+            "anchor": "returns",
+            "source": "text",
+            "text": "<p>Eligible items may be returned within <strong>14 days of delivery for store credit</strong>. Items must be unused, in their original condition, and returned in their original packaging when applicable.</p><p><strong>Oversized items, final-sale merchandise, gift cards, and custom or personalized items are final sale.</strong> Customers are responsible for return shipping costs unless an item arrives damaged, defective, or incorrect.</p><p>If there is an issue with your order, please contact us within <strong>48 hours of delivery</strong>.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "shipping",
+        "returns"
+      ],
+      "settings": {
+        "title": ""
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
