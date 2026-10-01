@@ -247,7 +247,15 @@
   endif
 -%}
 
-<section class="main-product" style="--media-ratio: {{ media_ratio }}; --pdp-gallery-gap: {{ gallery_gap }}px; --pdp-column-gap: {{ column_gap }}px;">
+{%- comment -%}
+  Where the information floats beside the photographs, from 750px up
+  (Product page → Information position; Eugenia, 2026-09-30/10-01: in the
+  centre of the screen as the photographs scroll): top, centre or bottom.
+{%- endcomment -%}
+<section
+  class="main-product main-product--info-{{ section.settings.info_position | default: 'center' }}"
+  style="--media-ratio: {{ media_ratio }}; --pdp-gallery-gap: {{ gallery_gap }}px; --pdp-column-gap: {{ column_gap }}px;"
+>
   <div class="main-product__grid">
     {%- if show_media -%}
       <div class="main-product__media" {{ media_block.shopify_attributes }}>
@@ -270,23 +278,31 @@
       </div>
     {%- endif -%}
 
+    {%- comment -%}
+      The column runs the full height of the photographs (hero and gallery);
+      the inner box is what floats: sticky under the header and as tall as
+      the screen below it, holding the information at its top, centre or
+      bottom (Information position) while the photographs scroll past.
+    {%- endcomment -%}
     <div class="main-product__info">
-      {%- if has_structure -%}
-        {%- for block in section.blocks -%}
-          {%- unless block.type == 'media' -%}
-            {% render 'pdp-block', type: block.type, block: block, product: product, section: section %}
-          {%- endunless -%}
-        {%- endfor -%}
-      {%- else -%}
-        {% render 'pdp-block', type: 'breadcrumb', product: product, section: section %}
-        {% render 'pdp-block', type: 'title', product: product, section: section %}
-        {% render 'pdp-block', type: 'variant_picker', product: product, section: section %}
-        {% render 'pdp-block', type: 'description', product: product, section: section %}
-        {%- for block in section.blocks -%}
-          {% render 'pdp-block', type: 'accordion', block: block, product: product, section: section %}
-        {%- endfor -%}
-        {% render 'pdp-block', type: 'add_to_cart', product: product, section: section %}
-      {%- endif -%}
+      <div class="main-product__info-inner">
+        {%- if has_structure -%}
+          {%- for block in section.blocks -%}
+            {%- unless block.type == 'media' -%}
+              {% render 'pdp-block', type: block.type, block: block, product: product, section: section %}
+            {%- endunless -%}
+          {%- endfor -%}
+        {%- else -%}
+          {% render 'pdp-block', type: 'breadcrumb', product: product, section: section %}
+          {% render 'pdp-block', type: 'title', product: product, section: section %}
+          {% render 'pdp-block', type: 'variant_picker', product: product, section: section %}
+          {% render 'pdp-block', type: 'description', product: product, section: section %}
+          {%- for block in section.blocks -%}
+            {% render 'pdp-block', type: 'accordion', block: block, product: product, section: section %}
+          {%- endfor -%}
+          {% render 'pdp-block', type: 'add_to_cart', product: product, section: section %}
+        {%- endif -%}
+      </div>
     </div>
 
     {%- comment -%}
@@ -341,6 +357,18 @@
       "unit": "px",
       "default": 10,
       "info": "Where the two sit side by side (tablet and desktop)."
+    },
+    {
+      "type": "select",
+      "id": "info_position",
+      "label": "Information position",
+      "options": [
+        { "value": "top", "label": "Top" },
+        { "value": "center", "label": "Centre" },
+        { "value": "bottom", "label": "Bottom" }
+      ],
+      "default": "center",
+      "info": "Where the title, text and add to cart float on screen while the photographs scroll past (tablet and desktop). Phones stack them under the photograph."
     }
   ],
   "blocks": [

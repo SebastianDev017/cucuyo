@@ -1,7 +1,9 @@
 {%- comment -%}
   Text and photo — a page that is one column of text beside one photograph
-  (Eugenia's Interior design page, 2026-09-30): a small title under the
-  header, the text lower down, and the photograph filling the other side from
+  (Eugenia's Interior design page, 2026-09-30; on 10-01 the photograph moved
+  to the left, the text was centred beside it and the title took the product
+  page's title type — Title style, Text position): a title, the text, and
+  the photograph filling the other side from
   the header's band to the bottom of the screen, cropped around its middle
   (or around the focal point set on it in Files). Nothing else, no scroll of
   its own.
@@ -24,6 +26,8 @@
   endif
   assign text_size = section.settings.text_size | default: 12
   assign side = section.settings.image_side | default: 'right'
+  assign title_style = section.settings.title_style | default: 'product'
+  assign text_position = section.settings.text_position | default: 'center'
   assign image = section.settings.image
   assign alt_text = section.settings.alt_text | default: image.alt
   assign focal = image.presentation.focal_point | default: 'center'
@@ -40,12 +44,12 @@
 -%}
 
 <section
-  class="page-split page-split--image-{{ side }}"
+  class="page-split page-split--image-{{ side }} page-split--title-{{ title_style }} page-split--text-{{ text_position }}"
   style="--page-split-text: {{ text_size }}px;"
 >
   <div class="page-split__copy">
     {%- if title != blank -%}
-      <h1 class="page-split__title">{{ title | escape }}</h1>
+      <h1 class="page-split__title{% if title_style == 'product' %} page-split__title--product{% endif %}">{{ title | escape }}</h1>
     {%- endif -%}
     {%- if body != blank -%}
       <div class="page-split__text rte">{{ body }}</div>
@@ -103,6 +107,17 @@
       "info": "The small line at the top, which is also the page's title for search engines. Empty uses the page's own title."
     },
     {
+      "type": "select",
+      "id": "title_style",
+      "label": "Title style",
+      "options": [
+        { "value": "product", "label": "Like the product title" },
+        { "value": "label", "label": "Small line" }
+      ],
+      "default": "product",
+      "info": "Like the product title takes the product page's title type, and changes with it."
+    },
+    {
       "type": "richtext",
       "id": "text",
       "label": "Text",
@@ -118,6 +133,18 @@
       "unit": "px",
       "default": 12,
       "info": "Desktop and tablet, in pixels (the PDF sets 12). Phones never go below 14px."
+    },
+    {
+      "type": "select",
+      "id": "text_position",
+      "label": "Text position",
+      "options": [
+        { "value": "top", "label": "Top" },
+        { "value": "center", "label": "Centre" },
+        { "value": "bottom", "label": "Bottom" }
+      ],
+      "default": "center",
+      "info": "Where the title and text sit beside the photograph (tablet and desktop)."
     },
     {
       "type": "header",

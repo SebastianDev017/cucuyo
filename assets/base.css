@@ -1707,9 +1707,11 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
     grid-row: 1;
   }
 
+  /* Beside the hero AND the gallery, so the information keeps floating for
+     as long as there are photographs to scroll past. */
   .main-product__info {
     grid-column: 2;
-    grid-row: 1;
+    grid-row: 1 / span 2;
   }
 
   .pdp-gallery {
@@ -1736,9 +1738,36 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
   background: #E5E1DC;
 }
 
-.main-product__info {
-  position: sticky;
-  top: var(--nav-clearance);
+/* Product page → Information position (Eugenia, 2026-09-30 and 10-01: it
+   floats in the centre while the photographs scroll, rather than sticking to
+   the top). From 750px the column stretches the full height of the
+   photographs; the inner box is sticky right under the header's measured
+   band and as tall as the screen below it — never taller than the
+   photographs — and holds the information at its top, centre or bottom. So
+   at the top of the page the information sits in the middle of what is on
+   screen, stays there while the photographs scroll, and leaves with the
+   last one. Information taller than the screen just starts at the top. */
+@media (min-width: 750px) {
+  .main-product__info {
+    align-self: stretch;
+  }
+
+  .main-product__info-inner {
+    position: sticky;
+    top: var(--header-panel, var(--nav-clearance));
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: min(100%, calc(100svh - var(--header-panel, var(--nav-clearance))));
+  }
+
+  .main-product--info-center .main-product__info-inner {
+    justify-content: center;
+  }
+
+  .main-product--info-bottom .main-product__info-inner {
+    justify-content: flex-end;
+  }
 }
 
 .breadcrumb {
@@ -1764,7 +1793,12 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
   margin-bottom: 10px;
 }
 
-.main-product__title {
+/* Shared with the Interior design page's title (Text and photo → Title
+   style → Like the product title; Eugenia, 2026-10-01): one rule, so the two
+   can never drift apart. Two classes on that side, to out-rank the
+   section's own small-line title. */
+.main-product__title,
+.page-split__title.page-split__title--product {
   font-family: var(--pdp-title-font, var(--font-heading));
   font-weight: var(--pdp-title-weight, var(--font-heading-weight, 500));
   font-size: calc(1.5rem * var(--heading-scale, 1));
@@ -1864,7 +1898,7 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
    its space belong to the first one rather than to a wrapper. They are the
    only <details> in the info column, so :first-of-type is exactly "the first
    accordion", wherever the merchant has dragged the other blocks. */
-.main-product__info > details.accordion:first-of-type {
+.main-product__info-inner > details.accordion:first-of-type {
   margin-top: 60px;
   border-top: 1px solid var(--color-accent);
 }
@@ -2577,15 +2611,11 @@ html.no-js .variant-option__select-wrap {
     row-gap: 28px;
   }
 
-  .main-product__info {
-    position: static;
-  }
-
   .breadcrumb {
     margin-bottom: 32px;
   }
 
-  .main-product__info > details.accordion:first-of-type {
+  .main-product__info-inner > details.accordion:first-of-type {
     margin-top: 40px;
   }
 
@@ -4185,17 +4215,33 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
   color: var(--color-accent);
 }
 
+/* Photograph on the left (Eugenia's capture, 2026-10-01, measured at
+   1440): the photograph 706px wide (49%), the text starting 33px after it
+   and running to the page margin. */
 .page-split--image-left {
-  grid-template-columns: minmax(0, 663fr) minmax(0, 777fr);
+  grid-template-columns: minmax(0, 706fr) minmax(0, 734fr);
 }
 
+/* The column holds the title and text at its top, centre or bottom (Text
+   position). */
 .page-split__copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   padding: 0 64px 64px var(--page-margin);
+}
+
+.page-split--text-center .page-split__copy {
+  justify-content: center;
+}
+
+.page-split--text-bottom .page-split__copy {
+  justify-content: flex-end;
 }
 
 .page-split--image-left .page-split__copy {
   order: 2;
-  padding: 0 var(--page-margin) 64px 64px;
+  padding: 40px var(--page-margin) 40px clamp(24px, 2.3vw, 40px);
 }
 
 /* The page's h1, set as the small line of the PDF: the body face in
@@ -4222,6 +4268,12 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
   font-size: var(--page-split-text, 12px);
   line-height: 1.667;
   color: inherit;
+}
+
+/* Under a title set like the product's, the text follows at the distance
+   of the capture rather than the small line's long drop. */
+.page-split--title-product .page-split__text {
+  margin-top: 32px;
 }
 
 .page-split__text p {
@@ -4266,6 +4318,20 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
   .page-split--image-left .page-split__copy {
     order: 0;
     padding: 12px var(--page-margin) 40px;
+  }
+
+  /* With the photograph on the left it comes first on a phone too, the
+     order the page reads in on a desktop. */
+  .page-split--image-left .page-split__media {
+    order: -1;
+  }
+
+  .page-split--image-left .page-split__copy {
+    padding-top: 28px;
+  }
+
+  .page-split--title-product .page-split__text {
+    margin-top: 20px;
   }
 
   .page-split__title {
