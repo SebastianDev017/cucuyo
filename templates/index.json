@@ -167,7 +167,7 @@
             "cta_label": "Discover tabletop",
             "label": "",
             "label_tone": "light",
-            "link": "/collections/tabletop",
+            "link": "shopify://collections/tabletop",
             "scrim": false
           }
         },
@@ -299,7 +299,7 @@
         "heading": "VASES & VESSELS",
         "body": "From understated pieces to more expressive designs, discover thoughtful details that bring warmth and character to your space.",
         "cta_label": "SHOP VASES & VESSELS",
-        "link": "shopify://collections/vases",
+        "link": "shopify://collections/vases-vessels",
         "header_tone": "ink"
       }
     },
@@ -402,7 +402,7 @@
         "heading": "TIS THE SEASON",
         "body": "A changing collection for this fall’s gatherings and celebrations, with distinctive pieces that bring warmth and character to the home as the season unfolds.",
         "link_label": "Shop seasonal decor",
-        "link": "shopify://collections/decorative",
+        "link": "shopify://collections/seasonal",
         "padding_top": 208,
         "padding_bottom": 208
       }
@@ -420,7 +420,7 @@
             "cta_label": "Shop seasonal",
             "label": "",
             "label_tone": "light",
-            "link": "shopify://collections/decorative-seasonal",
+            "link": "shopify://collections/seasonal",
             "scrim": false
           }
         },
@@ -552,7 +552,7 @@
         "heading": "A CLOSER LOOK",
         "body": "From sculptural bowls to one of a kind vintage finds, each piece has something that sets it apart, with playful forms and details you don’t come across every day.",
         "cta_label": "SHOP VASES & VESSELS",
-        "link": "shopify://collections/vases",
+        "link": "shopify://collections/vases-vessels",
         "header_tone": "ink"
       }
     },
