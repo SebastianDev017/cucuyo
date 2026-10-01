@@ -27,7 +27,7 @@
     "swatch_margin": 8,
     "enable_scroll_animations": true,
     "enable_smooth_scroll": true,
-    "favicon": "shopify://shop_images/CH_favicon.png",
+    "favicon": "shopify://shop_images/CH_favicon-bg.png",
     "content_for_index": []
   },
   "presets": {
