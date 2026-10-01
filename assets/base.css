@@ -1795,11 +1795,13 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
 
 /* Shared with the Interior design page's title (Text and photo → Title
    style → Like the product title; Eugenia, 2026-10-01) and the policy
-   page's: one rule, so they can never drift apart. Two classes on that side, to out-rank the
-   section's own small-line title. */
+   pages' (the theme's own and Shopify's /policies/*): one rule, so they can
+   never drift apart. Two classes on those sides, to out-rank the section's
+   own small-line title and Shopify's policy.css. */
 .main-product__title,
 .page-split__title.page-split__title--product,
-.policy-page__title {
+.policy-page__title,
+.shopify-policy__title h1 {
   font-family: var(--pdp-title-font, var(--font-heading));
   font-weight: var(--pdp-title-weight, var(--font-heading-weight, 500));
   font-size: calc(1.5rem * var(--heading-scale, 1));
@@ -4365,53 +4367,129 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
 }
 
 /* --------------------------------------------------------------------------
-   Policy page (sections/policy-page) — text only: the page's title in the
-   product title's type, then each policy under its own heading (Eugenia,
-   2026-10-01, after HEREU's shipping page). One column of reading width in
-   the middle of the page; headings in the dropdowns' face, in the accent.
+   Policy pages — Shopify's own /policies/* (Settings → Policies, which the
+   product page's dropdowns link to) and the theme's Policy page section.
+   Eugenia's page (2026-10-01): the title in the product title's type, the
+   text in the product description's size, all in the accent brown, left
+   aligned over the two middle columns of the four-column product grid. Each
+   section is a bold line at text size with its text straight under it, and
+   one empty line between sections — the same structure on every policy
+   (snippets/policy-body drops the empty lines the texts bring).
+
+   Shopify loads its own policy.css on /policies/* (a 65ch centred column,
+   centred title); the body.template-policy prefix out-ranks it.
    -------------------------------------------------------------------------- */
+body.template-policy .shopify-policy__container,
 .policy-page {
-  max-width: 760px;
-  margin-inline: auto;
+  max-width: none;
+  margin: 0;
+  padding: 0;
   color: var(--color-accent);
 }
 
+body.template-policy .shopify-policy__title,
 .policy-page__title {
-  margin: 0 0 56px;
+  margin: 0 0 28px;
+  text-align: left;
 }
 
-.policy-page__part + .policy-page__part {
-  margin-top: 56px;
-}
-
-.policy-page__heading {
-  margin: 0 0 16px;
-  font-family: var(--font-heading);
-  font-weight: var(--font-heading-weight, 500);
-  font-size: 0.9375rem;
-  letter-spacing: 0.1em;
-  line-height: 1.4;
-  text-transform: uppercase;
+body.template-policy .shopify-policy__body .rte,
+.policy-page__part {
+  font-family: var(--font-body);
+  font-size: calc(0.875rem * var(--body-scale, 1));
+  line-height: 1.55;
   color: inherit;
 }
 
 .policy-page__text {
-  font-family: var(--font-body);
-  font-size: 0.875rem;
-  line-height: 1.667;
-  color: inherit;
+  font-size: inherit;
+  line-height: inherit;
 }
 
+/* Paragraphs stack like the lines of the shipping policy: no space between
+   them, the only gap in a policy is the empty line above a heading. */
+body.template-policy .shopify-policy__body p,
+.policy-page__text p {
+  margin: 0;
+}
+
+body.template-policy .shopify-policy__body p:empty {
+  display: none;
+}
+
+body.template-policy .shopify-policy__body ul,
+body.template-policy .shopify-policy__body ol,
+.policy-page__text ul,
+.policy-page__text ol {
+  margin: 0;
+  padding-left: 1.5em;
+}
+
+body.template-policy .shopify-policy__body ul,
+.policy-page__text ul {
+  list-style: disc;
+}
+
+body.template-policy .shopify-policy__body b,
+body.template-policy .shopify-policy__body strong,
+.policy-page__text b,
+.policy-page__text strong {
+  font-weight: 700;
+}
+
+body.template-policy .shopify-policy__body a,
 .policy-page__text a {
+  color: inherit;
   text-underline-offset: 3px;
 }
 
-@media (max-width: 749px) {
-  .policy-page__title {
-    margin-bottom: 40px;
-  }
+/* Section headings: the lines snippets/policy-body marks, the <h2>s some
+   policies come with, and the section's own block headings. The empty line
+   above is the margin, one line tall. */
+body.template-policy .shopify-policy__body .policy-heading,
+body.template-policy .shopify-policy__body h2,
+body.template-policy .shopify-policy__body h3,
+.policy-page__heading {
+  display: block;
+  margin: 1.55em 0 0;
+  font-family: var(--font-body);
+  font-size: inherit;
+  font-weight: 700;
+  line-height: inherit;
+  letter-spacing: 0;
+  text-transform: none;
+  color: inherit;
+}
 
-  .policy-page__part + .policy-page__part {
-    margin-top: 44px;
+/* The <br> that ended the heading's line would open an empty one under the
+   now-block heading. */
+body.template-policy .shopify-policy__body .policy-heading + br {
+  display: none;
+}
+
+body.template-policy .shopify-policy__body .rte > :first-child > :is(.policy-heading, h2, h3):first-child,
+body.template-policy .shopify-policy__body .rte > :is(h2, h3):first-child,
+.policy-page__part:first-of-type .policy-page__heading {
+  margin-top: 0;
+}
+
+/* The section's blocks sit like the paragraphs of one text: one empty line
+   between them, the heading right on its text. */
+.policy-page__part + .policy-page__part {
+  margin-top: 1.55em;
+}
+
+.policy-page__part + .policy-page__part .policy-page__heading {
+  margin-top: 0;
+}
+
+@media (min-width: 750px) {
+  body.template-policy .shopify-policy__container,
+  .policy-page {
+    /* The second and third of four columns of the product grid, inside the
+       page margins: one column and one gap in, two columns and a gap wide. */
+    margin-left: calc((100% - 3 * var(--grid-gap, 4px)) / 4 + var(--grid-gap, 4px));
+    width: calc((100% - 3 * var(--grid-gap, 4px)) / 2 + var(--grid-gap, 4px));
+    padding-top: 84px;
   }
 }

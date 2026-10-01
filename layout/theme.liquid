@@ -50,7 +50,15 @@
     {% sections 'header-group' %}
 
     <main id="main-content" tabindex="-1">
-      {{ content_for_layout }}
+      {%- comment -%}
+        Store policies have no template of their own: snippets/policy-body
+        marks their heading lines so base.css can space them.
+      {%- endcomment -%}
+      {%- if request.page_type == 'policy' -%}
+        {% render 'policy-body', content: content_for_layout %}
+      {%- else -%}
+        {{ content_for_layout }}
+      {%- endif -%}
     </main>
 
     {% sections 'footer-group' %}
