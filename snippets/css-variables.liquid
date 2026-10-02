@@ -19,6 +19,12 @@
     font-style: normal;
     font-display: swap;
   }
+  /* Persona's default & is a cross ("VASES + VESSELS"); its stylistic set
+     ss03 holds the classic & that Eugenia's designs use. ss03 changes only
+     the ampersand, and Junction has no ss03, so it is set once for the page. */
+  html {
+    font-feature-settings: 'ss03' 1;
+  }
   @font-face {
     font-family: 'Junction';
     src: url('{{ 'junction-light.woff2' | asset_url }}') format('woff2');
