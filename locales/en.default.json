@@ -80,7 +80,8 @@
     "checkout": "Checkout"
   },
   "collections": {
-    "empty": "No products found in this collection."
+    "empty": "No products found in this collection.",
+    "all_products": "All products"
   },
   "products": {
     "add_to_cart": "Add to cart",

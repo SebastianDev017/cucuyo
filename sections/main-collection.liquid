@@ -11,8 +11,20 @@
 
 {%- paginate collection.products by section.settings.products_per_page -%}
   <section class="main-collection">
+    {%- liquid
+      comment
+        /collections/all is Shopify's automatic collection when the store has
+        no collection of its own with that handle, and Shopify titles it
+        "Products". Jenn, 2026-10-01: it reads "All products". A real
+        collection with the handle "all" keeps the title its owner gave it.
+      endcomment
+      assign collection_title = collection.title
+      if collection.handle == 'all' and collection.id == blank
+        assign collection_title = 'collections.all_products' | t
+      endif
+    -%}
     <header class="collection-head">
-      <h1 class="collection-head__title">{{ collection.title }}</h1>
+      <h1 class="collection-head__title">{{ collection_title }}</h1>
       {%- if collection.description != blank -%}
         <div class="collection-head__description rte">{{ collection.description }}</div>
       {%- endif -%}

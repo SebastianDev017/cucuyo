@@ -55,7 +55,7 @@
     "settings": [
       {
         "type": "paragraph",
-        "content": "Cucuyo self-hosts its brand fonts: PersonaTRIAL Medium for headings and labels, Junction for body text. They load from the theme's assets — no external requests."
+        "content": "Cucuyo self-hosts its brand fonts: Persona Medium for headings and labels, Junction for body text. They load from the theme's assets — no external requests."
       },
       {
         "type": "range",

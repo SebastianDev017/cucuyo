@@ -1,7 +1,7 @@
 /* ==========================================================================
    CUCUYO — base.css (v2, Figma 1:1 rebuild; rev: mobile drawer)
    Tokens come from snippets/css-variables.liquid (settings-bound, with
-   concrete fallbacks). Fonts are self-hosted: PersonaTRIAL Medium (headings,
+   concrete fallbacks). Fonts are self-hosted: Persona Medium (headings,
    labels, nav) + Junction (body). Design reference: approved Figma homepage,
    1512px frame — sizes below are 1:1 CSS px from that frame.
    ========================================================================== */
@@ -555,6 +555,52 @@ body.header-light .site-header[data-header-state='top'] :is(
 
   html.no-js .site-header__list + .site-header__list {
     margin-top: 14px;
+  }
+}
+
+/* Phones (Jenn, 2026-10-01): CUCUYO is 4.31em wide, so 12.5vw = 54% of the
+   screen (capped at 56px). The burger grows with it and sits on the
+   wordmark's cap centre (0.52em); theme.js measures both. The drawer is
+   narrower than the screen, so its wordmark keeps its size; its X lands on
+   the burger. */
+@media (max-width: 749px) {
+  html.js .site-header {
+    --bar-logo: min(12.5vw, 56px);
+  }
+
+  html.js .site-header__logo {
+    top: 14px;
+    font-size: var(--bar-logo);
+  }
+
+  html.js .site-header__burger {
+    top: calc(14px + var(--bar-logo) * 0.52 - 24px);
+    width: 48px;
+    height: 48px;
+  }
+
+  html.js .site-header__burger-lines::before,
+  html.js .site-header__burger-lines::after {
+    left: 10px;
+    right: 10px;
+    height: 1.5px;
+  }
+
+  html.js .site-header__burger-lines::before {
+    top: 19px;
+  }
+
+  html.js .site-header__burger-lines::after {
+    top: 28px;
+  }
+
+  .nav-drawer .nav-drawer__inner {
+    padding-top: 14px;
+  }
+
+  .nav-drawer .nav-drawer__close {
+    width: 48px;
+    height: 48px;
   }
 }
 
@@ -1378,13 +1424,27 @@ body:not(.template-page) main > .section-page-title + .shopify-section {
     padding: 56px var(--page-margin) 48px;
   }
 
+  /* Jenn, 2026-10-01: the mark runs the width of the screen (inside the
+     page margins), and the note sits above the email field and the button,
+     on the left, as their heading. */
   .site-footer__mark {
-    width: min(var(--footer-mark-width, 300px), 62vw);
+    width: 100%;
   }
 
   .site-footer__columns {
     grid-template-columns: 1fr;
     gap: 24px;
+  }
+
+  .site-footer__newsletter {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .site-footer__note {
+    order: -1;
+    margin: 0 0 12px;
+    text-align: left;
   }
 }
 
@@ -2042,21 +2102,24 @@ html.no-js .variant-option__select-wrap {
   display: none;
 }
 
+/* Jenn, 2026-10-01: the label and the price were hard to read at 11px.
+   14px now, above the 12px dropdown titles — the button is the one thing on
+   the page that has to be read at a glance. */
 .button--atc {
   display: inline-flex;
   align-items: center;
-  padding: 10px 22px;
+  padding: 13px 26px;
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight, 500);
-  font-size: 0.6875rem;
-  letter-spacing: 0.12em;
+  font-size: 0.875rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
 .button--atc__divider {
   width: 1px;
-  height: 13px;
-  margin-inline: 16px;
+  height: 16px;
+  margin-inline: 18px;
   background: currentColor;
   opacity: 0.6;
 }
@@ -3963,8 +4026,22 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
     order: 0;
   }
 
+  /* Jenn, 2026-10-01: on a phone the text under the photograph reads like
+     the centred note (The Gift Edit): centred, with the note's own padding
+     (its 208px at the phone's 0.45) and its 9px under the title. */
   .image-text__copy {
-    padding: 32px var(--page-margin) 56px;
+    justify-content: center;
+    align-items: center;
+    padding: calc(208px * 0.45) var(--page-margin);
+    text-align: center;
+  }
+
+  .image-text__inner {
+    margin-inline: auto;
+  }
+
+  .image-text__heading + .image-text__body {
+    margin-top: 9px;
   }
 }
 
@@ -4008,6 +4085,25 @@ body.layout-mosaic.template-collection main {
    out of that padding. */
 .you-may-like {
   margin-inline: calc(-1 * var(--page-margin));
+}
+
+/* Jenn, 2026-10-01: as far from the photographs as the footer's first line
+   is from the row (main's 112 + footer's 72 + 5 in the centred row; 64 + 56
+   on phones), not the 4px separator. */
+body.template-product main > .shopify-section + .shopify-section:has(> .you-may-like) {
+  margin-top: 189px;
+}
+
+@media (max-width: 1199.98px) {
+  body.template-product main > .shopify-section + .shopify-section:has(> .you-may-like) {
+    margin-top: 184px;
+  }
+}
+
+@media (max-width: 749px) {
+  body.template-product main > .shopify-section + .shopify-section:has(> .you-may-like) {
+    margin-top: 120px;
+  }
 }
 
 .you-may-like .product-strip {
@@ -4367,17 +4463,11 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
 }
 
 /* --------------------------------------------------------------------------
-   Policy pages — Shopify's own /policies/* (Settings → Policies, which the
-   product page's dropdowns link to) and the theme's Policy page section.
-   Eugenia's page (2026-10-01): the title in the product title's type, the
-   text in the product description's size, all in the accent brown, left
-   aligned over the two middle columns of the four-column product grid. Each
-   section is a bold line at text size with its text straight under it, and
-   one empty line between sections — the same structure on every policy
-   (snippets/policy-body drops the empty lines the texts bring).
-
-   Shopify loads its own policy.css on /policies/* (a 65ch centred column,
-   centred title); the body.template-policy prefix out-ranks it.
+   Policy pages — Shopify's /policies/* and the Policy page section (Eugenia,
+   2026-10-01): product-title type for the title, product-description size
+   for the text, all brown, over the grid's two middle columns; one empty line
+   above each heading and nowhere else (snippets/policy-body). The
+   body.template-policy prefix out-ranks Shopify's policy.css.
    -------------------------------------------------------------------------- */
 body.template-policy .shopify-policy__container,
 .policy-page {
@@ -4406,8 +4496,7 @@ body.template-policy .shopify-policy__body .rte,
   line-height: inherit;
 }
 
-/* Paragraphs stack like the lines of the shipping policy: no space between
-   them, the only gap in a policy is the empty line above a heading. */
+/* Paragraphs stack like lines; the only gap is above a heading. */
 body.template-policy .shopify-policy__body p,
 .policy-page__text p {
   margin: 0;
@@ -4443,9 +4532,7 @@ body.template-policy .shopify-policy__body a,
   text-underline-offset: 3px;
 }
 
-/* Section headings: the lines snippets/policy-body marks, the <h2>s some
-   policies come with, and the section's own block headings. The empty line
-   above is the margin, one line tall. */
+/* Headings: marked lines, policy <h2>s, the section's block headings. */
 body.template-policy .shopify-policy__body .policy-heading,
 body.template-policy .shopify-policy__body h2,
 body.template-policy .shopify-policy__body h3,
@@ -4461,8 +4548,7 @@ body.template-policy .shopify-policy__body h3,
   color: inherit;
 }
 
-/* The <br> that ended the heading's line would open an empty one under the
-   now-block heading. */
+/* its line's <br> would open an empty line under the block heading */
 body.template-policy .shopify-policy__body .policy-heading + br {
   display: none;
 }
@@ -4473,8 +4559,7 @@ body.template-policy .shopify-policy__body .rte > :is(h2, h3):first-child,
   margin-top: 0;
 }
 
-/* The section's blocks sit like the paragraphs of one text: one empty line
-   between them, the heading right on its text. */
+/* one empty line between the section's blocks */
 .policy-page__part + .policy-page__part {
   margin-top: 1.55em;
 }
@@ -4486,8 +4571,7 @@ body.template-policy .shopify-policy__body .rte > :is(h2, h3):first-child,
 @media (min-width: 750px) {
   body.template-policy .shopify-policy__container,
   .policy-page {
-    /* The second and third of four columns of the product grid, inside the
-       page margins: one column and one gap in, two columns and a gap wide. */
+    /* columns 2–3 of the four-column grid */
     margin-left: calc((100% - 3 * var(--grid-gap, 4px)) / 4 + var(--grid-gap, 4px));
     width: calc((100% - 3 * var(--grid-gap, 4px)) / 2 + var(--grid-gap, 4px));
     padding-top: 84px;

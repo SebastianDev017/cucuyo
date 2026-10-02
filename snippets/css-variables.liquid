@@ -1,9 +1,11 @@
 {%- comment -%}
   Bridges theme settings to the CSS custom properties consumed by base.css.
-  Fonts are SELF-HOSTED (Figma spec): PersonaTRIAL Medium for headings/labels,
+  Fonts are SELF-HOSTED (Figma spec): Persona Medium for headings/labels,
   Junction (light/regular/bold) for body — loaded via @font-face from assets,
-  never font_picker. PersonaTRIAL ships a limited charset (A-Z a-z 0-9 . , -),
-  so Junction follows it in the heading stack for per-glyph fallback.
+  never font_picker. assets/persona-medium.woff2 is the full licensed Persona
+  (Eugenia, 2026-10-01: 417 glyphs — & ’ accents ? ! included); it replaced
+  the trial, which carried A-Z a-z 0-9 . , - only. Junction still follows it
+  in the heading stack, now only as the loading fallback.
 
   Color settings return a Color drop that `default` does NOT treat as blank,
   so each token uses an explicit blank check (Atelier pattern) — a concrete
@@ -11,7 +13,7 @@
 {%- endcomment -%}
 {% style %}
   @font-face {
-    font-family: 'PersonaTRIAL';
+    font-family: 'Persona';
     src: url('{{ 'persona-medium.woff2' | asset_url }}') format('woff2');
     font-weight: 500;
     font-style: normal;
@@ -40,7 +42,7 @@
   }
 
   :root {
-    --font-heading: 'PersonaTRIAL', 'Junction', 'Optima', 'Segoe UI', sans-serif;
+    --font-heading: 'Persona', 'Junction', 'Optima', 'Segoe UI', sans-serif;
     --font-heading-weight: 500;
     --font-body: 'Junction', 'Helvetica Neue', Arial, sans-serif;
 
