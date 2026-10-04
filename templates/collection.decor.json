@@ -33,7 +33,6 @@
         "image_2": {
           "type": "image",
           "settings": {
-            "image": "",
             "draft_asset": "pdf2-decor-1-2.jpg",
             "heading": "",
             "body": "architectural bows makes good lighting better",
@@ -61,7 +60,6 @@
           "type": "card",
           "settings": {
             "product": "appenzell-red-burgundy-lamp",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -78,7 +76,6 @@
           "type": "card",
           "settings": {
             "product": "silee-travertinen-lamp",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -95,7 +92,6 @@
           "type": "card",
           "settings": {
             "product": "memphis-burgundy-lamp",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -112,7 +108,6 @@
           "type": "card",
           "settings": {
             "product": "woven-cane-side-table",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -155,6 +150,7 @@
       "type": "image-text",
       "settings": {
         "image_side": "left",
+        "image": "shopify://shop_images/CH_PW_07.png",
         "draft_asset": "",
         "alt_text": "",
         "image_link": "",
@@ -163,7 +159,6 @@
         "cta_label": "",
         "link": "",
         "header_tone": "ink",
-        "image": "shopify://shop_images/CH_PW_07.png",
         "text_position": "center",
         "show_icon": true,
         "overlay_body": "spotted cheetahs and pink cats living in harmony.",
@@ -220,7 +215,6 @@
           "type": "card",
           "settings": {
             "product": "antique-brass-candle-holders",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -237,7 +231,6 @@
           "type": "card",
           "settings": {
             "product": "green-marble-door-pulls",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -247,14 +240,13 @@
             "label_color": "",
             "label_hover_color": "",
             "link": "",
-            "draft_asset": "pdf2-decor-5-2.jpg"
+            "draft_asset": ""
           }
         },
         "card_3": {
           "type": "card",
           "settings": {
             "product": "pink-florette-planter-medium",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -271,7 +263,6 @@
           "type": "card",
           "settings": {
             "product": "winding-candle-holders",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
