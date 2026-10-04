@@ -13,26 +13,28 @@
       "type": "mosaic-heading",
       "settings": {}
     },
-    "split_one": {
+    "split_candles": {
       "type": "home-split",
       "blocks": {
         "media": {
           "type": "media",
           "settings": {
-            "draft_asset": "pdf-shop-cucuyo-collection-df02.jpg",
+            "image": "shopify://shop_images/WN_CH_07.png",
+            "draft_asset": "",
             "alt_text": "",
             "heading": "",
             "body": "",
-            "cta_label": "winding candle holders",
+            "cta_label": "SEE WINDING CANDLE HOLDERS",
             "link": "shopify://products/winding-candle-holders",
             "tone": "light",
             "scrim": false
           }
         },
-        "c1": {
+        "card_1": {
           "type": "card",
           "settings": {
             "product": "clay-wire-spiders",
+            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
@@ -42,10 +44,11 @@
             "link": ""
           }
         },
-        "c2": {
+        "card_2": {
           "type": "card",
           "settings": {
             "product": "pumpkin-wreath",
+            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
@@ -55,10 +58,11 @@
             "link": ""
           }
         },
-        "c3": {
+        "card_3": {
           "type": "card",
           "settings": {
             "product": "winding-candle-holders",
+            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
@@ -68,10 +72,11 @@
             "link": ""
           }
         },
-        "c4": {
+        "card_4": {
           "type": "card",
           "settings": {
             "product": "black-clay-jack-o-lantern",
+            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
@@ -84,10 +89,10 @@
       },
       "block_order": [
         "media",
-        "c1",
-        "c2",
-        "c3",
-        "c4"
+        "card_1",
+        "card_2",
+        "card_3",
+        "card_4"
       ],
       "settings": {
         "media_side": "left",
@@ -95,34 +100,120 @@
         "header_tone": "ink"
       }
     },
-    "home_grid_Ww3X9T": {
+    "note_seasonal": {
+      "type": "home-note",
+      "settings": {
+        "heading": "SEASONAL",
+        "body": "We follow the seasons through the objects that make them feel distinct, starting with fall’s warm colors, natural textures, and a little more reason to gather.",
+        "link_label": "",
+        "link": "",
+        "padding_top": 208,
+        "padding_bottom": 208
+      }
+    },
+    "hero_fall": {
+      "type": "home-hero",
+      "blocks": {
+        "image_1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/PMP_WRT_02.png",
+            "draft_asset": "",
+            "heading": "",
+            "body": "",
+            "cta_label": "SEE PUMPKIN WREATH",
+            "label": "",
+            "label_tone": "light",
+            "link": "shopify://products/pumpkin-wreath",
+            "scrim": false
+          }
+        },
+        "image_2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/CL_WR_SP_05.png",
+            "draft_asset": "",
+            "heading": "",
+            "body": "",
+            "cta_label": "SEE CLAY AND WIRE SPIDERS",
+            "label": "",
+            "label_tone": "light",
+            "link": "shopify://products/clay-wire-spiders",
+            "scrim": false
+          }
+        }
+      },
+      "block_order": [
+        "image_1",
+        "image_2"
+      ],
+      "settings": {
+        "header_tone": "ink",
+        "ratio": "3 / 4"
+      }
+    },
+    "row_light": {
       "type": "home-grid",
       "blocks": {
-        "card_U6JCtA": {
+        "card_1": {
           "type": "card",
           "settings": {
-            "product": "",
-            "image": "shopify://shop_images/PMP_WRT_02.png",
+            "product": "trumpet-candle-holders",
+            "image": "shopify://shop_images/TRM_CH_03_dd8eb8c7-ada0-41b0-af51-289593bcd39c.jpg",
             "image_url": "",
             "alt_text": "",
-            "ratio": "756/957",
+            "ratio": "3/4",
             "label": "",
             "label_font": "heading",
             "label_tone": "dark",
-            "label_color": "#ffffff",
+            "label_color": "",
             "label_hover_color": "",
             "link": "",
             "draft_asset": ""
           }
         },
-        "card_wXe8NX": {
+        "card_2": {
           "type": "card",
           "settings": {
-            "product": "",
-            "image": "shopify://shop_images/CL_WR_SP_05.png",
+            "product": "rattan-lanterns",
+            "image": "",
             "image_url": "",
             "alt_text": "",
-            "ratio": "756/957",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_3": {
+          "type": "card",
+          "settings": {
+            "product": "antique-brass-candle-holders",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_4": {
+          "type": "card",
+          "settings": {
+            "product": "clay-san-antonio-mission-lantern",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
             "label": "",
             "label_font": "heading",
             "label_tone": "dark",
@@ -134,17 +225,18 @@
         }
       },
       "block_order": [
-        "card_U6JCtA",
-        "card_wXe8NX"
+        "card_1",
+        "card_2",
+        "card_3",
+        "card_4"
       ],
-      "name": "Featured collection",
       "settings": {
         "eyebrow": "",
         "heading": "",
         "heading_font": "heading",
         "heading_align": "center",
-        "columns_desktop": 2,
-        "columns_mobile": "1",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
         "flush": false,
         "carousel": false,
         "carousel_loop": false,
@@ -157,72 +249,197 @@
         "header_tone": "ink"
       }
     },
-    "note": {
-      "type": "home-note",
+    "split_kitchen": {
+      "type": "home-split",
+      "blocks": {
+        "media": {
+          "type": "media",
+          "settings": {
+            "image": "shopify://shop_images/TT_TT_02.png",
+            "draft_asset": "",
+            "alt_text": "",
+            "heading": "",
+            "body": "",
+            "cta_label": "SEE TINSEL TREE TEA TOWEL",
+            "link": "shopify://products/tinsel-tree-tea-towel",
+            "tone": "light",
+            "scrim": false
+          }
+        },
+        "card_1": {
+          "type": "card",
+          "settings": {
+            "product": "kenya-soapstone-nativity",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "label_hover_color": "",
+            "link": ""
+          }
+        },
+        "card_2": {
+          "type": "card",
+          "settings": {
+            "product": "christmas-donkey-tea-towel",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "label_hover_color": "",
+            "link": ""
+          }
+        },
+        "card_3": {
+          "type": "card",
+          "settings": {
+            "product": "black-clay-jack-o-lantern",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "label_hover_color": "",
+            "link": ""
+          }
+        },
+        "card_4": {
+          "type": "card",
+          "settings": {
+            "product": "kenya-kisii-soapstone-nativity",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "label_hover_color": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "media",
+        "card_1",
+        "card_2",
+        "card_3",
+        "card_4"
+      ],
       "settings": {
-        "heading": "seasonal",
-        "body": "We follow the seasons through the objects that make them feel distinct, starting with fall’s warm colors, natural textures, and a little more reason to gather",
-        "link_label": "",
-        "link": "",
-        "padding_top": 208,
-        "padding_bottom": 208
-      }
-    },
-    "row_one": {
-      "type": "dynamic-collection",
-      "settings": {
-        "collection": "holiday-decor",
-        "products_to_show": 16,
-        "eyebrow": "",
-        "heading": "",
-        "heading_align": "center",
-        "columns_desktop": 4,
-        "columns_mobile": "2",
-        "flush": false,
-        "carousel": true,
-        "carousel_loop": true,
-        "label_tone": "dark",
-        "label_color": "",
-        "label_hover_color": "#ffffff",
-        "background_color": "",
-        "text_color": "",
-        "padding_top": 0,
-        "padding_bottom": 0,
+        "media_side": "left",
+        "show_collection_label": false,
         "header_tone": "ink"
       }
     },
-    "home_grid_7EC4h4": {
+    "collection_note": {
+      "type": "image-text",
+      "settings": {
+        "image_side": "right",
+        "draft_asset": "",
+        "alt_text": "",
+        "image_link": "",
+        "heading": "CUCUYO COLLECTION",
+        "body": "a spontaneous meeting between luxury and the eclectic",
+        "cta_label": "",
+        "link": "",
+        "header_tone": "ink",
+        "image": "shopify://shop_images/CS_LNT_02_520075cd-6ed2-4722-9c02-72b84ffa9a02.png",
+        "text_position": "center",
+        "show_icon": true,
+        "overlay_body": "",
+        "overlay_cta_label": "",
+        "overlay_link": "",
+        "overlay_tone": "light"
+      }
+    },
+    "strip_holiday": {
       "type": "home-grid",
       "blocks": {
-        "card_TRmqGT": {
+        "card_1": {
           "type": "card",
           "settings": {
-            "product": "",
-            "image": "shopify://shop_images/TT_TT_02.png",
+            "product": "clay-barro-ornaments",
+            "image": "",
             "image_url": "",
             "alt_text": "",
-            "ratio": "756/957",
+            "ratio": "3/4",
             "label": "",
             "label_font": "heading",
             "label_tone": "dark",
-            "label_color": "#ffffff",
+            "label_color": "",
             "label_hover_color": "",
             "link": "",
             "draft_asset": ""
           }
         },
-        "card_Xn9rC8": {
+        "card_2": {
           "type": "card",
           "settings": {
-            "product": "",
-            "image": "shopify://shop_images/CLY_BRR_ORN_02.png",
+            "product": "kenya-kisii-soapstone-nativity",
+            "image": "",
             "image_url": "",
             "alt_text": "",
-            "ratio": "756/957",
+            "ratio": "3/4",
             "label": "",
             "label_font": "heading",
             "label_tone": "dark",
-            "label_color": "#ffffff",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_3": {
+          "type": "card",
+          "settings": {
+            "product": "kenya-soapstone-nativity",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_4": {
+          "type": "card",
+          "settings": {
+            "product": "christmas-canvas-tote-bag",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_5": {
+          "type": "card",
+          "settings": {
+            "product": "tinsel-tree-tea-towel",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
             "label_hover_color": "",
             "link": "",
             "draft_asset": ""
@@ -230,59 +447,24 @@
         }
       },
       "block_order": [
-        "card_TRmqGT",
-        "card_Xn9rC8"
+        "card_1",
+        "card_2",
+        "card_3",
+        "card_4",
+        "card_5"
       ],
-      "name": "Featured collection",
       "settings": {
         "eyebrow": "",
         "heading": "",
         "heading_font": "heading",
-        "heading_align": "center",
-        "columns_desktop": 2,
-        "columns_mobile": "1",
-        "flush": false,
-        "carousel": false,
-        "carousel_loop": false,
-        "show_collection_label": false,
-        "show_swatches": false,
-        "background_color": "",
-        "text_color": "",
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "header_tone": "ink"
-      }
-    },
-    "mission": {
-      "type": "image-text",
-      "settings": {
-        "image_side": "right",
-        "draft_asset": "pdf-decor-5e62.jpg",
-        "alt_text": "",
-        "image_link": "",
-        "heading": "the holidays at home",
-        "body": "Dressing your home for the holidays is part of the fun, with ornaments and festive details that set the mood for hosting, celebrating, and all the moments in between.",
-        "cta_label": "Shop tabletop",
-        "link": "shopify://collections/tabletop",
-        "header_tone": "ink"
-      }
-    },
-    "dynamic_collection_jYfU84": {
-      "type": "dynamic-collection",
-      "settings": {
-        "collection": "christmas",
-        "products_to_show": 16,
-        "eyebrow": "",
-        "heading": "",
         "heading_align": "center",
         "columns_desktop": 4,
         "columns_mobile": "2",
         "flush": false,
         "carousel": true,
         "carousel_loop": true,
-        "label_tone": "dark",
-        "label_color": "",
-        "label_hover_color": "#ffffff",
+        "show_collection_label": false,
+        "show_swatches": false,
         "background_color": "",
         "text_color": "",
         "padding_top": 0,
@@ -293,12 +475,12 @@
   },
   "order": [
     "heading",
-    "split_one",
-    "home_grid_Ww3X9T",
-    "note",
-    "row_one",
-    "home_grid_7EC4h4",
-    "mission",
-    "dynamic_collection_jYfU84"
+    "split_candles",
+    "note_seasonal",
+    "hero_fall",
+    "row_light",
+    "split_kitchen",
+    "collection_note",
+    "strip_holiday"
   ]
 }

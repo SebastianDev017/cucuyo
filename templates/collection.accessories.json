@@ -13,38 +13,113 @@
       "type": "mosaic-heading",
       "settings": {}
     },
-    "home_grid_Vtk8P9": {
+    "hero_horn": {
+      "type": "home-hero",
+      "blocks": {
+        "image_1": {
+          "type": "image",
+          "settings": {
+            "image": "",
+            "draft_asset": "pdf-decor-2158.jpg",
+            "heading": "",
+            "body": "made from sustainably sourced animal horn",
+            "cta_label": "SEE HORNBEAD NECKLACE",
+            "label": "",
+            "label_tone": "light",
+            "link": "shopify://products/horn-bead-necklace",
+            "scrim": false
+          }
+        },
+        "image_2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/ARA_BG_02_f504dedc-433a-455e-ab62-812c14c0f813.png",
+            "draft_asset": "",
+            "heading": "",
+            "body": "a handmade bag and part woven vessel.",
+            "cta_label": "SEE ARARA BAG",
+            "label": "",
+            "label_tone": "light",
+            "link": "shopify://products/arara-bucket-bag",
+            "scrim": false
+          }
+        }
+      },
+      "block_order": [
+        "image_1",
+        "image_2"
+      ],
+      "settings": {
+        "header_tone": "ink",
+        "ratio": "3 / 4"
+      }
+    },
+    "row_bags": {
       "type": "home-grid",
       "blocks": {
-        "card_xwVmYD": {
+        "card_1": {
           "type": "card",
           "settings": {
-            "product": "",
-            "image": "shopify://shop_images/HB_NCK_02.png",
+            "product": "horn-bead-necklace",
+            "image": "",
             "image_url": "",
             "alt_text": "",
-            "ratio": "756/957",
+            "ratio": "3/4",
             "label": "",
             "label_font": "heading",
             "label_tone": "dark",
-            "label_color": "#ffffff",
+            "label_color": "",
             "label_hover_color": "",
             "link": "",
             "draft_asset": ""
           }
         },
-        "card_AhJ3Gg": {
+        "card_2": {
           "type": "card",
           "settings": {
-            "product": "",
-            "image": "shopify://shop_images/ARA_BG_02_f504dedc-433a-455e-ab62-812c14c0f813.png",
+            "product": "villa-tote-bag",
+            "image": "",
             "image_url": "",
             "alt_text": "",
-            "ratio": "756/957",
+            "ratio": "3/4",
             "label": "",
             "label_font": "heading",
             "label_tone": "dark",
-            "label_color": "#ffffff",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_3": {
+          "type": "card",
+          "settings": {
+            "product": "arara-bucket-bag",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_4": {
+          "type": "card",
+          "settings": {
+            "product": "bene-tote-bag",
+            "image": "shopify://shop_images/BN_TB_02.png",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
             "label_hover_color": "",
             "link": "",
             "draft_asset": ""
@@ -52,17 +127,18 @@
         }
       },
       "block_order": [
-        "card_xwVmYD",
-        "card_AhJ3Gg"
+        "card_1",
+        "card_2",
+        "card_3",
+        "card_4"
       ],
-      "name": "Featured collection",
       "settings": {
         "eyebrow": "",
         "heading": "",
         "heading_font": "heading",
         "heading_align": "center",
-        "columns_desktop": 2,
-        "columns_mobile": "1",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
         "flush": false,
         "carousel": false,
         "carousel_loop": false,
@@ -75,30 +151,7 @@
         "header_tone": "ink"
       }
     },
-    "row_one": {
-      "type": "dynamic-collection",
-      "settings": {
-        "collection": "accessories",
-        "products_to_show": 16,
-        "eyebrow": "",
-        "heading": "",
-        "heading_align": "center",
-        "columns_desktop": 4,
-        "columns_mobile": "2",
-        "flush": false,
-        "carousel": true,
-        "carousel_loop": true,
-        "label_tone": "dark",
-        "label_color": "",
-        "label_hover_color": "#ffffff",
-        "background_color": "",
-        "text_color": "",
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "header_tone": "ink"
-      }
-    },
-    "ikat": {
+    "collection_note": {
       "type": "image-text",
       "settings": {
         "image_side": "left",
@@ -106,29 +159,109 @@
         "draft_asset": "",
         "alt_text": "",
         "image_link": "",
-        "heading": "IKAT AND STRAW TITLE",
-        "body": "From handwoven textures to bold color and pattern, these pieces bring Cucuyo’s love of distinctive objects into what you wear and carry.",
+        "heading": "CUCUYO COLLECTION",
+        "body": "a spontaneous meeting between luxury and the eclectic",
         "cta_label": "",
-        "link": "shopify://products/ikat-espadrille",
-        "header_tone": "ink"
+        "link": "",
+        "header_tone": "ink",
+        "text_position": "center",
+        "show_icon": true,
+        "overlay_body": "",
+        "overlay_cta_label": "",
+        "overlay_link": "",
+        "overlay_tone": "light"
       }
     },
-    "row_two": {
-      "type": "dynamic-collection",
+    "row_ikat": {
+      "type": "home-grid",
+      "blocks": {
+        "card_1": {
+          "type": "card",
+          "settings": {
+            "product": "ikat-espadrille",
+            "image": "shopify://shop_images/IKT_ES_04.jpg",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_2": {
+          "type": "card",
+          "settings": {
+            "product": "petit-tie-rainbow-bag",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_3": {
+          "type": "card",
+          "settings": {
+            "product": "ikat-clutch",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_4": {
+          "type": "card",
+          "settings": {
+            "product": "ikat-tote-bag",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        }
+      },
+      "block_order": [
+        "card_1",
+        "card_2",
+        "card_3",
+        "card_4"
+      ],
       "settings": {
-        "collection": "bags",
-        "products_to_show": 16,
         "eyebrow": "",
         "heading": "",
+        "heading_font": "heading",
         "heading_align": "center",
         "columns_desktop": 4,
         "columns_mobile": "2",
         "flush": false,
-        "carousel": true,
-        "carousel_loop": true,
-        "label_tone": "dark",
-        "label_color": "",
-        "label_hover_color": "#ffffff",
+        "carousel": false,
+        "carousel_loop": false,
+        "show_collection_label": false,
+        "show_swatches": false,
         "background_color": "",
         "text_color": "",
         "padding_top": 0,
@@ -136,100 +269,130 @@
         "header_tone": "ink"
       }
     },
-    "home_grid_N8RzJ6": {
-      "type": "home-grid",
+    "hero_clutch": {
+      "type": "home-hero",
       "blocks": {
-        "card_ne33Yd": {
-          "type": "card",
+        "image_1": {
+          "type": "image",
           "settings": {
-            "product": "",
+            "image": "shopify://shop_images/IKT_CL_02.png",
+            "draft_asset": "",
+            "heading": "",
+            "body": "",
+            "cta_label": "SEE IKAT CLUTCH",
+            "label": "",
+            "label_tone": "light",
+            "link": "shopify://products/ikat-clutch",
+            "scrim": false
+          }
+        },
+        "image_2": {
+          "type": "image",
+          "settings": {
             "image": "shopify://shop_images/IKT_CL_06.png",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
+            "draft_asset": "",
+            "heading": "",
+            "body": "",
+            "cta_label": "",
             "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "#ffffff",
-            "label_hover_color": "",
+            "label_tone": "light",
             "link": "",
-            "draft_asset": ""
-          }
-        },
-        "card_kbEYpb": {
-          "type": "card",
-          "settings": {
-            "product": "",
-            "image": "shopify://shop_images/IKT_TB_02.png",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "#ffffff",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
+            "scrim": false
           }
         }
       },
       "block_order": [
-        "card_ne33Yd",
-        "card_kbEYpb"
+        "image_1",
+        "image_2"
       ],
-      "name": "Featured collection",
       "settings": {
-        "eyebrow": "",
-        "heading": "",
-        "heading_font": "heading",
-        "heading_align": "center",
-        "columns_desktop": 2,
-        "columns_mobile": "1",
-        "flush": false,
-        "carousel": false,
-        "carousel_loop": false,
-        "show_collection_label": false,
-        "show_swatches": false,
-        "background_color": "",
-        "text_color": "",
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "header_tone": "ink"
+        "header_tone": "ink",
+        "ratio": "3 / 4"
       }
     },
-    "home_grid_fWmKQj": {
+    "strip_bandanas": {
       "type": "home-grid",
       "blocks": {
-        "card_GzqF7Q": {
+        "card_1": {
           "type": "card",
           "settings": {
-            "product": "",
-            "image": "shopify://shop_images/SMM_BNDN_05.png",
+            "product": "sammie-bandana",
+            "image": "",
             "image_url": "",
             "alt_text": "",
-            "ratio": "756/957",
+            "ratio": "3/4",
             "label": "",
             "label_font": "heading",
             "label_tone": "dark",
-            "label_color": "#ffffff",
+            "label_color": "",
             "label_hover_color": "",
             "link": "",
             "draft_asset": ""
           }
         },
-        "card_jyLLtV": {
+        "card_2": {
           "type": "card",
           "settings": {
-            "product": "",
-            "image": "shopify://shop_images/SMM_BNDN_02.png",
+            "product": "laura-bandana",
+            "image": "",
             "image_url": "",
             "alt_text": "",
-            "ratio": "756/957",
+            "ratio": "3/4",
             "label": "",
             "label_font": "heading",
             "label_tone": "dark",
-            "label_color": "#ffffff",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_3": {
+          "type": "card",
+          "settings": {
+            "product": "eliza-bandana",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_4": {
+          "type": "card",
+          "settings": {
+            "product": "desert-bandana",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_5": {
+          "type": "card",
+          "settings": {
+            "product": "johnny-bandana",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
             "label_hover_color": "",
             "link": "",
             "draft_asset": ""
@@ -237,61 +400,81 @@
         }
       },
       "block_order": [
-        "card_GzqF7Q",
-        "card_jyLLtV"
+        "card_1",
+        "card_2",
+        "card_3",
+        "card_4",
+        "card_5"
       ],
-      "name": "Featured collection",
       "settings": {
         "eyebrow": "",
         "heading": "",
         "heading_font": "heading",
-        "heading_align": "center",
-        "columns_desktop": 2,
-        "columns_mobile": "1",
-        "flush": false,
-        "carousel": false,
-        "carousel_loop": false,
-        "show_collection_label": false,
-        "show_swatches": false,
-        "background_color": "",
-        "text_color": "",
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "header_tone": "ink"
-      }
-    },
-    "dynamic_collection_jP3ff6": {
-      "type": "dynamic-collection",
-      "settings": {
-        "collection": "wearables",
-        "products_to_show": 16,
-        "eyebrow": "",
-        "heading": "",
         "heading_align": "center",
         "columns_desktop": 4,
         "columns_mobile": "2",
         "flush": false,
         "carousel": true,
         "carousel_loop": true,
-        "label_tone": "dark",
-        "label_color": "",
-        "label_hover_color": "",
+        "show_collection_label": false,
+        "show_swatches": false,
         "background_color": "",
         "text_color": "",
         "padding_top": 0,
         "padding_bottom": 0,
         "header_tone": "ink"
+      }
+    },
+    "hero_bandana": {
+      "type": "home-hero",
+      "blocks": {
+        "image_1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/SMM_BNDN_05.png",
+            "draft_asset": "",
+            "heading": "",
+            "body": "",
+            "cta_label": "SEE SAMMIE BANDANA",
+            "label": "",
+            "label_tone": "light",
+            "link": "shopify://products/sammie-bandana",
+            "scrim": false
+          }
+        },
+        "image_2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/SMM_BNDN_02.png",
+            "draft_asset": "",
+            "heading": "",
+            "body": "",
+            "cta_label": "",
+            "label": "",
+            "label_tone": "light",
+            "link": "",
+            "scrim": false
+          }
+        }
+      },
+      "block_order": [
+        "image_1",
+        "image_2"
+      ],
+      "settings": {
+        "header_tone": "ink",
+        "ratio": "3 / 4"
       }
     }
   },
   "order": [
     "heading",
-    "home_grid_Vtk8P9",
-    "row_one",
-    "ikat",
-    "row_two",
-    "home_grid_N8RzJ6",
-    "home_grid_fWmKQj",
-    "dynamic_collection_jP3ff6"
+    "hero_horn",
+    "row_bags",
+    "collection_note",
+    "row_ikat",
+    "hero_clutch",
+    "strip_bandanas",
+    "hero_bandana"
   ]
 }

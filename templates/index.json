@@ -9,176 +9,31 @@
  */
 {
   "sections": {
-    "band_one": {
+    "hero_collection": {
       "type": "home-hero",
       "blocks": {
-        "left": {
+        "image_1": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/CH_PW_02_ff7b8c4a-d922-409d-bf6a-393b9df97451.png",
-            "draft_asset": "",
+            "image": "",
+            "draft_asset": "pdf2-landing-1-1.jpg",
             "heading": "",
-            "body": "",
-            "cta_label": "Shop Cucuyo collection",
+            "body": "a spontaneous meeting between luxury and the eclectic",
+            "cta_label": "EXPLORE THE COLLECTION",
             "label": "",
             "label_tone": "light",
             "link": "shopify://collections/cucuyo",
             "scrim": false
           }
         },
-        "right": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/PT_RB_02.png",
-            "draft_asset": "",
-            "heading": "",
-            "body": "",
-            "cta_label": "shop accessories",
-            "label": "",
-            "label_tone": "light",
-            "link": "shopify://collections/accessories",
-            "scrim": false
-          }
-        }
-      },
-      "block_order": [
-        "left",
-        "right"
-      ],
-      "settings": {
-        "header_tone": "ink",
-        "ratio": "756 / 957"
-      }
-    },
-    "row_one": {
-      "type": "home-grid",
-      "blocks": {
-        "c1": {
-          "type": "card",
-          "settings": {
-            "product": "cheetah-pillow",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "#ffffff",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "c2": {
-          "type": "card",
-          "settings": {
-            "product": "martha-bandana",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "#ffffff",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "c3": {
-          "type": "card",
-          "settings": {
-            "product": "petit-tie-rainbow-bag",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "#f3f3f3",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "c4": {
-          "type": "card",
-          "settings": {
-            "product": "duck-woven-baskets",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "#ffffff",
-            "link": "",
-            "draft_asset": ""
-          }
-        }
-      },
-      "block_order": [
-        "c1",
-        "c2",
-        "c3",
-        "c4"
-      ],
-      "settings": {
-        "eyebrow": "",
-        "heading": "",
-        "heading_font": "heading",
-        "heading_align": "center",
-        "columns_desktop": 4,
-        "columns_mobile": "2",
-        "flush": false,
-        "carousel": true,
-        "carousel_loop": true,
-        "show_collection_label": false,
-        "show_swatches": false,
-        "background_color": "",
-        "text_color": "",
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "header_tone": "ink"
-      }
-    },
-    "note_one": {
-      "type": "home-note",
-      "settings": {
-        "heading": "THE GIFT EDIT",
-        "body": "Explore a collection of distinctive finds for hosts, friends, and the people who appreciate something little unexpected. Objects with character, chosen for the pleasure of giving.",
-        "link_label": "Explore gifts",
-        "link": "shopify://collections/gifts-under-50",
-        "padding_top": 208,
-        "padding_bottom": 208
-      }
-    },
-    "band_two": {
-      "type": "home-hero",
-      "blocks": {
-        "left": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/FRLS_PLTR_05.png",
-            "draft_asset": "",
-            "heading": "",
-            "body": "",
-            "cta_label": "Discover tabletop",
-            "label": "",
-            "label_tone": "light",
-            "link": "shopify://collections/tabletop",
-            "scrim": false
-          }
-        },
-        "right": {
+        "image_2": {
           "type": "image",
           "settings": {
             "image": "shopify://shop_images/FLR_PB_06_21cfbaa3-5310-4c3a-9bde-650219c24d3d.png",
             "draft_asset": "",
             "heading": "",
-            "body": "",
-            "cta_label": "Fleur Pedestal Bowl",
+            "body": "A lifted bowl for a collection of coconuts",
+            "cta_label": "SEE FLEUR PEDESTAL BOWL",
             "label": "",
             "label_tone": "light",
             "link": "shopify://products/fleur-pedestal-bowl",
@@ -187,433 +42,76 @@
         }
       },
       "block_order": [
-        "left",
-        "right"
+        "image_1",
+        "image_2"
       ],
       "settings": {
         "header_tone": "ink",
-        "ratio": "756 / 957"
+        "ratio": "3 / 4"
       }
     },
-    "row_two": {
+    "row_finds": {
       "type": "home-grid",
       "blocks": {
-        "c1": {
-          "type": "card",
-          "settings": {
-            "product": "frills-platter",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "c2": {
-          "type": "card",
-          "settings": {
-            "product": "ava-silverware",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "c3": {
-          "type": "card",
-          "settings": {
-            "product": "ghost-checker-platter",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "#ffffff",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "c4": {
-          "type": "card",
-          "settings": {
-            "product": "batik-bone-salt-pepper-shakers",
-            "image_url": "",
-            "alt_text": "White Bone Salt & Pepper Shakers",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        }
-      },
-      "block_order": [
-        "c1",
-        "c2",
-        "c3",
-        "c4"
-      ],
-      "settings": {
-        "eyebrow": "",
-        "heading": "",
-        "heading_font": "heading",
-        "heading_align": "center",
-        "columns_desktop": 4,
-        "columns_mobile": "2",
-        "flush": false,
-        "carousel": true,
-        "carousel_loop": true,
-        "show_collection_label": false,
-        "show_swatches": false,
-        "background_color": "",
-        "text_color": "",
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "header_tone": "ink"
-      }
-    },
-    "vases": {
-      "type": "image-text",
-      "settings": {
-        "image_side": "left",
-        "image": "shopify://shop_images/ODL_VS_02_97d128d9-cf71-4c91-b8c3-e1c8305c7d72.png",
-        "draft_asset": "",
-        "alt_text": "",
-        "image_link": "",
-        "heading": "VASES & VESSELS",
-        "body": "From understated pieces to more expressive designs, discover thoughtful details that bring warmth and character to your space.",
-        "cta_label": "SHOP VASES & VESSELS",
-        "link": "shopify://collections/vases-vessels",
-        "header_tone": "ink"
-      }
-    },
-    "row_three": {
-      "type": "home-grid",
-      "blocks": {
-        "c1": {
-          "type": "card",
-          "settings": {
-            "product": "petra-vessel",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "#ffffff",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "c2": {
-          "type": "card",
-          "settings": {
-            "product": "ojo-de-liebre",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "#ffffff",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "c3": {
-          "type": "card",
-          "settings": {
-            "product": "swimming-fish-vase",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "#ffffff",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "c4": {
-          "type": "card",
-          "settings": {
-            "product": "footed-elephant-vase",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "#ffffff",
-            "link": "",
-            "draft_asset": ""
-          }
-        }
-      },
-      "block_order": [
-        "c1",
-        "c2",
-        "c3",
-        "c4"
-      ],
-      "settings": {
-        "eyebrow": "",
-        "heading": "",
-        "heading_font": "heading",
-        "heading_align": "center",
-        "columns_desktop": 4,
-        "columns_mobile": "2",
-        "flush": false,
-        "carousel": true,
-        "carousel_loop": true,
-        "show_collection_label": false,
-        "show_swatches": false,
-        "background_color": "",
-        "text_color": "",
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "header_tone": "ink"
-      }
-    },
-    "note_two": {
-      "type": "home-note",
-      "settings": {
-        "heading": "TIS THE SEASON",
-        "body": "A changing collection for this fall’s gatherings and celebrations, with distinctive pieces that bring warmth and character to the home as the season unfolds.",
-        "link_label": "Shop seasonal decor",
-        "link": "shopify://collections/seasonal",
-        "padding_top": 208,
-        "padding_bottom": 208
-      }
-    },
-    "band_three": {
-      "type": "home-hero",
-      "blocks": {
-        "left": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/CL_WR_SP_02.png",
-            "draft_asset": "",
-            "heading": "",
-            "body": "",
-            "cta_label": "Shop seasonal",
-            "label": "",
-            "label_tone": "light",
-            "link": "shopify://collections/seasonal",
-            "scrim": false
-          }
-        },
-        "right": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/CLY_BRR_ORN_02.png",
-            "draft_asset": "",
-            "heading": "",
-            "body": "",
-            "cta_label": "",
-            "label": "",
-            "label_tone": "light",
-            "link": "",
-            "scrim": false
-          }
-        }
-      },
-      "block_order": [
-        "left",
-        "right"
-      ],
-      "settings": {
-        "header_tone": "ink",
-        "ratio": "756 / 957"
-      }
-    },
-    "row_four": {
-      "type": "home-grid",
-      "blocks": {
-        "c1": {
-          "type": "card",
-          "settings": {
-            "product": "clay-wire-spiders",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "c2": {
-          "type": "card",
-          "settings": {
-            "product": "pumpkin-wreath",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "#ffffff",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "c3": {
-          "type": "card",
-          "settings": {
-            "product": "kenya-soapstone-nativity",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "#ffffff",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "c4": {
-          "type": "card",
-          "settings": {
-            "product": "clay-barro-ornaments",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "#ffffff",
-            "link": "",
-            "draft_asset": ""
-          }
-        }
-      },
-      "block_order": [
-        "c1",
-        "c2",
-        "c3",
-        "c4"
-      ],
-      "settings": {
-        "eyebrow": "",
-        "heading": "",
-        "heading_font": "heading",
-        "heading_align": "center",
-        "columns_desktop": 4,
-        "columns_mobile": "2",
-        "flush": false,
-        "carousel": true,
-        "carousel_loop": true,
-        "show_collection_label": false,
-        "show_swatches": false,
-        "background_color": "",
-        "text_color": "",
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "header_tone": "ink"
-      }
-    },
-    "trays": {
-      "type": "image-text",
-      "settings": {
-        "image_side": "right",
-        "image": "shopify://shop_images/TII_BW02.png",
-        "draft_asset": "",
-        "alt_text": "",
-        "image_link": "",
-        "heading": "A CLOSER LOOK",
-        "body": "From sculptural bowls to one of a kind vintage finds, each piece has something that sets it apart, with playful forms and details you don’t come across every day.",
-        "cta_label": "SHOP VASES & VESSELS",
-        "link": "shopify://collections/vases-vessels",
-        "header_tone": "ink"
-      }
-    },
-    "row_five": {
-      "type": "home-grid",
-      "blocks": {
-        "c1": {
-          "type": "card",
-          "settings": {
-            "product": "tezon-li-bowl",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "c2": {
-          "type": "card",
-          "settings": {
-            "product": "swan-basket",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "c3": {
-          "type": "card",
-          "settings": {
-            "product": "duck-woven-baskets",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "c4": {
+        "card_1": {
           "type": "card",
           "settings": {
             "product": "ball-boy-bowl-black",
+            "image": "",
             "image_url": "",
             "alt_text": "",
-            "ratio": "756/957",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_2": {
+          "type": "card",
+          "settings": {
+            "product": "martha-bandana",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_3": {
+          "type": "card",
+          "settings": {
+            "product": "petit-tie-rainbow-bag",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_4": {
+          "type": "card",
+          "settings": {
+            "product": "duck-woven-baskets",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
             "label": "",
             "label_font": "heading",
             "label_tone": "dark",
@@ -625,10 +123,10 @@
         }
       },
       "block_order": [
-        "c1",
-        "c2",
-        "c3",
-        "c4"
+        "card_1",
+        "card_2",
+        "card_3",
+        "card_4"
       ],
       "settings": {
         "eyebrow": "",
@@ -648,20 +146,510 @@
         "padding_bottom": 0,
         "header_tone": "ink"
       }
+    },
+    "note_gifts": {
+      "type": "home-note",
+      "settings": {
+        "heading": "THE GIFT EDIT",
+        "body": "For the people who appreciate something a little unexpected.\nObjects with character, chosen for the pleasure of giving.",
+        "link_label": "EXPLORE GIFTS",
+        "link": "shopify://collections/gifts-under-50",
+        "padding_top": 208,
+        "padding_bottom": 208
+      }
+    },
+    "split_palms": {
+      "type": "home-split",
+      "blocks": {
+        "media": {
+          "type": "media",
+          "settings": {
+            "image": "shopify://shop_images/WS_VS_02.png",
+            "draft_asset": "",
+            "alt_text": "",
+            "heading": "",
+            "body": "A place for the palms",
+            "cta_label": "SEE WABI SABI VASE",
+            "link": "shopify://products/wabi-sabi-vase",
+            "tone": "light",
+            "scrim": false
+          }
+        },
+        "card_1": {
+          "type": "card",
+          "settings": {
+            "product": "swimming-fish-vase",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "label_hover_color": "",
+            "link": ""
+          }
+        },
+        "card_2": {
+          "type": "card",
+          "settings": {
+            "product": "petra-vessel",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "label_hover_color": "",
+            "link": ""
+          }
+        },
+        "card_3": {
+          "type": "card",
+          "settings": {
+            "product": "footed-elephant-vase",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "label_hover_color": "",
+            "link": ""
+          }
+        },
+        "card_4": {
+          "type": "card",
+          "settings": {
+            "product": "ojo-de-liebre",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "label_hover_color": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "media",
+        "card_1",
+        "card_2",
+        "card_3",
+        "card_4"
+      ],
+      "settings": {
+        "media_side": "left",
+        "header_tone": "ink"
+      }
+    },
+    "row_vases": {
+      "type": "home-grid",
+      "blocks": {
+        "card_1": {
+          "type": "card",
+          "settings": {
+            "product": "oranges-vase",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_2": {
+          "type": "card",
+          "settings": {
+            "product": "wabi-sabi-vase",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_3": {
+          "type": "card",
+          "settings": {
+            "product": "juliette-vase",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_4": {
+          "type": "card",
+          "settings": {
+            "product": "elephant-vase",
+            "image": "shopify://shop_images/EL_VS_03.jpg",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        }
+      },
+      "block_order": [
+        "card_1",
+        "card_2",
+        "card_3",
+        "card_4"
+      ],
+      "settings": {
+        "eyebrow": "",
+        "heading": "",
+        "heading_font": "heading",
+        "heading_align": "center",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "flush": false,
+        "carousel": false,
+        "carousel_loop": false,
+        "show_collection_label": false,
+        "show_swatches": false,
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "header_tone": "ink"
+      }
+    },
+    "hero_tabletop": {
+      "type": "home-hero",
+      "blocks": {
+        "image_1": {
+          "type": "image",
+          "settings": {
+            "image": "",
+            "draft_asset": "pdf2-landing-6-1.jpg",
+            "heading": "",
+            "body": "the beauty’s in the dinnerware details",
+            "cta_label": "EXPLORE TABLETOP",
+            "label": "",
+            "label_tone": "light",
+            "link": "shopify://collections/tabletop",
+            "scrim": false
+          }
+        },
+        "image_2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/FRLS_PLTR_05.png",
+            "draft_asset": "",
+            "heading": "",
+            "body": "",
+            "cta_label": "",
+            "label": "",
+            "label_tone": "light",
+            "link": "",
+            "scrim": false
+          }
+        }
+      },
+      "block_order": [
+        "image_1",
+        "image_2"
+      ],
+      "settings": {
+        "header_tone": "ink",
+        "ratio": "3 / 4"
+      }
+    },
+    "row_tabletop": {
+      "type": "home-grid",
+      "blocks": {
+        "card_1": {
+          "type": "card",
+          "settings": {
+            "product": "frills-platter",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_2": {
+          "type": "card",
+          "settings": {
+            "product": "ava-silverware",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_3": {
+          "type": "card",
+          "settings": {
+            "product": "ghost-checker-platter",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_4": {
+          "type": "card",
+          "settings": {
+            "product": "batik-bone-salt-pepper-shakers",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        }
+      },
+      "block_order": [
+        "card_1",
+        "card_2",
+        "card_3",
+        "card_4"
+      ],
+      "settings": {
+        "eyebrow": "",
+        "heading": "",
+        "heading_font": "heading",
+        "heading_align": "center",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "flush": false,
+        "carousel": false,
+        "carousel_loop": false,
+        "show_collection_label": false,
+        "show_swatches": false,
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "header_tone": "ink"
+      }
+    },
+    "note_season": {
+      "type": "home-note",
+      "settings": {
+        "heading": "TIS THE SEASON",
+        "body": "A piece of decor for this seasons rituals, gatherings, and traditions.",
+        "link_label": "SHOP SEASONAL DECOR",
+        "link": "shopify://collections/seasonal",
+        "padding_top": 208,
+        "padding_bottom": 208
+      }
+    },
+    "hero_season": {
+      "type": "home-hero",
+      "blocks": {
+        "image_1": {
+          "type": "image",
+          "settings": {
+            "image": "",
+            "draft_asset": "pdf2-landing-8-1.jpg",
+            "heading": "",
+            "body": "all things spooky and kooky",
+            "cta_label": "SEE CLAY AND WIRE SPIDERS",
+            "label": "",
+            "label_tone": "light",
+            "link": "shopify://products/clay-wire-spiders",
+            "scrim": false
+          }
+        },
+        "image_2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/WC_CT02.png",
+            "draft_asset": "",
+            "heading": "",
+            "body": "a different format for this holiday staple",
+            "cta_label": "SEE WOVEN CANE CHRISTMAS TREE",
+            "label": "",
+            "label_tone": "light",
+            "link": "shopify://products/woven-cane-christmas-tree",
+            "scrim": false
+          }
+        }
+      },
+      "block_order": [
+        "image_1",
+        "image_2"
+      ],
+      "settings": {
+        "header_tone": "ink",
+        "ratio": "3 / 4"
+      }
+    },
+    "row_season": {
+      "type": "home-grid",
+      "blocks": {
+        "card_1": {
+          "type": "card",
+          "settings": {
+            "product": "clay-wire-spiders",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_2": {
+          "type": "card",
+          "settings": {
+            "product": "pumpkin-wreath",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_3": {
+          "type": "card",
+          "settings": {
+            "product": "kenya-soapstone-nativity",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_4": {
+          "type": "card",
+          "settings": {
+            "product": "clay-barro-ornaments",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        }
+      },
+      "block_order": [
+        "card_1",
+        "card_2",
+        "card_3",
+        "card_4"
+      ],
+      "settings": {
+        "eyebrow": "",
+        "heading": "",
+        "heading_font": "heading",
+        "heading_align": "center",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "flush": false,
+        "carousel": false,
+        "carousel_loop": false,
+        "show_collection_label": false,
+        "show_swatches": false,
+        "background_color": "",
+        "text_color": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "header_tone": "ink"
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "heading": "15% off to start.",
+        "text": "get early access to new finds and the occasional unsolicited tablescaping tips",
+        "width": 464,
+        "padding_top": 320,
+        "padding_bottom": 96
+      }
     }
   },
   "order": [
-    "band_one",
-    "row_one",
-    "note_one",
-    "band_two",
-    "row_two",
-    "vases",
-    "row_three",
-    "note_two",
-    "band_three",
-    "row_four",
-    "trays",
-    "row_five"
+    "hero_collection",
+    "row_finds",
+    "note_gifts",
+    "split_palms",
+    "row_vases",
+    "hero_tabletop",
+    "row_tabletop",
+    "note_season",
+    "hero_season",
+    "row_season",
+    "newsletter"
   ]
 }

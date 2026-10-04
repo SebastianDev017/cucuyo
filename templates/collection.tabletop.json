@@ -13,53 +13,28 @@
       "type": "mosaic-heading",
       "settings": {}
     },
-    "split_one": {
+    "split_ghost": {
       "type": "home-split",
       "blocks": {
         "media": {
           "type": "media",
           "settings": {
-            "image": "shopify://shop_images/GH_CK_PLTR_02.png",
+            "image": "",
             "draft_asset": "pdf-decor-62cd.jpg",
             "alt_text": "",
             "heading": "",
-            "body": "",
-            "cta_label": "",
+            "body": "glazed stoneware and custom made squares",
+            "cta_label": "SEE GHOST CHECKERED PLATE",
             "link": "shopify://products/ghost-checker-platter",
             "tone": "light",
             "scrim": false
           }
         },
-        "c1": {
+        "card_1": {
           "type": "card",
           "settings": {
             "product": "nautilus-bowl",
-            "image_url": "",
-            "alt_text": "Nautilus Bowl",
-            "draft_asset": "",
-            "label": "",
-            "label_tone": "dark",
-            "label_hover_color": "",
-            "link": ""
-          }
-        },
-        "c2": {
-          "type": "card",
-          "settings": {
-            "product": "fish-jug",
-            "image_url": "",
-            "alt_text": "Fish Jug",
-            "draft_asset": "",
-            "label": "",
-            "label_tone": "dark",
-            "label_hover_color": "",
-            "link": ""
-          }
-        },
-        "c3": {
-          "type": "card",
-          "settings": {
-            "product": "hand-etched-cup",
+            "image": "shopify://shop_images/NAU_BW_03.jpg",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
@@ -69,10 +44,39 @@
             "link": ""
           }
         },
-        "c4": {
+        "card_2": {
+          "type": "card",
+          "settings": {
+            "product": "fish-jug",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "label_hover_color": "",
+            "link": ""
+          }
+        },
+        "card_3": {
+          "type": "card",
+          "settings": {
+            "product": "hand-etched-cup",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "label_hover_color": "",
+            "link": ""
+          }
+        },
+        "card_4": {
           "type": "card",
           "settings": {
             "product": "fleur-pedestal-bowl",
+            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
@@ -85,10 +89,10 @@
       },
       "block_order": [
         "media",
-        "c1",
-        "c2",
-        "c3",
-        "c4"
+        "card_1",
+        "card_2",
+        "card_3",
+        "card_4"
       ],
       "settings": {
         "media_side": "left",
@@ -96,28 +100,69 @@
         "header_tone": "ink"
       }
     },
-    "note": {
+    "note_mesa": {
       "type": "home-note",
       "settings": {
-        "heading": "FOR THE TABLE",
-        "body": "A collection of useful pieces with distinctive shapes, textures, and unexpected details, each chosen for the little something that makes it stand out.",
+        "heading": "A LA MESA!",
+        "body": "useful pieces with unexpected details",
         "link_label": "",
-        "link": "/collections/tabletop",
+        "link": "",
         "padding_top": 208,
         "padding_bottom": 208
       }
     },
-    "home_grid_JFJw8m": {
+    "hero_nautilus": {
+      "type": "home-hero",
+      "blocks": {
+        "image_1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/NAU_BW_02.png",
+            "draft_asset": "",
+            "heading": "",
+            "body": "too cute to handle",
+            "cta_label": "Nautilus Bowl",
+            "label": "",
+            "label_tone": "light",
+            "link": "shopify://products/nautilus-bowl",
+            "scrim": false
+          }
+        },
+        "image_2": {
+          "type": "image",
+          "settings": {
+            "image": "",
+            "draft_asset": "pdf2-tabletop-3-2.jpg",
+            "heading": "",
+            "body": "",
+            "cta_label": "",
+            "label": "",
+            "label_tone": "light",
+            "link": "",
+            "scrim": false
+          }
+        }
+      },
+      "block_order": [
+        "image_1",
+        "image_2"
+      ],
+      "settings": {
+        "header_tone": "ink",
+        "ratio": "3 / 4"
+      }
+    },
+    "row_serve": {
       "type": "home-grid",
       "blocks": {
-        "card_Tt3r9m": {
+        "card_1": {
           "type": "card",
           "settings": {
-            "product": "",
-            "image": "shopify://shop_images/HE_G_02.png",
+            "product": "frills-platter",
+            "image": "",
             "image_url": "",
             "alt_text": "",
-            "ratio": "756/957",
+            "ratio": "3/4",
             "label": "",
             "label_font": "heading",
             "label_tone": "dark",
@@ -127,18 +172,52 @@
             "draft_asset": ""
           }
         },
-        "card_ECKMCQ": {
+        "card_2": {
           "type": "card",
           "settings": {
-            "product": "",
-            "image": "shopify://shop_images/BB_SP_S_02_db728677-0e8e-4d28-8b4f-a40ef3b51015.png",
+            "product": "gingham-dish-towels",
+            "image": "",
             "image_url": "",
             "alt_text": "",
-            "ratio": "756/957",
+            "ratio": "3/4",
             "label": "",
             "label_font": "heading",
             "label_tone": "dark",
-            "label_color": "#ffffff",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_3": {
+          "type": "card",
+          "settings": {
+            "product": "beaded-plate",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_4": {
+          "type": "card",
+          "settings": {
+            "product": "batik-bone-salt-pepper-shakers",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
             "label_hover_color": "",
             "link": "",
             "draft_asset": ""
@@ -146,17 +225,18 @@
         }
       },
       "block_order": [
-        "card_Tt3r9m",
-        "card_ECKMCQ"
+        "card_1",
+        "card_2",
+        "card_3",
+        "card_4"
       ],
-      "name": "Featured collection",
       "settings": {
         "eyebrow": "",
         "heading": "",
         "heading_font": "heading",
         "heading_align": "center",
-        "columns_desktop": 2,
-        "columns_mobile": "1",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
         "flush": false,
         "carousel": false,
         "carousel_loop": false,
@@ -169,60 +249,137 @@
         "header_tone": "ink"
       }
     },
-    "row_one": {
-      "type": "dynamic-collection",
+    "hero_glass": {
+      "type": "home-hero",
+      "blocks": {
+        "image_1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/HE_G_02.png",
+            "draft_asset": "",
+            "heading": "",
+            "body": "a hand-etched upgrades for the everyday glass",
+            "cta_label": "SEE HAND ETCHED CUP",
+            "label": "",
+            "label_tone": "light",
+            "link": "shopify://products/hand-etched-cup",
+            "scrim": false
+          }
+        },
+        "image_2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/AV_SLV_06.png",
+            "draft_asset": "",
+            "heading": "",
+            "body": "twisted handles finished in silver",
+            "cta_label": "SEE AVA SILVERWARE",
+            "label": "",
+            "label_tone": "light",
+            "link": "shopify://products/ava-silverware",
+            "scrim": false
+          }
+        }
+      },
+      "block_order": [
+        "image_1",
+        "image_2"
+      ],
       "settings": {
-        "collection": "tabletop",
-        "products_to_show": 16,
+        "header_tone": "ink",
+        "ratio": "3 / 4"
+      }
+    },
+    "row_pour": {
+      "type": "home-grid",
+      "blocks": {
+        "card_1": {
+          "type": "card",
+          "settings": {
+            "product": "clay-pitcher",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_2": {
+          "type": "card",
+          "settings": {
+            "product": "ava-silverware",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_3": {
+          "type": "card",
+          "settings": {
+            "product": "ghost-checker-platter",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_4": {
+          "type": "card",
+          "settings": {
+            "product": "plume-dishtowels",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        }
+      },
+      "block_order": [
+        "card_1",
+        "card_2",
+        "card_3",
+        "card_4"
+      ],
+      "settings": {
         "eyebrow": "",
         "heading": "",
+        "heading_font": "heading",
         "heading_align": "center",
         "columns_desktop": 4,
         "columns_mobile": "2",
         "flush": false,
-        "carousel": true,
-        "carousel_loop": true,
-        "label_tone": "dark",
-        "label_color": "",
-        "label_hover_color": "#ffffff",
-        "background_color": "",
-        "text_color": "",
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "header_tone": "ink"
-      }
-    },
-    "vases": {
-      "type": "image-text",
-      "settings": {
-        "image_side": "left",
-        "image": "shopify://shop_images/NAU_BW_02.png",
-        "draft_asset": "",
-        "alt_text": "",
-        "image_link": "",
-        "heading": "A SENSE OF OCCASION",
-        "body": "For dinners that start casually and run late, a few distinctive pieces can make the setting feel special without taking the ease out of it.",
-        "cta_label": "",
-        "link": "",
-        "header_tone": "ink"
-      }
-    },
-    "dynamic_collection_69dcrU": {
-      "type": "dynamic-collection",
-      "settings": {
-        "collection": "serveware",
-        "products_to_show": 16,
-        "eyebrow": "",
-        "heading": "",
-        "heading_align": "center",
-        "columns_desktop": 4,
-        "columns_mobile": "2",
-        "flush": false,
-        "carousel": true,
-        "carousel_loop": true,
-        "label_tone": "dark",
-        "label_color": "",
-        "label_hover_color": "#ffffff",
+        "carousel": false,
+        "carousel_loop": false,
+        "show_collection_label": false,
+        "show_swatches": false,
         "background_color": "",
         "text_color": "",
         "padding_top": 0,
@@ -233,11 +390,11 @@
   },
   "order": [
     "heading",
-    "split_one",
-    "note",
-    "home_grid_JFJw8m",
-    "row_one",
-    "vases",
-    "dynamic_collection_69dcrU"
+    "split_ghost",
+    "note_mesa",
+    "hero_nautilus",
+    "row_serve",
+    "hero_glass",
+    "row_pour"
   ]
 }

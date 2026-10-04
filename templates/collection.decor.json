@@ -13,34 +13,109 @@
       "type": "mosaic-heading",
       "settings": {}
     },
-    "home_grid_AfdHKJ": {
+    "hero_lamps": {
+      "type": "home-hero",
+      "blocks": {
+        "image_1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/SL_TR_06_5de5b11c-6fa4-4cd6-a0a3-24543f2b3389.png",
+            "draft_asset": "",
+            "heading": "",
+            "body": "no stone bases are ever the same on these old Florida lamps",
+            "cta_label": "SEE SILEE TRAVERTINE LAMP",
+            "label": "",
+            "label_tone": "light",
+            "link": "shopify://products/silee-travertinen-lamp",
+            "scrim": false
+          }
+        },
+        "image_2": {
+          "type": "image",
+          "settings": {
+            "image": "",
+            "draft_asset": "pdf2-decor-1-2.jpg",
+            "heading": "",
+            "body": "architectural bows makes good lighting better",
+            "cta_label": "APPENZELL BURGUNDY LAMP",
+            "label": "",
+            "label_tone": "light",
+            "link": "shopify://products/appenzell-red-burgundy-lamp",
+            "scrim": false
+          }
+        }
+      },
+      "block_order": [
+        "image_1",
+        "image_2"
+      ],
+      "settings": {
+        "header_tone": "ink",
+        "ratio": "3 / 4"
+      }
+    },
+    "row_lamps": {
       "type": "home-grid",
       "blocks": {
-        "card_kgr7WF": {
+        "card_1": {
           "type": "card",
           "settings": {
-            "product": "",
-            "image": "shopify://shop_images/SL_TR_06_5de5b11c-6fa4-4cd6-a0a3-24543f2b3389.png",
+            "product": "appenzell-red-burgundy-lamp",
+            "image": "",
             "image_url": "",
             "alt_text": "",
-            "ratio": "756/957",
+            "ratio": "3/4",
             "label": "",
             "label_font": "heading",
             "label_tone": "dark",
-            "label_color": "#ffffff",
+            "label_color": "",
             "label_hover_color": "",
             "link": "",
             "draft_asset": ""
           }
         },
-        "card_6MyQen": {
+        "card_2": {
           "type": "card",
           "settings": {
-            "product": "",
-            "image": "shopify://shop_images/APP_LMP_02.png",
+            "product": "silee-travertinen-lamp",
+            "image": "",
             "image_url": "",
             "alt_text": "",
-            "ratio": "756/957",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_3": {
+          "type": "card",
+          "settings": {
+            "product": "memphis-burgundy-lamp",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_4": {
+          "type": "card",
+          "settings": {
+            "product": "woven-cane-side-table",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
             "label": "",
             "label_font": "heading",
             "label_tone": "dark",
@@ -52,17 +127,18 @@
         }
       },
       "block_order": [
-        "card_kgr7WF",
-        "card_6MyQen"
+        "card_1",
+        "card_2",
+        "card_3",
+        "card_4"
       ],
-      "name": "Featured collection",
       "settings": {
         "eyebrow": "",
         "heading": "",
         "heading_font": "heading",
         "heading_align": "center",
-        "columns_desktop": 2,
-        "columns_mobile": "1",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
         "flush": false,
         "carousel": false,
         "carousel_loop": false,
@@ -75,190 +151,153 @@
         "header_tone": "ink"
       }
     },
-    "row_one": {
-      "type": "dynamic-collection",
-      "settings": {
-        "collection": "decorative",
-        "products_to_show": 16,
-        "eyebrow": "",
-        "heading": "",
-        "heading_align": "center",
-        "columns_desktop": 4,
-        "columns_mobile": "2",
-        "flush": false,
-        "carousel": true,
-        "carousel_loop": true,
-        "label_tone": "dark",
-        "label_color": "",
-        "label_hover_color": "#ffffff",
-        "background_color": "",
-        "text_color": "",
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "header_tone": "ink"
-      }
-    },
-    "lanterns": {
+    "collection_note": {
       "type": "image-text",
       "settings": {
-        "image_side": "right",
-        "draft_asset": "pdf-decor-4d71.jpg",
+        "image_side": "left",
+        "draft_asset": "",
         "alt_text": "",
         "image_link": "",
-        "heading": "OBJECTS OF INTEREST",
-        "body": "These carefully chosen pieces give a room its own kind of character, with warm light, rich textures, and unexpected details that invite a second look.",
-        "cta_label": "large rattan lanterns",
-        "link": "shopify://products/rattan-lanterns",
-        "header_tone": "ink"
+        "heading": "CUCUYO COLLECTION",
+        "body": "a spontaneous meeting between luxury and the eclectic",
+        "cta_label": "",
+        "link": "",
+        "header_tone": "ink",
+        "image": "shopify://shop_images/CH_PW_07.png",
+        "text_position": "center",
+        "show_icon": true,
+        "overlay_body": "spotted cheetahs and pink cats living in harmony.",
+        "overlay_cta_label": "SEE CHEETAH PILLOW",
+        "overlay_link": "shopify://products/cheetah-pillow",
+        "overlay_tone": "light"
       }
     },
-    "home_grid_E46Nhg": {
+    "hero_hardware": {
+      "type": "home-hero",
+      "blocks": {
+        "image_1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/MF_DP_03.png",
+            "draft_asset": "",
+            "heading": "",
+            "body": "upgrade the builder grade with new hardware",
+            "cta_label": "SEE MARBLE FLOWER DOOR PULLS",
+            "label": "",
+            "label_tone": "light",
+            "link": "shopify://products/marble-flower-door-pulls",
+            "scrim": false
+          }
+        },
+        "image_2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/MF_DP_02.png",
+            "draft_asset": "",
+            "heading": "",
+            "body": "",
+            "cta_label": "",
+            "label": "",
+            "label_tone": "light",
+            "link": "",
+            "scrim": false
+          }
+        }
+      },
+      "block_order": [
+        "image_1",
+        "image_2"
+      ],
+      "settings": {
+        "header_tone": "ink",
+        "ratio": "3 / 4"
+      }
+    },
+    "row_objects": {
       "type": "home-grid",
       "blocks": {
-        "card_dhRmJg": {
+        "card_1": {
           "type": "card",
           "settings": {
-            "product": "",
-            "image": "shopify://shop_images/PFP_SM_02.png",
+            "product": "antique-brass-candle-holders",
+            "image": "",
             "image_url": "",
             "alt_text": "",
-            "ratio": "756/957",
+            "ratio": "3/4",
             "label": "",
             "label_font": "heading",
             "label_tone": "dark",
-            "label_color": "#ffffff",
+            "label_color": "",
             "label_hover_color": "",
             "link": "",
             "draft_asset": ""
           }
         },
-        "card_Hrhj4W": {
+        "card_2": {
           "type": "card",
           "settings": {
-            "product": "",
+            "product": "green-marble-door-pulls",
+            "image": "",
             "image_url": "",
             "alt_text": "",
-            "ratio": "756/957",
+            "ratio": "3/4",
             "label": "",
             "label_font": "heading",
             "label_tone": "dark",
-            "label_color": "#ffffff",
+            "label_color": "",
             "label_hover_color": "",
             "link": "",
-            "draft_asset": "pdf-decor-575b.jpg"
+            "draft_asset": "pdf2-decor-5-2.jpg"
+          }
+        },
+        "card_3": {
+          "type": "card",
+          "settings": {
+            "product": "pink-florette-planter-medium",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_4": {
+          "type": "card",
+          "settings": {
+            "product": "winding-candle-holders",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
           }
         }
       },
       "block_order": [
-        "card_dhRmJg",
-        "card_Hrhj4W"
+        "card_1",
+        "card_2",
+        "card_3",
+        "card_4"
       ],
-      "name": "Featured collection",
       "settings": {
         "eyebrow": "",
         "heading": "",
         "heading_font": "heading",
-        "heading_align": "center",
-        "columns_desktop": 2,
-        "columns_mobile": "1",
-        "flush": false,
-        "carousel": false,
-        "carousel_loop": false,
-        "show_collection_label": false,
-        "show_swatches": false,
-        "background_color": "",
-        "text_color": "",
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "header_tone": "ink"
-      }
-    },
-    "dynamic_collection_MtPT6n": {
-      "type": "dynamic-collection",
-      "name": "Dynamic collection",
-      "settings": {
-        "collection": "candle-holders-and-lanters",
-        "products_to_show": 16,
-        "eyebrow": "",
-        "heading": "",
         "heading_align": "center",
         "columns_desktop": 4,
         "columns_mobile": "2",
-        "flush": false,
-        "carousel": true,
-        "carousel_loop": true,
-        "label_tone": "dark",
-        "label_color": "",
-        "label_hover_color": "#ffffff",
-        "background_color": "",
-        "text_color": "",
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "header_tone": "ink"
-      }
-    },
-    "home_note_HTHUUm": {
-      "type": "home-note",
-      "name": "Centred note",
-      "settings": {
-        "heading": "MADE BY CUCUYO",
-        "body": "A limited selection of pieces created by Cucuyo, made in small batches or just once, with carefully considered finishes and custom details you won’t find anywhere else.",
-        "link_label": "SHOP THE CUCUYO COLLECTION",
-        "link": "shopify://collections/cucuyo",
-        "padding_top": 208,
-        "padding_bottom": 208
-      }
-    },
-    "home_grid_NaJqPk": {
-      "type": "home-grid",
-      "blocks": {
-        "card_ACmxQ4": {
-          "type": "card",
-          "settings": {
-            "product": "",
-            "image": "shopify://shop_images/CH_PW_07.png",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "#ffffff",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "card_TnrBNE": {
-          "type": "card",
-          "settings": {
-            "product": "",
-            "image": "shopify://shop_images/CH_PW_05.jpg",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "756/957",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "#ffffff",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        }
-      },
-      "block_order": [
-        "card_ACmxQ4",
-        "card_TnrBNE"
-      ],
-      "name": "Featured collection",
-      "settings": {
-        "eyebrow": "",
-        "heading": "",
-        "heading_font": "heading",
-        "heading_align": "center",
-        "columns_desktop": 2,
-        "columns_mobile": "1",
         "flush": false,
         "carousel": false,
         "carousel_loop": false,
@@ -274,12 +313,10 @@
   },
   "order": [
     "heading",
-    "home_grid_AfdHKJ",
-    "row_one",
-    "lanterns",
-    "home_grid_E46Nhg",
-    "dynamic_collection_MtPT6n",
-    "home_note_HTHUUm",
-    "home_grid_NaJqPk"
+    "hero_lamps",
+    "row_lamps",
+    "collection_note",
+    "hero_hardware",
+    "row_objects"
   ]
 }

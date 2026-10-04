@@ -13,76 +13,113 @@
       "type": "mosaic-heading",
       "settings": {}
     },
-    "opening": {
-      "type": "image-text",
+    "hero_ballboy": {
+      "type": "home-hero",
+      "blocks": {
+        "image_1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/BBB_BL_03.png",
+            "draft_asset": "",
+            "heading": "",
+            "body": "Form shines in this collection of functional goodies",
+            "cta_label": "SEE BALL BOY BOWL",
+            "label": "",
+            "label_tone": "light",
+            "link": "shopify://products/ball-boy-bowl-black",
+            "scrim": false
+          }
+        },
+        "image_2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/BBB_BL_02.png",
+            "draft_asset": "",
+            "heading": "",
+            "body": "",
+            "cta_label": "",
+            "label": "",
+            "label_tone": "light",
+            "link": "",
+            "scrim": false
+          }
+        }
+      },
+      "block_order": [
+        "image_1",
+        "image_2"
+      ],
       "settings": {
-        "image_side": "left",
-        "image": "shopify://shop_images/BBB_BL_05.png",
-        "draft_asset": "",
-        "alt_text": "",
-        "image_link": "",
-        "heading": "Vases & Vessels",
-        "body": "Our vases and vessels bring together work by artists, artisans, and designers from around the world, each with a different approach to material, color, and finish.",
-        "cta_label": "",
-        "link": "shopify://products/ball-boy-bowl-black",
-        "header_tone": "ink"
+        "header_tone": "ink",
+        "ratio": "3 / 4"
       }
     },
-    "row_one": {
-      "type": "dynamic-collection",
-      "settings": {
-        "collection": "vases",
-        "products_to_show": 16,
-        "eyebrow": "",
-        "heading": "",
-        "heading_align": "center",
-        "columns_desktop": 4,
-        "columns_mobile": "2",
-        "flush": false,
-        "carousel": true,
-        "carousel_loop": true,
-        "label_tone": "dark",
-        "label_color": "",
-        "label_hover_color": "#ffffff",
-        "background_color": "",
-        "text_color": "",
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "header_tone": "ink"
-      }
-    },
-    "home_grid_KAQfJG": {
+    "row_vessels": {
       "type": "home-grid",
       "blocks": {
-        "card_Cdfk6g": {
+        "card_1": {
           "type": "card",
           "settings": {
-            "product": "",
-            "image": "shopify://shop_images/WS_VS_02.png",
+            "product": "ojo-de-liebre",
+            "image": "",
             "image_url": "",
             "alt_text": "",
-            "ratio": "756/957",
+            "ratio": "3/4",
             "label": "",
             "label_font": "heading",
             "label_tone": "dark",
-            "label_color": "#ffffff",
+            "label_color": "",
             "label_hover_color": "",
             "link": "",
             "draft_asset": ""
           }
         },
-        "card_JRTjpQ": {
+        "card_2": {
           "type": "card",
           "settings": {
-            "product": "",
-            "image": "shopify://shop_images/DW_BSKT_02.png",
+            "product": "ball-boy-bowl-black",
+            "image": "",
             "image_url": "",
             "alt_text": "",
-            "ratio": "756/957",
+            "ratio": "3/4",
             "label": "",
             "label_font": "heading",
             "label_tone": "dark",
-            "label_color": "#ffffff",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_3": {
+          "type": "card",
+          "settings": {
+            "product": "footed-elephant-vase",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
+            "label_hover_color": "",
+            "link": "",
+            "draft_asset": ""
+          }
+        },
+        "card_4": {
+          "type": "card",
+          "settings": {
+            "product": "petra-vessel",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "ratio": "3/4",
+            "label": "",
+            "label_font": "heading",
+            "label_tone": "dark",
+            "label_color": "",
             "label_hover_color": "",
             "link": "",
             "draft_asset": ""
@@ -90,17 +127,18 @@
         }
       },
       "block_order": [
-        "card_Cdfk6g",
-        "card_JRTjpQ"
+        "card_1",
+        "card_2",
+        "card_3",
+        "card_4"
       ],
-      "name": "Featured collection",
       "settings": {
         "eyebrow": "",
         "heading": "",
         "heading_font": "heading",
         "heading_align": "center",
-        "columns_desktop": 2,
-        "columns_mobile": "1",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
         "flush": false,
         "carousel": false,
         "carousel_loop": false,
@@ -113,38 +151,39 @@
         "header_tone": "ink"
       }
     },
-    "note": {
+    "note_tablescaping": {
       "type": "home-note",
       "settings": {
-        "heading": "made and found",
-        "body": "New designs sit alongside vintage finds selected one at a time, including pieces with a particular pull when you know they may not come around again.",
+        "heading": "TABLESCAPING 101",
+        "body": "style your table the way you’d style a room—or an outfit",
         "link_label": "",
         "link": "",
         "padding_top": 208,
         "padding_bottom": 208
       }
     },
-    "split_one": {
+    "split_tezon": {
       "type": "home-split",
       "blocks": {
         "media": {
           "type": "media",
           "settings": {
-            "image": "shopify://shop_images/TII_BW06_84d26644-d69a-4c5f-8024-4b77bcce2c50.png",
-            "draft_asset": "",
+            "image": "",
+            "draft_asset": "pdf-decor-5f4d.jpg",
             "alt_text": "",
             "heading": "",
-            "body": "",
-            "cta_label": "",
+            "body": "mixed media from Mexico. Need we say more?",
+            "cta_label": "SEE TEZON BOWL",
             "link": "shopify://products/tezon-li-bowl",
             "tone": "light",
             "scrim": false
           }
         },
-        "c1": {
+        "card_1": {
           "type": "card",
           "settings": {
-            "product": "onyx-tray",
+            "product": "oranges-vase",
+            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
@@ -154,10 +193,11 @@
             "link": ""
           }
         },
-        "c2": {
+        "card_2": {
           "type": "card",
           "settings": {
             "product": "tezon-li-bowl",
+            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
@@ -167,10 +207,11 @@
             "link": ""
           }
         },
-        "c3": {
+        "card_3": {
           "type": "card",
           "settings": {
             "product": "wabi-sabi-vase",
+            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
@@ -180,10 +221,11 @@
             "link": ""
           }
         },
-        "c4": {
+        "card_4": {
           "type": "card",
           "settings": {
-            "product": "ball-boy-bowl-black",
+            "product": "swimming-fish-vase",
+            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
@@ -196,10 +238,10 @@
       },
       "block_order": [
         "media",
-        "c1",
-        "c2",
-        "c3",
-        "c4"
+        "card_1",
+        "card_2",
+        "card_3",
+        "card_4"
       ],
       "settings": {
         "media_side": "right",
@@ -207,27 +249,28 @@
         "header_tone": "ink"
       }
     },
-    "split_two": {
+    "split_baskets": {
       "type": "home-split",
       "blocks": {
         "media": {
           "type": "media",
           "settings": {
-            "image": "shopify://shop_images/ORG_VS_02.png",
+            "image": "shopify://shop_images/DW_BSKT_02.png",
             "draft_asset": "",
             "alt_text": "",
             "heading": "",
-            "body": "",
-            "cta_label": "",
-            "link": "shopify://products/oranges-vase",
+            "body": "shop vintage pieces, one and done",
+            "cta_label": "SEE DUCK WOVEN TRAYS",
+            "link": "shopify://products/duck-woven-baskets",
             "tone": "light",
             "scrim": false
           }
         },
-        "c1": {
+        "card_1": {
           "type": "card",
           "settings": {
             "product": "swan-basket",
+            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
@@ -237,10 +280,11 @@
             "link": ""
           }
         },
-        "c2": {
+        "card_2": {
           "type": "card",
           "settings": {
-            "product": "oranges-vase",
+            "product": "duck-woven-baskets",
+            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
@@ -250,23 +294,25 @@
             "link": ""
           }
         },
-        "c3": {
-          "type": "card",
-          "settings": {
-            "product": "swimming-fish-vase",
-            "image_url": "",
-            "alt_text": "",
-            "draft_asset": "",
-            "label": "",
-            "label_tone": "dark",
-            "label_hover_color": "",
-            "link": ""
-          }
-        },
-        "c4": {
+        "card_3": {
           "type": "card",
           "settings": {
             "product": "ball-boy-bowl-natural",
+            "image": "",
+            "image_url": "",
+            "alt_text": "",
+            "draft_asset": "",
+            "label": "",
+            "label_tone": "dark",
+            "label_hover_color": "",
+            "link": ""
+          }
+        },
+        "card_4": {
+          "type": "card",
+          "settings": {
+            "product": "juliette-vase",
+            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
@@ -279,10 +325,10 @@
       },
       "block_order": [
         "media",
-        "c1",
-        "c2",
-        "c3",
-        "c4"
+        "card_1",
+        "card_2",
+        "card_3",
+        "card_4"
       ],
       "settings": {
         "media_side": "left",
@@ -293,11 +339,10 @@
   },
   "order": [
     "heading",
-    "opening",
-    "row_one",
-    "home_grid_KAQfJG",
-    "note",
-    "split_one",
-    "split_two"
+    "hero_ballboy",
+    "row_vessels",
+    "note_tablescaping",
+    "split_tezon",
+    "split_baskets"
   ]
 }
