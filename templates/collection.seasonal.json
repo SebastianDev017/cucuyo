@@ -276,109 +276,23 @@
         "overlay_tone": "light"
       }
     },
-    "strip_holiday": {
-      "type": "home-grid",
-      "blocks": {
-        "card_1": {
-          "type": "card",
-          "settings": {
-            "product": "clay-barro-ornaments",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "3/4",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "card_2": {
-          "type": "card",
-          "settings": {
-            "product": "kenya-kisii-soapstone-nativity",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "3/4",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "card_3": {
-          "type": "card",
-          "settings": {
-            "product": "kenya-soapstone-nativity",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "3/4",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "card_4": {
-          "type": "card",
-          "settings": {
-            "product": "christmas-canvas-tote-bag",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "3/4",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "card_5": {
-          "type": "card",
-          "settings": {
-            "product": "tinsel-tree-tea-towel",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "3/4",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        }
-      },
-      "block_order": [
-        "card_1",
-        "card_2",
-        "card_3",
-        "card_4",
-        "card_5"
-      ],
+    "dynamic_collection_qcRFfA": {
+      "type": "dynamic-collection",
+      "name": "Dynamic collection",
       "settings": {
+        "collection": "christmas",
+        "products_to_show": 16,
         "eyebrow": "",
         "heading": "",
-        "heading_font": "heading",
         "heading_align": "center",
         "columns_desktop": 4,
         "columns_mobile": "2",
         "flush": false,
         "carousel": true,
         "carousel_loop": true,
-        "show_collection_label": false,
-        "show_swatches": false,
+        "label_tone": "dark",
+        "label_color": "",
+        "label_hover_color": "",
         "background_color": "",
         "text_color": "",
         "padding_top": 0,
@@ -395,6 +309,6 @@
     "dynamic_collection_jJRfp7",
     "split_kitchen",
     "collection_note",
-    "strip_holiday"
+    "dynamic_collection_qcRFfA"
   ]
 }
