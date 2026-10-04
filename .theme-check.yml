@@ -10,10 +10,17 @@ ignore:
 AssetSizeJavaScript:
   threshold_in_bytes: 100000
 
-# base.css is one stylesheet for the whole theme, with the reasoning kept in
-# comments beside the rules it explains. Shopify serves it minified — comments
-# and whitespace stripped — so what reaches a shopper is well under half the
-# raw file. The threshold is raised to keep the check meaningful against the
-# delivered size rather than the source. See the measurement in the QA notes.
+# The theme's stylesheet is one file cut in two at a single point and linked
+# back to back in both layouts (theme.liquid, password.liquid): base.css holds
+# everything above the "Inner pages (pre-redesign)" block, base-pages.css that
+# block and everything after it. Link order = the old file order, so the
+# cascade is unchanged: keep base.css first and never move a rule across the
+# cut. The reasoning stays in comments beside the rules it explains; Shopify
+# serves both files minified (comments and whitespace stripped), so what
+# reaches a shopper is well under half the raw size. The check measures each
+# file on disk on its own (CRLF in a Windows checkout); the threshold stays at
+# 130000 and each file must stay under it. New CSS goes into the
+# {% stylesheet %} of the section, block or snippet that owns it, not into
+# these two files.
 AssetSizeCSS:
   threshold_in_bytes: 130000

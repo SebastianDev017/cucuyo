@@ -1,0 +1,98 @@
+{
+  "description": "EXAMPLE (T0.1): a trimmed copy of the per-element typography group of EDITOR-ARCHITECTURE.md §5.2, used by manifests/sections/_example.json and the README's worked examples. It lists its styles inline so it runs before T1.1 writes styles.json; the real fragments/type.json takes its options from styles.json with $each and states the designed values through a lookup.",
+  "params": {
+    "prefix": { "required": true, "type": "string", "description": "Element id prefix: the group's ids are <prefix>_type, <prefix>_adjust, <prefix>_font, …" },
+    "style": { "required": true, "type": "string", "description": "The style the element wears today (the default of <prefix>_type)" },
+    "label": { "default": "Typography", "type": "string", "description": "Label of the style select" },
+    "alias_font": { "default": null, "description": "Existing face select kept as the face control (e.g. label_font): reused verbatim, gains the 'inherit' option" },
+    "alias_size": { "default": null, "description": "Existing size setting kept as the size control (e.g. menu_size): reused verbatim instead of the two % ranges" },
+    "size": { "default": true, "type": "boolean", "description": "false = no size settings at all" }
+  },
+  "settings": [
+    {
+      "type": "select",
+      "id": "{{prefix}}_type",
+      "label": "{{label}}",
+      "options": [
+        { "value": "card-label", "label": "Card name" },
+        { "value": "section-title", "label": "Section heading" },
+        { "value": "nav", "label": "Menu links" },
+        { "value": "body", "label": "Body text" }
+      ],
+      "default": "{{style}}"
+    },
+    {
+      "type": "checkbox",
+      "id": "{{prefix}}_adjust",
+      "label": "Fine-tune this element",
+      "default": false
+    },
+    {
+      "$if": "alias_font",
+      "then": {
+        "$setting": "{{alias_font}}",
+        "$append_options": [{ "value": "inherit", "label": "As the typography style" }],
+        "visible_if": "{{ {{scope_settings}}.{{prefix}}_adjust }}"
+      },
+      "else": {
+        "type": "select",
+        "id": "{{prefix}}_font",
+        "label": "Typeface",
+        "options": [
+          { "value": "inherit", "label": "As the typography style" },
+          { "value": "persona", "label": "Persona" },
+          { "value": "junction", "label": "Junction" }
+        ],
+        "default": "inherit",
+        "visible_if": "{{ {{scope_settings}}.{{prefix}}_adjust }}"
+      }
+    },
+    {
+      "$if": "alias_size",
+      "then": {
+        "$setting": "{{alias_size}}",
+        "visible_if": "{{ {{scope_settings}}.{{prefix}}_adjust }}"
+      },
+      "else": {
+        "$if": "size",
+        "then": [
+          {
+            "type": "range",
+            "id": "{{prefix}}_size",
+            "label": "Size, desktop",
+            "min": 50,
+            "max": 150,
+            "step": 1,
+            "unit": "%",
+            "default": 100,
+            "info": "100% = the size as designed.",
+            "visible_if": "{{ {{scope_settings}}.{{prefix}}_adjust }}"
+          },
+          {
+            "type": "range",
+            "id": "{{prefix}}_size_m",
+            "label": "Size, phones",
+            "min": 50,
+            "max": 150,
+            "step": 1,
+            "unit": "%",
+            "default": 100,
+            "visible_if": "{{ {{scope_settings}}.{{prefix}}_adjust }}"
+          }
+        ]
+      }
+    },
+    {
+      "type": "select",
+      "id": "{{prefix}}_case",
+      "label": "Letter case",
+      "options": [
+        { "value": "inherit", "label": "As the typography style" },
+        { "value": "uppercase", "label": "Capitals" },
+        { "value": "none", "label": "As typed" }
+      ],
+      "default": "inherit",
+      "visible_if": "{{ {{scope_settings}}.{{prefix}}_adjust }}"
+    }
+  ]
+}

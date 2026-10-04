@@ -1,0 +1,571 @@
+{%- comment -%}
+  Featured collection — Figma: rows of full-bleed image cards (756:957 ratio)
+  separated by hairline gaps (or flush for the two-up editorial pair), each
+  with a small-caps label overlaid bottom-left. A card can point at a product
+  (image + title + link come from it) or use a picked image, an image URL, or
+  a draft asset with a manual label. Columns: 2-5 on desktop, 1-2 on mobile.
+
+  EVERY REPEATED ITEM IS ITS OWN BLOCK. Shape, typeface, colours and link are
+  per card, not one section-wide setting applied evenly — a merchant can make
+  the third card square and dark without touching the other two.
+
+  Section owns what is shared: background, padding, the optional heading, the
+  column counts, and the typeface of the section heading. Cards own their own
+  media, text, link and overrides. The two do not overlap.
+
+  AUTO-FILL: when the cards don't complete the last row, the leftover cells
+  are filled by cycling the section's own cards from the start, so the grid
+  never shows an empty gap. Fillers are decorative (aria-hidden, untabbable).
+
+  (`columns` is the legacy pre-range setting, honored as a fallback so
+  templates saved before the rename keep their layout.)
+
+  CAROUSEL (Eugenia, 2026-09-29, off by default): the same cards on ONE
+  sliding row — her reference is a single row with an arrow at each end,
+  centred over the photographs — rather than the grid paged. Columns becomes
+  how many show at once; the arrows only appear when there are more cards
+  than that, and Loop sends them round from the last card to the first. It is
+  the product-strip track "You may like" already uses, so swipe, trackpad and
+  keyboard work with or without the arrows; no auto-fill here, a carousel has
+  no last row to complete.
+{%- endcomment -%}
+{%- liquid
+  assign cols_desktop = section.settings.columns_desktop | default: section.settings.columns | default: 3
+  assign cols_mobile = section.settings.columns_mobile | default: 1
+  assign total = section.blocks.size
+  assign cols_num = cols_desktop | plus: 0
+  assign remainder = total | modulo: cols_num
+  assign fillers = 0
+  if remainder > 0 and total > 0
+    assign fillers = cols_num | minus: remainder
+  endif
+-%}
+
+<section
+  class="home-grid"
+  data-header-tone="{{ section.settings.header_tone }}"
+  style="{% render 'section-style', section: section %}"
+>
+  {%- comment -%}
+    The heading is opt-in: no grid on the site has one today, so leaving it
+    empty keeps every existing instance exactly as it renders now.
+  {%- endcomment -%}
+  {%- if section.settings.heading != blank or section.settings.eyebrow != blank -%}
+    <div class="home-grid__head home-grid__head--{{ section.settings.heading_align | default: 'center' }}">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="home-grid__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2
+          class="home-grid__heading"
+          style="{% render 'font-vars', prefix: 'grid-heading', choice: section.settings.heading_font %}"
+        >
+          {{- section.settings.heading | escape -}}
+        </h2>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- if section.settings.carousel -%}
+    {%- capture cards -%}
+      {%- for block in section.blocks -%}
+        <li class="product-strip__item" data-strip-item>
+          {% render 'featured-card',
+            block: block,
+            columns: cols_desktop,
+            show_collection: section.settings.show_collection_label,
+            show_swatches: section.settings.show_swatches
+          %}
+        </li>
+      {%- endfor -%}
+    {%- endcapture -%}
+    <div
+      class="home-grid__carousel{% if section.settings.flush %} home-grid__carousel--flush{% endif %}"
+      style="--cols-desktop: {{ cols_desktop }}; --cols-mobile: {{ cols_mobile }};"
+    >
+      {% render 'product-strip',
+        strip_id: section.id,
+        cards: cards,
+        heading: section.settings.heading,
+        arrows: 'sides',
+        loop: section.settings.carousel_loop
+      %}
+    </div>
+  {%- else -%}
+    <div
+      class="card-grid{% if section.settings.flush %} card-grid--flush{% endif %}"
+      style="--cols-desktop: {{ cols_desktop }}; --cols-mobile: {{ cols_mobile }};"
+    >
+      {%- for block in section.blocks -%}
+        {% render 'featured-card',
+          block: block,
+          columns: cols_desktop,
+          show_collection: section.settings.show_collection_label,
+          show_swatches: section.settings.show_swatches
+        %}
+      {%- endfor -%}
+
+      {%- if fillers > 0 -%}
+        {%- for i in (1..fillers) -%}
+          {%- assign filler_index = i | minus: 1 | modulo: total -%}
+          {% render 'featured-card',
+            block: section.blocks[filler_index],
+            is_filler: true,
+            columns: cols_desktop,
+            show_collection: section.settings.show_collection_label,
+            show_swatches: section.settings.show_swatches
+          %}
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Featured collection",
+  "tag": "section",
+  "max_blocks": 10,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "info": "Small line above the heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Leave empty for no heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_type",
+      "label": "Typography",
+      "options": [
+        {
+          "value": "card-label",
+          "label": "Card name"
+        },
+        {
+          "value": "section-title",
+          "label": "Section heading"
+        },
+        {
+          "value": "nav",
+          "label": "Menu links"
+        },
+        {
+          "value": "body",
+          "label": "Body text"
+        }
+      ],
+      "default": "section-title"
+    },
+    {
+      "type": "checkbox",
+      "id": "heading_adjust",
+      "label": "Fine-tune this element",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "heading_font",
+      "label": "Heading typeface",
+      "options": [
+        {
+          "value": "heading",
+          "label": "Primary"
+        },
+        {
+          "value": "body",
+          "label": "Secondary"
+        },
+        {
+          "value": "inherit",
+          "label": "As the typography style"
+        }
+      ],
+      "default": "heading",
+      "visible_if": "{{ section.settings.heading_adjust }}"
+    },
+    {
+      "type": "select",
+      "id": "heading_case",
+      "label": "Letter case",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "As the typography style"
+        },
+        {
+          "value": "uppercase",
+          "label": "Capitals"
+        },
+        {
+          "value": "none",
+          "label": "As typed"
+        }
+      ],
+      "default": "inherit",
+      "visible_if": "{{ section.settings.heading_adjust }}"
+    },
+    {
+      "type": "select",
+      "id": "heading_align",
+      "label": "Heading alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Centre"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns (desktop)",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns (mobile)",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "checkbox",
+      "id": "flush",
+      "label": "Flush (no gap)",
+      "default": false,
+      "info": "The two-up editorial pair sits flush in the design"
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel",
+      "label": "Carousel",
+      "default": false,
+      "info": "One sliding row with an arrow at each end, over the photographs, instead of a grid. Columns sets how many show at once; the arrows appear when there are more cards than that."
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel_loop",
+      "label": "Loop the carousel",
+      "default": false,
+      "info": "Past the last card the arrow goes back to the first, and the other way round."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_label",
+      "label": "Show collection label",
+      "default": true,
+      "info": "The product's collection under its name"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_swatches",
+      "label": "Show colour swatches",
+      "default": false,
+      "info": "Off here: the label sits over the image, so a circle below it reads as detached"
+    },
+    {
+      "type": "header",
+      "content": "Colour and spacing"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "info": "Empty uses the theme's"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "info": "Empty uses the theme's"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "header_tone",
+      "label": "Header text over this section",
+      "options": [
+        {
+          "value": "light",
+          "label": "Light, for a dark photograph"
+        },
+        {
+          "value": "ink",
+          "label": "Brown, for a pale photograph"
+        }
+      ],
+      "default": "ink",
+      "info": "Homepage and category pages: as the first section, it sets the header colour at the top of the page. Light only reads on a dark photograph."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product",
+          "info": "Supplies the image, label, and link when set"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Overrides the product image"
+        },
+        {
+          "type": "text",
+          "id": "image_url",
+          "label": "Image URL",
+          "info": "Used when nothing is uploaded. Uploads are sharper."
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "Image description",
+          "info": "For screen readers"
+        },
+        {
+          "type": "select",
+          "id": "ratio",
+          "label": "Shape",
+          "options": [
+            {
+              "value": "756/957",
+              "label": "Portrait (default)"
+            },
+            {
+              "value": "1/1",
+              "label": "Square"
+            },
+            {
+              "value": "3/2",
+              "label": "Landscape"
+            },
+            {
+              "value": "4/5",
+              "label": "Tall"
+            }
+          ],
+          "default": "756/957"
+        },
+        {
+          "type": "textarea",
+          "id": "label",
+          "label": "Label",
+          "info": "Falls back to the product title"
+        },
+        {
+          "type": "select",
+          "id": "label_tone",
+          "label": "Label tone",
+          "options": [
+            {
+              "value": "dark",
+              "label": "Dark"
+            },
+            {
+              "value": "light",
+              "label": "Light"
+            }
+          ],
+          "default": "dark"
+        },
+        {
+          "type": "color",
+          "id": "label_color",
+          "label": "Label colour",
+          "info": "Empty uses the tone above"
+        },
+        {
+          "type": "color",
+          "id": "label_hover_color",
+          "label": "Label colour on hover",
+          "info": "The name and the Cucuyo bug while the pointer is over this card (tablet and desktop). Empty leaves them as they are."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link",
+          "info": "Overrides the product link"
+        },
+        {
+          "type": "text",
+          "id": "draft_asset",
+          "label": "Draft asset filename",
+          "info": "Theme asset used while nothing else is set"
+        },
+        {
+          "type": "header",
+          "content": "Typography"
+        },
+        {
+          "type": "select",
+          "id": "label_type",
+          "label": "Typography",
+          "options": [
+            {
+              "value": "card-label",
+              "label": "Card name"
+            },
+            {
+              "value": "section-title",
+              "label": "Section heading"
+            },
+            {
+              "value": "nav",
+              "label": "Menu links"
+            },
+            {
+              "value": "body",
+              "label": "Body text"
+            }
+          ],
+          "default": "card-label",
+          "info": "The name printed over the photograph."
+        },
+        {
+          "type": "checkbox",
+          "id": "label_adjust",
+          "label": "Fine-tune this element",
+          "default": false
+        },
+        {
+          "type": "select",
+          "id": "label_font",
+          "label": "Label typeface",
+          "options": [
+            {
+              "value": "heading",
+              "label": "Primary"
+            },
+            {
+              "value": "body",
+              "label": "Secondary"
+            },
+            {
+              "value": "inherit",
+              "label": "As the typography style"
+            }
+          ],
+          "default": "heading",
+          "visible_if": "{{ block.settings.label_adjust }}"
+        },
+        {
+          "type": "range",
+          "id": "label_size",
+          "label": "Size, desktop",
+          "min": 50,
+          "max": 150,
+          "step": 1,
+          "unit": "%",
+          "default": 100,
+          "info": "100% = the size as designed.",
+          "visible_if": "{{ block.settings.label_adjust }}"
+        },
+        {
+          "type": "range",
+          "id": "label_size_m",
+          "label": "Size, phones",
+          "min": 50,
+          "max": 150,
+          "step": 1,
+          "unit": "%",
+          "default": 100,
+          "visible_if": "{{ block.settings.label_adjust }}"
+        },
+        {
+          "type": "select",
+          "id": "label_case",
+          "label": "Letter case",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "As the typography style"
+            },
+            {
+              "value": "uppercase",
+              "label": "Capitals"
+            },
+            {
+              "value": "none",
+              "label": "As typed"
+            }
+          ],
+          "default": "inherit",
+          "visible_if": "{{ block.settings.label_adjust }}"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured collection",
+      "blocks": [
+        {
+          "type": "card"
+        },
+        {
+          "type": "card"
+        },
+        {
+          "type": "card"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

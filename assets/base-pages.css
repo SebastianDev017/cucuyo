@@ -1,0 +1,2763 @@
+/* --------------------------------------------------------------------------
+   Inner pages (pre-redesign) — readable defaults under the solid header.
+   These templates are rebuilt in the next phase; this only keeps them usable.
+   The product template has its own real layout below and is excluded.
+   -------------------------------------------------------------------------- */
+
+body:not(.template-index):not(.template-product):not(.template-collection):not(.template-search):not(.template-cart):not(.template-password) main {
+  padding: var(--nav-clearance) var(--page-margin) 96px var(--sidebar-gutter);
+}
+
+body:not(.template-index):not(.template-product):not(.template-collection):not(.template-search):not(.template-cart):not(.template-password) main img {
+  max-width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   Product page (Figma "product pg 1", 1512 frame) — the whole content column
+   is inset from the left so the fixed nav's stacked link column keeps its own
+   gutter (content x283 → 1471 at 1512; right edge = page margin). Top padding
+   clears the centered wordmark (content top y133). On mobile the nav stack
+   sits ABOVE the content, so the offset comes from --header-height, measured
+   by theme.js off the real rendered nav (menus grow it), with a generous
+   no-JS fallback.
+   -------------------------------------------------------------------------- */
+
+.template-product main {
+  padding: var(--nav-clearance) var(--page-margin) 112px var(--sidebar-gutter);
+  /* Eugenia, 2026-09-29: the photograph sat too far down — the clearance is
+     the header's measured reach plus 40px of air meant for a page heading.
+     The product page has none, so it starts where the header's own band
+     ends: --header-panel, measured by theme.js off the header's real
+     content (the same measurement that sizes its white ground), with the
+     full clearance as the no-JS fallback. */
+  padding-top: var(--header-panel, var(--nav-clearance));
+}
+
+@media (max-width: 749px) {
+  .template-product main {
+    padding-bottom: 64px;
+  }
+}
+
+/* Product hero: single portrait image left (Figma 582×721 ≈ 4:5 — the v1
+   STYLE-GUIDE said 3:4, the approved Figma measures 4:5), info panel right.
+   Column ratio + gap are 1:1 from the frame: 581 / 80 / 527. */
+/* The gap between the two columns is the template's (Product page → Space
+   between the images and the information), 10px since Eugenia asked for it
+   on 2026-09-29; it was clamp(40px, 5.3vw, 84px) here and up to 92px from
+   990px. The fr split still decides how the width is shared. */
+.main-product__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 581fr) minmax(0, 527fr);
+  column-gap: var(--pdp-column-gap, 10px);
+  align-items: start;
+}
+
+/* PRODUCT_PAGE PDF (2026-09-24): the photograph runs flush to the left edge
+   of the screen, 707px wide at 1440, with the information starting at 799.
+   Main keeps its padding; the photograph (and the gallery under it) steps
+   back out of the left one, and the columns are re-split so the info column
+   still begins where the PDF puts it: 667 + 92 + 601 of the 1360px inside
+   the margins. Tablet and phone keep the stacked layout they had. */
+@media (min-width: 990px) {
+  .main-product__grid {
+    grid-template-columns: minmax(0, 667fr) minmax(0, 601fr);
+  }
+
+  .main-product__media,
+  .pdp-gallery {
+    margin-left: calc(-1 * var(--page-margin));
+  }
+}
+
+/* The gallery is a grid child (see main-product.liquid) so mobile can order
+   it after the info panel. On desktop it belongs back under the hero, in
+   the left column. */
+@media (min-width: 750px) {
+  .main-product__media {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  /* Beside the hero AND the gallery, so the information keeps floating for
+     as long as there are photographs to scroll past. */
+  .main-product__info {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+
+  .pdp-gallery {
+    grid-column: 1;
+    grid-row: 2;
+    margin-top: var(--pdp-gallery-gap, 24px);
+  }
+}
+
+.main-product__media {
+  display: grid;
+  gap: var(--grid-gap);
+}
+
+.main-product__media-item--hero img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: var(--media-ratio, 4 / 5);
+  object-fit: cover;
+}
+
+.main-product__media-item--empty {
+  aspect-ratio: var(--media-ratio, 4 / 5);
+  background: #E5E1DC;
+}
+
+/* Product page → Information position (Eugenia, 2026-09-30 and 10-01: it
+   floats in the centre while the photographs scroll, rather than sticking to
+   the top). From 750px the column stretches the full height of the
+   photographs; the inner box is sticky right under the header's measured
+   band and as tall as the screen below it — never taller than the
+   photographs — and holds the information at its top, centre or bottom. So
+   at the top of the page the information sits in the middle of what is on
+   screen, stays there while the photographs scroll, and leaves with the
+   last one. Information taller than the screen just starts at the top. */
+@media (min-width: 750px) {
+  .main-product__info {
+    align-self: stretch;
+  }
+
+  .main-product__info-inner {
+    position: sticky;
+    top: var(--header-panel, var(--nav-clearance));
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: min(100%, calc(100svh - var(--header-panel, var(--nav-clearance))));
+  }
+
+  .main-product--info-center .main-product__info-inner {
+    justify-content: center;
+  }
+
+  .main-product--info-bottom .main-product__info-inner {
+    justify-content: flex-end;
+  }
+}
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: clamp(72px, 10vw, 152px);
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight, 500);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.breadcrumb__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.main-product__vendor {
+  color: var(--color-muted);
+  margin-bottom: 10px;
+}
+
+/* Shared with the Interior design page's title (Text and photo → Title
+   style → Like the product title; Eugenia, 2026-10-01) and the policy
+   pages' (the theme's own and Shopify's /policies/*): one rule, so they can
+   never drift apart. Two classes on those sides, to out-rank the section's
+   own small-line title and Shopify's policy.css. */
+.main-product__title,
+.page-split__title.page-split__title--product,
+.policy-page__title,
+.shopify-policy__title h1 {
+  font-family: var(--pdp-title-font, var(--font-heading));
+  font-weight: var(--pdp-title-weight, var(--font-heading-weight, 500));
+  font-size: calc(1.5rem * var(--heading-scale, 1));
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1.3;
+  color: var(--pdp-title-ink, var(--color-accent));
+}
+
+.main-product__heading {
+  margin-bottom: var(--pdp-title-mb, 0);
+}
+
+.main-product__description {
+  margin-top: 22px;
+  max-width: 62ch;
+  font-size: calc(0.875rem * var(--body-scale, 1));
+  line-height: 1.55;
+  color: var(--color-muted);
+}
+
+.rte p {
+  margin: 0 0 1em;
+}
+
+.rte p:last-child {
+  margin-bottom: 0;
+}
+
+.rte a {
+  color: inherit;
+}
+
+/* Product gallery — every image after the hero, stacked in the media
+   column at full column width. Height is auto: the ratio comes from the
+   image's own width/height attributes, so it is exact (no cropping, no
+   stretching) and the space is still reserved before load (no shift).
+   Editorial rule — a photograph is never cut. Only when 2+ images. */
+/* The space between the stacked photographs is its own knob (Media block →
+   "Space between gallery images"), no longer the site-wide hairline: Jenn
+   asked for real air between the rows. The hero-to-first-image margin above
+   uses the same value so every step down the column matches. */
+.pdp-gallery {
+  display: grid;
+  gap: var(--pdp-gallery-gap, 24px);
+}
+
+/* Explicit, not left to the UA stylesheet: these are grid children, and any
+   rule that gives them a display value would out-rank the browser's own
+   [hidden] and leave a filtered-out photograph on screen. */
+.pdp-gallery__item[hidden] {
+  display: none;
+}
+
+/* A variant whose set is one photograph has every gallery copy hidden; the
+   gallery then takes no room, or its top margin leaves a gap under the hero. */
+.pdp-gallery:not(:has(> .pdp-gallery__item:not([hidden]))) {
+  display: none;
+}
+
+.pdp-gallery__item img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Product details (Figma "section 1") — a quiet spec list under the add-to-
+   cart: bold Junction heading, then Material / Color / Dimensions lines in
+   the muted body voice. It is a PDP block, so the merchant can move or hide
+   it; the top margin is its own breathing room wherever it lands. */
+.main-product__details {
+  margin-top: var(--pdp-details-mt, 56px);
+  max-width: 62ch;
+}
+
+/* Weight stays 700 on purpose: the bold is what gives this label its rank in
+   the column, and it is not the typeface selector's business. Only the family
+   follows the setting — the weight var it also emits is left unread. */
+.main-product__details-heading {
+  margin: 0 0 12px;
+  font-family: var(--pdp-details-font, var(--font-body));
+  font-weight: 700;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--pdp-details-ink, var(--color-ink));
+}
+
+.main-product__details-body {
+  font-size: calc(0.875rem * var(--body-scale, 1));
+  line-height: 1.6;
+  color: var(--pdp-details-ink, var(--color-muted));
+}
+
+/* Accordions — 1px accent hairlines above and below each row, small-caps
+   label left, +/− marker right. No transitions (brand). */
+/* The accordions are individual blocks now, so the group's top hairline and
+   its space belong to the first one rather than to a wrapper. They are the
+   only <details> in the info column, so :first-of-type is exactly "the first
+   accordion", wherever the merchant has dragged the other blocks. */
+.main-product__info-inner > details.accordion:first-of-type {
+  margin-top: 60px;
+  border-top: 1px solid var(--color-accent);
+}
+
+.accordion {
+  border-bottom: 1px solid var(--color-accent);
+}
+
+.accordion__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 9px 4px 9px 8px;
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight, 500);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.accordion__summary::-webkit-details-marker {
+  display: none;
+}
+
+.accordion__icon::before {
+  content: '+';
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  line-height: 1;
+  color: var(--color-accent);
+}
+
+.accordion[open] .accordion__icon::before {
+  content: '\2212';
+}
+
+.accordion__content {
+  padding: 4px 8px 16px;
+  max-width: 62ch;
+  font-size: calc(0.875rem * var(--body-scale, 1));
+  line-height: 1.55;
+  color: var(--color-muted);
+}
+
+/* The Shipping & Delivery and Returns dropdowns end with a link to the
+   policy page; it reads as a link, set a little off the baseline. */
+.accordion__content a {
+  text-underline-offset: 3px;
+}
+
+/* Add to cart — accent bar with the price built into the label, separated by
+   a thin vertical divider (Figma). */
+.main-product__form {
+  margin-top: 24px;
+}
+
+/* --------------------------------------------------------------------------
+   Variant options that are NOT colour (Size, Material, whatever gets added).
+   Circles stay exclusive to colour — a circle says "this is a colour" and
+   nothing else — so these are square-cornered buttons, or a dropdown when
+   the merchant picks that. Zero radius, like the rest of the theme.
+   -------------------------------------------------------------------------- */
+
+.variant-option {
+  margin-top: var(--pdp-swatch-space, 26px);
+}
+
+.variant-option__label {
+  margin: 0 0 10px;
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight, 500);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.variant-option__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.variant-option__button {
+  display: inline-block;
+  padding: 9px 16px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight, 500);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  text-decoration: none;
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+/* Chosen state reads without colour alone: the border goes to full ink and
+   thickens on the inside, so it survives a greyscale or high-contrast view. */
+.variant-option__button[aria-current='true'] {
+  border-color: var(--color-accent);
+  box-shadow: inset 0 0 0 1px var(--color-accent);
+  color: var(--color-accent);
+}
+
+/* Sold-out combinations stay reachable — a shopper may want to see them —
+   but read as unavailable. */
+.variant-option__button--unavailable {
+  color: var(--color-muted);
+  border-style: dashed;
+  text-decoration: line-through;
+}
+
+.variant-option__select {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  padding: 10px 12px;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 0;
+  font-size: 0.8125rem;
+  color: var(--color-ink);
+}
+
+/* With the dropdown chosen, the link list is only the no-JS fallback. */
+html.js .variant-option__list--fallback {
+  display: none;
+}
+
+html.no-js .variant-option__select-wrap {
+  display: none;
+}
+
+/* Jenn, 2026-10-01: the label and the price were hard to read at 11px.
+   14px now, above the 12px dropdown titles — the button is the one thing on
+   the page that has to be read at a glance. */
+.button--atc {
+  display: inline-flex;
+  align-items: center;
+  padding: 13px 26px;
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight, 500);
+  font-size: 0.875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.button--atc__divider {
+  width: 1px;
+  height: 16px;
+  margin-inline: 18px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+.button--atc [hidden] {
+  display: none;
+}
+
+.button--atc:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+
+.collection-head__title,
+.main-search__title,
+.main-cart__title {
+  font-size: calc(1.3125rem * var(--heading-scale, 1));
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1.3;
+  color: var(--color-accent);
+  margin-bottom: 8px;
+}
+
+/* --------------------------------------------------------------------------
+   Collection page — centered title + optional description, then the shared
+   editable-columns card grid. The whole page sits below the fixed nav's
+   stacked column (its height is measured by theme.js), since the grid spans
+   the full width and would otherwise run under the links.
+   -------------------------------------------------------------------------- */
+
+.template-collection main,
+.template-search main,
+.template-cart main {
+  padding: var(--nav-clearance) var(--page-margin) 112px var(--sidebar-gutter);
+}
+
+/* Collection heads left-align with the grid's first image, and the title
+   takes the SAME type as a product name in a card (0.75rem / .1em), so the
+   category reads as a label over the grid rather than a page banner.
+   Scoped to the collection page on purpose — search and cart headings keep
+   the centred treatment they were designed with. */
+.collection-head {
+  text-align: left;
+  margin-bottom: 28px;
+}
+
+/* 0.75rem flat, NOT scaled by --heading-scale: .product-card__title is not
+   scaled either, and "the same size as a product name" has to stay true at
+   whatever the merchant sets the heading scale to. */
+.collection-head__title {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+}
+
+.collection-head__description {
+  max-width: 62ch;
+  margin: 10px auto 0;
+  font-size: calc(0.875rem * var(--body-scale, 1));
+  line-height: 1.55;
+  color: var(--color-muted);
+}
+
+.collection-empty {
+  text-align: center;
+  color: var(--color-muted);
+  padding: 48px 0;
+}
+
+/* Collection and search grids: the same 5px mosaic as the homepage and the
+   category pages. There is no text under the cards any more (the name sits on
+   the photograph), so the gap between images is the only space between
+   tiles and nothing has to be kept clear of a neighbour's price. */
+.card-grid.collection-grid {
+  gap: var(--card-gap) var(--card-gap);
+}
+
+/* Product card — the photograph, with the name laid over it (the card-name
+   rule above). Nothing sits under the image any more, so the card is as tall
+   as its photograph and the grid's gap is the only space between tiles. */
+.product-card {
+  display: flex;
+  flex-direction: column;
+}
+
+/* NOT flex:1. Grid rows stretch every card to the tallest one, and a growing
+   link pushed the swatch row to the card's bottom, so the gap above the
+   swatches was simply whatever was left over — measured 0px under a two-line
+   title and 19px under a one-line one, in the same row. The leftover now
+   falls at the bottom of the card and the gap is a fixed --swatch-margin.
+   The oversized featured tile still grows, because there the point IS for its
+   image to fill the two rows it spans. */
+.product-card__link {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+}
+
+.collection-grid .product-card--featured .product-card__link {
+  flex: 1;
+  min-height: 0;
+}
+
+.product-card__media img,
+.product-card__media--placeholder {
+  display: block;
+  width: 100%;
+  aspect-ratio: var(--card-ratio, 756 / 957);
+  object-fit: cover;
+}
+
+/* HOVER PHOTOGRAPH (Cult Gaia). The second image sits on top of the first in
+   the same box and fades in; the first one never fades out, so there is no
+   moment where the tile is half-empty. Guarded by `hover: hover` and a fine
+   pointer: on a phone the second image is never shown (and, being
+   aria-hidden with an empty alt, it is silent for a screen reader anyway).
+   `visibility` rides along with the opacity so the hidden copy cannot be
+   picked up as an image when it is invisible — and the pair is one
+   transition, so an interrupted hover reverses from wherever it got to. */
+.product-card__media {
+  position: relative;
+}
+
+/* `.product-card__media img` above is (0,1,1) and would keep this displayed:
+   both of these have to out-rank it, not just read as more specific. */
+.product-card__media .product-card__image--hover {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .product-card__media .product-card__image--hover {
+    display: block;
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.45s cubic-bezier(0.45, 0.05, 0.55, 0.95), visibility 0s linear 0.45s;
+  }
+
+  .product-card:hover .product-card__image--hover,
+  .product-card__link:focus-visible .product-card__image--hover {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.45s cubic-bezier(0.45, 0.05, 0.55, 0.95), visibility 0s;
+  }
+
+  /* A card whose colour was switched by a swatch shows that colour's photo;
+     the stored second image belongs to another colour, so it is dropped
+     rather than shown over it (theme.js sets the flag). */
+  .product-card[data-hover-image='off'] .product-card__media .product-card__image--hover {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-card__image--hover {
+    transition: none;
+  }
+}
+
+.product-card__media--placeholder {
+  background: #E5E1DC;
+}
+
+.button--atc__compare {
+  text-decoration: line-through;
+  color: var(--color-muted);
+}
+
+.button--atc__compare[hidden] {
+  display: none;
+}
+
+.button--atc__compare {
+  margin-inline-start: 8px;
+  color: inherit;
+  opacity: 0.65;
+}
+
+/* Context image — a photograph placed among the products, carrying no name,
+   price or link. It borrows the featured slot's span rather than inventing a
+   size of its own, so the grid only ever has two tile sizes. */
+.context-image {
+  display: block;
+}
+
+.context-image__media {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: var(--card-ratio, 756 / 957);
+  object-fit: cover;
+}
+
+/* Featured slot — the collection's first product (merchant sort order) spans
+   2 columns × 2 rows of the same grid, its image stretching to fill, like
+   the oversized lead tile of the reference. Uniform again on mobile. The
+   context image takes exactly the same span. */
+@media (min-width: 750px) {
+  .collection-grid .product-card--featured,
+  .collection-grid .context-image {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  /* free of the card ratio here: it fills the two rows it spans */
+  .collection-grid .context-image__media {
+    aspect-ratio: auto;
+  }
+
+  /* It ends exactly where the two rows it spans end. The cards carry no
+     text any more, so there is no room to reserve under it; and its
+     photograph is taken out of the flow, because left in it the file's own
+     shape decided how tall the rows had to be and stretched every card in
+     them (46px of white under each, measured). Absolute, the cards size the
+     rows and the photograph fills the span. */
+  .collection-grid .context-image {
+    position: relative;
+  }
+
+  .collection-grid .context-image__media {
+    position: absolute;
+    inset: 0;
+  }
+
+  .collection-grid .product-card--featured .product-card__media {
+    flex: 1;
+    min-height: 0;
+  }
+
+  .collection-grid .product-card--featured .product-card__media img,
+  .collection-grid .product-card--featured .product-card__media--placeholder {
+    height: 100%;
+    aspect-ratio: auto;
+  }
+}
+
+/* Search page — same visual treatment as the collection grid; the search
+   form itself keeps its existing markup, just centered under the title. */
+.main-search__title {
+  text-align: center;
+}
+
+.search-form {
+  display: flex;
+  max-width: 480px;
+  margin: 24px auto 56px;
+}
+
+.search-form .field {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 16px;
+  font-size: 0.8125rem;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-inline-end: none;
+  border-radius: 0;
+  color: var(--color-ink);
+}
+
+.search-form .field:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+.main-search__count {
+  text-align: center;
+  color: var(--color-muted);
+  font-size: 0.8125rem;
+  margin-bottom: 28px;
+}
+
+.main-search__empty {
+  text-align: center;
+  color: var(--color-muted);
+  padding: 24px 0;
+}
+
+/* Non-product results (pages, articles) render as quiet bordered tiles
+   inside the same grid. */
+.search-result {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  min-height: 180px;
+  padding: 24px;
+  border: 1px solid var(--color-border);
+  text-decoration: none;
+}
+
+.search-result__type {
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.search-result__title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight, 500);
+  font-size: 0.8125rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1.5;
+  color: var(--color-ink);
+}
+
+/* Cart page — a quiet receipt column centered on the content axis. Rows
+   are hairline-separated lines: thumb, name/variant/remove, quantity,
+   line total. Everything submits without JS. */
+.main-cart {
+  max-width: 860px;
+  margin-inline: auto;
+}
+
+.main-cart__title {
+  text-align: center;
+  margin-bottom: 44px;
+}
+
+.cart-lines {
+  border-top: 1px solid var(--color-border);
+}
+
+.cart-line {
+  display: grid;
+  grid-template-areas: 'media info qty total';
+  grid-template-columns: 88px minmax(0, 1fr) auto auto;
+  gap: 12px 24px;
+  align-items: center;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.cart-line__media {
+  grid-area: media;
+  display: block;
+}
+
+.cart-line__media img,
+.cart-line__media-empty {
+  display: block;
+  width: 88px;
+  aspect-ratio: 756 / 957;
+  object-fit: cover;
+}
+
+.cart-line__media-empty {
+  background: #E5E1DC;
+}
+
+.cart-line__info {
+  grid-area: info;
+}
+
+.cart-line__name {
+  display: block;
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight, 500);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1.5;
+  color: var(--color-ink);
+  text-decoration: none;
+}
+
+.cart-line__variant {
+  margin-top: 4px;
+  font-size: 0.75rem;
+  color: var(--color-muted);
+}
+
+.cart-line__remove {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.cart-line__qty {
+  grid-area: qty;
+}
+
+.cart-line__qty-input {
+  width: 64px;
+  padding: 8px 6px;
+  text-align: center;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 0;
+  font-size: 0.8125rem;
+  color: var(--color-ink);
+}
+
+.cart-line__total {
+  grid-area: total;
+  font-size: 0.8125rem;
+  color: var(--color-ink);
+  white-space: nowrap;
+  min-width: 72px;
+  text-align: right;
+}
+
+.cart-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 32px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+}
+
+.button--quiet {
+  padding: 11px 22px;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 0;
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight, 500);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.cart-summary {
+  width: min(380px, 100%);
+  margin-left: auto;
+}
+
+.cart-summary__subtotal {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--color-border);
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight, 500);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+.cart-summary__note {
+  margin-top: 10px;
+  font-size: 0.75rem;
+  color: var(--color-muted);
+}
+
+.cart-summary__checkout {
+  display: block;
+  width: 100%;
+  margin-top: 18px;
+  padding: 13px 22px;
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight, 500);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.main-cart__empty {
+  text-align: center;
+  color: var(--color-muted);
+  padding: 32px 0;
+}
+
+.main-cart__empty .button {
+  display: inline-block;
+  margin-top: 20px;
+}
+
+@media (max-width: 749px) {
+  .cart-line {
+    grid-template-areas:
+      'media info info'
+      'media qty total';
+    grid-template-columns: 72px minmax(0, 1fr) auto;
+    align-items: start;
+  }
+
+  .cart-line__media img,
+  .cart-line__media-empty {
+    width: 72px;
+  }
+
+  .cart-line__total {
+    align-self: center;
+  }
+
+  .cart-line__qty {
+    align-self: center;
+  }
+
+  .cart-summary {
+    margin-left: 0;
+  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-top: 64px;
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight, 500);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.pagination__link {
+  color: var(--color-muted);
+  text-decoration: none;
+}
+
+.pagination__current {
+  color: var(--color-accent);
+}
+
+.pagination__ellipsis {
+  color: var(--color-muted);
+}
+
+@media (max-width: 749px) {
+  .main-product__grid {
+    grid-template-columns: 1fr;
+    row-gap: 28px;
+  }
+
+  .breadcrumb {
+    margin-bottom: 32px;
+  }
+
+  .main-product__info-inner > details.accordion:first-of-type {
+    margin-top: 40px;
+  }
+
+}
+
+/* --------------------------------------------------------------------------
+   Password page
+   -------------------------------------------------------------------------- */
+
+/* A plain full-bleed block, and nothing else. This was a centred grid with
+   place-items:center, and that is why the section came out 688px wide: a grid
+   item does not stretch under justify-items:center, so the photograph was the
+   width of the card instead of the width of the screen. The centring belongs
+   to .password-page; main only has to stay out of its way.
+
+   The template is excluded from the shared inner-page rule above too, which
+   was handing main 360px of nav clearance and a 300px sidebar gutter on a
+   page that has neither a nav nor a sidebar. */
+.template-password main {
+  display: block;
+  min-height: 100svh;
+  padding: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Lenis smooth scroll
+   -------------------------------------------------------------------------- */
+
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+/* --------------------------------------------------------------------------
+   Nav disclosure — the SHOP dropdown
+   Behaviour taken from a live reading of spartan-shop.com's COLLECTIONS menu:
+   collapsed by default, a click animates the panel's own HEIGHT open and
+   pushes the rest of the column down (it never floats over the page), a
+   second click or a click outside animates it shut. It is a real <details>,
+   so with no JS the toggle still works — only the animation is scripted.
+   -------------------------------------------------------------------------- */
+
+.nav-disclosure__summary {
+  display: block;
+  list-style: none;
+  cursor: pointer;
+}
+
+.nav-disclosure__summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Hairline chevron, rotated when open. No box, no background — the header has
+   neither, and the marker must read on light and dark imagery alike. */
+.nav-disclosure__marker {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-inline-start: 8px;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transform-origin: center;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-disclosure[open] > .nav-disclosure__summary .nav-disclosure__marker {
+  transform: translateY(1px) rotate(-135deg);
+}
+
+/* The panel is what animates. Height is driven from theme.js (0 → measured →
+   auto), so overflow has to be clipped for the duration of the run. */
+.nav-disclosure__panel {
+  overflow: hidden;
+}
+
+.nav-disclosure__panel[data-animating] {
+  transition: height 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-disclosure__marker,
+  .nav-disclosure__panel[data-animating] {
+    transition: none;
+  }
+}
+
+/* SHOP IN THE ROW (1200px up): an overlay, not a drawer that pushes. In the
+   stacked column the panel opening downward and pushing the links under it
+   is the design (spartan-shop.com's behaviour) and it stays that way below
+   1200px and in the mobile drawer. In a single row the same push moved the
+   whole bar — every link re-centred on a taller row — so here the panel
+   floats instead, the way HEREU's does: out of the flow, hanging from the
+   bar's bottom edge, over the page and never over the bar itself.
+
+   Anchoring: the header is the nearest positioned ancestor (the nav and the
+   list items are static in the row), so `top: 100%` is the bar's bottom edge
+   in every scroll state. `left` stays auto, which keeps the panel's static
+   horizontal position under SHOP; the negative margin pulls it back by its
+   own border and padding so the first item lines up with the word SHOP.
+
+   The panel is opaque, on the page's own background, with a hairline in the
+   accent: the accent is 9.9:1 against that background, so whatever sits
+   behind the panel (a white page, a pale wall, a mid-tone photograph), either
+   the surface or the hairline stands at least √9.9 ≈ 3.1:1 off it. The muted
+   brown would guarantee only 2.3:1 there. Its links take the same accent,
+   never the light type the bar uses over home's hero, which would vanish on
+   it.
+
+   The header ignores the pointer by design (a transparent strip must not
+   block the page), so the panel opts back in; the strip under an open SHOP
+   label is a hover bridge, so moving the pointer down into the panel never
+   leaves the disclosure on the way. */
+@media (min-width: 1200px) {
+  .site-header__nav--primary .nav-disclosure__summary {
+    position: relative;
+  }
+
+  .site-header__nav--primary .nav-disclosure[open] > .nav-disclosure__summary::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    right: -12px;
+    left: -12px;
+    height: 40px;
+  }
+
+  .site-header__nav--primary .nav-disclosure__panel {
+    position: absolute;
+    top: 100%;
+    z-index: 1;
+    min-width: 240px;
+    margin-left: -25px;
+    background: var(--color-bg);
+    pointer-events: auto;
+  }
+
+  .site-header__nav--primary .nav-disclosure__panel > .site-header__sub {
+    margin: 0;
+    padding: 18px 24px 22px;
+    border: 1px solid var(--color-accent);
+  }
+
+  body .site-header .nav-disclosure__panel .site-header__link {
+    color: var(--color-accent);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Colour swatches
+   Circles under the title/price on every grid card and on the product page.
+   Each one is a link to a REAL variant of the same product.
+   -------------------------------------------------------------------------- */
+
+/* The attribute is not decoration: the list reset is ul[role='list'] at
+   specificity (0,1,1), which out-ranks a lone class, so a plain .swatches
+   margin is silently dropped — the same trap that once flattened the nav
+   indent. Anything setting margin or padding on a list here has to match it. */
+.swatches[role='list'] {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--swatch-gap, 13px);
+  margin: var(--swatch-margin, 16px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.swatch {
+  display: block;
+  width: var(--swatch-size, 16px);
+  height: var(--swatch-size, 16px);
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background-color: var(--swatch-color, transparent);
+  background-image: var(--swatch-image, none);
+  background-size: cover;
+  background-position: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Selected reads as a ring OUTSIDE the circle, so the colour itself is never
+   covered — outline rather than a border swap, which would resize it. */
+.swatch[aria-current='true'] {
+  outline: 1px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+.swatch--unavailable {
+  opacity: 0.4;
+}
+
+/* A colour with neither a linked swatch nor a palette entry falls back to its
+   own name rather than an empty circle. */
+.swatch__name {
+  display: block;
+  width: max-content;
+  padding: 0 4px;
+  font-family: var(--font-heading);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.swatch:has(.swatch__name) {
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  border-color: transparent;
+}
+
+/* Cards: the swatch row is the last thing in the card, inset like the text —
+   on BOTH edges, so the first circle lines up with the name above it. */
+.product-card .swatches,
+.image-card .swatches {
+  padding-inline-end: var(--card-text-inset);
+  padding-inline-start: var(--card-text-start, 5px);
+}
+
+.swatches--pdp[role='list'] {
+  --swatch-size: var(--swatch-size-pdp, 22px);
+  /* set by the Variant picker block, not by the card settings — see
+     snippets/pdp-block */
+  margin-top: var(--pdp-swatch-space, 26px);
+}
+
+/* --------------------------------------------------------------------------
+   Product page subtitle
+   -------------------------------------------------------------------------- */
+
+.main-product__subtitle {
+  margin: 10px 0 0;
+  font-size: calc(0.9375rem * var(--body-scale, 1));
+  line-height: 1.5;
+  color: var(--color-muted);
+}
+
+/* Stacked (product-sourced) card: name on the left, price pair opposite —
+   the same reading as the grid card. */
+.image-card__line {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.image-card__name {
+  min-width: 0;
+}
+
+.image-card__prices {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  white-space: nowrap;
+  font-family: var(--font-body);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.image-card__compare {
+  text-decoration: line-through;
+  color: var(--color-muted);
+}
+
+.image-card__compare[hidden] {
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
+   STORY PAGE — the merged About + Interior Design surface.
+
+   The site keeps a fixed link rail down the left, so "full width" here means
+   from the content gutter to the right edge of the viewport, never edge to
+   edge: a photograph running under that rail takes the navigation with it.
+   The travel that makes this page move is horizontal, and it happens on the
+   right, which is exactly where there is room for it.
+
+   Nothing on this page fades in on scroll. The page has one authored
+   movement — photographs travelling sideways — and giving every section an
+   entrance as well would spend the attention that movement needs.
+   -------------------------------------------------------------------------- */
+
+/* main keeps the inset every inner template shares — deliberately, because
+   theme.js reads that padding to decide how far the content has to clear the
+   nav: with no left gutter it assumes the content runs under the link column
+   and pushes everything down by the height of the whole stack. So the story
+   sections step back out of it instead, and re-apply the same left edge
+   themselves. What this buys is the right margin: a photograph here can
+   reach the edge of the screen, which is the whole grammar of the page. */
+.story-intro,
+.story-passage,
+.story-gallery,
+.story-sequence {
+  margin-right: calc(-1 * var(--page-margin));
+  margin-left: calc(-1 * var(--sidebar-gutter));
+}
+
+/* Shared spine: the text column of every story section starts on the same
+   left edge as the collection grid, so the page has one vertical alignment
+   running through it rather than a new margin per section. */
+.story-intro,
+.story-passage,
+.story-gallery {
+  padding-top: var(--section-pt, 0);
+  padding-bottom: var(--section-pb, 0);
+  background: var(--section-bg, transparent);
+  color: var(--section-ink, inherit);
+}
+
+/* --- Opening ------------------------------------------------------------- */
+
+.story-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--intro-media-width, 42%);
+  grid-template-areas:
+    'statement statement'
+    'body media';
+  column-gap: clamp(28px, 4vw, 72px);
+  row-gap: clamp(28px, 4vw, 64px);
+  align-items: start;
+  padding-left: var(--sidebar-gutter);
+}
+
+.story-intro__statement {
+  grid-area: statement;
+  /* the one line of type that gets the whole page: it clears the right
+     margin rather than running to the edge, because a sentence read to the
+     very edge of a screen has nowhere to end */
+  padding-right: var(--page-margin);
+}
+
+.story-intro__body {
+  grid-area: body;
+}
+
+.story-intro__media {
+  grid-area: media;
+}
+
+.story-intro--media-left {
+  grid-template-columns: var(--intro-media-width, 42%) minmax(0, 1fr);
+  grid-template-areas:
+    'statement statement'
+    'media body';
+}
+
+.story-intro--media-left .story-intro__body {
+  padding-right: var(--page-margin);
+}
+
+/* With the photograph turned off the second column would still hold its
+   share of the width, leaving the statement wrapping inside 58% of the page
+   for no reason. Nothing to place beside it means one column. */
+.story-intro--solo,
+.story-intro--solo.story-intro--media-left {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    'statement'
+    'body';
+  padding-right: var(--page-margin);
+}
+
+.story-intro--solo .story-intro__statement,
+.story-intro--solo .story-intro__body {
+  padding-right: 0;
+}
+
+.story-intro__statement {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight, 500);
+  /* the display voice of the page: the same uppercase-and-tracked register
+     as the wordmark and the product names, two steps larger */
+  font-size: calc(clamp(1.75rem, 4.2vw, 3.5rem) * var(--intro-scale, 1) * var(--heading-scale, 1));
+  letter-spacing: 0.07em;
+  line-height: 1.22;
+  text-transform: uppercase;
+}
+
+.story-intro__body {
+  margin-top: clamp(20px, 2.6vw, 40px);
+  /* a reading measure, not a column width: about 68 characters */
+  max-width: 36em;
+  color: var(--color-muted);
+  font-size: calc(0.875rem * var(--body-scale, 1));
+  line-height: 1.75;
+}
+
+.story-intro__body > :first-child {
+  margin-top: 0;
+}
+
+.story-intro__body > :last-child {
+  margin-bottom: 0;
+}
+
+.story-intro__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* --- Passage ------------------------------------------------------------- */
+
+.story-passage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--passage-media, 52%);
+  gap: clamp(28px, 4vw, 72px);
+  align-items: start;
+  padding-left: var(--sidebar-gutter);
+}
+
+.story-passage--left {
+  grid-template-columns: var(--passage-media, 52%) minmax(0, 1fr);
+}
+
+.story-passage--left .story-passage__text {
+  order: 2;
+  padding-right: var(--page-margin);
+}
+
+.story-passage--left .story-passage__media {
+  order: 1;
+}
+
+@media (min-width: 750px) {
+  /* The writing holds still while the photographs move past it — the reason
+     a passage can carry two images without the text scrolling away from
+     them. Offset by the wordmark's own clearance so it never parks under it. */
+  .story-passage__text {
+    position: sticky;
+    top: clamp(96px, 16vh, 200px);
+  }
+}
+
+.story-passage__heading {
+  margin: 0;
+  font-family: var(--passage-heading-font, var(--font-heading));
+  font-weight: var(--passage-heading-weight, var(--font-heading-weight, 500));
+  font-size: calc(clamp(1rem, 1.5vw, 1.375rem) * var(--heading-scale, 1));
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.story-passage__body {
+  margin-top: 20px;
+  max-width: 36em;
+  color: var(--color-muted);
+  font-size: calc(0.875rem * var(--body-scale, 1));
+  line-height: 1.75;
+}
+
+.story-passage__body > :first-child {
+  margin-top: 0;
+}
+
+.story-passage__body > :last-child {
+  margin-bottom: 0;
+}
+
+.story-passage__cta {
+  display: inline-block;
+  margin-top: 24px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid currentcolor;
+  color: inherit;
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.story-passage__cta:hover {
+  opacity: 0.6;
+}
+
+.story-passage__media {
+  display: grid;
+  gap: var(--passage-gap, 6px);
+}
+
+.story-passage__figure {
+  margin: 0;
+}
+
+.story-passage__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.story-passage__caption {
+  margin-top: 10px;
+  padding-right: var(--page-margin);
+  color: var(--color-muted);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* --- Gallery (option A) -------------------------------------------------- */
+
+.story-gallery__heading {
+  margin: 0 var(--page-margin) clamp(20px, 2.4vw, 36px) var(--sidebar-gutter);
+  font-family: var(--gallery-heading-font, var(--font-heading));
+  font-weight: var(--gallery-heading-weight, var(--font-heading-weight, 500));
+  font-size: calc(0.75rem * var(--heading-scale, 1));
+  letter-spacing: 0.1em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.story-gallery__track {
+  display: flex;
+  gap: var(--gallery-gap, 6px);
+  /* the row starts on the page's spine and is allowed to leave the screen on
+     the right: what tells a visitor there is more is the cut, not an arrow */
+  margin-left: var(--sidebar-gutter);
+  padding: 0 var(--page-margin) 20px 0;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  overscroll-behavior-x: contain;
+  cursor: grab;
+  /* the scrollbar is part of the design here, not chrome to hide: a hairline
+     in the page's own ink, which doubles as the only progress indicator */
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-ink) var(--color-border);
+}
+
+.story-gallery__track::-webkit-scrollbar {
+  height: 2px;
+}
+
+.story-gallery__track::-webkit-scrollbar-track {
+  background: var(--color-border);
+}
+
+.story-gallery__track::-webkit-scrollbar-thumb {
+  background: var(--color-ink);
+}
+
+.story-gallery__track:focus-visible {
+  outline: 1px solid currentcolor;
+  outline-offset: 6px;
+}
+
+.story-gallery__track[data-dragging] {
+  cursor: grabbing;
+  scroll-snap-type: none;
+}
+
+.story-gallery__item {
+  flex: 0 0 auto;
+  margin: 0;
+  scroll-snap-align: start;
+}
+
+.story-gallery__image {
+  display: block;
+  width: auto;
+  max-width: none;
+  height: var(--gallery-height, 62vh);
+  object-fit: cover;
+  /* a drag that starts on a photograph must not turn into the browser's own
+     image drag, which cancels the gesture halfway */
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* The catch-all above caps every image inside main at its container's width.
+   A gallery plate is sized by its height and keeps its own proportions, so a
+   wide one has to be allowed past that — matched selector for matched
+   specificity, rather than an !important that would outrank everything. */
+body:not(.template-index):not(.template-product):not(.template-collection):not(.template-search):not(.template-cart):not(.template-password) main .story-gallery__image {
+  max-width: none;
+}
+
+.story-gallery__caption {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 10px;
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.story-gallery__place {
+  color: var(--color-muted);
+}
+
+
+@media (max-width: 767.98px) {
+  .story-intro,
+  .story-intro--media-left,
+  .story-passage,
+  .story-passage--left {
+    grid-template-columns: minmax(0, 1fr);
+    padding-right: var(--page-margin);
+  }
+
+  /* The named areas have to collapse with the columns. Left alone they keep
+     declaring two columns, and the explicit grid they describe wins over the
+     single column above — which is how the photograph ended up in a second,
+     content-sized column instead of running to the edge. */
+  .story-intro,
+  .story-intro--media-left,
+  .story-intro--solo,
+  .story-intro--solo.story-intro--media-left {
+    grid-template-areas:
+      'statement'
+      'body'
+      'media';
+  }
+
+  .story-intro__statement,
+  .story-intro--media-left .story-intro__body {
+    padding-right: 0;
+  }
+
+  /* the written half leads on a phone whichever side it takes on a desktop */
+  .story-intro--media-left .story-intro__text,
+  .story-passage--left .story-passage__text {
+    order: 0;
+    padding-right: 0;
+  }
+
+  .story-intro--media-left .story-intro__media,
+  .story-passage--left .story-passage__media {
+    order: 1;
+  }
+
+  /* photographs reach both edges: there is no link rail to protect here, the
+     navigation is a bar across the top */
+  .story-intro__media,
+  .story-passage__media {
+    margin-right: calc(-1 * var(--page-margin));
+    margin-left: calc(-1 * var(--page-margin));
+  }
+
+  .story-passage__caption {
+    padding-right: 0;
+    padding-left: var(--page-margin);
+  }
+
+  /* no rail to protect on a phone: the navigation is a bar across the top */
+
+  .story-gallery__track {
+    margin-left: var(--page-margin);
+  }
+
+}
+
+/* --------------------------------------------------------------------------
+   PASSWORD PAGE — the closed door. A photograph edge to edge, one card
+   centred on it. Proportions come off Jenn's comp: a 566×657 card on a
+   1894px frame, 83px of padding, a 297px mark, 16px corners.
+
+   THE CORNERS ARE THE THEME'S ONE EXCEPTION TO ZERO RADIUS. --cp-radius is
+   declared inline on the section element in main-password.liquid and read by
+   exactly one rule below. It reaches nothing else: no other selector in this
+   stylesheet mentions it, and the variable does not exist anywhere outside
+   that one section's subtree.
+   -------------------------------------------------------------------------- */
+
+.password-page {
+  position: relative;
+  display: grid;
+  place-items: center;
+  /* svh, not vh: on a phone the browser's own chrome must not push the card
+     into a scroll that has nothing under it */
+  min-height: 100svh;
+  padding: clamp(24px, 6vw, 64px);
+  overflow: hidden;
+  background: var(--color-bg);
+}
+
+.password-page__bg {
+  position: absolute;
+  inset: 0;
+}
+
+.password-page__bg-media {
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* cover, so the photograph is cropped rather than stretched at any ratio */
+  object-fit: cover;
+  object-position: center;
+}
+
+.password-page__scrim {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: var(--cp-scrim, 0);
+}
+
+.password-page__card {
+  position: relative;
+  width: 100%;
+  max-width: var(--cp-card-width, 560px);
+  /* the comp's padding is the ceiling, not the constant: at 80px a phone's
+     card would have more edge than words inside it */
+  padding: clamp(28px, 8vw, var(--cp-card-padding, 80px));
+  background: var(--cp-card, #52351A);
+  border-radius: var(--cp-radius, 16px);
+  color: var(--cp-ink, #E9E3E0);
+  text-align: center;
+}
+
+.password-page__mark {
+  margin: 0;
+}
+
+.password-page__logo {
+  display: block;
+  /* width, not max-width: a max-width here is outranked by the inherited
+     `main img { max-width: 100% }` and the mark silently grows to fill the
+     card. min() gives the same shrink-on-small-screens behaviour and depends
+     on no other rule keeping its distance. */
+  width: min(100%, var(--cp-logo-width, 300px));
+  height: auto;
+  margin: 0 auto;
+}
+
+.password-page__note {
+  margin-top: clamp(36px, 9vw, 88px);
+  font-family: var(--font-body);
+  font-size: clamp(16px, 1.6vw, 20px);
+  line-height: 1.6;
+}
+
+.password-page__heading {
+  margin: 0;
+}
+
+.password-page__message {
+  margin-top: 28px;
+}
+
+.password-page__message > :first-child {
+  margin-top: 0;
+}
+
+.password-page__message > :last-child {
+  margin-bottom: 0;
+}
+
+.password-page__email {
+  display: inline-block;
+  margin-top: 28px;
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.22em;
+  transition: opacity 0.3s ease;
+}
+
+.password-page__email:hover {
+  opacity: 0.72;
+}
+
+/* --- The way in ----------------------------------------------------------- */
+
+.password-page__entry {
+  margin-top: clamp(28px, 6vw, 48px);
+}
+
+.password-page__toggle {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  /* quiet, because the comp has no field at all — but never invisible, and
+     never below the contrast a small label needs */
+  opacity: 0.8;
+  cursor: pointer;
+  /* the disclosure triangle belongs to no design system */
+  list-style: none;
+}
+
+.password-page__toggle::-webkit-details-marker {
+  display: none;
+}
+
+.password-page__toggle:hover,
+.password-page__entry[open] .password-page__toggle {
+  opacity: 1;
+}
+
+.password-page__entry[open] .password-page__toggle {
+  margin-bottom: 18px;
+}
+
+.password-page__error {
+  margin: 0 0 14px;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--cp-ink, #E9E3E0);
+}
+
+.password-page__error ul,
+.password-page__error ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.password-page__field {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.password-page__input {
+  flex: 1 1 200px;
+  min-width: 0;
+  max-width: 260px;
+  padding: 11px 14px;
+  border: 1px solid var(--cp-ink, #E9E3E0);
+  /* square, like every other field in the theme: the rounding on this page
+     is the card's alone */
+  border-radius: 0;
+  background: transparent;
+  color: var(--cp-ink, #E9E3E0);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+}
+
+.password-page__input::placeholder {
+  color: var(--cp-ink, #E9E3E0);
+  opacity: 0.7;
+}
+
+.password-page__submit {
+  padding: 11px 22px;
+  border: 1px solid var(--cp-ink, #E9E3E0);
+  border-radius: 0;
+  background: var(--cp-ink, #E9E3E0);
+  color: var(--cp-card, #52351A);
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.password-page__submit:hover {
+  opacity: 0.85;
+}
+
+.password-page :focus-visible {
+  outline: 2px solid var(--cp-ink, #E9E3E0);
+  outline-offset: 3px;
+}
+
+
+/* ---------------------------------------------------------------------------
+   PRODUCT STRIP — a row of cards that scrolls sideways, after the strip under
+   the hero on us.thehoffbrand.com. The track is an ordinary scroll container
+   with snap points and no visible scrollbar; the two arrows at the right of
+   the heading are an addition on top of it, so a trackpad, a swipe, the arrow
+   keys and Tab all keep working if they are not there. They are hidden on
+   phones, where the swipe is the gesture people already use, and hidden by
+   theme.js whenever the cards fit without scrolling.
+
+   Card widths are stated as a share of the track so a whole number of cards
+   is visible and the next one peeks in, which is what says "this scrolls".
+--------------------------------------------------------------------------- */
+.product-strip {
+  --strip-gap: var(--grid-gap, 16px);
+  --strip-per-view: 4;
+}
+
+.product-strip__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 18px;
+}
+
+.product-strip__heading {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: var(--strip-heading-size, 24px);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--color-ink);
+}
+
+.product-strip__arrows {
+  display: flex;
+  flex: none;
+  gap: 4px;
+  /* at the right whether or not the strip has a heading */
+  margin-left: auto;
+}
+
+.product-strip__arrow {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.product-strip__arrow:disabled {
+  /* Hoff fades them out at the ends rather than removing them, so the row
+     does not change width as you scroll. Kept out of the tab order too. */
+  opacity: 0;
+  pointer-events: none;
+}
+
+.product-strip__chevron {
+  width: 22px;
+  height: 22px;
+}
+
+.product-strip__track {
+  display: flex;
+  gap: var(--strip-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.product-strip__track::-webkit-scrollbar {
+  display: none;
+}
+
+.product-strip__item {
+  flex: 0 0 calc((100% - (var(--strip-per-view) - 1) * var(--strip-gap)) / var(--strip-per-view));
+  scroll-snap-align: start;
+}
+
+.product-strip__track:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+@media (max-width: 989px) {
+  .product-strip {
+    --strip-per-view: 2.2;
+  }
+}
+
+@media (max-width: 749px) {
+  .product-strip {
+    --strip-per-view: 1.35;
+  }
+
+  /* On a phone the row is swiped, not clicked through. */
+  .product-strip__arrows {
+    display: none;
+  }
+}
+
+/* theme.js hides the arrows while the cards fit without scrolling; the
+   class's own display would otherwise out-rank the hidden attribute and
+   leave two arrows that cannot move anything. */
+.product-strip__arrows[hidden] {
+  display: none;
+}
+
+/* Arrows on the sides (the Featured collection carousel): one at each end,
+   over the photographs and centred on them — the cards carry their names on
+   the photograph, so the track is exactly the photographs' height. The layer
+   lets the pointer through to the cards except on the two buttons. */
+.product-strip--sides {
+  position: relative;
+}
+
+.product-strip__arrows--sides {
+  position: absolute;
+  inset: 0;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0 4px;
+  pointer-events: none;
+}
+
+.product-strip__arrows--sides .product-strip__arrow {
+  pointer-events: auto;
+  color: var(--color-accent);
+}
+
+.product-strip__arrows--sides .product-strip__chevron {
+  width: 30px;
+  height: 30px;
+}
+
+/* Featured collection as a carousel: Columns becomes how many cards show at
+   once, the gap is the grid's hairline, and phones keep a sliver of the next
+   card in view so the row says it scrolls. */
+.home-grid__carousel .product-strip {
+  --strip-gap: var(--grid-gap, 4px);
+  --strip-per-view: var(--cols-desktop, 4);
+}
+
+.home-grid__carousel--flush .product-strip {
+  --strip-gap: 0px;
+}
+
+@media (min-width: 750px) and (max-width: 989.98px) {
+  .home-grid__carousel .product-strip {
+    --strip-per-view: 2;
+  }
+}
+
+@media (max-width: 749px) {
+  .home-grid__carousel .product-strip {
+    --strip-per-view: calc(var(--cols-mobile, 1) + 0.2);
+  }
+}
+
+/* Dynamic collection wears the Featured collection's shell (it carries the
+   home-grid class too), so nothing of its own is needed but this:
+   theme editor only, why a Dynamic collection shows nothing. */
+.dynamic-collection__note {
+  margin: 0;
+  padding: 24px var(--page-margin);
+  font-size: 0.8125rem;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+
+
+/* --------------------------------------------------------------------------
+   Overlay text on a full-bleed photograph (two-up band, mixed band)
+   -------------------------------------------------------------------------- */
+
+/* Bottom-left of the image, inset to the same 60px the Figma uses. It is laid
+   over the photograph rather than in a scrim: the brand has no scrims, so the
+   tone is chosen per image by whoever places it (see media-overlay.liquid).
+   `right` is set as well as `left` so a long line wraps inside the image
+   instead of running under the next tile. */
+.media-overlay {
+  position: absolute;
+  right: 50px;
+  bottom: 65px;
+  left: 50px;
+  z-index: 2;
+  max-width: 500px;
+  color: var(--color-accent);
+  pointer-events: none;
+}
+
+.media-overlay--light {
+  color: var(--color-on-image);
+}
+
+/* Off unless a block asks for it (Soften the photograph under the text).
+   A gradient over the photograph's lower part, strongest where the text sits
+   and gone by two thirds of the way up, so the photograph above the words is
+   untouched. Its strength is set by measurement, not by eye: with it on,
+   light type reads at AA (4.5:1) against the palest pixels behind it on
+   every photograph it was switched on for — see the QA notes. */
+.media-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(to top, rgb(0 0 0 / 62%) 0%, rgb(0 0 0 / 56%) 30%, rgb(0 0 0 / 0%) 62%);
+  pointer-events: none;
+}
+
+/* the link is the one thing in here that can be clicked */
+.media-overlay__cta {
+  pointer-events: auto;
+}
+
+/* EDITORIAL TYPE — the title / paragraph / link set used everywhere text
+   sits on its own: over a photograph (.media-overlay), beside one
+   (.image-text) and on its own (.home-note). Measured off Eugenia's PDFs at
+   1440px and fitted against the theme's fonts: the title is the heading face
+   at 26.9px, the paragraph and the link are the body face at 16px on a 27px
+   line, the link in caps and underlined — not the tracked small-caps label
+   face, which the PDFs never use here. Each component only sets where the
+   block sits and what colour it is. */
+.media-overlay__heading,
+.image-text__heading,
+.home-note__heading {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight, 500);
+  font-size: calc(1.528rem * var(--heading-scale, 1));
+  letter-spacing: 0;
+  line-height: 1.3;
+  text-transform: uppercase;
+  color: inherit;
+}
+
+.media-overlay__body,
+.image-text__body,
+.home-note__body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: calc(1.111rem * var(--body-scale, 1));
+  line-height: 1.69;
+  color: inherit;
+}
+
+.media-overlay__cta,
+.image-text__cta,
+.home-note__cta {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: calc(1.111rem * var(--body-scale, 1));
+  letter-spacing: 0;
+  line-height: 1.69;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 5px;
+  color: inherit;
+}
+
+/* the gaps between the three, as the PDFs space them */
+.media-overlay__heading + .media-overlay__body,
+.image-text__heading + .image-text__body {
+  margin-top: 4px;
+}
+
+.media-overlay__body + .media-overlay__cta,
+.image-text__body + .image-text__cta {
+  margin-top: 20px;
+}
+
+.media-overlay__heading + .media-overlay__cta,
+.image-text__heading + .image-text__cta {
+  margin-top: 12px;
+}
+
+@media (max-width: 989px) {
+  .media-overlay {
+    right: 24px;
+    bottom: 28px;
+    left: 24px;
+  }
+
+  .media-overlay__heading,
+  .image-text__heading,
+  .home-note__heading {
+    font-size: calc(1.3rem * var(--heading-scale, 1));
+  }
+
+  .media-overlay__body,
+  .image-text__body,
+  .home-note__body,
+  .media-overlay__cta,
+  .image-text__cta,
+  .home-note__cta {
+    font-size: calc(1rem * var(--body-scale, 1));
+    line-height: 1.6;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Text beside image — half photograph, half text (Eugenia's PDFs)
+   -------------------------------------------------------------------------- */
+
+.image-text__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--card-gap, 5px);
+}
+
+.image-text--image-right .image-text__media {
+  order: 2;
+}
+
+.image-text__media {
+  position: relative;
+  overflow: clip;
+}
+
+.image-text__media-link {
+  display: block;
+}
+
+/* The card shape, so the section is exactly as tall as a band beside it. */
+.image-text__image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 756 / 957;
+  object-fit: cover;
+}
+
+.image-text__image--placeholder {
+  background: #E5E1DC;
+}
+
+/* The text block sits at the bottom-left of its half, 80px in and 77px up,
+   whichever side the photograph is on. */
+.image-text__copy {
+  display: flex;
+  align-items: flex-end;
+  padding: 40px 40px 77px 80px;
+  color: var(--color-accent);
+}
+
+.image-text__inner {
+  max-width: 500px;
+}
+
+@media (min-width: 750px) and (max-width: 989px) {
+  .image-text__copy {
+    padding: 32px 32px 48px 40px;
+  }
+}
+
+@media (max-width: 749px) {
+  .image-text__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* photograph first on a phone, whichever side it takes on a desktop */
+  .image-text--image-right .image-text__media {
+    order: 0;
+  }
+
+  /* Jenn, 2026-10-01: on a phone the text under the photograph reads like
+     the centred note (The Gift Edit): centred, with the note's own padding
+     (its 208px at the phone's 0.45) and its 9px under the title. */
+  .image-text__copy {
+    justify-content: center;
+    align-items: center;
+    padding: calc(208px * 0.45) var(--page-margin);
+    text-align: center;
+  }
+
+  .image-text__inner {
+    margin-inline: auto;
+  }
+
+  .image-text__heading + .image-text__body {
+    margin-top: 9px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Mosaic pages — the category pages are full-bleed like the homepage
+   -------------------------------------------------------------------------- */
+
+/* A collection template with a suffix is a category page built as a mosaic
+   (layout/theme.liquid sets the class): no page margins, no clearance — the
+   first photograph runs up under the transparent header exactly as it does on
+   the homepage. The plain collection template (All) keeps its padded grid. */
+body.layout-mosaic.template-collection main {
+  padding: 0;
+}
+
+
+/* "You may like" on the product page runs full-bleed in the PDF: four cards
+   of 356px across 1440, on the mosaic's 5px gutter, with its title at the
+   page margin. The product page's main is padded, so the section steps back
+   out of that padding. */
+.you-may-like {
+  margin-inline: calc(-1 * var(--page-margin));
+}
+
+/* Jenn, 2026-10-01: as far from the photographs as the footer's first line
+   is from the row (main's 112 + footer's 72 + 5 in the centred row; 64 + 56
+   on phones), not the 4px separator. */
+body.template-product main > .shopify-section + .shopify-section:has(> .you-may-like) {
+  margin-top: 189px;
+}
+
+@media (max-width: 1199.98px) {
+  body.template-product main > .shopify-section + .shopify-section:has(> .you-may-like) {
+    margin-top: 184px;
+  }
+}
+
+@media (max-width: 749px) {
+  body.template-product main > .shopify-section + .shopify-section:has(> .you-may-like) {
+    margin-top: 120px;
+  }
+}
+
+.you-may-like .product-strip {
+  --strip-gap: var(--card-gap, 5px);
+}
+
+.you-may-like .product-strip__head {
+  margin-bottom: 12px;
+  padding-inline: var(--page-margin);
+}
+
+/* The PDF titles the row in the card-name format, small, not as a section
+   heading. */
+.you-may-like .product-strip__heading {
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight, 500);
+  font-size: calc(0.756rem * var(--heading-scale, 1));
+  letter-spacing: 0;
+  line-height: 1.27;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+/* --------------------------------------------------------------------------
+   Mixed band — one tall photograph beside a 2x2 of cards (Figma)
+   -------------------------------------------------------------------------- */
+
+.home-split__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--card-gap, 6px);
+}
+
+/* Two columns wide and two rows tall: the photograph then ends exactly where
+   the second row of cards does, gutter included. */
+.home-split__media {
+  position: relative;
+  grid-column: span 2;
+  grid-row: span 2;
+  overflow: clip;
+}
+
+.home-split--right .home-split__media {
+  grid-column: 3 / span 2;
+  grid-row: 1 / span 2;
+}
+
+.home-split__media-link {
+  display: block;
+  height: 100%;
+}
+
+/* Taken out of the flow on purpose. Left in it, the photograph's own shape
+   (the files are 3:4) decides how tall the two rows it spans must be, and the
+   cards beside it get stretched to match — 475px tiles instead of their own
+   4:5. Absolute, the cards size the rows and the photograph fills whatever
+   that comes to. */
+.home-split__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (min-width: 750px) and (max-width: 989.98px) {
+  .home-split__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* the photograph takes the full width above the four cards, which keep
+     their own shape underneath it */
+  .home-split__media,
+  .home-split--right .home-split__media {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    aspect-ratio: 3 / 2;
+  }
+}
+
+@media (max-width: 749px) {
+  /* The photograph takes the full width and the four cards sit two up under
+     it — the same pairing the card rows use on a phone, rather than four
+     full-width tiles that would make this one band a screen and a half. */
+  .home-split__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .home-split__media,
+  .home-split--right .home-split__media {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    aspect-ratio: 4 / 5;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   Centred note — the text-only breather between image bands (Figma)
+   -------------------------------------------------------------------------- */
+
+.home-note {
+  padding: var(--note-top, 208px) var(--page-margin) var(--note-bottom, 208px);
+  text-align: center;
+  color: var(--color-accent);
+}
+
+/* The PDFs run the paragraph to ~770px, two lines at 1440. */
+.home-note__inner {
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+.home-note__heading + .home-note__body {
+  margin-top: 9px;
+}
+
+.home-note__body + .home-note__cta,
+.home-note__heading + .home-note__cta {
+  margin-top: 20px;
+}
+
+@media (max-width: 749px) {
+  .home-note {
+    padding-top: calc(var(--note-top, 208px) * 0.45);
+    padding-bottom: calc(var(--note-bottom, 208px) * 0.45);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Transparent header colour — the merchant's, from the Header section
+   -------------------------------------------------------------------------- */
+
+/* Only while the header is transparent (the `top` state, or no JS at all):
+   the wordmark, the bar's links and the burger. The burger's lines, the SHOP
+   caret and the cart count all draw in currentColor, so they follow. The
+   links inside the SHOP panel are NOT included — the panel sits on white and
+   keeps the accent. Revealed and solid states keep the theme's colours on
+   their white ground, and reduced motion (always solid) never sees this.
+
+   Out-ranks every automatic colour rule on purpose (tones on home, the
+   accent on inner pages): a colour someone picked has to be the one shown. */
+body .site-header.site-header--top-ink[data-header-state='top'] :is(
+  .site-header__logo,
+  .site-header__burger,
+  .site-header__nav--primary > ul > li > a,
+  .site-header__nav--primary > ul > li > details > summary
+),
+html.no-js body .site-header.site-header--top-ink :is(
+  .site-header__logo,
+  .site-header__burger,
+  .site-header__nav--primary > ul > li > a,
+  .site-header__nav--primary > ul > li > details > summary
+) {
+  color: var(--header-top-ink);
+}
+
+/* The homepage's optional scrim under the transparent header (Header →
+   Soften the photograph under the header). Only while transparent: once the
+   header comes back on its white ground the scrim is gone with the state.
+   z-index -1 keeps it behind the header's own words, inside the header's
+   stacking context, above the page. Strength set by measurement: light type
+   at AA against the palest pixels of the first photograph. */
+.site-header--top-scrim[data-header-state='top']::after,
+html.no-js .site-header--top-scrim::after {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: -1;
+  height: calc(var(--header-panel, 76px) + 64px);
+  background: linear-gradient(to bottom, rgb(0 0 0 / 56%) 0%, rgb(0 0 0 / 48%) 55%, rgb(0 0 0 / 0%) 100%);
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   Home: the header floats over the first band at the top (HEREU)
+   -------------------------------------------------------------------------- */
+
+/* On load, and whenever the page is back at its very top, the homepage's
+   header has no ground: the first band's photographs run up under it and
+   the type takes the tone that band declares (initHeaderTone). Scrolling
+   down hides it; scrolling up brings it back pinned on a white ground in the
+   accent — the data-header-state rules above. So home does NOT reserve the
+   header's height the way inner pages do: the photograph starts at 0. */
+
+@media (min-width: 1200px) {
+  /* The final Figma sets the bar at 62px: the wordmark's own box (43px) with
+     9px above and below, rather than 16px. Every clearance downstream is
+     measured off it by theme.js, so they follow. */
+  .site-header {
+    padding-block: 9px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Text and photo (sections/page-split) — Eugenia's Interior design page,
+   measured on her PDF at 1440: the text column on the page margin, the
+   photograph from x 777.5 to the edge, from the header's band to the bottom
+   of the screen. The photograph starts where the header's measured band
+   ends (--header-panel), the same mechanism as the product page.
+   -------------------------------------------------------------------------- */
+
+/* The page's own padding is for pages of plain text; this one runs its
+   photograph to the edges. Same selector as that rule, plus the :has. */
+body:not(.template-index):not(.template-product):not(.template-collection):not(.template-search):not(.template-cart):not(.template-password) main:has(> .shopify-section > .page-split) {
+  padding: 0;
+}
+
+.page-split {
+  display: grid;
+  grid-template-columns: minmax(0, 777fr) minmax(0, 663fr);
+  min-height: calc(100svh - var(--header-panel, var(--nav-clearance)));
+  margin-top: var(--header-panel, var(--nav-clearance));
+  color: var(--color-accent);
+}
+
+/* Photograph on the left (Eugenia's capture, 2026-10-01, measured at
+   1440): the photograph 706px wide (49%), the text starting 33px after it
+   and running to the page margin. */
+.page-split--image-left {
+  grid-template-columns: minmax(0, 706fr) minmax(0, 734fr);
+}
+
+/* The column holds the title and text at its top, centre or bottom (Text
+   position). */
+.page-split__copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 0 64px 64px var(--page-margin);
+}
+
+.page-split--text-center .page-split__copy {
+  justify-content: center;
+}
+
+.page-split--text-bottom .page-split__copy {
+  justify-content: flex-end;
+}
+
+.page-split--image-left .page-split__copy {
+  order: 2;
+  padding: 40px var(--page-margin) 40px clamp(24px, 2.3vw, 40px);
+}
+
+/* The page's h1, set as the small line of the PDF: the body face in
+   capitals at 8px. */
+.page-split__title {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.5rem;
+  letter-spacing: 0;
+  line-height: 1.3;
+  text-transform: uppercase;
+  color: inherit;
+}
+
+/* 12px on a 20px line, a blank line between paragraphs, 146px under the
+   title at 1440. The size is the section's own setting, in pixels as the
+   PDF measures them — deliberately NOT scaled by the theme's body scale
+   (90% on this store), which turned 12 into 10.8. */
+.page-split__text {
+  max-width: 672px;
+  margin-top: clamp(48px, 9.7vw, 140px);
+  font-family: var(--font-body);
+  font-size: var(--page-split-text, 12px);
+  line-height: 1.667;
+  color: inherit;
+}
+
+/* Under a title set like the product's, the text follows at the distance
+   of the capture rather than the small line's long drop. */
+.page-split--title-product .page-split__text {
+  margin-top: 32px;
+}
+
+.page-split__text p {
+  margin: 0 0 1.667em;
+}
+
+.page-split__text p:last-child {
+  margin-bottom: 0;
+}
+
+/* The photograph fills its column at whatever height the row takes, cropped
+   around its middle (or its focal point) rather than stretched. */
+.page-split__media {
+  position: relative;
+  min-height: 100%;
+}
+
+.page-split__image {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+}
+
+.page-split__image--empty {
+  background: #E5E1DC;
+}
+
+/* Phones: the text, then the photograph whole (a 3:2 room shot cropped to
+   a phone's width would lose the room). Type is kept readable on a small
+   screen: the title at 10px, the text never under 14px. */
+@media (max-width: 749px) {
+  .page-split {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+  }
+
+  .page-split__copy,
+  .page-split--image-left .page-split__copy {
+    order: 0;
+    padding: 12px var(--page-margin) 40px;
+  }
+
+  /* With the photograph on the left it comes first on a phone too, the
+     order the page reads in on a desktop. */
+  .page-split--image-left .page-split__media {
+    order: -1;
+  }
+
+  .page-split--image-left .page-split__copy {
+    padding-top: 28px;
+  }
+
+  .page-split--title-product .page-split__text {
+    margin-top: 20px;
+  }
+
+  .page-split__title {
+    font-size: 0.625rem;
+  }
+
+  .page-split__text {
+    margin-top: 32px;
+    font-size: max(14px, var(--page-split-text, 12px));
+  }
+
+  .page-split__media {
+    min-height: 0;
+  }
+
+  .page-split__image {
+    position: static;
+    height: auto;
+  }
+
+  .page-split__image--empty {
+    aspect-ratio: 3 / 2;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Policy pages — Shopify's /policies/* and the Policy page section (Eugenia,
+   2026-10-01): product-title type for the title, product-description size
+   for the text, all brown, over the grid's two middle columns; one empty line
+   above each heading and nowhere else (snippets/policy-body). The
+   body.template-policy prefix out-ranks Shopify's policy.css.
+   -------------------------------------------------------------------------- */
+body.template-policy .shopify-policy__container,
+.policy-page {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  color: var(--color-accent);
+}
+
+body.template-policy .shopify-policy__title,
+.policy-page__title {
+  margin: 0 0 28px;
+  text-align: left;
+}
+
+body.template-policy .shopify-policy__body .rte,
+.policy-page__part {
+  font-family: var(--font-body);
+  font-size: calc(0.875rem * var(--body-scale, 1));
+  line-height: 1.55;
+  color: inherit;
+}
+
+.policy-page__text {
+  font-size: inherit;
+  line-height: inherit;
+}
+
+/* Paragraphs stack like lines; the only gap is above a heading. */
+body.template-policy .shopify-policy__body p,
+.policy-page__text p {
+  margin: 0;
+}
+
+body.template-policy .shopify-policy__body p:empty {
+  display: none;
+}
+
+body.template-policy .shopify-policy__body ul,
+body.template-policy .shopify-policy__body ol,
+.policy-page__text ul,
+.policy-page__text ol {
+  margin: 0;
+  padding-left: 1.5em;
+}
+
+body.template-policy .shopify-policy__body ul,
+.policy-page__text ul {
+  list-style: disc;
+}
+
+body.template-policy .shopify-policy__body b,
+body.template-policy .shopify-policy__body strong,
+.policy-page__text b,
+.policy-page__text strong {
+  font-weight: 700;
+}
+
+body.template-policy .shopify-policy__body a,
+.policy-page__text a {
+  color: inherit;
+  text-underline-offset: 3px;
+}
+
+/* Headings: marked lines, policy <h2>s, the section's block headings. */
+body.template-policy .shopify-policy__body .policy-heading,
+body.template-policy .shopify-policy__body h2,
+body.template-policy .shopify-policy__body h3,
+.policy-page__heading {
+  display: block;
+  margin: 1.55em 0 0;
+  font-family: var(--font-body);
+  font-size: inherit;
+  font-weight: 700;
+  line-height: inherit;
+  letter-spacing: 0;
+  text-transform: none;
+  color: inherit;
+}
+
+/* its line's <br> would open an empty line under the block heading */
+body.template-policy .shopify-policy__body .policy-heading + br {
+  display: none;
+}
+
+body.template-policy .shopify-policy__body .rte > :first-child > :is(.policy-heading, h2, h3):first-child,
+body.template-policy .shopify-policy__body .rte > :is(h2, h3):first-child,
+.policy-page__part:first-of-type .policy-page__heading {
+  margin-top: 0;
+}
+
+/* one empty line between the section's blocks */
+.policy-page__part + .policy-page__part {
+  margin-top: 1.55em;
+}
+
+.policy-page__part + .policy-page__part .policy-page__heading {
+  margin-top: 0;
+}
+
+@media (min-width: 750px) {
+  body.template-policy .shopify-policy__container,
+  .policy-page {
+    /* columns 2–3 of the four-column grid */
+    margin-left: calc((100% - 3 * var(--grid-gap, 4px)) / 4 + var(--grid-gap, 4px));
+    width: calc((100% - 3 * var(--grid-gap, 4px)) / 2 + var(--grid-gap, 4px));
+    padding-top: 84px;
+  }
+}

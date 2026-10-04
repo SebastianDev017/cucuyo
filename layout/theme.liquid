@@ -21,6 +21,7 @@
     {%- endif -%}
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
+    {{ 'base-pages.css' | asset_url | stylesheet_tag }}
 
     {{ content_for_header }}
   </head>

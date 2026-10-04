@@ -27,7 +27,7 @@
   /* Card grids — soft rise as each row enters. `once` + a generous start line;
      cards live mid-page, never at the absolute document bottom. */
   function initCards() {
-    var cards = gsap.utils.toArray('.image-card, .image-band, .product-card');
+    var cards = gsap.utils.toArray('.image-card, .product-card');
     if (!cards.length) return;
     cards.forEach(function (el) {
       gsap.from(el, {
@@ -42,7 +42,7 @@
 
   /* Image settle — slight scale-down as images enter, printed not springy */
   function initImageSettle() {
-    gsap.utils.toArray('.image-card__media, .image-band__media').forEach(function (img) {
+    gsap.utils.toArray('.image-card__media').forEach(function (img) {
       gsap.from(img, {
         scale: 1.06,
         duration: 1.4,
