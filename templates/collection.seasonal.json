@@ -34,7 +34,6 @@
           "type": "card",
           "settings": {
             "product": "clay-wire-spiders",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
@@ -48,7 +47,6 @@
           "type": "card",
           "settings": {
             "product": "pumpkin-wreath",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
@@ -62,7 +60,6 @@
           "type": "card",
           "settings": {
             "product": "winding-candle-holders",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
@@ -76,7 +73,6 @@
           "type": "card",
           "settings": {
             "product": "black-clay-jack-o-lantern",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
@@ -159,7 +155,6 @@
           "type": "card",
           "settings": {
             "product": "trumpet-candle-holders",
-            "image": "shopify://shop_images/TRM_CH_03_dd8eb8c7-ada0-41b0-af51-289593bcd39c.jpg",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -176,7 +171,6 @@
           "type": "card",
           "settings": {
             "product": "rattan-lanterns",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -193,7 +187,6 @@
           "type": "card",
           "settings": {
             "product": "antique-brass-candle-holders",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -210,7 +203,6 @@
           "type": "card",
           "settings": {
             "product": "clay-san-antonio-mission-lantern",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -270,7 +262,6 @@
           "type": "card",
           "settings": {
             "product": "kenya-soapstone-nativity",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
@@ -284,7 +275,6 @@
           "type": "card",
           "settings": {
             "product": "christmas-donkey-tea-towel",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
@@ -298,7 +288,6 @@
           "type": "card",
           "settings": {
             "product": "black-clay-jack-o-lantern",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
@@ -312,7 +301,6 @@
           "type": "card",
           "settings": {
             "product": "kenya-kisii-soapstone-nativity",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
@@ -340,6 +328,7 @@
       "type": "image-text",
       "settings": {
         "image_side": "right",
+        "image": "shopify://shop_images/CS_LNT_02_520075cd-6ed2-4722-9c02-72b84ffa9a02.png",
         "draft_asset": "",
         "alt_text": "",
         "image_link": "",
@@ -348,7 +337,6 @@
         "cta_label": "",
         "link": "",
         "header_tone": "ink",
-        "image": "shopify://shop_images/CS_LNT_02_520075cd-6ed2-4722-9c02-72b84ffa9a02.png",
         "text_position": "center",
         "show_icon": true,
         "overlay_body": "",
@@ -364,7 +352,6 @@
           "type": "card",
           "settings": {
             "product": "clay-barro-ornaments",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -381,7 +368,6 @@
           "type": "card",
           "settings": {
             "product": "kenya-kisii-soapstone-nativity",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -398,7 +384,6 @@
           "type": "card",
           "settings": {
             "product": "kenya-soapstone-nativity",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -415,7 +400,6 @@
           "type": "card",
           "settings": {
             "product": "christmas-canvas-tote-bag",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -432,7 +416,6 @@
           "type": "card",
           "settings": {
             "product": "tinsel-tree-tea-towel",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
