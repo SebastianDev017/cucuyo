@@ -148,92 +148,23 @@
         "ratio": "3 / 4"
       }
     },
-    "row_light": {
-      "type": "home-grid",
-      "blocks": {
-        "card_1": {
-          "type": "card",
-          "settings": {
-            "product": "trumpet-candle-holders",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "3/4",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "card_2": {
-          "type": "card",
-          "settings": {
-            "product": "rattan-lanterns",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "3/4",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "card_3": {
-          "type": "card",
-          "settings": {
-            "product": "antique-brass-candle-holders",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "3/4",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "card_4": {
-          "type": "card",
-          "settings": {
-            "product": "clay-san-antonio-mission-lantern",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "3/4",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        }
-      },
-      "block_order": [
-        "card_1",
-        "card_2",
-        "card_3",
-        "card_4"
-      ],
+    "dynamic_collection_jJRfp7": {
+      "type": "dynamic-collection",
+      "name": "Dynamic collection",
       "settings": {
+        "collection": "seasonal",
+        "products_to_show": 16,
         "eyebrow": "",
         "heading": "",
-        "heading_font": "heading",
         "heading_align": "center",
         "columns_desktop": 4,
         "columns_mobile": "2",
         "flush": false,
-        "carousel": false,
-        "carousel_loop": false,
-        "show_collection_label": false,
-        "show_swatches": false,
+        "carousel": true,
+        "carousel_loop": true,
+        "label_tone": "dark",
+        "label_color": "",
+        "label_hover_color": "",
         "background_color": "",
         "text_color": "",
         "padding_top": 0,
@@ -461,7 +392,7 @@
     "split_candles",
     "note_seasonal",
     "hero_fall",
-    "row_light",
+    "dynamic_collection_jJRfp7",
     "split_kitchen",
     "collection_note",
     "strip_holiday"
