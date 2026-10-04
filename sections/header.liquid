@@ -102,9 +102,11 @@
   <dialog id="NavDrawer" class="nav-drawer" aria-modal="true" aria-label="{{ 'accessibility.primary_navigation' | t }}">
     <div class="nav-drawer__inner">
       <div class="nav-drawer__top">
-        <a href="{{ routes.root_url }}" class="nav-drawer__logo">
-          {{- section.settings.wordmark | default: shop.name -}}
-        </a>
+        {%- if section.settings.drawer_show_wordmark -%}
+          <a href="{{ routes.root_url }}" class="nav-drawer__logo">
+            {{- section.settings.wordmark | default: shop.name -}}
+          </a>
+        {%- endif -%}
         <button type="button" class="nav-drawer__close" data-drawer-close>
           <span class="visually-hidden">{{ 'accessibility.close' | t }}</span>
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
@@ -178,6 +180,12 @@
       "label": "Drawer newsletter note",
       "default": "Sign up to our newsletter to receive exclusive offers.",
       "info": "Shown under the newsletter form in the mobile menu drawer"
+    },
+    {
+      "type": "checkbox",
+      "id": "drawer_show_wordmark",
+      "label": "Show the wordmark at the top of the menu drawer",
+      "default": false
     },
     {
       "type": "range",

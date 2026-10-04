@@ -21,7 +21,7 @@
 -%}
 
 <section
-  class="image-text image-text--image-{{ section.settings.image_side }}"
+  class="image-text image-text--image-{{ section.settings.image_side }}{% if section.settings.text_position == 'center' %} image-text--center{% endif %}"
   data-header-tone="{{ section.settings.header_tone | default: 'ink' }}"
 >
   <div class="image-text__grid">
@@ -42,10 +42,21 @@
         <div class="image-text__image image-text__image--placeholder" aria-hidden="true"></div>
       {%- endif -%}
       {%- if section.settings.image_link != blank -%}</a>{%- endif -%}
+      {%- if section.settings.overlay_body != blank or section.settings.overlay_cta_label != blank -%}
+        {% render 'media-overlay',
+          body: section.settings.overlay_body,
+          cta_label: section.settings.overlay_cta_label,
+          link: section.settings.overlay_link,
+          tone: section.settings.overlay_tone
+        %}
+      {%- endif -%}
     </div>
 
     <div class="image-text__copy">
       <div class="image-text__inner">
+        {%- if section.settings.show_icon -%}
+          <span class="image-text__icon" aria-hidden="true"></span>
+        {%- endif -%}
         {%- if section.settings.heading != blank -%}
           <h2 class="image-text__heading">{{ section.settings.heading | escape }}</h2>
         {%- endif -%}
@@ -99,8 +110,85 @@
       ],
       "default": "ink",
       "info": "Homepage and category pages: as the first section, it sets the header colour at the top of the page. Light only reads on a dark photograph."
+    },
+    {
+      "type": "select",
+      "id": "text_position",
+      "label": "Text position",
+      "options": [
+        { "value": "bottom_left", "label": "Bottom left" },
+        { "value": "center", "label": "Centred" }
+      ],
+      "default": "bottom_left"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_icon",
+      "label": "Show the Cucuyo bug above the title",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Text on the photograph"
+    },
+    {
+      "type": "textarea",
+      "id": "overlay_body",
+      "label": "Sentence"
+    },
+    {
+      "type": "text",
+      "id": "overlay_cta_label",
+      "label": "Link label"
+    },
+    {
+      "type": "url",
+      "id": "overlay_link",
+      "label": "Link"
+    },
+    {
+      "type": "select",
+      "id": "overlay_tone",
+      "label": "Text colour on the photograph",
+      "options": [
+        { "value": "light", "label": "Light" },
+        { "value": "ink", "label": "Brown" }
+      ],
+      "default": "light"
     }
   ],
   "presets": [{ "name": "Text beside image" }]
 }
 {% endschema %}
+
+{% stylesheet %}
+  .image-text--center .image-text__copy {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .image-text--center .image-text__inner {
+    margin-inline: auto;
+  }
+
+  @media (min-width: 750px) {
+    .image-text--center .image-text__copy {
+      padding: 40px;
+    }
+  }
+
+  .image-text__icon {
+    display: block;
+    width: 31px;
+    height: 58px;
+    margin: 0 auto 14px;
+    background-color: currentColor;
+    -webkit-mask: var(--cucuyo-bug) center / contain no-repeat;
+    mask: var(--cucuyo-bug) center / contain no-repeat;
+  }
+
+  .image-text--center .image-text__heading + .image-text__body {
+    margin-top: 9px;
+  }
+{% endstylesheet %}

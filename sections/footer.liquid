@@ -13,10 +13,13 @@
 {%- endcomment -%}
 
 {%- assign mark_width = section.settings.mark_width | default: 300 -%}
-<footer class="site-footer" style="--footer-mark-width: {{ mark_width }}px;">
+{%- assign logo_style = section.settings.logo_style | default: 'stacked' -%}
+<footer class="site-footer" style="--footer-mark-width: {{ mark_width }}px; --footer-stacked-width: {{ section.settings.stacked_width | default: 116 }}px; --footer-stacked-width-m: {{ section.settings.stacked_width_mobile | default: 140 }}px;">
   <div class="site-footer__inner">
-    <div class="site-footer__mark" aria-hidden="true">
-      {%- if section.settings.mark_image -%}
+    <div class="site-footer__mark{% if logo_style == 'stacked' %} site-footer__mark--stacked{% endif %}" aria-hidden="true">
+      {%- if logo_style == 'stacked' -%}
+        <img src="{{ 'cucuyo-home-stacked.svg' | asset_url }}" width="123" height="122" alt="" loading="lazy">
+      {%- elsif section.settings.mark_image -%}
         {%- capture mark_sizes -%}(min-width: 750px) {{ mark_width }}px, min({{ mark_width }}px, 62vw){%- endcapture -%}
         {{-
           section.settings.mark_image
@@ -78,6 +81,38 @@
   "class": "section-footer",
   "settings": [
     {
+      "type": "select",
+      "id": "logo_style",
+      "label": "Logo",
+      "options": [
+        { "value": "stacked", "label": "Cucuyo Home stacked logo" },
+        { "value": "image", "label": "Uploaded image" }
+      ],
+      "default": "stacked"
+    },
+    {
+      "type": "range",
+      "id": "stacked_width",
+      "label": "Stacked logo width",
+      "min": 60,
+      "max": 240,
+      "step": 2,
+      "unit": "px",
+      "default": 116,
+      "visible_if": "{{ section.settings.logo_style == 'stacked' }}"
+    },
+    {
+      "type": "range",
+      "id": "stacked_width_mobile",
+      "label": "Stacked logo width on phones",
+      "min": 60,
+      "max": 300,
+      "step": 4,
+      "unit": "px",
+      "default": 140,
+      "visible_if": "{{ section.settings.logo_style == 'stacked' }}"
+    },
+    {
       "type": "image_picker",
       "id": "mark_image",
       "label": "Brand mark",
@@ -135,3 +170,21 @@
   "max_blocks": 4
 }
 {% endschema %}
+
+{% stylesheet %}
+  .site-footer__mark.site-footer__mark--stacked {
+    width: var(--footer-stacked-width, 116px);
+  }
+
+  .site-footer__mark--stacked img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  @media (max-width: 749px) {
+    .site-footer__mark.site-footer__mark--stacked {
+      width: var(--footer-stacked-width-m, 140px);
+    }
+  }
+{% endstylesheet %}

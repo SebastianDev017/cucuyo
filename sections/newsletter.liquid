@@ -1,0 +1,164 @@
+{%- comment -%}
+  Newsletter sign-up (Eugenia's LANDING, 2026-10-04): a short heading, one
+  line of text, then the email field and the Subscribe button stacked at the
+  same width, left-aligned on the page margin. Measured at 1440px: the block
+  is ≈464px wide, the field ≈46px tall with a 1px brown border, the button
+  the same height right under it (≈4px gap), both with their words ≈20px in.
+  The heading is Persona WITHOUT the uppercase transform: Persona draws its
+  lowercase as small capitals, so "15% off to start." reads as the design's
+  "15% OFF TO START." with a taller "15%".
+  It uses the same customer form as the footer (tagged newsletter).
+{%- endcomment -%}
+{%- liquid
+  assign form_id = 'NewsletterSection-' | append: section.id
+  assign input_id = 'NewsletterSectionEmail-' | append: section.id
+-%}
+<section
+  class="newsletter-section"
+  style="--nl-pt: {{ section.settings.padding_top }}px; --nl-pb: {{ section.settings.padding_bottom }}px; --nl-width: {{ section.settings.width }}px;"
+>
+  <div class="newsletter-section__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="newsletter-section__heading">{{ section.settings.heading | escape }}</h2>
+    {%- endif -%}
+    {%- if section.settings.text != blank -%}
+      <p class="newsletter-section__text">{{ section.settings.text | escape | newline_to_br }}</p>
+    {%- endif -%}
+    {% render 'newsletter-form', form_id: form_id, input_id: input_id %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .newsletter-section {
+    padding: var(--nl-pt, 320px) var(--page-margin) var(--nl-pb, 96px);
+    color: var(--color-accent);
+  }
+
+  .newsletter-section__inner {
+    max-width: var(--nl-width, 464px);
+  }
+
+  .newsletter-section__heading {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-weight: var(--font-heading-weight, 500);
+    font-size: calc(1.364rem * var(--heading-scale, 1));
+    letter-spacing: 0;
+    line-height: 1.25;
+    text-transform: none;
+    color: inherit;
+  }
+
+  .newsletter-section__text {
+    margin: 4px 0 0;
+    font-family: var(--font-body);
+    font-size: calc(1.111rem * var(--body-scale, 1));
+    line-height: 1.5;
+    color: inherit;
+  }
+
+  .newsletter-section .newsletter-form {
+    margin-top: 14px;
+  }
+
+  .newsletter-section .newsletter-form__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+
+  .newsletter-section .newsletter-form__row .field,
+  .newsletter-section .newsletter-form__row .button {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    height: 46px;
+    padding: 0 20px;
+    font-family: var(--font-body);
+    font-size: calc(0.833rem * var(--body-scale, 1));
+    text-align: left;
+  }
+
+  .newsletter-section .newsletter-form__row .field {
+    border: 1px solid var(--color-accent);
+    background: #fff;
+    color: var(--color-accent);
+  }
+
+  .newsletter-section .newsletter-form__row .field::placeholder {
+    color: var(--color-accent);
+    opacity: 1;
+  }
+
+  .newsletter-section .newsletter-form__row .button {
+    border: none;
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+
+  @media (max-width: 749px) {
+    .newsletter-section {
+      padding-top: calc(var(--nl-pt, 320px) * 0.45);
+      padding-bottom: calc(var(--nl-pb, 96px) * 0.6);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "tag": "section",
+  "class": "section-newsletter",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "15% off to start.",
+      "info": "Set in Persona without capitals: its lowercase letters are small caps."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "get early access to new finds and the occasional unsolicited tablescaping tips"
+    },
+    {
+      "type": "range",
+      "id": "width",
+      "label": "Block width",
+      "min": 320,
+      "max": 720,
+      "step": 8,
+      "unit": "px",
+      "default": 464
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Space above",
+      "min": 0,
+      "max": 400,
+      "step": 8,
+      "unit": "px",
+      "default": 320,
+      "info": "Phones use 45% of it."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Space below",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 96
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter"
+    }
+  ]
+}
+{% endschema %}

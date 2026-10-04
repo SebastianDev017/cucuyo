@@ -678,6 +678,8 @@ body.header-light .site-header[data-header-state='top'] :is(
 
 .nav-drawer__close {
   display: grid;
+  /* stays on the right when the wordmark is hidden (header setting) */
+  margin-inline-start: auto;
   place-items: center;
   width: 44px;
   height: 44px;
@@ -695,10 +697,13 @@ body.header-light .site-header[data-header-state='top'] :is(
   flex: 1;
 }
 
-/* The drawer panel is cream, so links are always ink — including on the
-   homepage, where the overlay column uses light-on-image text. */
+/* Drawer links: bigger and in the brand brown, easier to tap (Eugenia,
+   2026-10-04) — including on the homepage, where the overlay column uses
+   light-on-image text. */
 .nav-drawer__nav .site-header__link {
-  color: var(--color-ink);
+  font-size: 1.1875rem;
+  line-height: 1.6;
+  color: var(--color-accent);
 }
 
 .nav-drawer__newsletter {
@@ -915,7 +920,7 @@ body:not(.template-page) main > .section-page-title + .shopify-section {
 .image-card__media {
   width: 100%;
   height: 100%;
-  aspect-ratio: 756 / 957;
+  aspect-ratio: var(--card-ratio, 756 / 957);
   object-fit: cover;
 }
 
@@ -976,7 +981,8 @@ body:not(.template-page) main > .section-page-title + .shopify-section {
 .card-caption {
   position: absolute;
   right: 20px;
-  bottom: 16px;
+  /* Eugenia's 2026-10 layouts: the name sits higher on the photograph */
+  bottom: 29px;
   left: 20px;
   z-index: 2;
   display: flex;
@@ -1425,8 +1431,8 @@ body:not(.template-page) main > .section-page-title + .shopify-section {
   }
 
   /* Jenn, 2026-10-01: the mark runs the width of the screen (inside the
-     page margins), and the note sits above the email field and the button,
-     on the left, as their heading. */
+     page margins), and the note sits under the email field and the button,
+     as everywhere else (Eugenia, 2026-10-04). */
   .site-footer__mark {
     width: 100%;
   }
@@ -1442,8 +1448,7 @@ body:not(.template-page) main > .section-page-title + .shopify-section {
   }
 
   .site-footer__note {
-    order: -1;
-    margin: 0 0 12px;
+    margin: 12px 0 0;
     text-align: left;
   }
 }
@@ -3989,7 +3994,7 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
 .image-text__image {
   display: block;
   width: 100%;
-  aspect-ratio: 756 / 957;
+  aspect-ratio: 3 / 4;
   object-fit: cover;
 }
 

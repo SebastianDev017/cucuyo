@@ -168,7 +168,7 @@
             "label": "Landscape 5:4"
           }
         ],
-        "default": "756/957",
+        "default": "3/4",
         "info": "The image ratio every product card is cropped to"
       },
       {
