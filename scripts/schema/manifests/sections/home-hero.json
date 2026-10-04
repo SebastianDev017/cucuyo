@@ -1,0 +1,146 @@
+{
+  "file": "sections/home-hero.liquid",
+  "schema": {
+    "name": "Two-up band",
+    "tag": "section",
+    "max_blocks": 2,
+    "settings": [
+      {
+        "ref": "setting",
+        "type": "select",
+        "id": "header_tone",
+        "label": "Header text over this section",
+        "options": [
+          {
+            "value": "light",
+            "label": "Light, for a dark photograph"
+          },
+          {
+            "value": "ink",
+            "label": "Brown, for a pale photograph"
+          }
+        ],
+        "default": "ink",
+        "info": "Homepage and category pages: as the first section, it sets the header colour at the top of the page. Light only reads on a dark photograph."
+      },
+      {
+        "ref": "setting",
+        "type": "select",
+        "id": "ratio",
+        "label": "Image shape",
+        "options": [
+          {
+            "value": "756 / 957",
+            "label": "Portrait, card shape (PDFs)"
+          },
+          {
+            "value": "4 / 5",
+            "label": "Portrait 4:5"
+          },
+          {
+            "value": "3 / 4",
+            "label": "Taller 3:4"
+          },
+          {
+            "value": "1 / 1",
+            "label": "Square"
+          }
+        ],
+        "default": "756 / 957"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "image",
+        "name": "Image",
+        "settings": [
+          {
+            "ref": "setting",
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "ref": "setting",
+            "type": "text",
+            "id": "draft_asset",
+            "label": "Draft asset filename",
+            "info": "Theme asset shown while no image is selected (design draft)"
+          },
+          {
+            "ref": "setting",
+            "type": "text",
+            "id": "heading",
+            "label": "Overlay title",
+            "info": "Set in caps, e.g. the category"
+          },
+          {
+            "ref": "setting",
+            "type": "textarea",
+            "id": "body",
+            "label": "Overlay paragraph"
+          },
+          {
+            "ref": "setting",
+            "type": "text",
+            "id": "cta_label",
+            "label": "Overlay link label",
+            "info": "Underlined, e.g. \"Shop kitchenware\". Uses the block's Link."
+          },
+          {
+            "ref": "setting",
+            "type": "textarea",
+            "id": "label",
+            "label": "Label",
+            "info": "Small caps label in the corner. Leave empty when the overlay above is used."
+          },
+          {
+            "ref": "setting",
+            "type": "select",
+            "id": "label_tone",
+            "label": "Text tone over this image",
+            "options": [
+              {
+                "value": "dark",
+                "label": "Dark"
+              },
+              {
+                "value": "light",
+                "label": "Light"
+              }
+            ],
+            "default": "light",
+            "info": "Applies to the label AND the overlay. Pick by looking at the photograph."
+          },
+          {
+            "ref": "setting",
+            "type": "url",
+            "id": "link",
+            "label": "Link"
+          },
+          {
+            "ref": "setting",
+            "type": "checkbox",
+            "id": "scrim",
+            "label": "Soften the photograph under the text",
+            "default": false,
+            "info": "A gradient behind the overlay, for photographs the type cannot be read on."
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Two-up band",
+        "blocks": [
+          {
+            "type": "image"
+          },
+          {
+            "type": "image"
+          }
+        ]
+      }
+    ]
+  }
+}

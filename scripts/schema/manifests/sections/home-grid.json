@@ -1,0 +1,340 @@
+{
+  "file": "sections/home-grid.liquid",
+  "schema": {
+    "name": "Featured collection",
+    "tag": "section",
+    "max_blocks": 10,
+    "settings": [
+      {
+        "ref": "setting",
+        "type": "header",
+        "content": "Heading"
+      },
+      {
+        "ref": "setting",
+        "type": "text",
+        "id": "eyebrow",
+        "label": "Eyebrow",
+        "info": "Small line above the heading"
+      },
+      {
+        "ref": "setting",
+        "type": "text",
+        "id": "heading",
+        "label": "Heading",
+        "info": "Leave empty for no heading"
+      },
+      {
+        "ref": "setting",
+        "type": "select",
+        "id": "heading_font",
+        "label": "Heading typeface",
+        "options": [
+          {
+            "value": "heading",
+            "label": "Primary"
+          },
+          {
+            "value": "body",
+            "label": "Secondary"
+          }
+        ],
+        "default": "heading"
+      },
+      {
+        "ref": "setting",
+        "type": "select",
+        "id": "heading_align",
+        "label": "Heading alignment",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Centre"
+          }
+        ],
+        "default": "center"
+      },
+      {
+        "ref": "setting",
+        "type": "header",
+        "content": "Layout"
+      },
+      {
+        "ref": "setting",
+        "type": "range",
+        "id": "columns_desktop",
+        "label": "Columns (desktop)",
+        "min": 2,
+        "max": 5,
+        "step": 1,
+        "default": 3
+      },
+      {
+        "ref": "setting",
+        "type": "select",
+        "id": "columns_mobile",
+        "label": "Columns (mobile)",
+        "options": [
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          }
+        ],
+        "default": "1"
+      },
+      {
+        "ref": "setting",
+        "type": "checkbox",
+        "id": "flush",
+        "label": "Flush (no gap)",
+        "default": false,
+        "info": "The two-up editorial pair sits flush in the design"
+      },
+      {
+        "ref": "setting",
+        "type": "checkbox",
+        "id": "carousel",
+        "label": "Carousel",
+        "default": false,
+        "info": "One sliding row with an arrow at each end, over the photographs, instead of a grid. Columns sets how many show at once; the arrows appear when there are more cards than that."
+      },
+      {
+        "ref": "setting",
+        "type": "checkbox",
+        "id": "carousel_loop",
+        "label": "Loop the carousel",
+        "default": false,
+        "info": "Past the last card the arrow goes back to the first, and the other way round."
+      },
+      {
+        "ref": "setting",
+        "type": "checkbox",
+        "id": "show_collection_label",
+        "label": "Show collection label",
+        "default": true,
+        "info": "The product's collection under its name"
+      },
+      {
+        "ref": "setting",
+        "type": "checkbox",
+        "id": "show_swatches",
+        "label": "Show colour swatches",
+        "default": false,
+        "info": "Off here: the label sits over the image, so a circle below it reads as detached"
+      },
+      {
+        "ref": "setting",
+        "type": "header",
+        "content": "Colour and spacing"
+      },
+      {
+        "ref": "setting",
+        "type": "color",
+        "id": "background_color",
+        "label": "Background",
+        "info": "Empty uses the theme's"
+      },
+      {
+        "ref": "setting",
+        "type": "color",
+        "id": "text_color",
+        "label": "Text",
+        "info": "Empty uses the theme's"
+      },
+      {
+        "ref": "setting",
+        "type": "range",
+        "id": "padding_top",
+        "label": "Padding top",
+        "min": 0,
+        "max": 160,
+        "step": 4,
+        "unit": "px",
+        "default": 0
+      },
+      {
+        "ref": "setting",
+        "type": "range",
+        "id": "padding_bottom",
+        "label": "Padding bottom",
+        "min": 0,
+        "max": 160,
+        "step": 4,
+        "unit": "px",
+        "default": 0
+      },
+      {
+        "ref": "setting",
+        "type": "select",
+        "id": "header_tone",
+        "label": "Header text over this section",
+        "options": [
+          {
+            "value": "light",
+            "label": "Light, for a dark photograph"
+          },
+          {
+            "value": "ink",
+            "label": "Brown, for a pale photograph"
+          }
+        ],
+        "default": "ink",
+        "info": "Homepage and category pages: as the first section, it sets the header colour at the top of the page. Light only reads on a dark photograph."
+      }
+    ],
+    "blocks": [
+      {
+        "type": "card",
+        "name": "Card",
+        "settings": [
+          {
+            "ref": "setting",
+            "type": "product",
+            "id": "product",
+            "label": "Product",
+            "info": "Supplies the image, label, and link when set"
+          },
+          {
+            "ref": "setting",
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image",
+            "info": "Overrides the product image"
+          },
+          {
+            "ref": "setting",
+            "type": "text",
+            "id": "image_url",
+            "label": "Image URL",
+            "info": "Used when nothing is uploaded. Uploads are sharper."
+          },
+          {
+            "ref": "setting",
+            "type": "text",
+            "id": "alt_text",
+            "label": "Image description",
+            "info": "For screen readers"
+          },
+          {
+            "ref": "setting",
+            "type": "select",
+            "id": "ratio",
+            "label": "Shape",
+            "options": [
+              {
+                "value": "756/957",
+                "label": "Portrait (default)"
+              },
+              {
+                "value": "1/1",
+                "label": "Square"
+              },
+              {
+                "value": "3/2",
+                "label": "Landscape"
+              },
+              {
+                "value": "4/5",
+                "label": "Tall"
+              }
+            ],
+            "default": "756/957"
+          },
+          {
+            "ref": "setting",
+            "type": "textarea",
+            "id": "label",
+            "label": "Label",
+            "info": "Falls back to the product title"
+          },
+          {
+            "ref": "setting",
+            "type": "select",
+            "id": "label_font",
+            "label": "Label typeface",
+            "options": [
+              {
+                "value": "heading",
+                "label": "Primary"
+              },
+              {
+                "value": "body",
+                "label": "Secondary"
+              }
+            ],
+            "default": "heading"
+          },
+          {
+            "ref": "setting",
+            "type": "select",
+            "id": "label_tone",
+            "label": "Label tone",
+            "options": [
+              {
+                "value": "dark",
+                "label": "Dark"
+              },
+              {
+                "value": "light",
+                "label": "Light"
+              }
+            ],
+            "default": "dark"
+          },
+          {
+            "ref": "setting",
+            "type": "color",
+            "id": "label_color",
+            "label": "Label colour",
+            "info": "Empty uses the tone above"
+          },
+          {
+            "ref": "setting",
+            "type": "color",
+            "id": "label_hover_color",
+            "label": "Label colour on hover",
+            "info": "The name and the Cucuyo bug while the pointer is over this card (tablet and desktop). Empty leaves them as they are."
+          },
+          {
+            "ref": "setting",
+            "type": "url",
+            "id": "link",
+            "label": "Link",
+            "info": "Overrides the product link"
+          },
+          {
+            "ref": "setting",
+            "type": "text",
+            "id": "draft_asset",
+            "label": "Draft asset filename",
+            "info": "Theme asset used while nothing else is set"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Featured collection",
+        "blocks": [
+          {
+            "type": "card"
+          },
+          {
+            "type": "card"
+          },
+          {
+            "type": "card"
+          }
+        ]
+      }
+    ]
+  }
+}

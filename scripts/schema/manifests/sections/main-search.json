@@ -1,0 +1,45 @@
+{
+  "file": "sections/main-search.liquid",
+  "schema": {
+    "name": "Search page",
+    "settings": [
+      {
+        "ref": "setting",
+        "type": "range",
+        "id": "results_per_page",
+        "label": "Results per page",
+        "min": 12,
+        "max": 48,
+        "step": 4,
+        "default": 24
+      },
+      {
+        "ref": "setting",
+        "type": "range",
+        "id": "columns_desktop",
+        "label": "Columns (desktop)",
+        "min": 2,
+        "max": 5,
+        "step": 1,
+        "default": 4
+      },
+      {
+        "ref": "setting",
+        "type": "select",
+        "id": "columns_mobile",
+        "label": "Columns (mobile)",
+        "options": [
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          }
+        ],
+        "default": "1"
+      }
+    ]
+  }
+}

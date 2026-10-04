@@ -1,0 +1,355 @@
+{
+  "file": "sections/main-product.liquid",
+  "schema": {
+    "name": "Product page",
+    "max_blocks": 16,
+    "settings": [
+      {
+        "ref": "setting",
+        "type": "checkbox",
+        "id": "show_vendor",
+        "label": "Show vendor",
+        "default": false
+      },
+      {
+        "ref": "setting",
+        "type": "select",
+        "id": "media_ratio",
+        "label": "Image aspect ratio",
+        "options": [
+          {
+            "value": "3/4",
+            "label": "Portrait 3:4"
+          },
+          {
+            "value": "4/5",
+            "label": "Portrait 4:5"
+          },
+          {
+            "value": "1/1",
+            "label": "Square"
+          }
+        ],
+        "default": "4/5",
+        "info": "Applies to the hero image only — gallery images are never cropped"
+      },
+      {
+        "ref": "setting",
+        "type": "range",
+        "id": "column_gap",
+        "label": "Space between the images and the information",
+        "min": 0,
+        "max": 120,
+        "step": 2,
+        "unit": "px",
+        "default": 10,
+        "info": "Where the two sit side by side (tablet and desktop)."
+      },
+      {
+        "ref": "setting",
+        "type": "select",
+        "id": "info_position",
+        "label": "Information position",
+        "options": [
+          {
+            "value": "top",
+            "label": "Top"
+          },
+          {
+            "value": "center",
+            "label": "Centre"
+          },
+          {
+            "value": "bottom",
+            "label": "Bottom"
+          }
+        ],
+        "default": "center",
+        "info": "Where the title, text and add to cart float on screen while the photographs scroll past (tablet and desktop). Phones stack them under the photograph."
+      }
+    ],
+    "blocks": [
+      {
+        "type": "breadcrumb",
+        "name": "Breadcrumb",
+        "limit": 1
+      },
+      {
+        "type": "title",
+        "name": "Title",
+        "limit": 1,
+        "settings": [
+          {
+            "ref": "setting",
+            "type": "select",
+            "id": "title_font",
+            "label": "Typeface",
+            "options": [
+              {
+                "value": "heading",
+                "label": "Primary"
+              },
+              {
+                "value": "body",
+                "label": "Secondary"
+              }
+            ],
+            "default": "heading"
+          },
+          {
+            "ref": "setting",
+            "type": "color",
+            "id": "title_color",
+            "label": "Colour",
+            "info": "Empty uses the theme's"
+          },
+          {
+            "ref": "setting",
+            "type": "range",
+            "id": "spacing_bottom",
+            "label": "Space below",
+            "min": 0,
+            "max": 80,
+            "step": 2,
+            "unit": "px",
+            "default": 0
+          },
+          {
+            "ref": "setting",
+            "type": "checkbox",
+            "id": "show_subtitle",
+            "label": "Show subtitle",
+            "default": true
+          },
+          {
+            "ref": "setting",
+            "type": "checkbox",
+            "id": "show_vendor",
+            "label": "Show vendor",
+            "default": true,
+            "info": "Also needs the section's vendor setting on"
+          }
+        ]
+      },
+      {
+        "type": "variant_picker",
+        "name": "Variant picker",
+        "limit": 1,
+        "settings": [
+          {
+            "ref": "setting",
+            "type": "range",
+            "id": "spacing_top",
+            "label": "Space above the swatches",
+            "min": 0,
+            "max": 80,
+            "step": 2,
+            "unit": "px",
+            "default": 26,
+            "info": "Between the title and the colour swatches on this page. The one in Theme settings → Product cards is a different place: the grid card."
+          },
+          {
+            "ref": "setting",
+            "type": "select",
+            "id": "option_style",
+            "label": "Size and other options",
+            "options": [
+              {
+                "value": "buttons",
+                "label": "Buttons"
+              },
+              {
+                "value": "dropdown",
+                "label": "Dropdown"
+              }
+            ],
+            "default": "buttons",
+            "info": "Colour always uses swatches"
+          },
+          {
+            "ref": "setting",
+            "type": "checkbox",
+            "id": "hide_single_colour",
+            "label": "Hide the colour swatch when there is only one colour",
+            "default": true,
+            "info": "A single circle offers no choice. Products with two or more colours keep theirs. The colour is still named in Product Details."
+          }
+        ]
+      },
+      {
+        "type": "description",
+        "name": "Description",
+        "limit": 1
+      },
+      {
+        "type": "media",
+        "name": "Media",
+        "limit": 1,
+        "settings": [
+          {
+            "ref": "setting",
+            "type": "select",
+            "id": "media_ratio",
+            "label": "Hero image ratio",
+            "options": [
+              {
+                "value": "3/4",
+                "label": "Portrait 3:4"
+              },
+              {
+                "value": "4/5",
+                "label": "Portrait 4:5"
+              },
+              {
+                "value": "1/1",
+                "label": "Square"
+              }
+            ],
+            "default": "3/4",
+            "info": "The hero only. Gallery images below it are never cropped."
+          },
+          {
+            "ref": "setting",
+            "type": "range",
+            "id": "gallery_gap",
+            "label": "Space between gallery images",
+            "min": 0,
+            "max": 64,
+            "step": 2,
+            "unit": "px",
+            "default": 10,
+            "info": "The air between the stacked photographs, and between the hero and the first of them"
+          },
+          {
+            "ref": "setting",
+            "type": "checkbox",
+            "id": "gallery_filter",
+            "label": "Filter gallery by variant",
+            "default": true,
+            "info": "Shopify attaches only one image per variant, so label the rest through their alt text: type just the variant name, e.g. Black. Capitals and stray spaces don't matter. The alt a screen reader hears is written for you as \"Product name — Black\", so there is nothing else to type. An image whose alt isn't a variant name — packaging, a scale shot — shows on every variant."
+          }
+        ]
+      },
+      {
+        "type": "add_to_cart",
+        "name": "Add to cart",
+        "limit": 1
+      },
+      {
+        "type": "product_details",
+        "name": "Product details",
+        "limit": 1,
+        "settings": [
+          {
+            "ref": "setting",
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Product Details"
+          },
+          {
+            "ref": "setting",
+            "type": "richtext",
+            "id": "content",
+            "label": "Details",
+            "info": "Material, dimensions… Connect a product metafield (dynamic source) so each product shows its own lines."
+          },
+          {
+            "ref": "setting",
+            "type": "select",
+            "id": "heading_font",
+            "label": "Heading typeface",
+            "options": [
+              {
+                "value": "body",
+                "label": "Secondary"
+              },
+              {
+                "value": "heading",
+                "label": "Primary"
+              }
+            ],
+            "default": "body"
+          },
+          {
+            "ref": "setting",
+            "type": "color",
+            "id": "text_color",
+            "label": "Text colour",
+            "info": "Empty uses the theme's"
+          },
+          {
+            "ref": "setting",
+            "type": "range",
+            "id": "spacing_top",
+            "label": "Space above",
+            "min": 0,
+            "max": 120,
+            "step": 4,
+            "unit": "px",
+            "default": 56
+          },
+          {
+            "ref": "setting",
+            "type": "checkbox",
+            "id": "show_color",
+            "label": "Show the selected colour",
+            "default": true,
+            "info": "Follows the variant the shopper picks"
+          }
+        ]
+      },
+      {
+        "type": "accordion",
+        "name": "Accordion",
+        "settings": [
+          {
+            "ref": "setting",
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "Shipping & returns"
+          },
+          {
+            "ref": "setting",
+            "type": "richtext",
+            "id": "content",
+            "label": "Content",
+            "default": "<p>Share your shipping and returns policy here.</p>"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Product page",
+        "blocks": [
+          {
+            "type": "media"
+          },
+          {
+            "type": "breadcrumb"
+          },
+          {
+            "type": "title"
+          },
+          {
+            "type": "variant_picker"
+          },
+          {
+            "type": "description"
+          },
+          {
+            "type": "accordion"
+          },
+          {
+            "type": "add_to_cart"
+          },
+          {
+            "type": "product_details"
+          }
+        ]
+      }
+    ]
+  }
+}

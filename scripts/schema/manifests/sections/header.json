@@ -1,0 +1,91 @@
+{
+  "file": "sections/header.liquid",
+  "schema": {
+    "name": "Header",
+    "class": "section-header",
+    "settings": [
+      {
+        "ref": "setting",
+        "type": "text",
+        "id": "wordmark",
+        "label": "Wordmark",
+        "default": "CUCUYO HOME",
+        "info": "Rendered in Persona. Leave as the brand wordmark."
+      },
+      {
+        "ref": "setting",
+        "type": "link_list",
+        "id": "menu",
+        "label": "Menu",
+        "default": "main-menu",
+        "info": "Nested links render always expanded, indented under their parent (up to 3 levels)"
+      },
+      {
+        "ref": "setting",
+        "type": "checkbox",
+        "id": "show_search",
+        "label": "Show search link",
+        "default": true
+      },
+      {
+        "ref": "setting",
+        "type": "checkbox",
+        "id": "show_account",
+        "label": "Show account link",
+        "default": true
+      },
+      {
+        "ref": "setting",
+        "type": "text",
+        "id": "drawer_note",
+        "label": "Drawer newsletter note",
+        "default": "Sign up to our newsletter to receive exclusive offers.",
+        "info": "Shown under the newsletter form in the mobile menu drawer"
+      },
+      {
+        "ref": "setting",
+        "type": "range",
+        "id": "menu_size",
+        "label": "Menu text size",
+        "min": 13,
+        "max": 18,
+        "step": 1,
+        "unit": "px",
+        "default": 17,
+        "info": "The links in the desktop row (1200px and up). Above 18px the menu no longer fits on one row at 1200px."
+      },
+      {
+        "ref": "setting",
+        "type": "header",
+        "content": "Transparent header"
+      },
+      {
+        "ref": "setting",
+        "type": "paragraph",
+        "content": "At the top of every page, before scrolling, the header has no background and its text is brown. On the homepage and the category pages the first section decides instead: set its 'Header text over this section' to Light when its photograph is dark enough for light text. Once the page scrolls, the header comes back on white, in brown."
+      },
+      {
+        "ref": "setting",
+        "type": "color",
+        "id": "transparent_ink_home",
+        "label": "Light text colour",
+        "info": "Used at the top of the homepage and the category pages, over a section set to Light. Leave empty for the theme's off-white."
+      },
+      {
+        "ref": "setting",
+        "type": "checkbox",
+        "id": "transparent_scrim_home",
+        "label": "Soften the photograph under the header on the homepage",
+        "default": false,
+        "info": "A gradient at the top of the first photograph while the header is transparent, so light type reads on a pale picture."
+      },
+      {
+        "ref": "setting",
+        "type": "color",
+        "id": "transparent_ink_pages",
+        "label": "Text colour at the top of other pages",
+        "info": "Pages that open on the page background (product, All, cart, search, pages), so pick a colour that reads on it. Leave empty for the theme's brown."
+      }
+    ]
+  }
+}
