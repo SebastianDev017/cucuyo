@@ -3915,7 +3915,7 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
 .image-text__cta,
 .home-note__cta {
   display: inline-block;
-  font-family: var(--font-body);
+  font-family: var(--font-heading);
   font-weight: 400;
   font-size: calc(1.111rem * var(--body-scale, 1));
   letter-spacing: 0;
