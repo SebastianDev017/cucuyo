@@ -3892,7 +3892,7 @@ body:not(.template-index):not(.template-product):not(.template-collection):not(.
 .image-text__heading,
 .home-note__heading {
   margin: 0;
-  font-family: var(--font-heading);
+  font-family: var(--font-body);
   font-weight: var(--font-heading-weight, 500);
   font-size: calc(1.528rem * var(--heading-scale, 1));
   letter-spacing: 0;
