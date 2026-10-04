@@ -15,7 +15,6 @@
         "image_1": {
           "type": "image",
           "settings": {
-            "image": "",
             "draft_asset": "pdf2-landing-1-1.jpg",
             "heading": "",
             "body": "a spontaneous meeting between luxury and the eclectic",
@@ -57,7 +56,6 @@
           "type": "card",
           "settings": {
             "product": "ball-boy-bowl-black",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -65,7 +63,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
-            "label_hover_color": "",
+            "label_hover_color": "#FFFFFF",
             "link": "",
             "draft_asset": ""
           }
@@ -74,7 +72,6 @@
           "type": "card",
           "settings": {
             "product": "martha-bandana",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -82,7 +79,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
-            "label_hover_color": "",
+            "label_hover_color": "#FFFFFF",
             "link": "",
             "draft_asset": ""
           }
@@ -91,7 +88,6 @@
           "type": "card",
           "settings": {
             "product": "petit-tie-rainbow-bag",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -99,7 +95,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
-            "label_hover_color": "",
+            "label_hover_color": "#FFFFFF",
             "link": "",
             "draft_asset": ""
           }
@@ -108,7 +104,6 @@
           "type": "card",
           "settings": {
             "product": "duck-woven-baskets",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -116,7 +111,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
-            "label_hover_color": "",
+            "label_hover_color": "#FFFFFF",
             "link": "",
             "draft_asset": ""
           }
@@ -179,13 +174,12 @@
           "type": "card",
           "settings": {
             "product": "swimming-fish-vase",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
             "label": "",
             "label_tone": "dark",
-            "label_hover_color": "",
+            "label_hover_color": "#FFFFFF",
             "link": ""
           }
         },
@@ -193,13 +187,12 @@
           "type": "card",
           "settings": {
             "product": "petra-vessel",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
             "label": "",
             "label_tone": "dark",
-            "label_hover_color": "",
+            "label_hover_color": "#FFFFFF",
             "link": ""
           }
         },
@@ -207,13 +200,12 @@
           "type": "card",
           "settings": {
             "product": "footed-elephant-vase",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
             "label": "",
             "label_tone": "dark",
-            "label_hover_color": "",
+            "label_hover_color": "#FFFFFF",
             "link": ""
           }
         },
@@ -221,13 +213,12 @@
           "type": "card",
           "settings": {
             "product": "ojo-de-liebre",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
             "label": "",
             "label_tone": "dark",
-            "label_hover_color": "",
+            "label_hover_color": "#FFFFFF",
             "link": ""
           }
         }
@@ -241,6 +232,7 @@
       ],
       "settings": {
         "media_side": "left",
+        "show_collection_label": false,
         "header_tone": "ink"
       }
     },
@@ -251,7 +243,6 @@
           "type": "card",
           "settings": {
             "product": "oranges-vase",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -259,7 +250,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
-            "label_hover_color": "",
+            "label_hover_color": "#FFFFFF",
             "link": "",
             "draft_asset": ""
           }
@@ -268,7 +259,6 @@
           "type": "card",
           "settings": {
             "product": "wabi-sabi-vase",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -285,7 +275,6 @@
           "type": "card",
           "settings": {
             "product": "juliette-vase",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -293,7 +282,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
-            "label_hover_color": "",
+            "label_hover_color": "#FFFFFF",
             "link": "",
             "draft_asset": ""
           }
@@ -302,7 +291,6 @@
           "type": "card",
           "settings": {
             "product": "elephant-vase",
-            "image": "shopify://shop_images/EL_VS_03.jpg",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -347,7 +335,6 @@
         "image_1": {
           "type": "image",
           "settings": {
-            "image": "",
             "draft_asset": "pdf2-landing-6-1.jpg",
             "heading": "",
             "body": "the beauty’s in the dinnerware details",
@@ -389,7 +376,6 @@
           "type": "card",
           "settings": {
             "product": "frills-platter",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -406,7 +392,6 @@
           "type": "card",
           "settings": {
             "product": "ava-silverware",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -423,7 +408,6 @@
           "type": "card",
           "settings": {
             "product": "ghost-checker-platter",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -431,7 +415,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
-            "label_hover_color": "",
+            "label_hover_color": "#FFFFFF",
             "link": "",
             "draft_asset": ""
           }
@@ -440,7 +424,6 @@
           "type": "card",
           "settings": {
             "product": "batik-bone-salt-pepper-shakers",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -448,7 +431,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
-            "label_hover_color": "",
+            "label_hover_color": "#FFFFFF",
             "link": "",
             "draft_asset": ""
           }
@@ -496,7 +479,6 @@
         "image_1": {
           "type": "image",
           "settings": {
-            "image": "",
             "draft_asset": "pdf2-landing-8-1.jpg",
             "heading": "",
             "body": "all things spooky and kooky",
@@ -538,7 +520,6 @@
           "type": "card",
           "settings": {
             "product": "clay-wire-spiders",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -546,7 +527,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
-            "label_hover_color": "",
+            "label_hover_color": "#FFFFFF",
             "link": "",
             "draft_asset": ""
           }
@@ -555,7 +536,6 @@
           "type": "card",
           "settings": {
             "product": "pumpkin-wreath",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -563,7 +543,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
-            "label_hover_color": "",
+            "label_hover_color": "#FFFFFF",
             "link": "",
             "draft_asset": ""
           }
@@ -572,7 +552,6 @@
           "type": "card",
           "settings": {
             "product": "kenya-soapstone-nativity",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -580,7 +559,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
-            "label_hover_color": "",
+            "label_hover_color": "#FFFFFF",
             "link": "",
             "draft_asset": ""
           }
@@ -589,7 +568,6 @@
           "type": "card",
           "settings": {
             "product": "clay-barro-ornaments",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -597,7 +575,7 @@
             "label_font": "heading",
             "label_tone": "dark",
             "label_color": "",
-            "label_hover_color": "",
+            "label_hover_color": "#FFFFFF",
             "link": "",
             "draft_asset": ""
           }
