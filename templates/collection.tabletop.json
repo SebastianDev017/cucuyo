@@ -146,92 +146,23 @@
         "ratio": "3 / 4"
       }
     },
-    "row_serve": {
-      "type": "home-grid",
-      "blocks": {
-        "card_1": {
-          "type": "card",
-          "settings": {
-            "product": "frills-platter",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "3/4",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "card_2": {
-          "type": "card",
-          "settings": {
-            "product": "gingham-dish-towels",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "3/4",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "card_3": {
-          "type": "card",
-          "settings": {
-            "product": "beaded-plate",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "3/4",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "card_4": {
-          "type": "card",
-          "settings": {
-            "product": "batik-bone-salt-pepper-shakers",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "3/4",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        }
-      },
-      "block_order": [
-        "card_1",
-        "card_2",
-        "card_3",
-        "card_4"
-      ],
+    "dynamic_collection_NrnMff": {
+      "type": "dynamic-collection",
+      "name": "Dynamic collection",
       "settings": {
+        "collection": "tabletop",
+        "products_to_show": 16,
         "eyebrow": "",
         "heading": "",
-        "heading_font": "heading",
         "heading_align": "center",
         "columns_desktop": 4,
         "columns_mobile": "2",
         "flush": false,
-        "carousel": false,
-        "carousel_loop": false,
-        "show_collection_label": false,
-        "show_swatches": false,
+        "carousel": true,
+        "carousel_loop": true,
+        "label_tone": "dark",
+        "label_color": "",
+        "label_hover_color": "",
         "background_color": "",
         "text_color": "",
         "padding_top": 0,
@@ -280,92 +211,23 @@
         "ratio": "3 / 4"
       }
     },
-    "row_pour": {
-      "type": "home-grid",
-      "blocks": {
-        "card_1": {
-          "type": "card",
-          "settings": {
-            "product": "clay-pitcher",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "3/4",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "card_2": {
-          "type": "card",
-          "settings": {
-            "product": "ava-silverware",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "3/4",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "card_3": {
-          "type": "card",
-          "settings": {
-            "product": "ghost-checker-platter",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "3/4",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "card_4": {
-          "type": "card",
-          "settings": {
-            "product": "plume-dishtowels",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "3/4",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        }
-      },
-      "block_order": [
-        "card_1",
-        "card_2",
-        "card_3",
-        "card_4"
-      ],
+    "dynamic_collection_zgNmFA": {
+      "type": "dynamic-collection",
+      "name": "Dynamic collection",
       "settings": {
+        "collection": "serveware",
+        "products_to_show": 16,
         "eyebrow": "",
         "heading": "",
-        "heading_font": "heading",
         "heading_align": "center",
         "columns_desktop": 4,
         "columns_mobile": "2",
         "flush": false,
-        "carousel": false,
-        "carousel_loop": false,
-        "show_collection_label": false,
-        "show_swatches": false,
+        "carousel": true,
+        "carousel_loop": true,
+        "label_tone": "dark",
+        "label_color": "",
+        "label_hover_color": "",
         "background_color": "",
         "text_color": "",
         "padding_top": 0,
@@ -379,8 +241,8 @@
     "split_ghost",
     "note_mesa",
     "hero_nautilus",
-    "row_serve",
+    "dynamic_collection_NrnMff",
     "hero_glass",
-    "row_pour"
+    "dynamic_collection_zgNmFA"
   ]
 }
