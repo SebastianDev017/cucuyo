@@ -19,7 +19,6 @@
         "media": {
           "type": "media",
           "settings": {
-            "image": "",
             "draft_asset": "pdf-decor-62cd.jpg",
             "alt_text": "",
             "heading": "",
@@ -34,7 +33,6 @@
           "type": "card",
           "settings": {
             "product": "nautilus-bowl",
-            "image": "shopify://shop_images/NAU_BW_03.jpg",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
@@ -48,7 +46,6 @@
           "type": "card",
           "settings": {
             "product": "fish-jug",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
@@ -62,7 +59,6 @@
           "type": "card",
           "settings": {
             "product": "hand-etched-cup",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
@@ -76,7 +72,6 @@
           "type": "card",
           "settings": {
             "product": "fleur-pedestal-bowl",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
@@ -131,7 +126,6 @@
         "image_2": {
           "type": "image",
           "settings": {
-            "image": "",
             "draft_asset": "pdf2-tabletop-3-2.jpg",
             "heading": "",
             "body": "",
@@ -159,7 +153,6 @@
           "type": "card",
           "settings": {
             "product": "frills-platter",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -176,7 +169,6 @@
           "type": "card",
           "settings": {
             "product": "gingham-dish-towels",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -193,7 +185,6 @@
           "type": "card",
           "settings": {
             "product": "beaded-plate",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -210,7 +201,6 @@
           "type": "card",
           "settings": {
             "product": "batik-bone-salt-pepper-shakers",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -261,7 +251,7 @@
             "body": "a hand-etched upgrades for the everyday glass",
             "cta_label": "SEE HAND ETCHED CUP",
             "label": "",
-            "label_tone": "light",
+            "label_tone": "dark",
             "link": "shopify://products/hand-etched-cup",
             "scrim": false
           }
@@ -297,7 +287,6 @@
           "type": "card",
           "settings": {
             "product": "clay-pitcher",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -314,7 +303,6 @@
           "type": "card",
           "settings": {
             "product": "ava-silverware",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -331,7 +319,6 @@
           "type": "card",
           "settings": {
             "product": "ghost-checker-platter",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -348,7 +335,6 @@
           "type": "card",
           "settings": {
             "product": "plume-dishtowels",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
