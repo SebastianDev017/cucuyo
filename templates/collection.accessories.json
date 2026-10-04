@@ -19,7 +19,6 @@
         "image_1": {
           "type": "image",
           "settings": {
-            "image": "",
             "draft_asset": "pdf-decor-2158.jpg",
             "heading": "",
             "body": "made from sustainably sourced animal horn",
@@ -61,7 +60,6 @@
           "type": "card",
           "settings": {
             "product": "horn-bead-necklace",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -78,7 +76,6 @@
           "type": "card",
           "settings": {
             "product": "villa-tote-bag",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -95,7 +92,6 @@
           "type": "card",
           "settings": {
             "product": "arara-bucket-bag",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -112,7 +108,6 @@
           "type": "card",
           "settings": {
             "product": "bene-tote-bag",
-            "image": "shopify://shop_images/BN_TB_02.png",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -179,7 +174,6 @@
           "type": "card",
           "settings": {
             "product": "ikat-espadrille",
-            "image": "shopify://shop_images/IKT_ES_04.jpg",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -196,7 +190,6 @@
           "type": "card",
           "settings": {
             "product": "petit-tie-rainbow-bag",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -213,7 +206,6 @@
           "type": "card",
           "settings": {
             "product": "ikat-clutch",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -230,7 +222,6 @@
           "type": "card",
           "settings": {
             "product": "ikat-tote-bag",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -317,7 +308,6 @@
           "type": "card",
           "settings": {
             "product": "sammie-bandana",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -334,7 +324,6 @@
           "type": "card",
           "settings": {
             "product": "laura-bandana",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -351,7 +340,6 @@
           "type": "card",
           "settings": {
             "product": "eliza-bandana",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -368,7 +356,6 @@
           "type": "card",
           "settings": {
             "product": "desert-bandana",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
@@ -385,7 +372,6 @@
           "type": "card",
           "settings": {
             "product": "johnny-bandana",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "ratio": "3/4",
