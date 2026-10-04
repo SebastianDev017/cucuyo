@@ -54,96 +54,23 @@
         "ratio": "3 / 4"
       }
     },
-    "row_vessels": {
-      "type": "home-grid",
-      "blocks": {
-        "card_1": {
-          "type": "card",
-          "settings": {
-            "product": "ojo-de-liebre",
-            "image": "",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "3/4",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "card_2": {
-          "type": "card",
-          "settings": {
-            "product": "ball-boy-bowl-black",
-            "image": "",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "3/4",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "card_3": {
-          "type": "card",
-          "settings": {
-            "product": "footed-elephant-vase",
-            "image": "",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "3/4",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        },
-        "card_4": {
-          "type": "card",
-          "settings": {
-            "product": "petra-vessel",
-            "image": "",
-            "image_url": "",
-            "alt_text": "",
-            "ratio": "3/4",
-            "label": "",
-            "label_font": "heading",
-            "label_tone": "dark",
-            "label_color": "",
-            "label_hover_color": "",
-            "link": "",
-            "draft_asset": ""
-          }
-        }
-      },
-      "block_order": [
-        "card_1",
-        "card_2",
-        "card_3",
-        "card_4"
-      ],
+    "dynamic_collection_K93yhP": {
+      "type": "dynamic-collection",
+      "name": "Dynamic collection",
       "settings": {
+        "collection": "vases-vessels",
+        "products_to_show": 16,
         "eyebrow": "",
         "heading": "",
-        "heading_font": "heading",
         "heading_align": "center",
         "columns_desktop": 4,
         "columns_mobile": "2",
         "flush": false,
-        "carousel": false,
-        "carousel_loop": false,
-        "show_collection_label": false,
-        "show_swatches": false,
+        "carousel": true,
+        "carousel_loop": true,
+        "label_tone": "dark",
+        "label_color": "",
+        "label_hover_color": "",
         "background_color": "",
         "text_color": "",
         "padding_top": 0,
@@ -168,7 +95,6 @@
         "media": {
           "type": "media",
           "settings": {
-            "image": "",
             "draft_asset": "pdf-decor-5f4d.jpg",
             "alt_text": "",
             "heading": "",
@@ -183,7 +109,6 @@
           "type": "card",
           "settings": {
             "product": "oranges-vase",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
@@ -197,7 +122,6 @@
           "type": "card",
           "settings": {
             "product": "tezon-li-bowl",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
@@ -211,7 +135,6 @@
           "type": "card",
           "settings": {
             "product": "wabi-sabi-vase",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
@@ -225,7 +148,6 @@
           "type": "card",
           "settings": {
             "product": "swimming-fish-vase",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
@@ -270,7 +192,6 @@
           "type": "card",
           "settings": {
             "product": "swan-basket",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
@@ -284,7 +205,6 @@
           "type": "card",
           "settings": {
             "product": "duck-woven-baskets",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
@@ -298,7 +218,6 @@
           "type": "card",
           "settings": {
             "product": "ball-boy-bowl-natural",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
@@ -312,7 +231,6 @@
           "type": "card",
           "settings": {
             "product": "juliette-vase",
-            "image": "",
             "image_url": "",
             "alt_text": "",
             "draft_asset": "",
@@ -340,7 +258,7 @@
   "order": [
     "heading",
     "hero_ballboy",
-    "row_vessels",
+    "dynamic_collection_K93yhP",
     "note_tablescaping",
     "split_tezon",
     "split_baskets"
