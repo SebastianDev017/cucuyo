@@ -11,6 +11,11 @@
   `font-family: var(--card-label-font, var(--font-heading))` — so a section
   that has never been touched in the customizer renders exactly as before.
 
+  A thin wrapper around el-style (the per-element typography snippet) kept
+  for its current call sites until they move to el-style; its output is
+  unchanged: 'heading' gives the heading face and weight, 'body' the body
+  face and 400, anything else nothing.
+
   @param {string} prefix - CSS variable prefix, e.g. "card-label"
   @param {string} [choice] - "heading" | "body"; anything else emits nothing,
     which leaves the CSS fallback in charge
@@ -18,8 +23,6 @@
   <span style="{% render 'font-vars', prefix: 'card-label', choice: block.settings.label_font %}">
 {% enddoc %}
 
-{%- if choice == 'heading' -%}
-  --{{ prefix }}-font: var(--font-heading); --{{ prefix }}-weight: var(--font-heading-weight, 500);
-{%- elsif choice == 'body' -%}
-  --{{ prefix }}-font: var(--font-body); --{{ prefix }}-weight: 400;
+{%- if choice == 'heading' or choice == 'body' -%}
+  {%- render 'el-style', v: prefix, font: choice -%}
 {%- endif -%}

@@ -1,0 +1,25 @@
+{
+  "description": "Colour scheme select (EDITOR-ARCHITECTURE.md §4.3): color_scheme = page | cream | grey | accent | ink, default page. page = the theme palette, exactly today, and emits nothing; any other value puts data-color-scheme=\"<id>\" on the section/block root (snippets/section-style.liquid, part 'attrs'), where css-variables re-maps the colour tokens to that scheme (Theme settings › Colour schemes).",
+  "params": {
+    "default": { "default": "page", "enum": ["page", "cream", "grey", "accent", "ink"] },
+    "label": { "default": "Colour scheme", "type": "string" },
+    "header": { "default": null, "type": "string", "description": "Optional header emitted before the select" }
+  },
+  "settings": [
+    { "$if": "header", "then": { "header": "{{header}}" } },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "{{label}}",
+      "options": [
+        { "value": "page", "label": "Page (theme colours)" },
+        { "value": "cream", "label": "Cream" },
+        { "value": "grey", "label": "Grey" },
+        { "value": "accent", "label": "Brown" },
+        { "value": "ink", "label": "Dark" }
+      ],
+      "default": "{{default}}",
+      "info": "The schemes are set in Theme settings › Colour schemes. Page = the theme colours, as designed."
+    }
+  ]
+}

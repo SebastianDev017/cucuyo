@@ -1,0 +1,121 @@
+{
+  "description": "Colour group (EDITOR-ARCHITECTURE.md §5.3). Per role: text → <prefix>_color, bg → <prefix>_bg, border → <prefix>_border, each with a hover twin (<prefix>_hover_color, _hover_bg, _hover_border) when hover is true. Every colour has NO default: blank = as designed (inherits the colour scheme / the asset value); the editor shows Clear. A kept setting with the same id (label_color, title_color…) is reused verbatim; one with another id is named with alias_<suffix> (alias_color: 'text_color'). snippets/el-style.liquid emits them as --<var>-ink, -hover-ink, -bg, -hover-bg, -border, -hover-border; the section root gets data-hover-tuned when a hover colour is set (snippets/section-style.liquid, part 'attrs').",
+  "params": {
+    "prefix": { "required": true, "type": "string", "description": "Element id prefix" },
+    "roles": { "default": ["text"], "type": "array", "description": "Any of text, bg, border" },
+    "hover": { "default": false, "type": "boolean", "description": "Also the hover twins (interactive elements only: links, buttons, cards, swatches, form controls, nav)" },
+    "name": { "default": null, "type": "string", "description": "Element name used in the labels ('Link' → 'Link: colour')" },
+    "header": { "default": null, "type": "string", "description": "Optional header emitted before the group" },
+    "alias_color": { "default": null, "description": "Kept text colour with another id" },
+    "alias_hover_color": { "default": null, "description": "Kept hover text colour with another id" },
+    "alias_bg": { "default": null, "description": "Kept background colour with another id" },
+    "alias_hover_bg": { "default": null, "description": "Kept hover background with another id" },
+    "alias_border": { "default": null, "description": "Kept border colour with another id" },
+    "alias_hover_border": { "default": null, "description": "Kept hover border colour with another id" }
+  },
+  "settings": [
+    { "$if": "header", "then": { "header": "{{header}}" } },
+    {
+      "$if": "roles has 'text'",
+      "then": [
+        {
+          "$if": "alias_color",
+          "then": { "$setting": "{{alias_color}}" },
+          "else": {
+            "$setting": "{{prefix}}_color",
+            "$fallback": {
+              "type": "color",
+              "id": "{{prefix}}_color",
+              "label": { "$if": "name", "then": "{{name}}: colour", "else": "Colour" },
+              "info": "Empty = as designed (it follows the colour scheme)."
+            }
+          }
+        },
+        {
+          "$if": "hover",
+          "then": {
+            "$if": "alias_hover_color",
+            "then": { "$setting": "{{alias_hover_color}}" },
+            "else": {
+              "$setting": "{{prefix}}_hover_color",
+              "$fallback": {
+                "type": "color",
+                "id": "{{prefix}}_hover_color",
+                "label": { "$if": "name", "then": "{{name}}: colour on hover", "else": "Colour on hover" },
+                "info": "Empty = the designed hover (most elements do not change colour)."
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "$if": "roles has 'bg'",
+      "then": [
+        {
+          "$if": "alias_bg",
+          "then": { "$setting": "{{alias_bg}}" },
+          "else": {
+            "$setting": "{{prefix}}_bg",
+            "$fallback": {
+              "type": "color",
+              "id": "{{prefix}}_bg",
+              "label": { "$if": "name", "then": "{{name}}: background", "else": "Background" },
+              "info": "Empty = as designed."
+            }
+          }
+        },
+        {
+          "$if": "hover",
+          "then": {
+            "$if": "alias_hover_bg",
+            "then": { "$setting": "{{alias_hover_bg}}" },
+            "else": {
+              "$setting": "{{prefix}}_hover_bg",
+              "$fallback": {
+                "type": "color",
+                "id": "{{prefix}}_hover_bg",
+                "label": { "$if": "name", "then": "{{name}}: background on hover", "else": "Background on hover" },
+                "info": "Empty = the designed hover."
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "$if": "roles has 'border'",
+      "then": [
+        {
+          "$if": "alias_border",
+          "then": { "$setting": "{{alias_border}}" },
+          "else": {
+            "$setting": "{{prefix}}_border",
+            "$fallback": {
+              "type": "color",
+              "id": "{{prefix}}_border",
+              "label": { "$if": "name", "then": "{{name}}: border", "else": "Border" },
+              "info": "Empty = as designed."
+            }
+          }
+        },
+        {
+          "$if": "hover",
+          "then": {
+            "$if": "alias_hover_border",
+            "then": { "$setting": "{{alias_hover_border}}" },
+            "else": {
+              "$setting": "{{prefix}}_hover_border",
+              "$fallback": {
+                "type": "color",
+                "id": "{{prefix}}_hover_border",
+                "label": { "$if": "name", "then": "{{name}}: border on hover", "else": "Border on hover" },
+                "info": "Empty = the designed hover."
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

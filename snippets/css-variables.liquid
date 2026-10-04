@@ -1,16 +1,139 @@
 {%- comment -%}
-  Bridges theme settings to the CSS custom properties consumed by base.css.
+  Bridges theme settings to the CSS custom properties consumed by base.css
+  and by the stylesheet bundles of the sections, blocks and snippets.
   Fonts are SELF-HOSTED (Figma spec): Persona Medium for headings/labels,
-  Junction (light/regular/bold) for body — loaded via @font-face from assets,
-  never font_picker. assets/persona-medium.woff2 is the full licensed Persona
-  (Eugenia, 2026-10-01: 417 glyphs — & ’ accents ? ! included); it replaced
-  the trial, which carried A-Z a-z 0-9 . , - only. Junction still follows it
-  in the heading stack, now only as the loading fallback.
+  Junction (light/regular/bold) for body — loaded via @font-face from assets.
+  assets/persona-medium.woff2 is the full licensed Persona (Eugenia,
+  2026-10-01: 417 glyphs — & ’ accents ? ! included); it replaced the trial,
+  which carried A-Z a-z 0-9 . , - only. Junction still follows it in the
+  heading stack, now only as the loading fallback. Theme settings ›
+  Typography — global › Use custom fonts swaps both faces for two font_picker
+  fonts (off by default: nothing extra loads).
 
-  Color settings return a Color drop that `default` does NOT treat as blank,
-  so each token uses an explicit blank check (Atelier pattern) — a concrete
-  hex is always emitted and never resolves nil on a fresh GitHub-synced theme.
+  This file renders BEFORE base.css (both layouts), so a token declared on
+  :root here is live only while the asset CSS never declares it on :root
+  (scripts/css/check-bindings.mjs, check (d)). The five --card-gap/--card-text-*
+  tokens below are the known exception until B1: base.css re-declares them.
+
+  COLOURS. The palette (Theme settings › Colours, `settings.colors`) feeds the
+  brand tokens; each one keeps an explicit blank check whose fallback is the
+  LIVE value (background #FFFFFF), so a concrete hex is always emitted. Colour
+  drops are not blank to `default`, hence the explicit checks. No role token
+  (--color-heading, --color-link, --color-button…) exists on :root: they are
+  defined only inside the four [data-color-scheme] blocks at the end, so in
+  the page scheme every chain `var(--color-link, <today's value>)` ends in
+  today's value. A scheme re-maps the brand tokens too, so every descendant
+  that reads --color-accent, --color-ink… follows it.
+
+  TYPE STYLES (scripts/schema/styles.json, EDITOR-ARCHITECTURE.md §4.1). Per
+  style: --t-<id>-font, -weight, -base (designed desktop size, the asset CSS
+  expression verbatim), -base-m (designed phone size), -size and -size-m (the
+  base × Theme settings › Typography %), -lh (+ -lh-m where the designed phone
+  line height differs), -ls, -case. Inside the style's breakpoint -size (and
+  -lh) switch to the phone values, so an element reading --t-<id>-size follows
+  the style's phone size without a media query of its own (the wordmark
+  excepted: its phone size reaches the logo through --bar-logo). The fine
+  settings apply only while "Fine-tune this style" is ticked. TYPE_STYLES
+  below must equal styles.json (the T1.1 token-math proof checks it).
 {%- endcomment -%}
+{%- capture type_table -%}
+  wordmark | persona | calc(clamp(1.5rem, 2.6vw, 2.375rem) * var(--heading-scale, 1) * 1.05) | min(12.5vw, 56px) | 1 | | 0 | uppercase | (max-width: 749px) | noswap ;
+  nav | persona | 0.9375rem | = | 1.5 | | 0 | uppercase | none | noswap ;
+  nav-sub | persona | 0.875rem | = | 1.5 | | 0 | uppercase | (max-width: 749px) | swap ;
+  drawer-link | persona | 0.9375rem | = | 1.5 | | 0 | uppercase | (max-width: 749px) | swap ;
+  card-label | persona | calc(0.756rem * var(--heading-scale, 1)) | = | 1.27 | | 0 | uppercase | (max-width: 749px) | swap ;
+  label | persona | 0.75rem | = | 1.5 | | 0.1em | uppercase | (max-width: 749px) | swap ;
+  small-label | persona | 0.6875rem | = | 1.2 | | 0.12em | uppercase | (max-width: 749px) | swap ;
+  page-title | persona | calc(1.5rem * var(--heading-scale, 1)) | = | 1.3 | | 0.1em | uppercase | (max-width: 749px) | swap ;
+  section-title | persona | calc(1.3125rem * var(--heading-scale, 1)) | = | 1.3 | | 0.12em | uppercase | (max-width: 749px) | swap ;
+  display | persona | calc(clamp(1.75rem, 4.2vw, 3.5rem) * var(--heading-scale, 1)) | = | 1.22 | | 0.07em | uppercase | (max-width: 749px) | swap ;
+  story-heading | persona | calc(clamp(1rem, 1.5vw, 1.375rem) * var(--heading-scale, 1)) | = | 1.4 | | 0.12em | uppercase | (max-width: 749px) | swap ;
+  editorial-title | persona | calc(1.528rem * var(--heading-scale, 1)) | calc(1.3rem * var(--heading-scale, 1)) | 1.3 | | 0 | uppercase | (max-width: 989px) | swap ;
+  editorial-body | junction | calc(1.111rem * var(--body-scale, 1)) | calc(1rem * var(--body-scale, 1)) | 1.69 | 1.6 | 0 | none | (max-width: 989px) | swap ;
+  editorial-link | junction | calc(1.111rem * var(--body-scale, 1)) | calc(1rem * var(--body-scale, 1)) | 1.69 | 1.6 | 0 | uppercase | (max-width: 989px) | swap ;
+  body | junction | calc(0.875rem * var(--body-scale, 1)) | = | 1.6 | | 0 | none | (max-width: 749px) | swap ;
+  small | junction | 0.75rem | = | 1.6 | | 0 | none | (max-width: 749px) | swap ;
+  eyebrow | junction | 0.6875rem | = | 1.6 | | 0.14em | uppercase | (max-width: 749px) | swap ;
+  footer-link | junction | 0.8125rem | = | 2 | | 0.02em | none | (max-width: 749px) | swap ;
+  button | junction | 0.8125rem | = | 1.6 | | 0.04em | none | (max-width: 749px) | swap ;
+  button-caps | persona | 0.875rem | = | 1.6 | | 0.1em | uppercase | (max-width: 749px) | swap ;
+  input | junction | 0.8125rem | = | 1.6 | | 0 | none | (max-width: 749px) | swap ;
+  subtitle | junction | calc(0.9375rem * var(--body-scale, 1)) | = | 1.5 | | 0 | none | (max-width: 749px) | swap ;
+  offer-title | persona | 1.5rem | 1.25rem | 1.3 | | 0 | none | (max-width: 749px) | swap ;
+{%- endcapture -%}
+{%- liquid
+  # TYPE_STYLES above: id | face | desktop | mobile ('=' same) | lh | lh on phones | ls | case | breakpoint | swap
+
+  assign custom_fonts = false
+  if settings.use_custom_fonts and settings.font_heading_custom != blank and settings.font_body_custom != blank
+    assign custom_fonts = true
+  endif
+
+  assign c_background = '#FFFFFF'
+  if settings.colors.background != blank
+    assign c_background = settings.colors.background | upcase
+  endif
+  assign c_ink = '#302C2C'
+  if settings.colors.ink != blank
+    assign c_ink = settings.colors.ink | upcase
+  endif
+  assign c_accent = '#623827'
+  if settings.colors.accent != blank
+    assign c_accent = settings.colors.accent | upcase
+  endif
+  assign c_on_accent = '#F9F6F2'
+  if settings.colors.on_accent != blank
+    assign c_on_accent = settings.colors.on_accent | upcase
+  endif
+  assign c_muted = '#83695A'
+  if settings.colors.muted != blank
+    assign c_muted = settings.colors.muted | upcase
+  endif
+  assign c_border = '#D9CFC4'
+  if settings.colors.border != blank
+    assign c_border = settings.colors.border | upcase
+  endif
+  assign c_on_image = '#F9F6F2'
+  if settings.colors.on_image != blank
+    assign c_on_image = settings.colors.on_image | upcase
+  endif
+  assign c_cream = '#F9F6F2'
+  if settings.colors.cream != blank
+    assign c_cream = settings.colors.cream | upcase
+  endif
+  assign c_grey = '#F7F7F7'
+  if settings.colors.grey != blank
+    assign c_grey = settings.colors.grey | upcase
+  endif
+
+  assign type_rows = type_table | split: ';'
+  assign swap_sm = ''
+  assign swap_md = ''
+  assign lh_swap_md = ''
+  for row in type_rows
+    assign f = row | split: '|'
+    assign sid = f[0] | strip
+    if sid == blank
+      continue
+    endif
+    assign bp = f[8] | strip
+    assign sw = f[9] | strip
+    assign lh_m = f[5] | strip
+    if sw == 'swap'
+      if bp == '(max-width: 749px)'
+        assign swap_sm = swap_sm | append: sid | append: ','
+      elsif bp == '(max-width: 989px)'
+        assign swap_md = swap_md | append: sid | append: ','
+        if lh_m != blank
+          assign lh_swap_md = lh_swap_md | append: sid | append: ','
+        endif
+      endif
+    endif
+  endfor
+  assign swap_sm = swap_sm | split: ','
+  assign swap_md = swap_md | split: ','
+  assign lh_swap_md = lh_swap_md | split: ','
+-%}
 {% style %}
   @font-face {
     font-family: 'Persona';
@@ -46,19 +169,30 @@
     font-style: normal;
     font-display: swap;
   }
+  {%- if custom_fonts %}
+  {{ settings.font_heading_custom | font_face: font_display: 'swap' }}
+  {{ settings.font_body_custom | font_face: font_display: 'swap' }}
+  {%- endif %}
 
   :root {
+    {%- if custom_fonts %}
+    --font-heading: {{ settings.font_heading_custom.family }}, {{ settings.font_heading_custom.fallback_families }};
+    --font-heading-weight: {{ settings.font_heading_custom.weight }};
+    --font-body: {{ settings.font_body_custom.family }}, {{ settings.font_body_custom.fallback_families }};
+    {%- else %}
     --font-heading: 'Persona', 'Junction', 'Optima', 'Segoe UI', sans-serif;
     --font-heading-weight: 500;
     --font-body: 'Junction', 'Helvetica Neue', Arial, sans-serif;
+    {%- endif %}
 
-    --color-bg: {% if settings.color_background != blank %}{{ settings.color_background }}{% else %}#F9F6F2{% endif %};
-    --color-ink: {% if settings.color_ink != blank %}{{ settings.color_ink }}{% else %}#302C2C{% endif %};
-    --color-accent: {% if settings.color_accent != blank %}{{ settings.color_accent }}{% else %}#623827{% endif %};
-    --color-on-accent: {% if settings.color_on_accent != blank %}{{ settings.color_on_accent }}{% else %}#F9F6F2{% endif %};
-    --color-muted: {% if settings.color_muted != blank %}{{ settings.color_muted }}{% else %}#83695A{% endif %};
-    --color-border: {% if settings.color_border != blank %}{{ settings.color_border }}{% else %}#D9CFC4{% endif %};
-    --color-on-image: #F9F6F2;
+    --color-bg: {{ c_background }};
+    --color-ink: {{ c_ink }};
+    --color-accent: {{ c_accent }};
+    --color-on-accent: {{ c_on_accent }};
+    --color-muted: {{ c_muted }};
+    --color-border: {{ c_border }};
+    --color-on-image: {{ c_on_image }};
+    --color-grey: {{ c_grey }};
 
     --page-margin: {{ settings.page_margin | default: 40 }}px;
     --grid-gap: {{ settings.grid_gap | default: 4 }}px;
@@ -76,6 +210,11 @@
       knobs: the gap is the space between IMAGES, the inset is the space the
       text keeps to its right. Tightening the grid without raising the inset
       is what makes one card's price meet the next card's title.
+      --card-gap and --card-text-* are dead until B1 (base.css re-declares
+      them on :root after this file); they stay exactly as they were.
+      --card-label-inset / --card-badge-size are today's literals (20px, the
+      1.9em bug); --card-label-ink / -hover-ink exist only when a theme-level
+      name colour is set, so a card's own inline value still wins.
     {%- endcomment -%}
     --card-ratio: {{ settings.card_shape | default: '756/957' }};
     --card-gap: {{ settings.card_gap | default: 6 }}px;
@@ -83,21 +222,219 @@
     --card-text-start: {{ settings.card_text_start | default: 5 }}px;
     --card-text-top: {{ settings.card_text_top | default: 5 }}px;
     --card-text-space: {{ settings.card_text_space | default: 44 }}px;
+    --card-label-inset: {{ settings.card_label_inset | default: 20 }}px;
+    --card-badge-size: {{ settings.card_badge_size | default: 190 | divided_by: 100.0 }}em;
+    {%- if settings.card_label_color != blank %}
+    --card-label-ink: {{ settings.card_label_color }};
+    {%- endif %}
+    {%- if settings.card_label_hover_color != blank %}
+    --card-label-hover-ink: {{ settings.card_label_hover_color }};
+    {%- endif %}
 
     --swatch-size: {{ settings.swatch_size | default: 16 }}px;
     --swatch-size-pdp: {{ settings.swatch_size_pdp | default: 22 }}px;
     --swatch-gap: {{ settings.swatch_gap | default: 13 }}px;
     --swatch-margin: {{ settings.swatch_margin | default: 16 }}px;
+
+    {%- comment -%} Spacing scale (Theme settings › Spacing): read only by the section padding presets. {%- endcomment %}
+    --space-xs: {{ settings.space_xs | default: 8 }}px;
+    --space-s: {{ settings.space_s | default: 16 }}px;
+    --space-m: {{ settings.space_m | default: 32 }}px;
+    --space-l: {{ settings.space_l | default: 64 }}px;
+    --space-xl: {{ settings.space_xl | default: 96 }}px;
+    --space-xxl: {{ settings.space_xxl | default: 208 }}px;
+    --space-mobile-ratio: {{ settings.space_mobile_pct | default: 45 | divided_by: 100.0 }};
+    {%- for row in type_rows -%}
+      {%- liquid
+        assign f = row | split: '|'
+        assign sid = f[0] | strip
+        if sid != blank
+          assign key = 'type_' | append: sid | replace: '-', '_'
+          assign k_font = key | append: '_font'
+          assign k_adjust = key | append: '_adjust'
+          assign face = settings[k_font] | default: f[1] | strip
+          assign t_base = f[2] | strip
+          assign t_base_m = f[3] | strip
+          if t_base_m == '='
+            assign t_base_m = 'var(--t-' | append: sid | append: '-base)'
+          endif
+          assign t_lh = f[4] | strip
+          assign t_lh_m = f[5] | strip
+          assign t_ls = f[6] | strip
+          assign t_case = f[7] | strip
+          if face == 'junction'
+            assign t_font = 'var(--font-body)'
+            assign t_weight = '400'
+          else
+            assign t_font = 'var(--font-heading)'
+            assign t_weight = 'var(--font-heading-weight, 500)'
+          endif
+          assign pct = 100
+          assign pct_m = 100
+          if settings[k_adjust]
+            assign k_weight = key | append: '_weight'
+            assign k_size = key | append: '_size'
+            assign k_size_m = key | append: '_size_m'
+            assign k_lh = key | append: '_lh'
+            assign k_ls = key | append: '_ls'
+            assign k_case = key | append: '_case'
+            assign v = settings[k_weight]
+            if v != blank and v != 'inherit'
+              if face == 'junction' or custom_fonts
+                assign t_weight = v
+              endif
+            endif
+            assign pct = settings[k_size] | default: 100
+            assign pct_m = settings[k_size_m] | default: 100
+            if pct_m == 100
+              assign pct_m = pct
+            endif
+            assign v = settings[k_lh]
+            if v != blank and v != 'inherit'
+              assign t_lh = v
+              if t_lh_m != blank
+                assign t_lh_m = v
+              endif
+            endif
+            assign v = settings[k_ls]
+            if v != blank and v != 'inherit'
+              assign t_ls = v
+            endif
+            assign v = settings[k_case]
+            if v != blank and v != 'inherit'
+              assign t_case = v
+            endif
+          endif
+          if pct == 100
+            assign t_size = 'var(--t-' | append: sid | append: '-base)'
+          else
+            assign t_size = 'calc(var(--t-' | append: sid | append: '-base) * ' | append: pct | append: ' / 100)'
+          endif
+          if pct_m == 100
+            assign t_size_m = 'var(--t-' | append: sid | append: '-base-m)'
+          else
+            assign t_size_m = 'calc(var(--t-' | append: sid | append: '-base-m) * ' | append: pct_m | append: ' / 100)'
+          endif
+        endif
+      -%}
+      {%- if sid != blank %}
+    --t-{{ sid }}-font:{{ t_font }}; --t-{{ sid }}-weight:{{ t_weight }}; --t-{{ sid }}-base:{{ t_base }}; --t-{{ sid }}-base-m:{{ t_base_m }}; --t-{{ sid }}-size:{{ t_size }}; --t-{{ sid }}-size-m:{{ t_size_m }}; --t-{{ sid }}-lh:{{ t_lh }};{% if t_lh_m != blank %} --t-{{ sid }}-lh-m:{{ t_lh_m }};{% endif %} --t-{{ sid }}-ls:{{ t_ls }}; --t-{{ sid }}-case:{{ t_case }};
+      {%- endif -%}
+    {%- endfor %}
   }
 
   /* Phones get their own, tighter page margin (Theme settings → Page margin on
      mobile): 40px of 390 left the content 79% of the screen; 10px matches the
      share of the width that 40px takes on a 1440 desktop. Everything that
      spaces itself by the page margin — main, the footer, the header's two
-     ends, the text blocks — follows. */
+     ends, the text blocks — follows. The type styles switch to their phone
+     size here (same value as desktop unless a phone % is set). */
   @media (max-width: 749px) {
     :root {
       --page-margin: {{ settings.page_margin_mobile | default: 10 }}px;
+      {%- for sid in swap_sm %}
+      --t-{{ sid }}-size: var(--t-{{ sid }}-size-m);
+      {%- endfor %}
     }
   }
+
+  /* The editorial styles (photo overlays, text beside image, notes) take
+     their phone and tablet size and line height under 990px, the query
+     their elements use today. */
+  @media (max-width: 989px) {
+    :root {
+      {%- for sid in swap_md %}
+      --t-{{ sid }}-size: var(--t-{{ sid }}-size-m);
+      {%- endfor %}
+      {%- for sid in lh_swap_md %}
+      --t-{{ sid }}-lh: var(--t-{{ sid }}-lh-m);
+      {%- endfor %}
+    }
+  }
+  {%- comment -%}
+    Colour schemes (Theme settings › Colour schemes). A section or block whose
+    color_scheme is not `page` carries data-color-scheme="<id>"; inside it the
+    brand tokens and the role tokens take the scheme's colours. While
+    "Customise this scheme" is off the scheme follows the palette (its
+    designed mapping); on, each colour setting rules (blank = the mapping).
+    --color-accent follows the scheme's Headings colour and --color-on-accent
+    its Button text, which re-themes the elements that read the brand tokens.
+  {%- endcomment -%}
+  {%- assign scheme_ids = 'cream,grey,accent,ink' | split: ',' -%}
+  {%- assign scheme_roles = 'bg,text,heading,link,link_hover,button,button_text,button_hover,button_hover_text,border,muted' | split: ',' -%}
+  {%- for scheme in scheme_ids -%}
+    {%- liquid
+      case scheme
+        when 'cream'
+          assign mapping = 'cream,ink,accent,accent,accent,accent,on_accent,accent,on_accent,border,muted' | split: ','
+        when 'grey'
+          assign mapping = 'grey,ink,accent,accent,accent,accent,on_accent,accent,on_accent,border,muted' | split: ','
+        when 'accent'
+          assign mapping = 'accent,on_accent,on_accent,on_accent,on_accent,on_accent,accent,on_accent,accent,#83695A,#D9CFC4' | split: ','
+        else
+          assign mapping = 'ink,on_accent,on_accent,on_accent,on_accent,on_accent,ink,on_accent,ink,#83695A,#D9CFC4' | split: ','
+      endcase
+      assign k_customize = 'scheme_' | append: scheme | append: '_customize'
+      assign customize = settings[k_customize]
+      for role in scheme_roles
+        assign m = mapping[forloop.index0]
+        case m
+          when 'background'
+            assign v = c_background
+          when 'ink'
+            assign v = c_ink
+          when 'accent'
+            assign v = c_accent
+          when 'on_accent'
+            assign v = c_on_accent
+          when 'muted'
+            assign v = c_muted
+          when 'border'
+            assign v = c_border
+          when 'on_image'
+            assign v = c_on_image
+          when 'cream'
+            assign v = c_cream
+          when 'grey'
+            assign v = c_grey
+          else
+            assign v = m
+        endcase
+        if customize
+          assign k_role = 'scheme_' | append: scheme | append: '_' | append: role
+          if settings[k_role] != blank
+            assign v = settings[k_role] | upcase
+          endif
+        endif
+        case role
+          when 'bg'
+            assign s_bg = v
+          when 'text'
+            assign s_text = v
+          when 'heading'
+            assign s_heading = v
+          when 'link'
+            assign s_link = v
+          when 'link_hover'
+            assign s_link_hover = v
+          when 'button'
+            assign s_button = v
+          when 'button_text'
+            assign s_button_text = v
+          when 'button_hover'
+            assign s_button_hover = v
+          when 'button_hover_text'
+            assign s_button_hover_text = v
+          when 'border'
+            assign s_border = v
+          when 'muted'
+            assign s_muted = v
+        endcase
+      endfor
+    %}
+  [data-color-scheme="{{ scheme }}"] {
+    --color-bg: {{ s_bg }}; --color-ink: {{ s_text }}; --color-accent: {{ s_heading }}; --color-on-accent: {{ s_button_text }}; --color-muted: {{ s_muted }}; --color-border: {{ s_border }}; --color-on-image: {{ c_on_image }};
+    --color-heading: {{ s_heading }}; --color-link: {{ s_link }}; --color-link-hover: {{ s_link_hover }}; --color-button: {{ s_button }}; --color-button-text: {{ s_button_text }}; --color-button-hover: {{ s_button_hover }}; --color-button-hover-text: {{ s_button_hover_text }};
+  }
+  {%- endfor %}
 {% endstyle %}

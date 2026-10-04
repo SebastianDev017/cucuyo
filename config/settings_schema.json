@@ -8,50 +8,5528 @@
     "theme_support_url": "https://github.com/SebastianDev017/cucuyo/issues"
   },
   {
-    "name": "Colors",
+    "name": "Colours",
     "settings": [
       {
-        "type": "color",
-        "id": "color_background",
-        "label": "Background",
-        "default": "#F9F6F2"
+        "type": "paragraph",
+        "content": "The brand palette. Every colour picker in the theme offers these colours, and the colour schemes start from them: Background, Ink (text), Accent (headings, links, buttons), On accent (text on accent), Muted (captions, footer links), Border, On image (text over photographs), Cream and Grey (scheme backgrounds)."
       },
       {
-        "type": "color",
-        "id": "color_ink",
-        "label": "Text",
-        "default": "#302C2C"
-      },
-      {
-        "type": "color",
-        "id": "color_accent",
-        "label": "Accent",
-        "default": "#623827",
-        "info": "Buttons and key interactive elements"
-      },
-      {
-        "type": "color",
-        "id": "color_on_accent",
-        "label": "Text on accent",
-        "default": "#F9F6F2"
-      },
-      {
-        "type": "color",
-        "id": "color_muted",
-        "label": "Muted text",
-        "default": "#83695A",
-        "info": "Footer links, captions, microcopy"
-      },
-      {
-        "type": "color",
-        "id": "color_border",
-        "label": "Borders",
-        "default": "#D9CFC4"
+        "type": "color_palette",
+        "id": "colors",
+        "default": {
+          "background": "#FFFFFF",
+          "ink": "#302C2C",
+          "accent": "#623827",
+          "on_accent": "#F9F6F2",
+          "muted": "#83695A",
+          "border": "#D9CFC4",
+          "on_image": "#F9F6F2",
+          "cream": "#F9F6F2",
+          "grey": "#F7F7F7"
+        }
       }
     ]
   },
   {
-    "name": "Typography",
+    "name": "Colour schemes",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "A section or block shows the page colours unless its Colour scheme is set to one of these. Each scheme follows the palette until you tick Customise this scheme."
+      },
+      {
+        "type": "header",
+        "content": "Cream"
+      },
+      {
+        "type": "checkbox",
+        "id": "scheme_cream_customize",
+        "label": "Customise this scheme",
+        "default": false,
+        "info": "Off = the colours below follow the palette."
+      },
+      {
+        "type": "color",
+        "id": "scheme_cream_bg",
+        "label": "Background",
+        "default": "{{ settings.colors.cream }}",
+        "visible_if": "{{ settings.scheme_cream_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_cream_text",
+        "label": "Text",
+        "default": "{{ settings.colors.ink }}",
+        "visible_if": "{{ settings.scheme_cream_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_cream_heading",
+        "label": "Headings",
+        "default": "{{ settings.colors.accent }}",
+        "info": "Also card names and every accent-coloured detail of the scheme.",
+        "visible_if": "{{ settings.scheme_cream_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_cream_link",
+        "label": "Links",
+        "default": "{{ settings.colors.accent }}",
+        "visible_if": "{{ settings.scheme_cream_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_cream_link_hover",
+        "label": "Links on hover",
+        "default": "{{ settings.colors.accent }}",
+        "visible_if": "{{ settings.scheme_cream_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_cream_button",
+        "label": "Buttons",
+        "default": "{{ settings.colors.accent }}",
+        "visible_if": "{{ settings.scheme_cream_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_cream_button_text",
+        "label": "Button text",
+        "default": "{{ settings.colors.on_accent }}",
+        "visible_if": "{{ settings.scheme_cream_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_cream_button_hover",
+        "label": "Buttons on hover",
+        "default": "{{ settings.colors.accent }}",
+        "visible_if": "{{ settings.scheme_cream_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_cream_button_hover_text",
+        "label": "Button text on hover",
+        "default": "{{ settings.colors.on_accent }}",
+        "visible_if": "{{ settings.scheme_cream_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_cream_border",
+        "label": "Borders",
+        "default": "{{ settings.colors.border }}",
+        "visible_if": "{{ settings.scheme_cream_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_cream_muted",
+        "label": "Muted text",
+        "default": "{{ settings.colors.muted }}",
+        "visible_if": "{{ settings.scheme_cream_customize }}"
+      },
+      {
+        "type": "header",
+        "content": "Grey"
+      },
+      {
+        "type": "checkbox",
+        "id": "scheme_grey_customize",
+        "label": "Customise this scheme",
+        "default": false,
+        "info": "Off = the colours below follow the palette."
+      },
+      {
+        "type": "color",
+        "id": "scheme_grey_bg",
+        "label": "Background",
+        "default": "{{ settings.colors.grey }}",
+        "visible_if": "{{ settings.scheme_grey_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_grey_text",
+        "label": "Text",
+        "default": "{{ settings.colors.ink }}",
+        "visible_if": "{{ settings.scheme_grey_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_grey_heading",
+        "label": "Headings",
+        "default": "{{ settings.colors.accent }}",
+        "info": "Also card names and every accent-coloured detail of the scheme.",
+        "visible_if": "{{ settings.scheme_grey_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_grey_link",
+        "label": "Links",
+        "default": "{{ settings.colors.accent }}",
+        "visible_if": "{{ settings.scheme_grey_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_grey_link_hover",
+        "label": "Links on hover",
+        "default": "{{ settings.colors.accent }}",
+        "visible_if": "{{ settings.scheme_grey_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_grey_button",
+        "label": "Buttons",
+        "default": "{{ settings.colors.accent }}",
+        "visible_if": "{{ settings.scheme_grey_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_grey_button_text",
+        "label": "Button text",
+        "default": "{{ settings.colors.on_accent }}",
+        "visible_if": "{{ settings.scheme_grey_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_grey_button_hover",
+        "label": "Buttons on hover",
+        "default": "{{ settings.colors.accent }}",
+        "visible_if": "{{ settings.scheme_grey_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_grey_button_hover_text",
+        "label": "Button text on hover",
+        "default": "{{ settings.colors.on_accent }}",
+        "visible_if": "{{ settings.scheme_grey_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_grey_border",
+        "label": "Borders",
+        "default": "{{ settings.colors.border }}",
+        "visible_if": "{{ settings.scheme_grey_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_grey_muted",
+        "label": "Muted text",
+        "default": "{{ settings.colors.muted }}",
+        "visible_if": "{{ settings.scheme_grey_customize }}"
+      },
+      {
+        "type": "header",
+        "content": "Brown"
+      },
+      {
+        "type": "checkbox",
+        "id": "scheme_accent_customize",
+        "label": "Customise this scheme",
+        "default": false,
+        "info": "Off = the colours below follow the palette."
+      },
+      {
+        "type": "color",
+        "id": "scheme_accent_bg",
+        "label": "Background",
+        "default": "{{ settings.colors.accent }}",
+        "visible_if": "{{ settings.scheme_accent_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_accent_text",
+        "label": "Text",
+        "default": "{{ settings.colors.on_accent }}",
+        "visible_if": "{{ settings.scheme_accent_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_accent_heading",
+        "label": "Headings",
+        "default": "{{ settings.colors.on_accent }}",
+        "info": "Also card names and every accent-coloured detail of the scheme.",
+        "visible_if": "{{ settings.scheme_accent_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_accent_link",
+        "label": "Links",
+        "default": "{{ settings.colors.on_accent }}",
+        "visible_if": "{{ settings.scheme_accent_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_accent_link_hover",
+        "label": "Links on hover",
+        "default": "{{ settings.colors.on_accent }}",
+        "visible_if": "{{ settings.scheme_accent_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_accent_button",
+        "label": "Buttons",
+        "default": "{{ settings.colors.on_accent }}",
+        "visible_if": "{{ settings.scheme_accent_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_accent_button_text",
+        "label": "Button text",
+        "default": "{{ settings.colors.accent }}",
+        "visible_if": "{{ settings.scheme_accent_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_accent_button_hover",
+        "label": "Buttons on hover",
+        "default": "{{ settings.colors.on_accent }}",
+        "visible_if": "{{ settings.scheme_accent_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_accent_button_hover_text",
+        "label": "Button text on hover",
+        "default": "{{ settings.colors.accent }}",
+        "visible_if": "{{ settings.scheme_accent_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_accent_border",
+        "label": "Borders",
+        "default": "#83695A",
+        "visible_if": "{{ settings.scheme_accent_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_accent_muted",
+        "label": "Muted text",
+        "default": "#D9CFC4",
+        "visible_if": "{{ settings.scheme_accent_customize }}"
+      },
+      {
+        "type": "header",
+        "content": "Dark"
+      },
+      {
+        "type": "checkbox",
+        "id": "scheme_ink_customize",
+        "label": "Customise this scheme",
+        "default": false,
+        "info": "Off = the colours below follow the palette."
+      },
+      {
+        "type": "color",
+        "id": "scheme_ink_bg",
+        "label": "Background",
+        "default": "{{ settings.colors.ink }}",
+        "visible_if": "{{ settings.scheme_ink_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_ink_text",
+        "label": "Text",
+        "default": "{{ settings.colors.on_accent }}",
+        "visible_if": "{{ settings.scheme_ink_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_ink_heading",
+        "label": "Headings",
+        "default": "{{ settings.colors.on_accent }}",
+        "info": "Also card names and every accent-coloured detail of the scheme.",
+        "visible_if": "{{ settings.scheme_ink_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_ink_link",
+        "label": "Links",
+        "default": "{{ settings.colors.on_accent }}",
+        "visible_if": "{{ settings.scheme_ink_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_ink_link_hover",
+        "label": "Links on hover",
+        "default": "{{ settings.colors.on_accent }}",
+        "visible_if": "{{ settings.scheme_ink_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_ink_button",
+        "label": "Buttons",
+        "default": "{{ settings.colors.on_accent }}",
+        "visible_if": "{{ settings.scheme_ink_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_ink_button_text",
+        "label": "Button text",
+        "default": "{{ settings.colors.ink }}",
+        "visible_if": "{{ settings.scheme_ink_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_ink_button_hover",
+        "label": "Buttons on hover",
+        "default": "{{ settings.colors.on_accent }}",
+        "visible_if": "{{ settings.scheme_ink_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_ink_button_hover_text",
+        "label": "Button text on hover",
+        "default": "{{ settings.colors.ink }}",
+        "visible_if": "{{ settings.scheme_ink_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_ink_border",
+        "label": "Borders",
+        "default": "#83695A",
+        "visible_if": "{{ settings.scheme_ink_customize }}"
+      },
+      {
+        "type": "color",
+        "id": "scheme_ink_muted",
+        "label": "Muted text",
+        "default": "#D9CFC4",
+        "visible_if": "{{ settings.scheme_ink_customize }}"
+      }
+    ]
+  },
+  {
+    "name": "Typography — headings & labels",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Each style is worn by the elements listed in docs/STYLE-GUIDE.md. Sections and blocks pick a style per element and can fine-tune it there. Sizes are a percentage of the designed size."
+      },
+      {
+        "type": "header",
+        "content": "Wordmark"
+      },
+      {
+        "type": "select",
+        "id": "type_wordmark_font",
+        "label": "Typeface",
+        "options": [
+          {
+            "value": "persona",
+            "label": "Persona (headings and labels)"
+          },
+          {
+            "value": "junction",
+            "label": "Junction (text)"
+          }
+        ],
+        "default": "persona"
+      },
+      {
+        "type": "checkbox",
+        "id": "type_wordmark_adjust",
+        "label": "Fine-tune this style",
+        "default": false,
+        "info": "Weight, size, line height, letter spacing and case. Off = as designed."
+      },
+      {
+        "type": "select",
+        "id": "type_wordmark_weight",
+        "label": "Weight",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "300",
+            "label": "Light (300)"
+          },
+          {
+            "value": "400",
+            "label": "Regular (400)"
+          },
+          {
+            "value": "700",
+            "label": "Bold (700)"
+          }
+        ],
+        "default": "inherit",
+        "info": "Junction has 300, 400 and 700. Persona has one weight (500) and ignores this, unless custom fonts are on.",
+        "visible_if": "{{ settings.type_wordmark_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_wordmark_size",
+        "label": "Size, desktop",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "As designed, 100% = 43.2px at 1440px wide (the header row, from 1200px).",
+        "visible_if": "{{ settings.type_wordmark_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_wordmark_size_m",
+        "label": "Size, mobile",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "Phones (under 750px), through the header bar. As designed, 100% = 12.5% of the screen width, at most 56px; left at 100% it follows the desktop percentage.",
+        "visible_if": "{{ settings.type_wordmark_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_wordmark_lh",
+        "label": "Line height",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "1.1",
+            "label": "1.1"
+          },
+          {
+            "value": "1.2",
+            "label": "1.2"
+          },
+          {
+            "value": "1.27",
+            "label": "1.27"
+          },
+          {
+            "value": "1.3",
+            "label": "1.3"
+          },
+          {
+            "value": "1.4",
+            "label": "1.4"
+          },
+          {
+            "value": "1.5",
+            "label": "1.5"
+          },
+          {
+            "value": "1.55",
+            "label": "1.55"
+          },
+          {
+            "value": "1.6",
+            "label": "1.6"
+          },
+          {
+            "value": "1.69",
+            "label": "1.69"
+          },
+          {
+            "value": "1.75",
+            "label": "1.75"
+          },
+          {
+            "value": "1.8",
+            "label": "1.8"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 1.",
+        "visible_if": "{{ settings.type_wordmark_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_wordmark_ls",
+        "label": "Letter spacing",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "0",
+            "label": "None"
+          },
+          {
+            "value": "0.02em",
+            "label": "0.02em"
+          },
+          {
+            "value": "0.04em",
+            "label": "0.04em"
+          },
+          {
+            "value": "0.06em",
+            "label": "0.06em"
+          },
+          {
+            "value": "0.08em",
+            "label": "0.08em"
+          },
+          {
+            "value": "0.1em",
+            "label": "0.1em"
+          },
+          {
+            "value": "0.12em",
+            "label": "0.12em"
+          },
+          {
+            "value": "0.14em",
+            "label": "0.14em"
+          },
+          {
+            "value": "0.18em",
+            "label": "0.18em"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 0.",
+        "visible_if": "{{ settings.type_wordmark_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_wordmark_case",
+        "label": "Letter case",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "uppercase",
+            "label": "Capitals"
+          },
+          {
+            "value": "none",
+            "label": "As typed"
+          },
+          {
+            "value": "capitalize",
+            "label": "Capital at the start of each word"
+          },
+          {
+            "value": "lowercase",
+            "label": "Lower case"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: capitals.",
+        "visible_if": "{{ settings.type_wordmark_adjust }}"
+      },
+      {
+        "type": "header",
+        "content": "Menu links"
+      },
+      {
+        "type": "select",
+        "id": "type_nav_font",
+        "label": "Typeface",
+        "options": [
+          {
+            "value": "persona",
+            "label": "Persona (headings and labels)"
+          },
+          {
+            "value": "junction",
+            "label": "Junction (text)"
+          }
+        ],
+        "default": "persona"
+      },
+      {
+        "type": "checkbox",
+        "id": "type_nav_adjust",
+        "label": "Fine-tune this style",
+        "default": false,
+        "info": "Weight, size, line height, letter spacing and case. Off = as designed."
+      },
+      {
+        "type": "select",
+        "id": "type_nav_weight",
+        "label": "Weight",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "300",
+            "label": "Light (300)"
+          },
+          {
+            "value": "400",
+            "label": "Regular (400)"
+          },
+          {
+            "value": "700",
+            "label": "Bold (700)"
+          }
+        ],
+        "default": "inherit",
+        "info": "Junction has 300, 400 and 700. Persona has one weight (500) and ignores this, unless custom fonts are on.",
+        "visible_if": "{{ settings.type_nav_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_nav_lh",
+        "label": "Line height",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "1.1",
+            "label": "1.1"
+          },
+          {
+            "value": "1.2",
+            "label": "1.2"
+          },
+          {
+            "value": "1.27",
+            "label": "1.27"
+          },
+          {
+            "value": "1.3",
+            "label": "1.3"
+          },
+          {
+            "value": "1.4",
+            "label": "1.4"
+          },
+          {
+            "value": "1.5",
+            "label": "1.5"
+          },
+          {
+            "value": "1.55",
+            "label": "1.55"
+          },
+          {
+            "value": "1.6",
+            "label": "1.6"
+          },
+          {
+            "value": "1.69",
+            "label": "1.69"
+          },
+          {
+            "value": "1.75",
+            "label": "1.75"
+          },
+          {
+            "value": "1.8",
+            "label": "1.8"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 1.5.",
+        "visible_if": "{{ settings.type_nav_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_nav_ls",
+        "label": "Letter spacing",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "0",
+            "label": "None"
+          },
+          {
+            "value": "0.02em",
+            "label": "0.02em"
+          },
+          {
+            "value": "0.04em",
+            "label": "0.04em"
+          },
+          {
+            "value": "0.06em",
+            "label": "0.06em"
+          },
+          {
+            "value": "0.08em",
+            "label": "0.08em"
+          },
+          {
+            "value": "0.1em",
+            "label": "0.1em"
+          },
+          {
+            "value": "0.12em",
+            "label": "0.12em"
+          },
+          {
+            "value": "0.14em",
+            "label": "0.14em"
+          },
+          {
+            "value": "0.18em",
+            "label": "0.18em"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 0.",
+        "visible_if": "{{ settings.type_nav_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_nav_case",
+        "label": "Letter case",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "uppercase",
+            "label": "Capitals"
+          },
+          {
+            "value": "none",
+            "label": "As typed"
+          },
+          {
+            "value": "capitalize",
+            "label": "Capital at the start of each word"
+          },
+          {
+            "value": "lowercase",
+            "label": "Lower case"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: capitals.",
+        "visible_if": "{{ settings.type_nav_adjust }}"
+      },
+      {
+        "type": "header",
+        "content": "Submenu links"
+      },
+      {
+        "type": "select",
+        "id": "type_nav_sub_font",
+        "label": "Typeface",
+        "options": [
+          {
+            "value": "persona",
+            "label": "Persona (headings and labels)"
+          },
+          {
+            "value": "junction",
+            "label": "Junction (text)"
+          }
+        ],
+        "default": "persona"
+      },
+      {
+        "type": "checkbox",
+        "id": "type_nav_sub_adjust",
+        "label": "Fine-tune this style",
+        "default": false,
+        "info": "Weight, size, line height, letter spacing and case. Off = as designed."
+      },
+      {
+        "type": "select",
+        "id": "type_nav_sub_weight",
+        "label": "Weight",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "300",
+            "label": "Light (300)"
+          },
+          {
+            "value": "400",
+            "label": "Regular (400)"
+          },
+          {
+            "value": "700",
+            "label": "Bold (700)"
+          }
+        ],
+        "default": "inherit",
+        "info": "Junction has 300, 400 and 700. Persona has one weight (500) and ignores this, unless custom fonts are on.",
+        "visible_if": "{{ settings.type_nav_sub_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_nav_sub_size",
+        "label": "Size, desktop",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "As designed, 100% = 14px (third level 13px).",
+        "visible_if": "{{ settings.type_nav_sub_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_nav_sub_size_m",
+        "label": "Size, mobile",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "Phones (under 750px). As designed, 100% = 14px; left at 100% it follows the desktop percentage.",
+        "visible_if": "{{ settings.type_nav_sub_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_nav_sub_lh",
+        "label": "Line height",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "1.1",
+            "label": "1.1"
+          },
+          {
+            "value": "1.2",
+            "label": "1.2"
+          },
+          {
+            "value": "1.27",
+            "label": "1.27"
+          },
+          {
+            "value": "1.3",
+            "label": "1.3"
+          },
+          {
+            "value": "1.4",
+            "label": "1.4"
+          },
+          {
+            "value": "1.5",
+            "label": "1.5"
+          },
+          {
+            "value": "1.55",
+            "label": "1.55"
+          },
+          {
+            "value": "1.6",
+            "label": "1.6"
+          },
+          {
+            "value": "1.69",
+            "label": "1.69"
+          },
+          {
+            "value": "1.75",
+            "label": "1.75"
+          },
+          {
+            "value": "1.8",
+            "label": "1.8"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 1.5.",
+        "visible_if": "{{ settings.type_nav_sub_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_nav_sub_ls",
+        "label": "Letter spacing",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "0",
+            "label": "None"
+          },
+          {
+            "value": "0.02em",
+            "label": "0.02em"
+          },
+          {
+            "value": "0.04em",
+            "label": "0.04em"
+          },
+          {
+            "value": "0.06em",
+            "label": "0.06em"
+          },
+          {
+            "value": "0.08em",
+            "label": "0.08em"
+          },
+          {
+            "value": "0.1em",
+            "label": "0.1em"
+          },
+          {
+            "value": "0.12em",
+            "label": "0.12em"
+          },
+          {
+            "value": "0.14em",
+            "label": "0.14em"
+          },
+          {
+            "value": "0.18em",
+            "label": "0.18em"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 0.",
+        "visible_if": "{{ settings.type_nav_sub_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_nav_sub_case",
+        "label": "Letter case",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "uppercase",
+            "label": "Capitals"
+          },
+          {
+            "value": "none",
+            "label": "As typed"
+          },
+          {
+            "value": "capitalize",
+            "label": "Capital at the start of each word"
+          },
+          {
+            "value": "lowercase",
+            "label": "Lower case"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: capitals.",
+        "visible_if": "{{ settings.type_nav_sub_adjust }}"
+      },
+      {
+        "type": "header",
+        "content": "Drawer links"
+      },
+      {
+        "type": "select",
+        "id": "type_drawer_link_font",
+        "label": "Typeface",
+        "options": [
+          {
+            "value": "persona",
+            "label": "Persona (headings and labels)"
+          },
+          {
+            "value": "junction",
+            "label": "Junction (text)"
+          }
+        ],
+        "default": "persona"
+      },
+      {
+        "type": "checkbox",
+        "id": "type_drawer_link_adjust",
+        "label": "Fine-tune this style",
+        "default": false,
+        "info": "Weight, size, line height, letter spacing and case. Off = as designed."
+      },
+      {
+        "type": "select",
+        "id": "type_drawer_link_weight",
+        "label": "Weight",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "300",
+            "label": "Light (300)"
+          },
+          {
+            "value": "400",
+            "label": "Regular (400)"
+          },
+          {
+            "value": "700",
+            "label": "Bold (700)"
+          }
+        ],
+        "default": "inherit",
+        "info": "Junction has 300, 400 and 700. Persona has one weight (500) and ignores this, unless custom fonts are on.",
+        "visible_if": "{{ settings.type_drawer_link_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_drawer_link_size",
+        "label": "Size, desktop",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "As designed, 100% = 15px.",
+        "visible_if": "{{ settings.type_drawer_link_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_drawer_link_size_m",
+        "label": "Size, mobile",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "Phones (under 750px). As designed, 100% = 15px; left at 100% it follows the desktop percentage.",
+        "visible_if": "{{ settings.type_drawer_link_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_drawer_link_lh",
+        "label": "Line height",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "1.1",
+            "label": "1.1"
+          },
+          {
+            "value": "1.2",
+            "label": "1.2"
+          },
+          {
+            "value": "1.27",
+            "label": "1.27"
+          },
+          {
+            "value": "1.3",
+            "label": "1.3"
+          },
+          {
+            "value": "1.4",
+            "label": "1.4"
+          },
+          {
+            "value": "1.5",
+            "label": "1.5"
+          },
+          {
+            "value": "1.55",
+            "label": "1.55"
+          },
+          {
+            "value": "1.6",
+            "label": "1.6"
+          },
+          {
+            "value": "1.69",
+            "label": "1.69"
+          },
+          {
+            "value": "1.75",
+            "label": "1.75"
+          },
+          {
+            "value": "1.8",
+            "label": "1.8"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 1.5.",
+        "visible_if": "{{ settings.type_drawer_link_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_drawer_link_ls",
+        "label": "Letter spacing",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "0",
+            "label": "None"
+          },
+          {
+            "value": "0.02em",
+            "label": "0.02em"
+          },
+          {
+            "value": "0.04em",
+            "label": "0.04em"
+          },
+          {
+            "value": "0.06em",
+            "label": "0.06em"
+          },
+          {
+            "value": "0.08em",
+            "label": "0.08em"
+          },
+          {
+            "value": "0.1em",
+            "label": "0.1em"
+          },
+          {
+            "value": "0.12em",
+            "label": "0.12em"
+          },
+          {
+            "value": "0.14em",
+            "label": "0.14em"
+          },
+          {
+            "value": "0.18em",
+            "label": "0.18em"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 0.",
+        "visible_if": "{{ settings.type_drawer_link_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_drawer_link_case",
+        "label": "Letter case",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "uppercase",
+            "label": "Capitals"
+          },
+          {
+            "value": "none",
+            "label": "As typed"
+          },
+          {
+            "value": "capitalize",
+            "label": "Capital at the start of each word"
+          },
+          {
+            "value": "lowercase",
+            "label": "Lower case"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: capitals.",
+        "visible_if": "{{ settings.type_drawer_link_adjust }}"
+      },
+      {
+        "type": "header",
+        "content": "Card name"
+      },
+      {
+        "type": "select",
+        "id": "type_card_label_font",
+        "label": "Typeface",
+        "options": [
+          {
+            "value": "persona",
+            "label": "Persona (headings and labels)"
+          },
+          {
+            "value": "junction",
+            "label": "Junction (text)"
+          }
+        ],
+        "default": "persona"
+      },
+      {
+        "type": "checkbox",
+        "id": "type_card_label_adjust",
+        "label": "Fine-tune this style",
+        "default": false,
+        "info": "Weight, size, line height, letter spacing and case. Off = as designed."
+      },
+      {
+        "type": "select",
+        "id": "type_card_label_weight",
+        "label": "Weight",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "300",
+            "label": "Light (300)"
+          },
+          {
+            "value": "400",
+            "label": "Regular (400)"
+          },
+          {
+            "value": "700",
+            "label": "Bold (700)"
+          }
+        ],
+        "default": "inherit",
+        "info": "Junction has 300, 400 and 700. Persona has one weight (500) and ignores this, unless custom fonts are on.",
+        "visible_if": "{{ settings.type_card_label_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_card_label_size",
+        "label": "Size, desktop",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "As designed, 100% = 13.3px.",
+        "visible_if": "{{ settings.type_card_label_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_card_label_size_m",
+        "label": "Size, mobile",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "Phones (under 750px). As designed, 100% = 13.3px; left at 100% it follows the desktop percentage.",
+        "visible_if": "{{ settings.type_card_label_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_card_label_lh",
+        "label": "Line height",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "1.1",
+            "label": "1.1"
+          },
+          {
+            "value": "1.2",
+            "label": "1.2"
+          },
+          {
+            "value": "1.27",
+            "label": "1.27"
+          },
+          {
+            "value": "1.3",
+            "label": "1.3"
+          },
+          {
+            "value": "1.4",
+            "label": "1.4"
+          },
+          {
+            "value": "1.5",
+            "label": "1.5"
+          },
+          {
+            "value": "1.55",
+            "label": "1.55"
+          },
+          {
+            "value": "1.6",
+            "label": "1.6"
+          },
+          {
+            "value": "1.69",
+            "label": "1.69"
+          },
+          {
+            "value": "1.75",
+            "label": "1.75"
+          },
+          {
+            "value": "1.8",
+            "label": "1.8"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 1.27.",
+        "visible_if": "{{ settings.type_card_label_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_card_label_ls",
+        "label": "Letter spacing",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "0",
+            "label": "None"
+          },
+          {
+            "value": "0.02em",
+            "label": "0.02em"
+          },
+          {
+            "value": "0.04em",
+            "label": "0.04em"
+          },
+          {
+            "value": "0.06em",
+            "label": "0.06em"
+          },
+          {
+            "value": "0.08em",
+            "label": "0.08em"
+          },
+          {
+            "value": "0.1em",
+            "label": "0.1em"
+          },
+          {
+            "value": "0.12em",
+            "label": "0.12em"
+          },
+          {
+            "value": "0.14em",
+            "label": "0.14em"
+          },
+          {
+            "value": "0.18em",
+            "label": "0.18em"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 0.",
+        "visible_if": "{{ settings.type_card_label_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_card_label_case",
+        "label": "Letter case",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "uppercase",
+            "label": "Capitals"
+          },
+          {
+            "value": "none",
+            "label": "As typed"
+          },
+          {
+            "value": "capitalize",
+            "label": "Capital at the start of each word"
+          },
+          {
+            "value": "lowercase",
+            "label": "Lower case"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: capitals.",
+        "visible_if": "{{ settings.type_card_label_adjust }}"
+      },
+      {
+        "type": "header",
+        "content": "Small caps label"
+      },
+      {
+        "type": "select",
+        "id": "type_label_font",
+        "label": "Typeface",
+        "options": [
+          {
+            "value": "persona",
+            "label": "Persona (headings and labels)"
+          },
+          {
+            "value": "junction",
+            "label": "Junction (text)"
+          }
+        ],
+        "default": "persona"
+      },
+      {
+        "type": "checkbox",
+        "id": "type_label_adjust",
+        "label": "Fine-tune this style",
+        "default": false,
+        "info": "Weight, size, line height, letter spacing and case. Off = as designed."
+      },
+      {
+        "type": "select",
+        "id": "type_label_weight",
+        "label": "Weight",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "300",
+            "label": "Light (300)"
+          },
+          {
+            "value": "400",
+            "label": "Regular (400)"
+          },
+          {
+            "value": "700",
+            "label": "Bold (700)"
+          }
+        ],
+        "default": "inherit",
+        "info": "Junction has 300, 400 and 700. Persona has one weight (500) and ignores this, unless custom fonts are on.",
+        "visible_if": "{{ settings.type_label_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_label_size",
+        "label": "Size, desktop",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "As designed, 100% = 12px.",
+        "visible_if": "{{ settings.type_label_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_label_size_m",
+        "label": "Size, mobile",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "Phones (under 750px). As designed, 100% = 12px; left at 100% it follows the desktop percentage.",
+        "visible_if": "{{ settings.type_label_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_label_lh",
+        "label": "Line height",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "1.1",
+            "label": "1.1"
+          },
+          {
+            "value": "1.2",
+            "label": "1.2"
+          },
+          {
+            "value": "1.27",
+            "label": "1.27"
+          },
+          {
+            "value": "1.3",
+            "label": "1.3"
+          },
+          {
+            "value": "1.4",
+            "label": "1.4"
+          },
+          {
+            "value": "1.5",
+            "label": "1.5"
+          },
+          {
+            "value": "1.55",
+            "label": "1.55"
+          },
+          {
+            "value": "1.6",
+            "label": "1.6"
+          },
+          {
+            "value": "1.69",
+            "label": "1.69"
+          },
+          {
+            "value": "1.75",
+            "label": "1.75"
+          },
+          {
+            "value": "1.8",
+            "label": "1.8"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 1.5.",
+        "visible_if": "{{ settings.type_label_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_label_ls",
+        "label": "Letter spacing",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "0",
+            "label": "None"
+          },
+          {
+            "value": "0.02em",
+            "label": "0.02em"
+          },
+          {
+            "value": "0.04em",
+            "label": "0.04em"
+          },
+          {
+            "value": "0.06em",
+            "label": "0.06em"
+          },
+          {
+            "value": "0.08em",
+            "label": "0.08em"
+          },
+          {
+            "value": "0.1em",
+            "label": "0.1em"
+          },
+          {
+            "value": "0.12em",
+            "label": "0.12em"
+          },
+          {
+            "value": "0.14em",
+            "label": "0.14em"
+          },
+          {
+            "value": "0.18em",
+            "label": "0.18em"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 0.1em.",
+        "visible_if": "{{ settings.type_label_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_label_case",
+        "label": "Letter case",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "uppercase",
+            "label": "Capitals"
+          },
+          {
+            "value": "none",
+            "label": "As typed"
+          },
+          {
+            "value": "capitalize",
+            "label": "Capital at the start of each word"
+          },
+          {
+            "value": "lowercase",
+            "label": "Lower case"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: capitals.",
+        "visible_if": "{{ settings.type_label_adjust }}"
+      },
+      {
+        "type": "header",
+        "content": "Tiny caps label"
+      },
+      {
+        "type": "select",
+        "id": "type_small_label_font",
+        "label": "Typeface",
+        "options": [
+          {
+            "value": "persona",
+            "label": "Persona (headings and labels)"
+          },
+          {
+            "value": "junction",
+            "label": "Junction (text)"
+          }
+        ],
+        "default": "persona"
+      },
+      {
+        "type": "checkbox",
+        "id": "type_small_label_adjust",
+        "label": "Fine-tune this style",
+        "default": false,
+        "info": "Weight, size, line height, letter spacing and case. Off = as designed."
+      },
+      {
+        "type": "select",
+        "id": "type_small_label_weight",
+        "label": "Weight",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "300",
+            "label": "Light (300)"
+          },
+          {
+            "value": "400",
+            "label": "Regular (400)"
+          },
+          {
+            "value": "700",
+            "label": "Bold (700)"
+          }
+        ],
+        "default": "inherit",
+        "info": "Junction has 300, 400 and 700. Persona has one weight (500) and ignores this, unless custom fonts are on.",
+        "visible_if": "{{ settings.type_small_label_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_small_label_size",
+        "label": "Size, desktop",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "As designed, 100% = 11px.",
+        "visible_if": "{{ settings.type_small_label_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_small_label_size_m",
+        "label": "Size, mobile",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "Phones (under 750px). As designed, 100% = 11px; left at 100% it follows the desktop percentage.",
+        "visible_if": "{{ settings.type_small_label_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_small_label_lh",
+        "label": "Line height",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "1.1",
+            "label": "1.1"
+          },
+          {
+            "value": "1.2",
+            "label": "1.2"
+          },
+          {
+            "value": "1.27",
+            "label": "1.27"
+          },
+          {
+            "value": "1.3",
+            "label": "1.3"
+          },
+          {
+            "value": "1.4",
+            "label": "1.4"
+          },
+          {
+            "value": "1.5",
+            "label": "1.5"
+          },
+          {
+            "value": "1.55",
+            "label": "1.55"
+          },
+          {
+            "value": "1.6",
+            "label": "1.6"
+          },
+          {
+            "value": "1.69",
+            "label": "1.69"
+          },
+          {
+            "value": "1.75",
+            "label": "1.75"
+          },
+          {
+            "value": "1.8",
+            "label": "1.8"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 1.2.",
+        "visible_if": "{{ settings.type_small_label_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_small_label_ls",
+        "label": "Letter spacing",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "0",
+            "label": "None"
+          },
+          {
+            "value": "0.02em",
+            "label": "0.02em"
+          },
+          {
+            "value": "0.04em",
+            "label": "0.04em"
+          },
+          {
+            "value": "0.06em",
+            "label": "0.06em"
+          },
+          {
+            "value": "0.08em",
+            "label": "0.08em"
+          },
+          {
+            "value": "0.1em",
+            "label": "0.1em"
+          },
+          {
+            "value": "0.12em",
+            "label": "0.12em"
+          },
+          {
+            "value": "0.14em",
+            "label": "0.14em"
+          },
+          {
+            "value": "0.18em",
+            "label": "0.18em"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 0.12em.",
+        "visible_if": "{{ settings.type_small_label_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_small_label_case",
+        "label": "Letter case",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "uppercase",
+            "label": "Capitals"
+          },
+          {
+            "value": "none",
+            "label": "As typed"
+          },
+          {
+            "value": "capitalize",
+            "label": "Capital at the start of each word"
+          },
+          {
+            "value": "lowercase",
+            "label": "Lower case"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: capitals.",
+        "visible_if": "{{ settings.type_small_label_adjust }}"
+      },
+      {
+        "type": "header",
+        "content": "Page title"
+      },
+      {
+        "type": "select",
+        "id": "type_page_title_font",
+        "label": "Typeface",
+        "options": [
+          {
+            "value": "persona",
+            "label": "Persona (headings and labels)"
+          },
+          {
+            "value": "junction",
+            "label": "Junction (text)"
+          }
+        ],
+        "default": "persona"
+      },
+      {
+        "type": "checkbox",
+        "id": "type_page_title_adjust",
+        "label": "Fine-tune this style",
+        "default": false,
+        "info": "Weight, size, line height, letter spacing and case. Off = as designed."
+      },
+      {
+        "type": "select",
+        "id": "type_page_title_weight",
+        "label": "Weight",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "300",
+            "label": "Light (300)"
+          },
+          {
+            "value": "400",
+            "label": "Regular (400)"
+          },
+          {
+            "value": "700",
+            "label": "Bold (700)"
+          }
+        ],
+        "default": "inherit",
+        "info": "Junction has 300, 400 and 700. Persona has one weight (500) and ignores this, unless custom fonts are on.",
+        "visible_if": "{{ settings.type_page_title_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_page_title_size",
+        "label": "Size, desktop",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "As designed, 100% = 26.4px.",
+        "visible_if": "{{ settings.type_page_title_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_page_title_size_m",
+        "label": "Size, mobile",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "Phones (under 750px). As designed, 100% = 26.4px; left at 100% it follows the desktop percentage.",
+        "visible_if": "{{ settings.type_page_title_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_page_title_lh",
+        "label": "Line height",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "1.1",
+            "label": "1.1"
+          },
+          {
+            "value": "1.2",
+            "label": "1.2"
+          },
+          {
+            "value": "1.27",
+            "label": "1.27"
+          },
+          {
+            "value": "1.3",
+            "label": "1.3"
+          },
+          {
+            "value": "1.4",
+            "label": "1.4"
+          },
+          {
+            "value": "1.5",
+            "label": "1.5"
+          },
+          {
+            "value": "1.55",
+            "label": "1.55"
+          },
+          {
+            "value": "1.6",
+            "label": "1.6"
+          },
+          {
+            "value": "1.69",
+            "label": "1.69"
+          },
+          {
+            "value": "1.75",
+            "label": "1.75"
+          },
+          {
+            "value": "1.8",
+            "label": "1.8"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 1.3.",
+        "visible_if": "{{ settings.type_page_title_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_page_title_ls",
+        "label": "Letter spacing",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "0",
+            "label": "None"
+          },
+          {
+            "value": "0.02em",
+            "label": "0.02em"
+          },
+          {
+            "value": "0.04em",
+            "label": "0.04em"
+          },
+          {
+            "value": "0.06em",
+            "label": "0.06em"
+          },
+          {
+            "value": "0.08em",
+            "label": "0.08em"
+          },
+          {
+            "value": "0.1em",
+            "label": "0.1em"
+          },
+          {
+            "value": "0.12em",
+            "label": "0.12em"
+          },
+          {
+            "value": "0.14em",
+            "label": "0.14em"
+          },
+          {
+            "value": "0.18em",
+            "label": "0.18em"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 0.1em.",
+        "visible_if": "{{ settings.type_page_title_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_page_title_case",
+        "label": "Letter case",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "uppercase",
+            "label": "Capitals"
+          },
+          {
+            "value": "none",
+            "label": "As typed"
+          },
+          {
+            "value": "capitalize",
+            "label": "Capital at the start of each word"
+          },
+          {
+            "value": "lowercase",
+            "label": "Lower case"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: capitals.",
+        "visible_if": "{{ settings.type_page_title_adjust }}"
+      },
+      {
+        "type": "header",
+        "content": "Section heading"
+      },
+      {
+        "type": "select",
+        "id": "type_section_title_font",
+        "label": "Typeface",
+        "options": [
+          {
+            "value": "persona",
+            "label": "Persona (headings and labels)"
+          },
+          {
+            "value": "junction",
+            "label": "Junction (text)"
+          }
+        ],
+        "default": "persona"
+      },
+      {
+        "type": "checkbox",
+        "id": "type_section_title_adjust",
+        "label": "Fine-tune this style",
+        "default": false,
+        "info": "Weight, size, line height, letter spacing and case. Off = as designed."
+      },
+      {
+        "type": "select",
+        "id": "type_section_title_weight",
+        "label": "Weight",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "300",
+            "label": "Light (300)"
+          },
+          {
+            "value": "400",
+            "label": "Regular (400)"
+          },
+          {
+            "value": "700",
+            "label": "Bold (700)"
+          }
+        ],
+        "default": "inherit",
+        "info": "Junction has 300, 400 and 700. Persona has one weight (500) and ignores this, unless custom fonts are on.",
+        "visible_if": "{{ settings.type_section_title_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_section_title_size",
+        "label": "Size, desktop",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "As designed, 100% = 23.1px.",
+        "visible_if": "{{ settings.type_section_title_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_section_title_size_m",
+        "label": "Size, mobile",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "Phones (under 750px). As designed, 100% = 23.1px; left at 100% it follows the desktop percentage.",
+        "visible_if": "{{ settings.type_section_title_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_section_title_lh",
+        "label": "Line height",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "1.1",
+            "label": "1.1"
+          },
+          {
+            "value": "1.2",
+            "label": "1.2"
+          },
+          {
+            "value": "1.27",
+            "label": "1.27"
+          },
+          {
+            "value": "1.3",
+            "label": "1.3"
+          },
+          {
+            "value": "1.4",
+            "label": "1.4"
+          },
+          {
+            "value": "1.5",
+            "label": "1.5"
+          },
+          {
+            "value": "1.55",
+            "label": "1.55"
+          },
+          {
+            "value": "1.6",
+            "label": "1.6"
+          },
+          {
+            "value": "1.69",
+            "label": "1.69"
+          },
+          {
+            "value": "1.75",
+            "label": "1.75"
+          },
+          {
+            "value": "1.8",
+            "label": "1.8"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 1.3.",
+        "visible_if": "{{ settings.type_section_title_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_section_title_ls",
+        "label": "Letter spacing",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "0",
+            "label": "None"
+          },
+          {
+            "value": "0.02em",
+            "label": "0.02em"
+          },
+          {
+            "value": "0.04em",
+            "label": "0.04em"
+          },
+          {
+            "value": "0.06em",
+            "label": "0.06em"
+          },
+          {
+            "value": "0.08em",
+            "label": "0.08em"
+          },
+          {
+            "value": "0.1em",
+            "label": "0.1em"
+          },
+          {
+            "value": "0.12em",
+            "label": "0.12em"
+          },
+          {
+            "value": "0.14em",
+            "label": "0.14em"
+          },
+          {
+            "value": "0.18em",
+            "label": "0.18em"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 0.12em.",
+        "visible_if": "{{ settings.type_section_title_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_section_title_case",
+        "label": "Letter case",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "uppercase",
+            "label": "Capitals"
+          },
+          {
+            "value": "none",
+            "label": "As typed"
+          },
+          {
+            "value": "capitalize",
+            "label": "Capital at the start of each word"
+          },
+          {
+            "value": "lowercase",
+            "label": "Lower case"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: capitals.",
+        "visible_if": "{{ settings.type_section_title_adjust }}"
+      },
+      {
+        "type": "header",
+        "content": "Display statement"
+      },
+      {
+        "type": "select",
+        "id": "type_display_font",
+        "label": "Typeface",
+        "options": [
+          {
+            "value": "persona",
+            "label": "Persona (headings and labels)"
+          },
+          {
+            "value": "junction",
+            "label": "Junction (text)"
+          }
+        ],
+        "default": "persona"
+      },
+      {
+        "type": "checkbox",
+        "id": "type_display_adjust",
+        "label": "Fine-tune this style",
+        "default": false,
+        "info": "Weight, size, line height, letter spacing and case. Off = as designed."
+      },
+      {
+        "type": "select",
+        "id": "type_display_weight",
+        "label": "Weight",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "300",
+            "label": "Light (300)"
+          },
+          {
+            "value": "400",
+            "label": "Regular (400)"
+          },
+          {
+            "value": "700",
+            "label": "Bold (700)"
+          }
+        ],
+        "default": "inherit",
+        "info": "Junction has 300, 400 and 700. Persona has one weight (500) and ignores this, unless custom fonts are on.",
+        "visible_if": "{{ settings.type_display_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_display_size",
+        "label": "Size, desktop",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "As designed, 100% = 61.6px at 1440px wide (it follows the window width).",
+        "visible_if": "{{ settings.type_display_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_display_size_m",
+        "label": "Size, mobile",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "Phones (under 750px). As designed, 100% = 30.8px at 390px wide; left at 100% it follows the desktop percentage.",
+        "visible_if": "{{ settings.type_display_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_display_lh",
+        "label": "Line height",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "1.1",
+            "label": "1.1"
+          },
+          {
+            "value": "1.2",
+            "label": "1.2"
+          },
+          {
+            "value": "1.27",
+            "label": "1.27"
+          },
+          {
+            "value": "1.3",
+            "label": "1.3"
+          },
+          {
+            "value": "1.4",
+            "label": "1.4"
+          },
+          {
+            "value": "1.5",
+            "label": "1.5"
+          },
+          {
+            "value": "1.55",
+            "label": "1.55"
+          },
+          {
+            "value": "1.6",
+            "label": "1.6"
+          },
+          {
+            "value": "1.69",
+            "label": "1.69"
+          },
+          {
+            "value": "1.75",
+            "label": "1.75"
+          },
+          {
+            "value": "1.8",
+            "label": "1.8"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 1.22.",
+        "visible_if": "{{ settings.type_display_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_display_ls",
+        "label": "Letter spacing",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "0",
+            "label": "None"
+          },
+          {
+            "value": "0.02em",
+            "label": "0.02em"
+          },
+          {
+            "value": "0.04em",
+            "label": "0.04em"
+          },
+          {
+            "value": "0.06em",
+            "label": "0.06em"
+          },
+          {
+            "value": "0.08em",
+            "label": "0.08em"
+          },
+          {
+            "value": "0.1em",
+            "label": "0.1em"
+          },
+          {
+            "value": "0.12em",
+            "label": "0.12em"
+          },
+          {
+            "value": "0.14em",
+            "label": "0.14em"
+          },
+          {
+            "value": "0.18em",
+            "label": "0.18em"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 0.07em.",
+        "visible_if": "{{ settings.type_display_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_display_case",
+        "label": "Letter case",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "uppercase",
+            "label": "Capitals"
+          },
+          {
+            "value": "none",
+            "label": "As typed"
+          },
+          {
+            "value": "capitalize",
+            "label": "Capital at the start of each word"
+          },
+          {
+            "value": "lowercase",
+            "label": "Lower case"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: capitals.",
+        "visible_if": "{{ settings.type_display_adjust }}"
+      },
+      {
+        "type": "header",
+        "content": "Story heading"
+      },
+      {
+        "type": "select",
+        "id": "type_story_heading_font",
+        "label": "Typeface",
+        "options": [
+          {
+            "value": "persona",
+            "label": "Persona (headings and labels)"
+          },
+          {
+            "value": "junction",
+            "label": "Junction (text)"
+          }
+        ],
+        "default": "persona"
+      },
+      {
+        "type": "checkbox",
+        "id": "type_story_heading_adjust",
+        "label": "Fine-tune this style",
+        "default": false,
+        "info": "Weight, size, line height, letter spacing and case. Off = as designed."
+      },
+      {
+        "type": "select",
+        "id": "type_story_heading_weight",
+        "label": "Weight",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "300",
+            "label": "Light (300)"
+          },
+          {
+            "value": "400",
+            "label": "Regular (400)"
+          },
+          {
+            "value": "700",
+            "label": "Bold (700)"
+          }
+        ],
+        "default": "inherit",
+        "info": "Junction has 300, 400 and 700. Persona has one weight (500) and ignores this, unless custom fonts are on.",
+        "visible_if": "{{ settings.type_story_heading_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_story_heading_size",
+        "label": "Size, desktop",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "As designed, 100% = 23.8px at 1440px wide (it follows the window width).",
+        "visible_if": "{{ settings.type_story_heading_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_story_heading_size_m",
+        "label": "Size, mobile",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "Phones (under 750px). As designed, 100% = 17.6px; left at 100% it follows the desktop percentage.",
+        "visible_if": "{{ settings.type_story_heading_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_story_heading_lh",
+        "label": "Line height",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "1.1",
+            "label": "1.1"
+          },
+          {
+            "value": "1.2",
+            "label": "1.2"
+          },
+          {
+            "value": "1.27",
+            "label": "1.27"
+          },
+          {
+            "value": "1.3",
+            "label": "1.3"
+          },
+          {
+            "value": "1.4",
+            "label": "1.4"
+          },
+          {
+            "value": "1.5",
+            "label": "1.5"
+          },
+          {
+            "value": "1.55",
+            "label": "1.55"
+          },
+          {
+            "value": "1.6",
+            "label": "1.6"
+          },
+          {
+            "value": "1.69",
+            "label": "1.69"
+          },
+          {
+            "value": "1.75",
+            "label": "1.75"
+          },
+          {
+            "value": "1.8",
+            "label": "1.8"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 1.4.",
+        "visible_if": "{{ settings.type_story_heading_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_story_heading_ls",
+        "label": "Letter spacing",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "0",
+            "label": "None"
+          },
+          {
+            "value": "0.02em",
+            "label": "0.02em"
+          },
+          {
+            "value": "0.04em",
+            "label": "0.04em"
+          },
+          {
+            "value": "0.06em",
+            "label": "0.06em"
+          },
+          {
+            "value": "0.08em",
+            "label": "0.08em"
+          },
+          {
+            "value": "0.1em",
+            "label": "0.1em"
+          },
+          {
+            "value": "0.12em",
+            "label": "0.12em"
+          },
+          {
+            "value": "0.14em",
+            "label": "0.14em"
+          },
+          {
+            "value": "0.18em",
+            "label": "0.18em"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 0.12em.",
+        "visible_if": "{{ settings.type_story_heading_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_story_heading_case",
+        "label": "Letter case",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "uppercase",
+            "label": "Capitals"
+          },
+          {
+            "value": "none",
+            "label": "As typed"
+          },
+          {
+            "value": "capitalize",
+            "label": "Capital at the start of each word"
+          },
+          {
+            "value": "lowercase",
+            "label": "Lower case"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: capitals.",
+        "visible_if": "{{ settings.type_story_heading_adjust }}"
+      },
+      {
+        "type": "header",
+        "content": "Editorial title"
+      },
+      {
+        "type": "select",
+        "id": "type_editorial_title_font",
+        "label": "Typeface",
+        "options": [
+          {
+            "value": "persona",
+            "label": "Persona (headings and labels)"
+          },
+          {
+            "value": "junction",
+            "label": "Junction (text)"
+          }
+        ],
+        "default": "persona"
+      },
+      {
+        "type": "checkbox",
+        "id": "type_editorial_title_adjust",
+        "label": "Fine-tune this style",
+        "default": false,
+        "info": "Weight, size, line height, letter spacing and case. Off = as designed."
+      },
+      {
+        "type": "select",
+        "id": "type_editorial_title_weight",
+        "label": "Weight",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "300",
+            "label": "Light (300)"
+          },
+          {
+            "value": "400",
+            "label": "Regular (400)"
+          },
+          {
+            "value": "700",
+            "label": "Bold (700)"
+          }
+        ],
+        "default": "inherit",
+        "info": "Junction has 300, 400 and 700. Persona has one weight (500) and ignores this, unless custom fonts are on.",
+        "visible_if": "{{ settings.type_editorial_title_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_editorial_title_size",
+        "label": "Size, desktop",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "As designed, 100% = 26.9px.",
+        "visible_if": "{{ settings.type_editorial_title_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_editorial_title_size_m",
+        "label": "Size, mobile",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "Phones and tablets (under 990px). As designed, 100% = 22.9px; left at 100% it follows the desktop percentage.",
+        "visible_if": "{{ settings.type_editorial_title_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_editorial_title_lh",
+        "label": "Line height",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "1.1",
+            "label": "1.1"
+          },
+          {
+            "value": "1.2",
+            "label": "1.2"
+          },
+          {
+            "value": "1.27",
+            "label": "1.27"
+          },
+          {
+            "value": "1.3",
+            "label": "1.3"
+          },
+          {
+            "value": "1.4",
+            "label": "1.4"
+          },
+          {
+            "value": "1.5",
+            "label": "1.5"
+          },
+          {
+            "value": "1.55",
+            "label": "1.55"
+          },
+          {
+            "value": "1.6",
+            "label": "1.6"
+          },
+          {
+            "value": "1.69",
+            "label": "1.69"
+          },
+          {
+            "value": "1.75",
+            "label": "1.75"
+          },
+          {
+            "value": "1.8",
+            "label": "1.8"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 1.3.",
+        "visible_if": "{{ settings.type_editorial_title_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_editorial_title_ls",
+        "label": "Letter spacing",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "0",
+            "label": "None"
+          },
+          {
+            "value": "0.02em",
+            "label": "0.02em"
+          },
+          {
+            "value": "0.04em",
+            "label": "0.04em"
+          },
+          {
+            "value": "0.06em",
+            "label": "0.06em"
+          },
+          {
+            "value": "0.08em",
+            "label": "0.08em"
+          },
+          {
+            "value": "0.1em",
+            "label": "0.1em"
+          },
+          {
+            "value": "0.12em",
+            "label": "0.12em"
+          },
+          {
+            "value": "0.14em",
+            "label": "0.14em"
+          },
+          {
+            "value": "0.18em",
+            "label": "0.18em"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 0.",
+        "visible_if": "{{ settings.type_editorial_title_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_editorial_title_case",
+        "label": "Letter case",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "uppercase",
+            "label": "Capitals"
+          },
+          {
+            "value": "none",
+            "label": "As typed"
+          },
+          {
+            "value": "capitalize",
+            "label": "Capital at the start of each word"
+          },
+          {
+            "value": "lowercase",
+            "label": "Lower case"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: capitals.",
+        "visible_if": "{{ settings.type_editorial_title_adjust }}"
+      },
+      {
+        "type": "header",
+        "content": "Offer title"
+      },
+      {
+        "type": "select",
+        "id": "type_offer_title_font",
+        "label": "Typeface",
+        "options": [
+          {
+            "value": "persona",
+            "label": "Persona (headings and labels)"
+          },
+          {
+            "value": "junction",
+            "label": "Junction (text)"
+          }
+        ],
+        "default": "persona"
+      },
+      {
+        "type": "checkbox",
+        "id": "type_offer_title_adjust",
+        "label": "Fine-tune this style",
+        "default": false,
+        "info": "Weight, size, line height, letter spacing and case. Off = as designed."
+      },
+      {
+        "type": "select",
+        "id": "type_offer_title_weight",
+        "label": "Weight",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "300",
+            "label": "Light (300)"
+          },
+          {
+            "value": "400",
+            "label": "Regular (400)"
+          },
+          {
+            "value": "700",
+            "label": "Bold (700)"
+          }
+        ],
+        "default": "inherit",
+        "info": "Junction has 300, 400 and 700. Persona has one weight (500) and ignores this, unless custom fonts are on.",
+        "visible_if": "{{ settings.type_offer_title_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_offer_title_size",
+        "label": "Size, desktop",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "As designed, 100% = 24px.",
+        "visible_if": "{{ settings.type_offer_title_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_offer_title_size_m",
+        "label": "Size, mobile",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "Phones (under 750px). As designed, 100% = 20px; left at 100% it follows the desktop percentage.",
+        "visible_if": "{{ settings.type_offer_title_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_offer_title_lh",
+        "label": "Line height",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "1.1",
+            "label": "1.1"
+          },
+          {
+            "value": "1.2",
+            "label": "1.2"
+          },
+          {
+            "value": "1.27",
+            "label": "1.27"
+          },
+          {
+            "value": "1.3",
+            "label": "1.3"
+          },
+          {
+            "value": "1.4",
+            "label": "1.4"
+          },
+          {
+            "value": "1.5",
+            "label": "1.5"
+          },
+          {
+            "value": "1.55",
+            "label": "1.55"
+          },
+          {
+            "value": "1.6",
+            "label": "1.6"
+          },
+          {
+            "value": "1.69",
+            "label": "1.69"
+          },
+          {
+            "value": "1.75",
+            "label": "1.75"
+          },
+          {
+            "value": "1.8",
+            "label": "1.8"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 1.3.",
+        "visible_if": "{{ settings.type_offer_title_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_offer_title_ls",
+        "label": "Letter spacing",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "0",
+            "label": "None"
+          },
+          {
+            "value": "0.02em",
+            "label": "0.02em"
+          },
+          {
+            "value": "0.04em",
+            "label": "0.04em"
+          },
+          {
+            "value": "0.06em",
+            "label": "0.06em"
+          },
+          {
+            "value": "0.08em",
+            "label": "0.08em"
+          },
+          {
+            "value": "0.1em",
+            "label": "0.1em"
+          },
+          {
+            "value": "0.12em",
+            "label": "0.12em"
+          },
+          {
+            "value": "0.14em",
+            "label": "0.14em"
+          },
+          {
+            "value": "0.18em",
+            "label": "0.18em"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 0.",
+        "visible_if": "{{ settings.type_offer_title_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_offer_title_case",
+        "label": "Letter case",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "uppercase",
+            "label": "Capitals"
+          },
+          {
+            "value": "none",
+            "label": "As typed"
+          },
+          {
+            "value": "capitalize",
+            "label": "Capital at the start of each word"
+          },
+          {
+            "value": "lowercase",
+            "label": "Lower case"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: as typed.",
+        "visible_if": "{{ settings.type_offer_title_adjust }}"
+      }
+    ]
+  },
+  {
+    "name": "Typography — body & links",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Sizes are a percentage of the designed size, at the global sizes of Typography — global."
+      },
+      {
+        "type": "header",
+        "content": "Editorial paragraph"
+      },
+      {
+        "type": "select",
+        "id": "type_editorial_body_font",
+        "label": "Typeface",
+        "options": [
+          {
+            "value": "persona",
+            "label": "Persona (headings and labels)"
+          },
+          {
+            "value": "junction",
+            "label": "Junction (text)"
+          }
+        ],
+        "default": "junction"
+      },
+      {
+        "type": "checkbox",
+        "id": "type_editorial_body_adjust",
+        "label": "Fine-tune this style",
+        "default": false,
+        "info": "Weight, size, line height, letter spacing and case. Off = as designed."
+      },
+      {
+        "type": "select",
+        "id": "type_editorial_body_weight",
+        "label": "Weight",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "300",
+            "label": "Light (300)"
+          },
+          {
+            "value": "400",
+            "label": "Regular (400)"
+          },
+          {
+            "value": "700",
+            "label": "Bold (700)"
+          }
+        ],
+        "default": "inherit",
+        "info": "Junction has 300, 400 and 700. Persona has one weight (500) and ignores this, unless custom fonts are on.",
+        "visible_if": "{{ settings.type_editorial_body_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_editorial_body_size",
+        "label": "Size, desktop",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "As designed, 100% = 16px.",
+        "visible_if": "{{ settings.type_editorial_body_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_editorial_body_size_m",
+        "label": "Size, mobile",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "Phones and tablets (under 990px). As designed, 100% = 14.4px; left at 100% it follows the desktop percentage.",
+        "visible_if": "{{ settings.type_editorial_body_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_editorial_body_lh",
+        "label": "Line height",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "1.1",
+            "label": "1.1"
+          },
+          {
+            "value": "1.2",
+            "label": "1.2"
+          },
+          {
+            "value": "1.27",
+            "label": "1.27"
+          },
+          {
+            "value": "1.3",
+            "label": "1.3"
+          },
+          {
+            "value": "1.4",
+            "label": "1.4"
+          },
+          {
+            "value": "1.5",
+            "label": "1.5"
+          },
+          {
+            "value": "1.55",
+            "label": "1.55"
+          },
+          {
+            "value": "1.6",
+            "label": "1.6"
+          },
+          {
+            "value": "1.69",
+            "label": "1.69"
+          },
+          {
+            "value": "1.75",
+            "label": "1.75"
+          },
+          {
+            "value": "1.8",
+            "label": "1.8"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 1.69.",
+        "visible_if": "{{ settings.type_editorial_body_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_editorial_body_ls",
+        "label": "Letter spacing",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "0",
+            "label": "None"
+          },
+          {
+            "value": "0.02em",
+            "label": "0.02em"
+          },
+          {
+            "value": "0.04em",
+            "label": "0.04em"
+          },
+          {
+            "value": "0.06em",
+            "label": "0.06em"
+          },
+          {
+            "value": "0.08em",
+            "label": "0.08em"
+          },
+          {
+            "value": "0.1em",
+            "label": "0.1em"
+          },
+          {
+            "value": "0.12em",
+            "label": "0.12em"
+          },
+          {
+            "value": "0.14em",
+            "label": "0.14em"
+          },
+          {
+            "value": "0.18em",
+            "label": "0.18em"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 0.",
+        "visible_if": "{{ settings.type_editorial_body_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_editorial_body_case",
+        "label": "Letter case",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "uppercase",
+            "label": "Capitals"
+          },
+          {
+            "value": "none",
+            "label": "As typed"
+          },
+          {
+            "value": "capitalize",
+            "label": "Capital at the start of each word"
+          },
+          {
+            "value": "lowercase",
+            "label": "Lower case"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: as typed.",
+        "visible_if": "{{ settings.type_editorial_body_adjust }}"
+      },
+      {
+        "type": "header",
+        "content": "Editorial link"
+      },
+      {
+        "type": "select",
+        "id": "type_editorial_link_font",
+        "label": "Typeface",
+        "options": [
+          {
+            "value": "persona",
+            "label": "Persona (headings and labels)"
+          },
+          {
+            "value": "junction",
+            "label": "Junction (text)"
+          }
+        ],
+        "default": "junction"
+      },
+      {
+        "type": "checkbox",
+        "id": "type_editorial_link_adjust",
+        "label": "Fine-tune this style",
+        "default": false,
+        "info": "Weight, size, line height, letter spacing and case. Off = as designed."
+      },
+      {
+        "type": "select",
+        "id": "type_editorial_link_weight",
+        "label": "Weight",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "300",
+            "label": "Light (300)"
+          },
+          {
+            "value": "400",
+            "label": "Regular (400)"
+          },
+          {
+            "value": "700",
+            "label": "Bold (700)"
+          }
+        ],
+        "default": "inherit",
+        "info": "Junction has 300, 400 and 700. Persona has one weight (500) and ignores this, unless custom fonts are on.",
+        "visible_if": "{{ settings.type_editorial_link_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_editorial_link_size",
+        "label": "Size, desktop",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "As designed, 100% = 16px.",
+        "visible_if": "{{ settings.type_editorial_link_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_editorial_link_size_m",
+        "label": "Size, mobile",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "Phones and tablets (under 990px). As designed, 100% = 14.4px; left at 100% it follows the desktop percentage.",
+        "visible_if": "{{ settings.type_editorial_link_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_editorial_link_lh",
+        "label": "Line height",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "1.1",
+            "label": "1.1"
+          },
+          {
+            "value": "1.2",
+            "label": "1.2"
+          },
+          {
+            "value": "1.27",
+            "label": "1.27"
+          },
+          {
+            "value": "1.3",
+            "label": "1.3"
+          },
+          {
+            "value": "1.4",
+            "label": "1.4"
+          },
+          {
+            "value": "1.5",
+            "label": "1.5"
+          },
+          {
+            "value": "1.55",
+            "label": "1.55"
+          },
+          {
+            "value": "1.6",
+            "label": "1.6"
+          },
+          {
+            "value": "1.69",
+            "label": "1.69"
+          },
+          {
+            "value": "1.75",
+            "label": "1.75"
+          },
+          {
+            "value": "1.8",
+            "label": "1.8"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 1.69.",
+        "visible_if": "{{ settings.type_editorial_link_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_editorial_link_ls",
+        "label": "Letter spacing",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "0",
+            "label": "None"
+          },
+          {
+            "value": "0.02em",
+            "label": "0.02em"
+          },
+          {
+            "value": "0.04em",
+            "label": "0.04em"
+          },
+          {
+            "value": "0.06em",
+            "label": "0.06em"
+          },
+          {
+            "value": "0.08em",
+            "label": "0.08em"
+          },
+          {
+            "value": "0.1em",
+            "label": "0.1em"
+          },
+          {
+            "value": "0.12em",
+            "label": "0.12em"
+          },
+          {
+            "value": "0.14em",
+            "label": "0.14em"
+          },
+          {
+            "value": "0.18em",
+            "label": "0.18em"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 0.",
+        "visible_if": "{{ settings.type_editorial_link_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_editorial_link_case",
+        "label": "Letter case",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "uppercase",
+            "label": "Capitals"
+          },
+          {
+            "value": "none",
+            "label": "As typed"
+          },
+          {
+            "value": "capitalize",
+            "label": "Capital at the start of each word"
+          },
+          {
+            "value": "lowercase",
+            "label": "Lower case"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: capitals.",
+        "visible_if": "{{ settings.type_editorial_link_adjust }}"
+      },
+      {
+        "type": "header",
+        "content": "Body text"
+      },
+      {
+        "type": "select",
+        "id": "type_body_font",
+        "label": "Typeface",
+        "options": [
+          {
+            "value": "persona",
+            "label": "Persona (headings and labels)"
+          },
+          {
+            "value": "junction",
+            "label": "Junction (text)"
+          }
+        ],
+        "default": "junction"
+      },
+      {
+        "type": "checkbox",
+        "id": "type_body_adjust",
+        "label": "Fine-tune this style",
+        "default": false,
+        "info": "Weight, size, line height, letter spacing and case. Off = as designed."
+      },
+      {
+        "type": "select",
+        "id": "type_body_weight",
+        "label": "Weight",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "300",
+            "label": "Light (300)"
+          },
+          {
+            "value": "400",
+            "label": "Regular (400)"
+          },
+          {
+            "value": "700",
+            "label": "Bold (700)"
+          }
+        ],
+        "default": "inherit",
+        "info": "Junction has 300, 400 and 700. Persona has one weight (500) and ignores this, unless custom fonts are on.",
+        "visible_if": "{{ settings.type_body_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_body_size",
+        "label": "Size, desktop",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "As designed, 100% = 12.6px.",
+        "visible_if": "{{ settings.type_body_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_body_size_m",
+        "label": "Size, mobile",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "Phones (under 750px). As designed, 100% = 12.6px; left at 100% it follows the desktop percentage.",
+        "visible_if": "{{ settings.type_body_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_body_lh",
+        "label": "Line height",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "1.1",
+            "label": "1.1"
+          },
+          {
+            "value": "1.2",
+            "label": "1.2"
+          },
+          {
+            "value": "1.27",
+            "label": "1.27"
+          },
+          {
+            "value": "1.3",
+            "label": "1.3"
+          },
+          {
+            "value": "1.4",
+            "label": "1.4"
+          },
+          {
+            "value": "1.5",
+            "label": "1.5"
+          },
+          {
+            "value": "1.55",
+            "label": "1.55"
+          },
+          {
+            "value": "1.6",
+            "label": "1.6"
+          },
+          {
+            "value": "1.69",
+            "label": "1.69"
+          },
+          {
+            "value": "1.75",
+            "label": "1.75"
+          },
+          {
+            "value": "1.8",
+            "label": "1.8"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 1.6.",
+        "visible_if": "{{ settings.type_body_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_body_ls",
+        "label": "Letter spacing",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "0",
+            "label": "None"
+          },
+          {
+            "value": "0.02em",
+            "label": "0.02em"
+          },
+          {
+            "value": "0.04em",
+            "label": "0.04em"
+          },
+          {
+            "value": "0.06em",
+            "label": "0.06em"
+          },
+          {
+            "value": "0.08em",
+            "label": "0.08em"
+          },
+          {
+            "value": "0.1em",
+            "label": "0.1em"
+          },
+          {
+            "value": "0.12em",
+            "label": "0.12em"
+          },
+          {
+            "value": "0.14em",
+            "label": "0.14em"
+          },
+          {
+            "value": "0.18em",
+            "label": "0.18em"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 0.",
+        "visible_if": "{{ settings.type_body_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_body_case",
+        "label": "Letter case",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "uppercase",
+            "label": "Capitals"
+          },
+          {
+            "value": "none",
+            "label": "As typed"
+          },
+          {
+            "value": "capitalize",
+            "label": "Capital at the start of each word"
+          },
+          {
+            "value": "lowercase",
+            "label": "Lower case"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: as typed.",
+        "visible_if": "{{ settings.type_body_adjust }}"
+      },
+      {
+        "type": "header",
+        "content": "Small text"
+      },
+      {
+        "type": "select",
+        "id": "type_small_font",
+        "label": "Typeface",
+        "options": [
+          {
+            "value": "persona",
+            "label": "Persona (headings and labels)"
+          },
+          {
+            "value": "junction",
+            "label": "Junction (text)"
+          }
+        ],
+        "default": "junction"
+      },
+      {
+        "type": "checkbox",
+        "id": "type_small_adjust",
+        "label": "Fine-tune this style",
+        "default": false,
+        "info": "Weight, size, line height, letter spacing and case. Off = as designed."
+      },
+      {
+        "type": "select",
+        "id": "type_small_weight",
+        "label": "Weight",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "300",
+            "label": "Light (300)"
+          },
+          {
+            "value": "400",
+            "label": "Regular (400)"
+          },
+          {
+            "value": "700",
+            "label": "Bold (700)"
+          }
+        ],
+        "default": "inherit",
+        "info": "Junction has 300, 400 and 700. Persona has one weight (500) and ignores this, unless custom fonts are on.",
+        "visible_if": "{{ settings.type_small_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_small_size",
+        "label": "Size, desktop",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "As designed, 100% = 12px.",
+        "visible_if": "{{ settings.type_small_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_small_size_m",
+        "label": "Size, mobile",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "Phones (under 750px). As designed, 100% = 12px; left at 100% it follows the desktop percentage.",
+        "visible_if": "{{ settings.type_small_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_small_lh",
+        "label": "Line height",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "1.1",
+            "label": "1.1"
+          },
+          {
+            "value": "1.2",
+            "label": "1.2"
+          },
+          {
+            "value": "1.27",
+            "label": "1.27"
+          },
+          {
+            "value": "1.3",
+            "label": "1.3"
+          },
+          {
+            "value": "1.4",
+            "label": "1.4"
+          },
+          {
+            "value": "1.5",
+            "label": "1.5"
+          },
+          {
+            "value": "1.55",
+            "label": "1.55"
+          },
+          {
+            "value": "1.6",
+            "label": "1.6"
+          },
+          {
+            "value": "1.69",
+            "label": "1.69"
+          },
+          {
+            "value": "1.75",
+            "label": "1.75"
+          },
+          {
+            "value": "1.8",
+            "label": "1.8"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 1.6.",
+        "visible_if": "{{ settings.type_small_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_small_ls",
+        "label": "Letter spacing",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "0",
+            "label": "None"
+          },
+          {
+            "value": "0.02em",
+            "label": "0.02em"
+          },
+          {
+            "value": "0.04em",
+            "label": "0.04em"
+          },
+          {
+            "value": "0.06em",
+            "label": "0.06em"
+          },
+          {
+            "value": "0.08em",
+            "label": "0.08em"
+          },
+          {
+            "value": "0.1em",
+            "label": "0.1em"
+          },
+          {
+            "value": "0.12em",
+            "label": "0.12em"
+          },
+          {
+            "value": "0.14em",
+            "label": "0.14em"
+          },
+          {
+            "value": "0.18em",
+            "label": "0.18em"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 0.",
+        "visible_if": "{{ settings.type_small_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_small_case",
+        "label": "Letter case",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "uppercase",
+            "label": "Capitals"
+          },
+          {
+            "value": "none",
+            "label": "As typed"
+          },
+          {
+            "value": "capitalize",
+            "label": "Capital at the start of each word"
+          },
+          {
+            "value": "lowercase",
+            "label": "Lower case"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: as typed.",
+        "visible_if": "{{ settings.type_small_adjust }}"
+      },
+      {
+        "type": "header",
+        "content": "Eyebrow"
+      },
+      {
+        "type": "select",
+        "id": "type_eyebrow_font",
+        "label": "Typeface",
+        "options": [
+          {
+            "value": "persona",
+            "label": "Persona (headings and labels)"
+          },
+          {
+            "value": "junction",
+            "label": "Junction (text)"
+          }
+        ],
+        "default": "junction"
+      },
+      {
+        "type": "checkbox",
+        "id": "type_eyebrow_adjust",
+        "label": "Fine-tune this style",
+        "default": false,
+        "info": "Weight, size, line height, letter spacing and case. Off = as designed."
+      },
+      {
+        "type": "select",
+        "id": "type_eyebrow_weight",
+        "label": "Weight",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "300",
+            "label": "Light (300)"
+          },
+          {
+            "value": "400",
+            "label": "Regular (400)"
+          },
+          {
+            "value": "700",
+            "label": "Bold (700)"
+          }
+        ],
+        "default": "inherit",
+        "info": "Junction has 300, 400 and 700. Persona has one weight (500) and ignores this, unless custom fonts are on.",
+        "visible_if": "{{ settings.type_eyebrow_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_eyebrow_size",
+        "label": "Size, desktop",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "As designed, 100% = 11px.",
+        "visible_if": "{{ settings.type_eyebrow_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_eyebrow_size_m",
+        "label": "Size, mobile",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "Phones (under 750px). As designed, 100% = 11px; left at 100% it follows the desktop percentage.",
+        "visible_if": "{{ settings.type_eyebrow_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_eyebrow_lh",
+        "label": "Line height",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "1.1",
+            "label": "1.1"
+          },
+          {
+            "value": "1.2",
+            "label": "1.2"
+          },
+          {
+            "value": "1.27",
+            "label": "1.27"
+          },
+          {
+            "value": "1.3",
+            "label": "1.3"
+          },
+          {
+            "value": "1.4",
+            "label": "1.4"
+          },
+          {
+            "value": "1.5",
+            "label": "1.5"
+          },
+          {
+            "value": "1.55",
+            "label": "1.55"
+          },
+          {
+            "value": "1.6",
+            "label": "1.6"
+          },
+          {
+            "value": "1.69",
+            "label": "1.69"
+          },
+          {
+            "value": "1.75",
+            "label": "1.75"
+          },
+          {
+            "value": "1.8",
+            "label": "1.8"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 1.6.",
+        "visible_if": "{{ settings.type_eyebrow_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_eyebrow_ls",
+        "label": "Letter spacing",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "0",
+            "label": "None"
+          },
+          {
+            "value": "0.02em",
+            "label": "0.02em"
+          },
+          {
+            "value": "0.04em",
+            "label": "0.04em"
+          },
+          {
+            "value": "0.06em",
+            "label": "0.06em"
+          },
+          {
+            "value": "0.08em",
+            "label": "0.08em"
+          },
+          {
+            "value": "0.1em",
+            "label": "0.1em"
+          },
+          {
+            "value": "0.12em",
+            "label": "0.12em"
+          },
+          {
+            "value": "0.14em",
+            "label": "0.14em"
+          },
+          {
+            "value": "0.18em",
+            "label": "0.18em"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 0.14em.",
+        "visible_if": "{{ settings.type_eyebrow_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_eyebrow_case",
+        "label": "Letter case",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "uppercase",
+            "label": "Capitals"
+          },
+          {
+            "value": "none",
+            "label": "As typed"
+          },
+          {
+            "value": "capitalize",
+            "label": "Capital at the start of each word"
+          },
+          {
+            "value": "lowercase",
+            "label": "Lower case"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: capitals.",
+        "visible_if": "{{ settings.type_eyebrow_adjust }}"
+      },
+      {
+        "type": "header",
+        "content": "Footer link"
+      },
+      {
+        "type": "select",
+        "id": "type_footer_link_font",
+        "label": "Typeface",
+        "options": [
+          {
+            "value": "persona",
+            "label": "Persona (headings and labels)"
+          },
+          {
+            "value": "junction",
+            "label": "Junction (text)"
+          }
+        ],
+        "default": "junction"
+      },
+      {
+        "type": "checkbox",
+        "id": "type_footer_link_adjust",
+        "label": "Fine-tune this style",
+        "default": false,
+        "info": "Weight, size, line height, letter spacing and case. Off = as designed."
+      },
+      {
+        "type": "select",
+        "id": "type_footer_link_weight",
+        "label": "Weight",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "300",
+            "label": "Light (300)"
+          },
+          {
+            "value": "400",
+            "label": "Regular (400)"
+          },
+          {
+            "value": "700",
+            "label": "Bold (700)"
+          }
+        ],
+        "default": "inherit",
+        "info": "Junction has 300, 400 and 700. Persona has one weight (500) and ignores this, unless custom fonts are on.",
+        "visible_if": "{{ settings.type_footer_link_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_footer_link_size",
+        "label": "Size, desktop",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "As designed, 100% = 13px.",
+        "visible_if": "{{ settings.type_footer_link_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_footer_link_size_m",
+        "label": "Size, mobile",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "Phones (under 750px). As designed, 100% = 13px; left at 100% it follows the desktop percentage.",
+        "visible_if": "{{ settings.type_footer_link_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_footer_link_lh",
+        "label": "Line height",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "1.1",
+            "label": "1.1"
+          },
+          {
+            "value": "1.2",
+            "label": "1.2"
+          },
+          {
+            "value": "1.27",
+            "label": "1.27"
+          },
+          {
+            "value": "1.3",
+            "label": "1.3"
+          },
+          {
+            "value": "1.4",
+            "label": "1.4"
+          },
+          {
+            "value": "1.5",
+            "label": "1.5"
+          },
+          {
+            "value": "1.55",
+            "label": "1.55"
+          },
+          {
+            "value": "1.6",
+            "label": "1.6"
+          },
+          {
+            "value": "1.69",
+            "label": "1.69"
+          },
+          {
+            "value": "1.75",
+            "label": "1.75"
+          },
+          {
+            "value": "1.8",
+            "label": "1.8"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 2.",
+        "visible_if": "{{ settings.type_footer_link_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_footer_link_ls",
+        "label": "Letter spacing",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "0",
+            "label": "None"
+          },
+          {
+            "value": "0.02em",
+            "label": "0.02em"
+          },
+          {
+            "value": "0.04em",
+            "label": "0.04em"
+          },
+          {
+            "value": "0.06em",
+            "label": "0.06em"
+          },
+          {
+            "value": "0.08em",
+            "label": "0.08em"
+          },
+          {
+            "value": "0.1em",
+            "label": "0.1em"
+          },
+          {
+            "value": "0.12em",
+            "label": "0.12em"
+          },
+          {
+            "value": "0.14em",
+            "label": "0.14em"
+          },
+          {
+            "value": "0.18em",
+            "label": "0.18em"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 0.02em.",
+        "visible_if": "{{ settings.type_footer_link_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_footer_link_case",
+        "label": "Letter case",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "uppercase",
+            "label": "Capitals"
+          },
+          {
+            "value": "none",
+            "label": "As typed"
+          },
+          {
+            "value": "capitalize",
+            "label": "Capital at the start of each word"
+          },
+          {
+            "value": "lowercase",
+            "label": "Lower case"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: as typed.",
+        "visible_if": "{{ settings.type_footer_link_adjust }}"
+      },
+      {
+        "type": "header",
+        "content": "Product subtitle"
+      },
+      {
+        "type": "select",
+        "id": "type_subtitle_font",
+        "label": "Typeface",
+        "options": [
+          {
+            "value": "persona",
+            "label": "Persona (headings and labels)"
+          },
+          {
+            "value": "junction",
+            "label": "Junction (text)"
+          }
+        ],
+        "default": "junction"
+      },
+      {
+        "type": "checkbox",
+        "id": "type_subtitle_adjust",
+        "label": "Fine-tune this style",
+        "default": false,
+        "info": "Weight, size, line height, letter spacing and case. Off = as designed."
+      },
+      {
+        "type": "select",
+        "id": "type_subtitle_weight",
+        "label": "Weight",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "300",
+            "label": "Light (300)"
+          },
+          {
+            "value": "400",
+            "label": "Regular (400)"
+          },
+          {
+            "value": "700",
+            "label": "Bold (700)"
+          }
+        ],
+        "default": "inherit",
+        "info": "Junction has 300, 400 and 700. Persona has one weight (500) and ignores this, unless custom fonts are on.",
+        "visible_if": "{{ settings.type_subtitle_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_subtitle_size",
+        "label": "Size, desktop",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "As designed, 100% = 13.5px.",
+        "visible_if": "{{ settings.type_subtitle_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_subtitle_size_m",
+        "label": "Size, mobile",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "Phones (under 750px). As designed, 100% = 13.5px; left at 100% it follows the desktop percentage.",
+        "visible_if": "{{ settings.type_subtitle_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_subtitle_lh",
+        "label": "Line height",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "1.1",
+            "label": "1.1"
+          },
+          {
+            "value": "1.2",
+            "label": "1.2"
+          },
+          {
+            "value": "1.27",
+            "label": "1.27"
+          },
+          {
+            "value": "1.3",
+            "label": "1.3"
+          },
+          {
+            "value": "1.4",
+            "label": "1.4"
+          },
+          {
+            "value": "1.5",
+            "label": "1.5"
+          },
+          {
+            "value": "1.55",
+            "label": "1.55"
+          },
+          {
+            "value": "1.6",
+            "label": "1.6"
+          },
+          {
+            "value": "1.69",
+            "label": "1.69"
+          },
+          {
+            "value": "1.75",
+            "label": "1.75"
+          },
+          {
+            "value": "1.8",
+            "label": "1.8"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 1.5.",
+        "visible_if": "{{ settings.type_subtitle_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_subtitle_ls",
+        "label": "Letter spacing",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "0",
+            "label": "None"
+          },
+          {
+            "value": "0.02em",
+            "label": "0.02em"
+          },
+          {
+            "value": "0.04em",
+            "label": "0.04em"
+          },
+          {
+            "value": "0.06em",
+            "label": "0.06em"
+          },
+          {
+            "value": "0.08em",
+            "label": "0.08em"
+          },
+          {
+            "value": "0.1em",
+            "label": "0.1em"
+          },
+          {
+            "value": "0.12em",
+            "label": "0.12em"
+          },
+          {
+            "value": "0.14em",
+            "label": "0.14em"
+          },
+          {
+            "value": "0.18em",
+            "label": "0.18em"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 0.",
+        "visible_if": "{{ settings.type_subtitle_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_subtitle_case",
+        "label": "Letter case",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "uppercase",
+            "label": "Capitals"
+          },
+          {
+            "value": "none",
+            "label": "As typed"
+          },
+          {
+            "value": "capitalize",
+            "label": "Capital at the start of each word"
+          },
+          {
+            "value": "lowercase",
+            "label": "Lower case"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: as typed.",
+        "visible_if": "{{ settings.type_subtitle_adjust }}"
+      }
+    ]
+  },
+  {
+    "name": "Typography — forms & buttons",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Sizes are a percentage of the designed size, at the global sizes of Typography — global."
+      },
+      {
+        "type": "header",
+        "content": "Button"
+      },
+      {
+        "type": "select",
+        "id": "type_button_font",
+        "label": "Typeface",
+        "options": [
+          {
+            "value": "persona",
+            "label": "Persona (headings and labels)"
+          },
+          {
+            "value": "junction",
+            "label": "Junction (text)"
+          }
+        ],
+        "default": "junction"
+      },
+      {
+        "type": "checkbox",
+        "id": "type_button_adjust",
+        "label": "Fine-tune this style",
+        "default": false,
+        "info": "Weight, size, line height, letter spacing and case. Off = as designed."
+      },
+      {
+        "type": "select",
+        "id": "type_button_weight",
+        "label": "Weight",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "300",
+            "label": "Light (300)"
+          },
+          {
+            "value": "400",
+            "label": "Regular (400)"
+          },
+          {
+            "value": "700",
+            "label": "Bold (700)"
+          }
+        ],
+        "default": "inherit",
+        "info": "Junction has 300, 400 and 700. Persona has one weight (500) and ignores this, unless custom fonts are on.",
+        "visible_if": "{{ settings.type_button_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_button_size",
+        "label": "Size, desktop",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "As designed, 100% = 13px.",
+        "visible_if": "{{ settings.type_button_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_button_size_m",
+        "label": "Size, mobile",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "Phones (under 750px). As designed, 100% = 13px; left at 100% it follows the desktop percentage.",
+        "visible_if": "{{ settings.type_button_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_button_lh",
+        "label": "Line height",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "1.1",
+            "label": "1.1"
+          },
+          {
+            "value": "1.2",
+            "label": "1.2"
+          },
+          {
+            "value": "1.27",
+            "label": "1.27"
+          },
+          {
+            "value": "1.3",
+            "label": "1.3"
+          },
+          {
+            "value": "1.4",
+            "label": "1.4"
+          },
+          {
+            "value": "1.5",
+            "label": "1.5"
+          },
+          {
+            "value": "1.55",
+            "label": "1.55"
+          },
+          {
+            "value": "1.6",
+            "label": "1.6"
+          },
+          {
+            "value": "1.69",
+            "label": "1.69"
+          },
+          {
+            "value": "1.75",
+            "label": "1.75"
+          },
+          {
+            "value": "1.8",
+            "label": "1.8"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 1.6.",
+        "visible_if": "{{ settings.type_button_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_button_ls",
+        "label": "Letter spacing",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "0",
+            "label": "None"
+          },
+          {
+            "value": "0.02em",
+            "label": "0.02em"
+          },
+          {
+            "value": "0.04em",
+            "label": "0.04em"
+          },
+          {
+            "value": "0.06em",
+            "label": "0.06em"
+          },
+          {
+            "value": "0.08em",
+            "label": "0.08em"
+          },
+          {
+            "value": "0.1em",
+            "label": "0.1em"
+          },
+          {
+            "value": "0.12em",
+            "label": "0.12em"
+          },
+          {
+            "value": "0.14em",
+            "label": "0.14em"
+          },
+          {
+            "value": "0.18em",
+            "label": "0.18em"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 0.04em.",
+        "visible_if": "{{ settings.type_button_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_button_case",
+        "label": "Letter case",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "uppercase",
+            "label": "Capitals"
+          },
+          {
+            "value": "none",
+            "label": "As typed"
+          },
+          {
+            "value": "capitalize",
+            "label": "Capital at the start of each word"
+          },
+          {
+            "value": "lowercase",
+            "label": "Lower case"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: as typed.",
+        "visible_if": "{{ settings.type_button_adjust }}"
+      },
+      {
+        "type": "header",
+        "content": "Button, capitals"
+      },
+      {
+        "type": "select",
+        "id": "type_button_caps_font",
+        "label": "Typeface",
+        "options": [
+          {
+            "value": "persona",
+            "label": "Persona (headings and labels)"
+          },
+          {
+            "value": "junction",
+            "label": "Junction (text)"
+          }
+        ],
+        "default": "persona"
+      },
+      {
+        "type": "checkbox",
+        "id": "type_button_caps_adjust",
+        "label": "Fine-tune this style",
+        "default": false,
+        "info": "Weight, size, line height, letter spacing and case. Off = as designed."
+      },
+      {
+        "type": "select",
+        "id": "type_button_caps_weight",
+        "label": "Weight",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "300",
+            "label": "Light (300)"
+          },
+          {
+            "value": "400",
+            "label": "Regular (400)"
+          },
+          {
+            "value": "700",
+            "label": "Bold (700)"
+          }
+        ],
+        "default": "inherit",
+        "info": "Junction has 300, 400 and 700. Persona has one weight (500) and ignores this, unless custom fonts are on.",
+        "visible_if": "{{ settings.type_button_caps_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_button_caps_size",
+        "label": "Size, desktop",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "As designed, 100% = 14px.",
+        "visible_if": "{{ settings.type_button_caps_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_button_caps_size_m",
+        "label": "Size, mobile",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "Phones (under 750px). As designed, 100% = 14px; left at 100% it follows the desktop percentage.",
+        "visible_if": "{{ settings.type_button_caps_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_button_caps_lh",
+        "label": "Line height",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "1.1",
+            "label": "1.1"
+          },
+          {
+            "value": "1.2",
+            "label": "1.2"
+          },
+          {
+            "value": "1.27",
+            "label": "1.27"
+          },
+          {
+            "value": "1.3",
+            "label": "1.3"
+          },
+          {
+            "value": "1.4",
+            "label": "1.4"
+          },
+          {
+            "value": "1.5",
+            "label": "1.5"
+          },
+          {
+            "value": "1.55",
+            "label": "1.55"
+          },
+          {
+            "value": "1.6",
+            "label": "1.6"
+          },
+          {
+            "value": "1.69",
+            "label": "1.69"
+          },
+          {
+            "value": "1.75",
+            "label": "1.75"
+          },
+          {
+            "value": "1.8",
+            "label": "1.8"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 1.6.",
+        "visible_if": "{{ settings.type_button_caps_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_button_caps_ls",
+        "label": "Letter spacing",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "0",
+            "label": "None"
+          },
+          {
+            "value": "0.02em",
+            "label": "0.02em"
+          },
+          {
+            "value": "0.04em",
+            "label": "0.04em"
+          },
+          {
+            "value": "0.06em",
+            "label": "0.06em"
+          },
+          {
+            "value": "0.08em",
+            "label": "0.08em"
+          },
+          {
+            "value": "0.1em",
+            "label": "0.1em"
+          },
+          {
+            "value": "0.12em",
+            "label": "0.12em"
+          },
+          {
+            "value": "0.14em",
+            "label": "0.14em"
+          },
+          {
+            "value": "0.18em",
+            "label": "0.18em"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 0.1em.",
+        "visible_if": "{{ settings.type_button_caps_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_button_caps_case",
+        "label": "Letter case",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "uppercase",
+            "label": "Capitals"
+          },
+          {
+            "value": "none",
+            "label": "As typed"
+          },
+          {
+            "value": "capitalize",
+            "label": "Capital at the start of each word"
+          },
+          {
+            "value": "lowercase",
+            "label": "Lower case"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: capitals.",
+        "visible_if": "{{ settings.type_button_caps_adjust }}"
+      },
+      {
+        "type": "header",
+        "content": "Form field"
+      },
+      {
+        "type": "select",
+        "id": "type_input_font",
+        "label": "Typeface",
+        "options": [
+          {
+            "value": "persona",
+            "label": "Persona (headings and labels)"
+          },
+          {
+            "value": "junction",
+            "label": "Junction (text)"
+          }
+        ],
+        "default": "junction"
+      },
+      {
+        "type": "checkbox",
+        "id": "type_input_adjust",
+        "label": "Fine-tune this style",
+        "default": false,
+        "info": "Weight, size, line height, letter spacing and case. Off = as designed."
+      },
+      {
+        "type": "select",
+        "id": "type_input_weight",
+        "label": "Weight",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "300",
+            "label": "Light (300)"
+          },
+          {
+            "value": "400",
+            "label": "Regular (400)"
+          },
+          {
+            "value": "700",
+            "label": "Bold (700)"
+          }
+        ],
+        "default": "inherit",
+        "info": "Junction has 300, 400 and 700. Persona has one weight (500) and ignores this, unless custom fonts are on.",
+        "visible_if": "{{ settings.type_input_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_input_size",
+        "label": "Size, desktop",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "As designed, 100% = 13px.",
+        "visible_if": "{{ settings.type_input_adjust }}"
+      },
+      {
+        "type": "range",
+        "id": "type_input_size_m",
+        "label": "Size, mobile",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "unit": "%",
+        "default": 100,
+        "info": "Phones (under 750px). As designed, 100% = 13px; left at 100% it follows the desktop percentage.",
+        "visible_if": "{{ settings.type_input_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_input_lh",
+        "label": "Line height",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "1.1",
+            "label": "1.1"
+          },
+          {
+            "value": "1.2",
+            "label": "1.2"
+          },
+          {
+            "value": "1.27",
+            "label": "1.27"
+          },
+          {
+            "value": "1.3",
+            "label": "1.3"
+          },
+          {
+            "value": "1.4",
+            "label": "1.4"
+          },
+          {
+            "value": "1.5",
+            "label": "1.5"
+          },
+          {
+            "value": "1.55",
+            "label": "1.55"
+          },
+          {
+            "value": "1.6",
+            "label": "1.6"
+          },
+          {
+            "value": "1.69",
+            "label": "1.69"
+          },
+          {
+            "value": "1.75",
+            "label": "1.75"
+          },
+          {
+            "value": "1.8",
+            "label": "1.8"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 1.6.",
+        "visible_if": "{{ settings.type_input_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_input_ls",
+        "label": "Letter spacing",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "0",
+            "label": "None"
+          },
+          {
+            "value": "0.02em",
+            "label": "0.02em"
+          },
+          {
+            "value": "0.04em",
+            "label": "0.04em"
+          },
+          {
+            "value": "0.06em",
+            "label": "0.06em"
+          },
+          {
+            "value": "0.08em",
+            "label": "0.08em"
+          },
+          {
+            "value": "0.1em",
+            "label": "0.1em"
+          },
+          {
+            "value": "0.12em",
+            "label": "0.12em"
+          },
+          {
+            "value": "0.14em",
+            "label": "0.14em"
+          },
+          {
+            "value": "0.18em",
+            "label": "0.18em"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: 0.",
+        "visible_if": "{{ settings.type_input_adjust }}"
+      },
+      {
+        "type": "select",
+        "id": "type_input_case",
+        "label": "Letter case",
+        "options": [
+          {
+            "value": "inherit",
+            "label": "As designed"
+          },
+          {
+            "value": "uppercase",
+            "label": "Capitals"
+          },
+          {
+            "value": "none",
+            "label": "As typed"
+          },
+          {
+            "value": "capitalize",
+            "label": "Capital at the start of each word"
+          },
+          {
+            "value": "lowercase",
+            "label": "Lower case"
+          }
+        ],
+        "default": "inherit",
+        "info": "Designed: as typed.",
+        "visible_if": "{{ settings.type_input_adjust }}"
+      }
+    ]
+  },
+  {
+    "name": "Typography — global",
     "settings": [
       {
         "type": "paragraph",
@@ -60,22 +5538,129 @@
       {
         "type": "range",
         "id": "heading_scale",
-        "label": "Heading size scale",
+        "label": "Global heading size",
         "min": 80,
         "max": 130,
         "step": 5,
         "unit": "%",
-        "default": 100
+        "default": 100,
+        "info": "Multiplies every Persona size that follows it (headings, labels, card names). The store runs at 110%."
       },
       {
         "type": "range",
         "id": "body_scale",
-        "label": "Body size scale",
+        "label": "Global body size",
         "min": 80,
         "max": 130,
         "step": 5,
         "unit": "%",
-        "default": 100
+        "default": 100,
+        "info": "Multiplies the scaled Junction sizes (body text, descriptions, editorial paragraphs). The store runs at 90%."
+      },
+      {
+        "type": "header",
+        "content": "Custom fonts"
+      },
+      {
+        "type": "checkbox",
+        "id": "use_custom_fonts",
+        "label": "Use custom fonts",
+        "default": false,
+        "info": "Replaces Persona and Junction everywhere with the two fonts below. Off = the brand fonts (nothing extra loads)."
+      },
+      {
+        "type": "font_picker",
+        "id": "font_heading_custom",
+        "label": "Headings and labels font",
+        "default": "assistant_n4",
+        "visible_if": "{{ settings.use_custom_fonts }}"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_body_custom",
+        "label": "Text font",
+        "default": "assistant_n4",
+        "visible_if": "{{ settings.use_custom_fonts }}"
+      }
+    ]
+  },
+  {
+    "name": "Spacing",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "The padding sizes offered by every section (Top padding, Bottom padding). Nothing uses them until a section picks one."
+      },
+      {
+        "type": "range",
+        "id": "space_xs",
+        "label": "Extra small",
+        "min": 0,
+        "max": 320,
+        "step": 4,
+        "unit": "px",
+        "default": 8
+      },
+      {
+        "type": "range",
+        "id": "space_s",
+        "label": "Small",
+        "min": 0,
+        "max": 320,
+        "step": 4,
+        "unit": "px",
+        "default": 16
+      },
+      {
+        "type": "range",
+        "id": "space_m",
+        "label": "Medium",
+        "min": 0,
+        "max": 320,
+        "step": 4,
+        "unit": "px",
+        "default": 32
+      },
+      {
+        "type": "range",
+        "id": "space_l",
+        "label": "Large",
+        "min": 0,
+        "max": 320,
+        "step": 4,
+        "unit": "px",
+        "default": 64
+      },
+      {
+        "type": "range",
+        "id": "space_xl",
+        "label": "Extra large",
+        "min": 0,
+        "max": 320,
+        "step": 4,
+        "unit": "px",
+        "default": 96
+      },
+      {
+        "type": "range",
+        "id": "space_xxl",
+        "label": "Huge",
+        "min": 0,
+        "max": 320,
+        "step": 4,
+        "unit": "px",
+        "default": 208
+      },
+      {
+        "type": "range",
+        "id": "space_mobile_pct",
+        "label": "Size on phones",
+        "min": 20,
+        "max": 100,
+        "step": 1,
+        "unit": "%",
+        "default": 45,
+        "info": "The share of the desktop padding kept on phones (under 750px) by sections whose design shrinks their padding there; as the variable --space-mobile-ratio. 45% as designed."
       }
     ]
   },
@@ -229,6 +5814,44 @@
         "unit": "px",
         "default": 44,
         "info": "Room under the text before the next row of images"
+      },
+      {
+        "type": "header",
+        "content": "Names"
+      },
+      {
+        "type": "range",
+        "id": "card_label_inset",
+        "label": "Name inset",
+        "min": 0,
+        "max": 40,
+        "step": 1,
+        "unit": "px",
+        "default": 20,
+        "info": "How far the name over a photograph sits from its left and right edges (from 750px wide). 20px as designed."
+      },
+      {
+        "type": "range",
+        "id": "card_badge_size",
+        "label": "Bug size",
+        "min": 100,
+        "max": 300,
+        "step": 2,
+        "unit": "%",
+        "default": 190,
+        "info": "The Cucuyo bug beside the name of the brand's own pieces, as a share of the name's size. 190% as designed."
+      },
+      {
+        "type": "color",
+        "id": "card_label_color",
+        "label": "Name colour",
+        "info": "Every card name and its bug. Empty = as designed; a card's own colour still wins."
+      },
+      {
+        "type": "color",
+        "id": "card_label_hover_color",
+        "label": "Name colour on hover",
+        "info": "Every card name while the pointer is over the card (tablet and desktop). Empty = no change, as designed; a card's own hover colour still wins."
       },
       {
         "type": "header",

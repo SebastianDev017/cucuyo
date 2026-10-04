@@ -249,15 +249,15 @@ test('config/settings_schema.json: import, rebuild, and theme-scope visible_if f
   assert.ok(deepEqual(JSON.parse(fs.readFileSync(path.join(root, 'config/settings_schema.json'), 'utf8')), original), 'deep-equal after the rebuild');
 
   const manifest = JSON.parse(fs.readFileSync(path.join(manifests, 'theme-settings.json'), 'utf8'));
-  manifest.schema.push({ name: 'Typography — example', settings: [{ header: 'Menu links' }, { ref: '_example', prefix: 'type_nav', style: 'nav', size: false }] });
+  manifest.schema.push({ name: 'Typography — example', settings: [{ header: 'Menu links' }, { ref: '_example', prefix: 'type_example', style: 'nav', size: false }] });
   write(manifests, { 'theme-settings.json': manifest });
   r = run(BUILD, ['--root', root, '--manifests', manifests, '--check']);
   assert.equal(r.code, 1);
-  assert.match(r.out, /\+ {8}"visible_if": "\{\{ settings\.type_nav_adjust \}\}"/);
+  assert.match(r.out, /\+ {8}"visible_if": "\{\{ settings\.type_example_adjust \}\}"/);
   r = run(BUILD, ['--root', root, '--manifests', manifests]);
   assert.equal(r.code, 0, r.all);
   const built = JSON.parse(fs.readFileSync(path.join(root, 'config/settings_schema.json'), 'utf8'));
-  assert.deepEqual(built.at(-1).settings.map((s) => s.id ?? s.type), ['header', 'type_nav_type', 'type_nav_adjust', 'type_nav_font', 'type_nav_case']);
+  assert.deepEqual(built.at(-1).settings.map((s) => s.id ?? s.type), ['header', 'type_example_type', 'type_example_adjust', 'type_example_font', 'type_example_case']);
   assert.ok(fs.readFileSync(path.join(root, 'config/settings_schema.json'), 'utf8').endsWith(']\n'));
 });
 

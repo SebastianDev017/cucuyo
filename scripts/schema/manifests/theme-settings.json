@@ -1,0 +1,445 @@
+{
+  "description": "config/settings_schema.json (EDITOR-ARCHITECTURE.md §4). Colours = the color_palette 'colors' with the LIVE values (settings_data.current of both stores) as defaults; the six legacy color_* ids are gone (their orphaned values in settings_data are ignored). Colour schemes = four schema-defined schemes, each gated by 'Customise this scheme'; defaults are palette references (§4.3). Typography = the 23 styles of styles.json over four panels (type fragment, theme mode). Spacing scale (§4.2). Product cards extended with today-equivalent ids (§4.4). Ids whose designed default is the client's design (card_label_bottom, overlay insets…) are born in B1, not here. snippets/css-variables.liquid turns all of it into tokens.",
+  "file": "config/settings_schema.json",
+  "schema": [
+    {
+      "name": "theme_info",
+      "theme_name": "Cucuyo",
+      "theme_version": "2.0.0",
+      "theme_author": "Cucuyo Home",
+      "theme_documentation_url": "https://github.com/SebastianDev017/cucuyo",
+      "theme_support_url": "https://github.com/SebastianDev017/cucuyo/issues"
+    },
+    {
+      "name": "Colours",
+      "settings": [
+        {
+          "paragraph": "The brand palette. Every colour picker in the theme offers these colours, and the colour schemes start from them: Background, Ink (text), Accent (headings, links, buttons), On accent (text on accent), Muted (captions, footer links), Border, On image (text over photographs), Cream and Grey (scheme backgrounds)."
+        },
+        {
+          "type": "color_palette",
+          "id": "colors",
+          "default": {
+            "background": "#FFFFFF",
+            "ink": "#302C2C",
+            "accent": "#623827",
+            "on_accent": "#F9F6F2",
+            "muted": "#83695A",
+            "border": "#D9CFC4",
+            "on_image": "#F9F6F2",
+            "cream": "#F9F6F2",
+            "grey": "#F7F7F7"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Colour schemes",
+      "settings": [
+        {
+          "paragraph": "A section or block shows the page colours unless its Colour scheme is set to one of these. Each scheme follows the palette until you tick Customise this scheme."
+        },
+        {
+          "$each": [
+            { "id": "cream", "label": "Cream", "bg": "{{ settings.colors.cream }}", "text": "{{ settings.colors.ink }}", "fg": "{{ settings.colors.accent }}", "fg_text": "{{ settings.colors.on_accent }}", "muted": "{{ settings.colors.muted }}", "border": "{{ settings.colors.border }}" },
+            { "id": "grey", "label": "Grey", "bg": "{{ settings.colors.grey }}", "text": "{{ settings.colors.ink }}", "fg": "{{ settings.colors.accent }}", "fg_text": "{{ settings.colors.on_accent }}", "muted": "{{ settings.colors.muted }}", "border": "{{ settings.colors.border }}" },
+            { "id": "accent", "label": "Brown", "bg": "{{ settings.colors.accent }}", "text": "{{ settings.colors.on_accent }}", "fg": "{{ settings.colors.on_accent }}", "fg_text": "{{ settings.colors.accent }}", "muted": "#D9CFC4", "border": "#83695A" },
+            { "id": "ink", "label": "Dark", "bg": "{{ settings.colors.ink }}", "text": "{{ settings.colors.on_accent }}", "fg": "{{ settings.colors.on_accent }}", "fg_text": "{{ settings.colors.ink }}", "muted": "#D9CFC4", "border": "#83695A" }
+          ],
+          "as": "c",
+          "do": [
+            { "header": "{{c.label}}" },
+            {
+              "type": "checkbox",
+              "id": "scheme_{{c.id}}_customize",
+              "label": "Customise this scheme",
+              "default": false,
+              "info": "Off = the colours below follow the palette."
+            },
+            { "type": "color", "id": "scheme_{{c.id}}_bg", "label": "Background", "default": "{{c.bg}}", "visible_if": "{{ settings.scheme_{{c.id}}_customize }}" },
+            { "type": "color", "id": "scheme_{{c.id}}_text", "label": "Text", "default": "{{c.text}}", "visible_if": "{{ settings.scheme_{{c.id}}_customize }}" },
+            { "type": "color", "id": "scheme_{{c.id}}_heading", "label": "Headings", "default": "{{c.fg}}", "info": "Also card names and every accent-coloured detail of the scheme.", "visible_if": "{{ settings.scheme_{{c.id}}_customize }}" },
+            { "type": "color", "id": "scheme_{{c.id}}_link", "label": "Links", "default": "{{c.fg}}", "visible_if": "{{ settings.scheme_{{c.id}}_customize }}" },
+            { "type": "color", "id": "scheme_{{c.id}}_link_hover", "label": "Links on hover", "default": "{{c.fg}}", "visible_if": "{{ settings.scheme_{{c.id}}_customize }}" },
+            { "type": "color", "id": "scheme_{{c.id}}_button", "label": "Buttons", "default": "{{c.fg}}", "visible_if": "{{ settings.scheme_{{c.id}}_customize }}" },
+            { "type": "color", "id": "scheme_{{c.id}}_button_text", "label": "Button text", "default": "{{c.fg_text}}", "visible_if": "{{ settings.scheme_{{c.id}}_customize }}" },
+            { "type": "color", "id": "scheme_{{c.id}}_button_hover", "label": "Buttons on hover", "default": "{{c.fg}}", "visible_if": "{{ settings.scheme_{{c.id}}_customize }}" },
+            { "type": "color", "id": "scheme_{{c.id}}_button_hover_text", "label": "Button text on hover", "default": "{{c.fg_text}}", "visible_if": "{{ settings.scheme_{{c.id}}_customize }}" },
+            { "type": "color", "id": "scheme_{{c.id}}_border", "label": "Borders", "default": "{{c.border}}", "visible_if": "{{ settings.scheme_{{c.id}}_customize }}" },
+            { "type": "color", "id": "scheme_{{c.id}}_muted", "label": "Muted text", "default": "{{c.muted}}", "visible_if": "{{ settings.scheme_{{c.id}}_customize }}" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Typography — headings & labels",
+      "settings": [
+        {
+          "paragraph": "Each style is worn by the elements listed in docs/STYLE-GUIDE.md. Sections and blocks pick a style per element and can fine-tune it there. Sizes are a percentage of the designed size."
+        },
+        { "$each": "styles", "as": "s", "where": { "panel": "headings-labels" }, "do": [ { "ref": "type", "prefix": "type_{{s.key}}", "style": "{{s.id}}", "header": "{{s.label}}", "size": { "$if": "s.size == false", "then": false, "else": true } } ] }
+      ]
+    },
+    {
+      "name": "Typography — body & links",
+      "settings": [
+        {
+          "paragraph": "Sizes are a percentage of the designed size, at the global sizes of Typography — global."
+        },
+        { "$each": "styles", "as": "s", "where": { "panel": "body-links" }, "do": [ { "ref": "type", "prefix": "type_{{s.key}}", "style": "{{s.id}}", "header": "{{s.label}}", "size": { "$if": "s.size == false", "then": false, "else": true } } ] }
+      ]
+    },
+    {
+      "name": "Typography — forms & buttons",
+      "settings": [
+        {
+          "paragraph": "Sizes are a percentage of the designed size, at the global sizes of Typography — global."
+        },
+        { "$each": "styles", "as": "s", "where": { "panel": "forms-buttons" }, "do": [ { "ref": "type", "prefix": "type_{{s.key}}", "style": "{{s.id}}", "header": "{{s.label}}", "size": { "$if": "s.size == false", "then": false, "else": true } } ] }
+      ]
+    },
+    {
+      "name": "Typography — global",
+      "settings": [
+        {
+          "paragraph": "Cucuyo self-hosts its brand fonts: Persona Medium for headings and labels, Junction for body text. They load from the theme's assets — no external requests."
+        },
+        {
+          "type": "range",
+          "id": "heading_scale",
+          "label": "Global heading size",
+          "min": 80,
+          "max": 130,
+          "step": 5,
+          "unit": "%",
+          "default": 100,
+          "info": "Multiplies every Persona size that follows it (headings, labels, card names). The store runs at 110%."
+        },
+        {
+          "type": "range",
+          "id": "body_scale",
+          "label": "Global body size",
+          "min": 80,
+          "max": 130,
+          "step": 5,
+          "unit": "%",
+          "default": 100,
+          "info": "Multiplies the scaled Junction sizes (body text, descriptions, editorial paragraphs). The store runs at 90%."
+        },
+        { "header": "Custom fonts" },
+        {
+          "type": "checkbox",
+          "id": "use_custom_fonts",
+          "label": "Use custom fonts",
+          "default": false,
+          "info": "Replaces Persona and Junction everywhere with the two fonts below. Off = the brand fonts (nothing extra loads)."
+        },
+        {
+          "type": "font_picker",
+          "id": "font_heading_custom",
+          "label": "Headings and labels font",
+          "default": "assistant_n4",
+          "visible_if": "{{ settings.use_custom_fonts }}"
+        },
+        {
+          "type": "font_picker",
+          "id": "font_body_custom",
+          "label": "Text font",
+          "default": "assistant_n4",
+          "visible_if": "{{ settings.use_custom_fonts }}"
+        }
+      ]
+    },
+    {
+      "name": "Spacing",
+      "settings": [
+        {
+          "paragraph": "The padding sizes offered by every section (Top padding, Bottom padding). Nothing uses them until a section picks one."
+        },
+        { "type": "range", "id": "space_xs", "label": "Extra small", "min": 0, "max": 320, "step": 4, "unit": "px", "default": 8 },
+        { "type": "range", "id": "space_s", "label": "Small", "min": 0, "max": 320, "step": 4, "unit": "px", "default": 16 },
+        { "type": "range", "id": "space_m", "label": "Medium", "min": 0, "max": 320, "step": 4, "unit": "px", "default": 32 },
+        { "type": "range", "id": "space_l", "label": "Large", "min": 0, "max": 320, "step": 4, "unit": "px", "default": 64 },
+        { "type": "range", "id": "space_xl", "label": "Extra large", "min": 0, "max": 320, "step": 4, "unit": "px", "default": 96 },
+        { "type": "range", "id": "space_xxl", "label": "Huge", "min": 0, "max": 320, "step": 4, "unit": "px", "default": 208 },
+        {
+          "type": "range",
+          "id": "space_mobile_pct",
+          "label": "Size on phones",
+          "min": 20,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 45,
+          "info": "The share of the desktop padding kept on phones (under 750px) by sections whose design shrinks their padding there; as the variable --space-mobile-ratio. 45% as designed."
+        }
+      ]
+    },
+    {
+      "name": "Layout",
+      "settings": [
+        {
+          "type": "range",
+          "id": "page_margin",
+          "label": "Page margin",
+          "min": 16,
+          "max": 64,
+          "step": 4,
+          "unit": "px",
+          "default": 40,
+          "info": "Outer padding for text content (header, labels, footer)"
+        },
+        {
+          "type": "range",
+          "id": "page_margin_mobile",
+          "label": "Page margin on mobile",
+          "min": 0,
+          "max": 40,
+          "step": 1,
+          "unit": "px",
+          "default": 10,
+          "info": "Phones only (under 750px). Desktop and tablet keep the page margin above."
+        },
+        {
+          "type": "range",
+          "id": "grid_gap",
+          "label": "Grid gap",
+          "min": 0,
+          "max": 16,
+          "step": 2,
+          "unit": "px",
+          "default": 4,
+          "info": "Hairline gap between grid images, as in the design"
+        },
+        {
+          "type": "range",
+          "id": "section_gap",
+          "label": "Space between sections",
+          "min": 0,
+          "max": 40,
+          "step": 1,
+          "unit": "px",
+          "default": 4,
+          "info": "The white line between one section and the next, on every page. 4px is the design's."
+        },
+        {
+          "type": "range",
+          "id": "drawer_width",
+          "label": "Menu drawer width",
+          "min": 50,
+          "max": 90,
+          "step": 5,
+          "unit": "vw",
+          "default": 80,
+          "info": "Width of the mobile menu drawer (under 768px)"
+        }
+      ]
+    },
+    {
+      "name": "Product cards",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Shape"
+        },
+        {
+          "type": "select",
+          "id": "card_shape",
+          "label": "Card shape",
+          "options": [
+            {
+              "value": "756/957",
+              "label": "Portrait 4:5 (Figma)"
+            },
+            {
+              "value": "3/4",
+              "label": "Portrait 3:4"
+            },
+            {
+              "value": "1/1",
+              "label": "Square"
+            },
+            {
+              "value": "5/4",
+              "label": "Landscape 5:4"
+            }
+          ],
+          "default": "756/957",
+          "info": "The image ratio every product card is cropped to"
+        },
+        {
+          "type": "header",
+          "content": "Spacing"
+        },
+        {
+          "type": "range",
+          "id": "card_gap",
+          "label": "Space between images",
+          "min": 0,
+          "max": 40,
+          "step": 2,
+          "unit": "px",
+          "default": 6,
+          "info": "The gap in the grid itself. Keep it small for a tight field of images — the text keeps its own space below."
+        },
+        {
+          "type": "range",
+          "id": "card_text_start",
+          "label": "Info padding (left)",
+          "min": 0,
+          "max": 40,
+          "step": 1,
+          "unit": "px",
+          "default": 5,
+          "info": "Keeps the text off the image's left edge"
+        },
+        {
+          "type": "range",
+          "id": "card_text_inset",
+          "label": "Info padding (right)",
+          "min": 0,
+          "max": 60,
+          "step": 2,
+          "unit": "px",
+          "default": 18,
+          "info": "Horizontal room the text keeps to its right so one card's price never meets the next card's title. Raise this, not the gap, if they crowd."
+        },
+        {
+          "type": "range",
+          "id": "card_text_top",
+          "label": "Info padding (top)",
+          "min": 0,
+          "max": 40,
+          "step": 1,
+          "unit": "px",
+          "default": 5,
+          "info": "Space between the image and the text below it"
+        },
+        {
+          "type": "range",
+          "id": "card_text_space",
+          "label": "Info padding (bottom)",
+          "min": 0,
+          "max": 60,
+          "step": 2,
+          "unit": "px",
+          "default": 44,
+          "info": "Room under the text before the next row of images"
+        },
+        {
+          "type": "header",
+          "content": "Names"
+        },
+        {
+          "type": "range",
+          "id": "card_label_inset",
+          "label": "Name inset",
+          "min": 0,
+          "max": 40,
+          "step": 1,
+          "unit": "px",
+          "default": 20,
+          "info": "How far the name over a photograph sits from its left and right edges (from 750px wide). 20px as designed."
+        },
+        {
+          "type": "range",
+          "id": "card_badge_size",
+          "label": "Bug size",
+          "min": 100,
+          "max": 300,
+          "step": 2,
+          "unit": "%",
+          "default": 190,
+          "info": "The Cucuyo bug beside the name of the brand's own pieces, as a share of the name's size. 190% as designed."
+        },
+        {
+          "type": "color",
+          "id": "card_label_color",
+          "label": "Name colour",
+          "info": "Every card name and its bug. Empty = as designed; a card's own colour still wins."
+        },
+        {
+          "type": "color",
+          "id": "card_label_hover_color",
+          "label": "Name colour on hover",
+          "info": "Every card name while the pointer is over the card (tablet and desktop). Empty = no change, as designed; a card's own hover colour still wins."
+        },
+        {
+          "type": "header",
+          "content": "Colour swatches"
+        },
+        {
+          "type": "range",
+          "id": "swatch_size",
+          "label": "Swatch size",
+          "min": 10,
+          "max": 30,
+          "step": 1,
+          "unit": "px",
+          "default": 16
+        },
+        {
+          "type": "range",
+          "id": "swatch_size_pdp",
+          "label": "Swatch size (product page)",
+          "min": 12,
+          "max": 40,
+          "step": 1,
+          "unit": "px",
+          "default": 22
+        },
+        {
+          "type": "range",
+          "id": "swatch_gap",
+          "label": "Space between swatches",
+          "min": 2,
+          "max": 24,
+          "step": 1,
+          "unit": "px",
+          "default": 13,
+          "info": "8px reads as one blob at 16px swatches; 12-14 separates them"
+        },
+        {
+          "type": "range",
+          "id": "swatch_margin",
+          "label": "Space above the swatches",
+          "min": 0,
+          "max": 40,
+          "step": 2,
+          "unit": "px",
+          "default": 16,
+          "info": "Fixed gap from the text above, the same on every card whatever its title length"
+        }
+      ]
+    },
+    {
+      "name": "Animations",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "enable_scroll_animations",
+          "label": "Enable scroll animations",
+          "default": true,
+          "info": "Subtle fades and image reveals. Automatically disabled for visitors who prefer reduced motion."
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_smooth_scroll",
+          "label": "Enable smooth scrolling",
+          "default": true
+        }
+      ]
+    },
+    {
+      "name": "Branding",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "favicon",
+          "label": "Favicon",
+          "info": "Displayed at 32 × 32 px"
+        }
+      ]
+    }
+  ]
+}

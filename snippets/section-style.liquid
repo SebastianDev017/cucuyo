@@ -1,6 +1,6 @@
 {% doc %}
   Emits the section-level style fragment shared by every customizable
-  section: background, text colour, and vertical padding.
+  section: background, text colour, vertical padding, and the colour scheme.
 
   COLOUR IS OPT-IN. Both colour settings are left with no default, so an
   untouched section emits nothing for them and keeps inheriting the theme
@@ -11,21 +11,146 @@
 
   Padding defaults are 0 because that is what the sections currently have —
   their rhythm comes from the grid gap, not from padding. Adding the control
-  changes nothing until it is used.
+  changes nothing until it is used. With the padding group of
+  scripts/schema/fragments/padding.json: pad_top_preset / pad_bottom_preset
+  blank or 'custom' = padding_top / padding_bottom in px (exactly the old
+  output), xs…xxl = the Theme settings › Spacing tokens, 'none' = nothing
+  (the section's own CSS rules). pad_mobile 'same' / 'custom' adds
+  --section-pt-m / --section-pb-m; 'auto' (default) adds nothing, so the
+  section's designed phone rule stays (the note's ×0.45, the footer's 56/48,
+  everything else the desktop value). pad_x adds --section-px. The section's
+  own stylesheet decides where they apply.
 
-  @param {object} section - the section, for its settings
+  COLOUR SCHEMES (color_scheme select, page by default). page emits nothing.
+  Another scheme puts data-color-scheme="<id>" on the root (part 'attrs'),
+  where css-variables re-maps the colour tokens, and emits
+  --section-bg: var(--color-bg); --section-ink: var(--color-ink) BEFORE the
+  merchant's own colours, so an explicit Background / Text still wins. The
+  rule below paints any scheme root from those variables.
+
+  @param {object} [section] - The section, for its settings
+  @param {object} [s] - A settings drop used instead of section.settings (a theme block root: block.settings)
+  @param {string} [part] - Blank: the style declarations. 'attrs': the root's attributes, ` data-color-scheme="<id>"` when the scheme is not page and ` data-hover-tuned` when one of the hover ids is set. 'scheme': only the scheme pair --section-bg / --section-ink (for a block root's style attribute)
+  @param {string} [hover] - Comma-separated ids of the root's hover colour settings, for part 'attrs'
   @example
-  <section class="home-grid" style="{% render 'section-style', section: section %}">
+  <section
+    class="home-grid"
+    {%- render 'section-style', section: section, part: 'attrs', hover: 'heading_hover_color' %}
+    style="{% render 'section-style', section: section %}"
+  >
 {% enddoc %}
 
+{%- stylesheet %}
+  [data-color-scheme] {
+    background: var(--section-bg, var(--color-bg));
+    color: var(--section-ink, var(--color-ink));
+  }
+{% endstylesheet %}
+
 {%- liquid
-  assign pt = section.settings.padding_top | default: 0
-  assign pb = section.settings.padding_bottom | default: 0
+  assign ss = s
+  if ss == blank
+    assign ss = section.settings
+  endif
+  assign scheme = ss.color_scheme | default: 'page'
+  assign scheme_vars = ''
+  if scheme != 'page'
+    assign scheme_vars = '--section-bg: var(--color-bg); --section-ink: var(--color-ink);'
+  endif
+
+  if part == 'attrs'
+    assign attrs = ''
+    if scheme != 'page'
+      assign attrs = ' data-color-scheme="' | append: scheme | append: '"'
+    endif
+    if hover != blank
+      assign hover_ids = hover | split: ','
+      for hover_id in hover_ids
+        assign hid = hover_id | strip
+        if hid != blank and ss[hid] != blank
+          assign attrs = attrs | append: ' data-hover-tuned'
+          break
+        endif
+      endfor
+    endif
+  else
+    assign pt = ss.padding_top | default: 0
+    assign pb = ss.padding_bottom | default: 0
+    assign top_preset = ss.pad_top_preset
+    assign bottom_preset = ss.pad_bottom_preset
+    if top_preset == blank
+      assign top_preset = 'custom'
+    endif
+    if bottom_preset == blank
+      assign bottom_preset = 'custom'
+    endif
+
+    assign top_value = ''
+    assign bottom_value = ''
+    case top_preset
+      when 'custom'
+        assign top_value = pt | append: 'px'
+      when 'xs', 's', 'm', 'l', 'xl', 'xxl'
+        assign top_value = 'var(--space-' | append: top_preset | append: ')'
+    endcase
+    case bottom_preset
+      when 'custom'
+        assign bottom_value = pb | append: 'px'
+      when 'xs', 's', 'm', 'l', 'xl', 'xxl'
+        assign bottom_value = 'var(--space-' | append: bottom_preset | append: ')'
+    endcase
+
+    if top_preset == 'custom' and bottom_preset == 'custom'
+      assign padding = '--section-pt: ' | append: pt | append: 'px; --section-pb: ' | append: pb | append: 'px;'
+    else
+      assign padding = ''
+      if top_value != blank
+        assign padding = '--section-pt: ' | append: top_value | append: ';'
+      endif
+      if bottom_value != blank
+        if padding != blank
+          assign padding = padding | append: ' '
+        endif
+        assign padding = padding | append: '--section-pb: ' | append: bottom_value | append: ';'
+      endif
+    endif
+
+    assign extra = ''
+    case ss.pad_mobile
+      when 'same'
+        if top_value != blank
+          assign extra = extra | append: '--section-pt-m: ' | append: top_value | append: '; '
+        endif
+        if bottom_value != blank
+          assign extra = extra | append: '--section-pb-m: ' | append: bottom_value | append: '; '
+        endif
+      when 'custom'
+        assign pt_m = ss.padding_top_m | default: 0
+        assign pb_m = ss.padding_bottom_m | default: 0
+        assign extra = extra | append: '--section-pt-m: ' | append: pt_m | append: 'px; --section-pb-m: ' | append: pb_m | append: 'px; '
+    endcase
+    case ss.pad_x
+      when 'page'
+        assign extra = extra | append: '--section-px: var(--page-margin); '
+      when 'custom'
+        assign px_value = ss.padding_x | default: 0
+        assign extra = extra | append: '--section-px: ' | append: px_value | append: 'px; '
+    endcase
+
+    assign colours = ''
+    if ss.background_color != blank
+      assign colours = colours | append: '--section-bg: ' | append: ss.background_color | append: ';'
+    endif
+    if ss.text_color != blank
+      assign colours = colours | append: '--section-ink: ' | append: ss.text_color | append: ';'
+    endif
+    assign decls = scheme_vars | append: colours | append: extra | append: padding
+  endif
 -%}
-{%- if section.settings.background_color != blank -%}
-  --section-bg: {{ section.settings.background_color }};
-{%- endif -%}
-{%- if section.settings.text_color != blank -%}
-  --section-ink: {{ section.settings.text_color }};
-{%- endif -%}
---section-pt: {{ pt }}px; --section-pb: {{ pb }}px;
+{%- if part == 'attrs' -%}
+  {{- attrs -}}
+{%- elsif part == 'scheme' -%}
+  {{- scheme_vars -}}
+{%- else -%}
+{{ decls }}
+{% endif -%}

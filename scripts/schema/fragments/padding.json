@@ -1,0 +1,163 @@
+{
+  "description": "Section padding group (EDITOR-ARCHITECTURE.md §5.5), sections only. pad_top_preset / pad_bottom_preset (none = as designed: nothing is emitted and the section's own CSS rules; xs…xxl = Theme settings › Spacing; custom = the px range below), padding_top / padding_bottom (kept where they exist — custom_ids names other kept ids — otherwise created 0–max step 4), pad_mobile (auto = nothing is emitted, the section's designed phone rule stays — the note ×0.45, the footer 56/48, otherwise the desktop value; same = the desktop value; custom = padding_top_m / padding_bottom_m), and optionally pad_x / padding_x (text sections). snippets/section-style.liquid resolves them into --section-pt / --section-pb, --section-pt-m / --section-pb-m and --section-px. Sections that have a padding range today default to custom so the stored value keeps ruling.",
+  "params": {
+    "custom_ids": { "default": null, "type": "array", "description": "[top id, bottom id] of kept px ranges (default: padding_top / padding_bottom, reused when they exist)" },
+    "default": { "default": "none", "enum": ["none", "xs", "s", "m", "l", "xl", "xxl", "custom"], "description": "Default of both preset selects" },
+    "max": { "default": 240, "type": "number", "description": "Max of the created px ranges" },
+    "top_default": { "default": 0, "type": "number", "description": "Default of a created padding_top (today's literal)" },
+    "bottom_default": { "default": 0, "type": "number", "description": "Default of a created padding_bottom (today's literal)" },
+    "mobile": { "default": true, "type": "boolean", "description": "Include the phone controls" },
+    "mobile_default": { "default": "auto", "enum": ["auto", "same", "custom"] },
+    "top_m_default": { "default": 0, "type": "number" },
+    "bottom_m_default": { "default": 0, "type": "number" },
+    "x": { "default": false, "type": "boolean", "description": "Include the side padding controls (text sections)" },
+    "x_default": { "default": "none", "enum": ["none", "page", "custom"] },
+    "x_value_default": { "default": 40, "type": "number" },
+    "header": { "default": null, "type": "string", "description": "Optional header emitted before the group (e.g. 'Spacing')" }
+  },
+  "settings": [
+    { "$if": "header", "then": { "header": "{{header}}" } },
+    {
+      "type": "select",
+      "id": "pad_top_preset",
+      "label": "Top padding",
+      "options": [
+        { "value": "none", "label": "As designed" },
+        { "value": "xs", "label": "Extra small" },
+        { "value": "s", "label": "Small" },
+        { "value": "m", "label": "Medium" },
+        { "value": "l", "label": "Large" },
+        { "value": "xl", "label": "Extra large" },
+        { "value": "xxl", "label": "Huge" },
+        { "value": "custom", "label": "Custom" }
+      ],
+      "default": "{{default}}",
+      "info": "The sizes are set in Theme settings › Spacing. As designed = the section's own spacing."
+    },
+    {
+      "$if": "custom_ids",
+      "then": {
+        "$setting": "{{custom_ids.0}}",
+        "visible_if": "{{ {{scope_settings}}.pad_top_preset == 'custom' }}"
+      },
+      "else": {
+        "$setting": "padding_top",
+        "$fallback": {
+          "type": "range",
+          "id": "padding_top",
+          "label": "Top padding, custom",
+          "min": 0,
+          "max": "{{max}}",
+          "step": 4,
+          "unit": "px",
+          "default": "{{top_default}}"
+        },
+        "visible_if": "{{ {{scope_settings}}.pad_top_preset == 'custom' }}"
+      }
+    },
+    {
+      "type": "select",
+      "id": "pad_bottom_preset",
+      "label": "Bottom padding",
+      "options": [
+        { "value": "none", "label": "As designed" },
+        { "value": "xs", "label": "Extra small" },
+        { "value": "s", "label": "Small" },
+        { "value": "m", "label": "Medium" },
+        { "value": "l", "label": "Large" },
+        { "value": "xl", "label": "Extra large" },
+        { "value": "xxl", "label": "Huge" },
+        { "value": "custom", "label": "Custom" }
+      ],
+      "default": "{{default}}"
+    },
+    {
+      "$if": "custom_ids",
+      "then": {
+        "$setting": "{{custom_ids.1}}",
+        "visible_if": "{{ {{scope_settings}}.pad_bottom_preset == 'custom' }}"
+      },
+      "else": {
+        "$setting": "padding_bottom",
+        "$fallback": {
+          "type": "range",
+          "id": "padding_bottom",
+          "label": "Bottom padding, custom",
+          "min": 0,
+          "max": "{{max}}",
+          "step": 4,
+          "unit": "px",
+          "default": "{{bottom_default}}"
+        },
+        "visible_if": "{{ {{scope_settings}}.pad_bottom_preset == 'custom' }}"
+      }
+    },
+    {
+      "$if": "mobile",
+      "then": [
+        {
+          "type": "select",
+          "id": "pad_mobile",
+          "label": "Padding on phones",
+          "options": [
+            { "value": "auto", "label": "Automatic" },
+            { "value": "same", "label": "Same as desktop" },
+            { "value": "custom", "label": "Custom" }
+          ],
+          "default": "{{mobile_default}}",
+          "info": "Under 750px. Automatic = the section's designed phone spacing (some sections shrink their padding on phones, the others keep the desktop value)."
+        },
+        {
+          "type": "range",
+          "id": "padding_top_m",
+          "label": "Top padding on phones",
+          "min": 0,
+          "max": "{{max}}",
+          "step": 4,
+          "unit": "px",
+          "default": "{{top_m_default}}",
+          "visible_if": "{{ {{scope_settings}}.pad_mobile == 'custom' }}"
+        },
+        {
+          "type": "range",
+          "id": "padding_bottom_m",
+          "label": "Bottom padding on phones",
+          "min": 0,
+          "max": "{{max}}",
+          "step": 4,
+          "unit": "px",
+          "default": "{{bottom_m_default}}",
+          "visible_if": "{{ {{scope_settings}}.pad_mobile == 'custom' }}"
+        }
+      ]
+    },
+    {
+      "$if": "x",
+      "then": [
+        {
+          "type": "select",
+          "id": "pad_x",
+          "label": "Side padding",
+          "options": [
+            { "value": "none", "label": "As designed" },
+            { "value": "page", "label": "Page margin" },
+            { "value": "custom", "label": "Custom" }
+          ],
+          "default": "{{x_default}}",
+          "info": "Page margin follows Theme settings › Layout (its phone value on phones)."
+        },
+        {
+          "type": "range",
+          "id": "padding_x",
+          "label": "Side padding, custom",
+          "min": 0,
+          "max": 160,
+          "step": 4,
+          "unit": "px",
+          "default": "{{x_value_default}}",
+          "visible_if": "{{ {{scope_settings}}.pad_x == 'custom' }}"
+        }
+      ]
+    }
+  ]
+}

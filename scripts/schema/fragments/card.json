@@ -1,0 +1,99 @@
+{
+  "description": "Card controls (EDITOR-ARCHITECTURE.md §3.2, §5.7): the name's typography (type fragment, prefix label, designed style card-label; the kept label_font is its face), its colours (color fragment: label_color + label_hover_color, kept where they exist) plus label_bg (a box behind the name, blank = none) and badge_color (the Cucuyo bug, blank = the name's colour), optionally the colour scheme, then the image group (image fragment; ratio gains theme / 3/4 / natural) and the legacy draft_asset / image_url under 'Advanced'. Content ids (product, label, label_tone…) stay raw settings of the owner's manifest. featured-card / product-card emit the name variables with el-style (p 'label', v 'card-label', style 'card-label').",
+  "params": {
+    "label_style": { "default": "card-label", "type": "string", "description": "Designed style of the name" },
+    "name": { "default": "Name", "type": "string", "description": "Element name in the labels" },
+    "hover": { "default": true, "type": "boolean", "description": "Name colour on hover" },
+    "bg": { "default": true, "type": "boolean", "description": "label_bg" },
+    "badge": { "default": true, "type": "boolean", "description": "badge_color" },
+    "scheme": { "default": false, "type": "boolean", "description": "Include the colour_scheme select" },
+    "headers": { "default": true, "type": "boolean", "description": "Emit the Typography / Colours / Image headers" },
+    "image": { "default": true, "type": "boolean", "description": "Include the image group (false for section-level card groups)" },
+    "mobile": { "default": true, "type": "boolean" },
+    "ratio": { "default": true, "type": "boolean" },
+    "ratio_default": { "default": null },
+    "ratio_append": {
+      "default": [
+        { "value": "theme", "label": "Theme setting (Product cards › Card shape)" },
+        { "value": "3/4", "label": "Portrait 3:4" },
+        { "value": "natural", "label": "The photo's own shape" }
+      ],
+      "type": "array"
+    },
+    "fit": { "default": true, "type": "boolean" },
+    "focal": { "default": true, "type": "boolean" },
+    "alt": { "default": true, "type": "boolean" },
+    "link": { "default": true, "type": "boolean" },
+    "loading": { "default": false, "type": "boolean" },
+    "draft_asset": { "default": false, "type": "boolean" },
+    "image_url": { "default": false, "type": "boolean" },
+    "alias_font": { "default": null },
+    "alias_color": { "default": null },
+    "alias_hover_color": { "default": null }
+  },
+  "settings": [
+    { "$if": "headers", "then": { "header": "Typography" } },
+    { "ref": "type", "prefix": "label", "style": "{{label_style}}", "name": "{{name}}", "alias_font": "{{alias_font}}" },
+    { "$if": "headers", "then": { "header": "Colours" } },
+    { "ref": "color", "prefix": "label", "roles": ["text"], "hover": "{{hover}}", "name": "{{name}}", "alias_color": "{{alias_color}}", "alias_hover_color": "{{alias_hover_color}}" },
+    {
+      "$if": "bg",
+      "then": {
+        "$setting": "label_bg",
+        "$fallback": {
+          "type": "color",
+          "id": "label_bg",
+          "label": "{{name}}: background",
+          "info": "A box behind the name. Empty = none, as designed."
+        }
+      }
+    },
+    {
+      "$if": "badge",
+      "then": {
+        "$setting": "badge_color",
+        "$fallback": {
+          "type": "color",
+          "id": "badge_color",
+          "label": "Bug colour",
+          "info": "The Cucuyo bug beside the name of the brand's own pieces. Empty = the name's colour."
+        }
+      }
+    },
+    { "$if": "scheme", "then": { "ref": "scheme" } },
+    { "$if": "headers && image", "then": { "header": "Image" } },
+    {
+      "$if": "image",
+      "then": {
+        "ref": "image",
+        "mobile": "{{mobile}}",
+        "ratio": "{{ratio}}",
+        "ratio_default": "{{ratio_default}}",
+        "ratio_append": "{{ratio_append}}",
+        "fit": "{{fit}}",
+        "focal": "{{focal}}",
+        "alt": "{{alt}}",
+        "link": "{{link}}",
+        "loading": "{{loading}}",
+        "draft_asset": false,
+        "image_url": false
+      }
+    },
+    {
+      "$if": "draft_asset || image_url",
+      "then": {
+        "ref": "image",
+        "image": false,
+        "mobile": false,
+        "ratio": false,
+        "fit": false,
+        "focal": false,
+        "alt": false,
+        "link": false,
+        "loading": false,
+        "draft_asset": "{{draft_asset}}",
+        "image_url": "{{image_url}}"
+      }
+    }
+  ]
+}

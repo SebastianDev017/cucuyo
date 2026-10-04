@@ -1,0 +1,177 @@
+{
+  "description": "Image group (EDITOR-ARCHITECTURE.md §5.4): image, image_mobile, ratio, fit, focal, alt_text, link, loading, then draft_asset and image_url under an 'Advanced' header. Every id that already exists in the same settings array is reused verbatim (its type, options, range and stored values stay; it only moves into the group); the others are created. ratio gains the options of ratio_append that it lacks (theme = 'Theme setting (Product cards › Card shape)', 3/4, natural); ratio_default replaces the kept default when given (home-grid cards: theme). The rendering (media-image / band-photo) honours image_mobile only when set, fit only when contain, focal only when not auto, loading only when not auto.",
+  "params": {
+    "id_prefix": { "default": "", "type": "string", "description": "Prefix glued to every id ('' = image, alt_text…; 'mark_' = mark_image…)" },
+    "header": { "default": null, "type": "string", "description": "Optional header emitted before the group (e.g. 'Image')" },
+    "image": { "default": true, "type": "boolean" },
+    "mobile": { "default": true, "type": "boolean", "description": "image_mobile: a separate photo under 750px" },
+    "ratio": { "default": false, "type": "boolean", "description": "Include the ratio select" },
+    "ratio_default": { "default": null, "description": "New default for the ratio select (e.g. 'theme')" },
+    "ratio_append": {
+      "default": [
+        { "value": "theme", "label": "Theme setting (Product cards › Card shape)" },
+        { "value": "3/4", "label": "Portrait 3:4" },
+        { "value": "natural", "label": "The photo's own shape" }
+      ],
+      "type": "array",
+      "description": "Options added to a kept ratio select when its value is missing (home-hero passes only theme: it already has '3 / 4')"
+    },
+    "fit": { "default": true, "type": "boolean" },
+    "focal": { "default": true, "type": "boolean" },
+    "alt": { "default": true, "type": "boolean" },
+    "link": { "default": false, "type": "boolean" },
+    "loading": { "default": false, "type": "boolean" },
+    "draft_asset": { "default": false, "type": "boolean", "description": "Legacy draft-asset field (kept where it exists)" },
+    "image_url": { "default": false, "type": "boolean", "description": "Legacy image URL field (kept where it exists)" },
+    "advanced_header": { "default": true, "type": "boolean", "description": "Put draft_asset / image_url under an 'Advanced' header" }
+  },
+  "settings": [
+    { "$if": "header", "then": { "header": "{{header}}" } },
+    {
+      "$if": "image",
+      "then": {
+        "$setting": "{{id_prefix}}image",
+        "$fallback": { "type": "image_picker", "id": "{{id_prefix}}image", "label": "Image" }
+      }
+    },
+    {
+      "$if": "mobile",
+      "then": {
+        "$setting": "{{id_prefix}}image_mobile",
+        "$fallback": {
+          "type": "image_picker",
+          "id": "{{id_prefix}}image_mobile",
+          "label": "Image on phones",
+          "info": "Optional. Shown instead of the image above under 750px wide."
+        }
+      }
+    },
+    {
+      "$if": "ratio",
+      "then": {
+        "$setting": "{{id_prefix}}ratio",
+        "$fallback": {
+          "type": "select",
+          "id": "{{id_prefix}}ratio",
+          "label": "Shape",
+          "options": [
+            { "value": "theme", "label": "Theme setting (Product cards › Card shape)" },
+            { "value": "756/957", "label": "Portrait (Figma)" },
+            { "value": "3/4", "label": "Portrait 3:4" },
+            { "value": "1/1", "label": "Square" },
+            { "value": "natural", "label": "The photo's own shape" }
+          ],
+          "default": "theme"
+        },
+        "$append_options": "{{ratio_append}}",
+        "default": { "$if": "ratio_default", "then": "{{ratio_default}}" }
+      }
+    },
+    {
+      "$if": "fit",
+      "then": {
+        "$setting": "{{id_prefix}}fit",
+        "$fallback": {
+          "type": "select",
+          "id": "{{id_prefix}}fit",
+          "label": "Fit",
+          "options": [
+            { "value": "cover", "label": "Fill the frame (crop)" },
+            { "value": "contain", "label": "Show the whole photo" }
+          ],
+          "default": "cover"
+        }
+      }
+    },
+    {
+      "$if": "focal",
+      "then": {
+        "$setting": "{{id_prefix}}focal",
+        "$fallback": {
+          "type": "select",
+          "id": "{{id_prefix}}focal",
+          "label": "Focal point",
+          "options": [
+            { "value": "auto", "label": "The photo's own focal point" },
+            { "value": "left top", "label": "Top left" },
+            { "value": "center top", "label": "Top" },
+            { "value": "right top", "label": "Top right" },
+            { "value": "left center", "label": "Left" },
+            { "value": "center center", "label": "Centre" },
+            { "value": "right center", "label": "Right" },
+            { "value": "left bottom", "label": "Bottom left" },
+            { "value": "center bottom", "label": "Bottom" },
+            { "value": "right bottom", "label": "Bottom right" }
+          ],
+          "default": "auto",
+          "info": "Which part of the photo stays in view when the frame crops it. Auto uses the focal point set on the image in Shopify."
+        }
+      }
+    },
+    {
+      "$if": "alt",
+      "then": {
+        "$setting": "{{id_prefix}}alt_text",
+        "$fallback": {
+          "type": "text",
+          "id": "{{id_prefix}}alt_text",
+          "label": "Image description",
+          "info": "For screen readers"
+        }
+      }
+    },
+    {
+      "$if": "link",
+      "then": {
+        "$setting": "{{id_prefix}}link",
+        "$fallback": { "type": "url", "id": "{{id_prefix}}link", "label": "Link" }
+      }
+    },
+    {
+      "$if": "loading",
+      "then": {
+        "$setting": "{{id_prefix}}loading",
+        "$fallback": {
+          "type": "select",
+          "id": "{{id_prefix}}loading",
+          "label": "Loading",
+          "options": [
+            { "value": "auto", "label": "Automatic" },
+            { "value": "eager", "label": "Right away" },
+            { "value": "lazy", "label": "When scrolled near" }
+          ],
+          "default": "auto",
+          "info": "Automatic = the section's own choice (photos at the top of the page load right away)."
+        }
+      }
+    },
+    {
+      "$if": "advanced_header && (draft_asset || image_url)",
+      "then": { "header": "Advanced" }
+    },
+    {
+      "$if": "draft_asset",
+      "then": {
+        "$setting": "{{id_prefix}}draft_asset",
+        "$fallback": {
+          "type": "text",
+          "id": "{{id_prefix}}draft_asset",
+          "label": "Draft asset filename",
+          "info": "A theme asset shown while no image is uploaded (used to preview a design before the photos are in Shopify Files)."
+        }
+      }
+    },
+    {
+      "$if": "image_url",
+      "then": {
+        "$setting": "{{id_prefix}}image_url",
+        "$fallback": {
+          "type": "text",
+          "id": "{{id_prefix}}image_url",
+          "label": "Image URL",
+          "info": "Legacy: used when nothing is uploaded. Uploads are sharper."
+        }
+      }
+    }
+  ]
+}

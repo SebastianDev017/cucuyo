@@ -1,0 +1,26 @@
+{
+  "description": "Copy laid over a photograph (EDITOR-ARCHITECTURE.md §3.2, §5.7): typography and colour for its heading (editorial-title), text (editorial-body) and link (editorial-link, with the hover colour). Used by the band photo blocks (home-hero image, home-split media, _photo). Content ids (heading, body, cta_label, tone, scrim…) stay raw settings of the owner's manifest; band-photo emits the variables with el-style.",
+  "params": {
+    "heading_prefix": { "default": "heading", "type": "string" },
+    "body_prefix": { "default": "body", "type": "string" },
+    "cta_prefix": { "default": "cta", "type": "string" },
+    "heading_style": { "default": "editorial-title", "type": "string" },
+    "body_style": { "default": "editorial-body", "type": "string" },
+    "cta_style": { "default": "editorial-link", "type": "string" },
+    "heading_name": { "default": "Heading", "type": "string" },
+    "body_name": { "default": "Text", "type": "string" },
+    "cta_name": { "default": "Link", "type": "string" },
+    "cta_hover": { "default": true, "type": "boolean" },
+    "colors": { "default": true, "type": "boolean", "description": "Include the colour settings" },
+    "header": { "default": null, "type": "string", "description": "Optional header emitted before the group (e.g. 'Text on the photo')" }
+  },
+  "settings": [
+    { "$if": "header", "then": { "header": "{{header}}" } },
+    { "ref": "type", "prefix": "{{heading_prefix}}", "style": "{{heading_style}}", "name": "{{heading_name}}" },
+    { "$if": "colors", "then": { "ref": "color", "prefix": "{{heading_prefix}}", "roles": ["text"], "name": "{{heading_name}}" } },
+    { "ref": "type", "prefix": "{{body_prefix}}", "style": "{{body_style}}", "name": "{{body_name}}" },
+    { "$if": "colors", "then": { "ref": "color", "prefix": "{{body_prefix}}", "roles": ["text"], "name": "{{body_name}}" } },
+    { "ref": "type", "prefix": "{{cta_prefix}}", "style": "{{cta_style}}", "name": "{{cta_name}}" },
+    { "$if": "colors", "then": { "ref": "color", "prefix": "{{cta_prefix}}", "roles": ["text"], "hover": "{{cta_hover}}", "name": "{{cta_name}}" } }
+  ]
+}

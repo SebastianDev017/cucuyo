@@ -1,0 +1,185 @@
+{
+  "description": "Typography group (EDITOR-ARCHITECTURE.md §4.1, §5.2). Element mode (section/block scope): <prefix>_type (one of the 23 styles of styles.json, default = the style the element wears today), the face <prefix>_font (a kept face select such as label_font is reused verbatim and gains 'inherit'; it is visible and active while the style is the designed one or fine-tune is on), <prefix>_adjust and the fine settings weight, size, size_m, lh, ls, case behind it. Theme mode (manifests/theme-settings.json, prefix type_<key>): a header, type_<key>_font (persona/junction), type_<key>_adjust and the same fine settings behind {{ settings.type_<key>_adjust }}. snippets/el-style.liquid (elements) and snippets/css-variables.liquid (theme) turn the values into CSS variables; size % is relative to the style's designed size.",
+  "params": {
+    "prefix": { "required": true, "type": "string", "description": "Element id prefix (<prefix>_type, <prefix>_font, …); in theme settings type_<style key>" },
+    "style": { "required": true, "type": "string", "description": "Style id from styles.json: the designed style (default of <prefix>_type)" },
+    "name": { "default": null, "type": "string", "description": "Element name used in the labels ('Heading' → 'Heading: typography')" },
+    "header": { "default": null, "type": "string", "description": "Optional header emitted before the group" },
+    "size": { "default": true, "type": "boolean", "description": "false = no size settings (the size comes from elsewhere, e.g. the header's menu_size)" },
+    "alias_font": { "default": null, "description": "Existing face select with another id (kept verbatim, gains 'inherit'). Not needed when the kept id is <prefix>_font: that one is reused automatically" },
+    "alias_size": { "default": null, "description": "Existing size setting kept in place of the two % ranges (e.g. menu_size); reused verbatim and always visible" }
+  },
+  "lookup": { "s": { "from": "styles", "key": "id", "value": "{{style}}" } },
+  "settings": [
+    { "$if": "header", "then": { "header": "{{header}}" } },
+    {
+      "$if": "visible_if_scope == 'theme'",
+      "then": [
+        {
+          "type": "select",
+          "id": "{{prefix}}_font",
+          "label": "Typeface",
+          "options": [
+            { "value": "persona", "label": "Persona (headings and labels)" },
+            { "value": "junction", "label": "Junction (text)" }
+          ],
+          "default": "{{s.face}}"
+        },
+        {
+          "type": "checkbox",
+          "id": "{{prefix}}_adjust",
+          "label": "Fine-tune this style",
+          "default": false,
+          "info": "Weight, size, line height, letter spacing and case. Off = as designed."
+        }
+      ],
+      "else": [
+        {
+          "type": "select",
+          "id": "{{prefix}}_type",
+          "label": { "$if": "name", "then": "{{name}}: typography", "else": "Typography" },
+          "options": [ { "$each": "styles", "as": "o", "do": { "value": "{{o.id}}", "label": "{{o.label}}" } } ],
+          "default": "{{style}}",
+          "info": "Designed: {{s.label}}. The styles are set in Theme settings › Typography."
+        },
+        {
+          "$if": "alias_font",
+          "then": {
+            "$setting": "{{alias_font}}",
+            "$append_options": [ { "value": "inherit", "label": "As the typography style" } ],
+            "visible_if": "{{ {{scope_settings}}.{{prefix}}_adjust or {{scope_settings}}.{{prefix}}_type == '{{style}}' }}"
+          },
+          "else": {
+            "$setting": "{{prefix}}_font",
+            "$fallback": {
+              "type": "select",
+              "id": "{{prefix}}_font",
+              "label": "Typeface",
+              "options": [
+                { "value": "inherit", "label": "As the typography style" },
+                { "value": "persona", "label": "Persona" },
+                { "value": "junction", "label": "Junction" }
+              ],
+              "default": "inherit"
+            },
+            "$append_options": [ { "value": "inherit", "label": "As the typography style" } ],
+            "visible_if": "{{ {{scope_settings}}.{{prefix}}_adjust or {{scope_settings}}.{{prefix}}_type == '{{style}}' }}"
+          }
+        },
+        {
+          "type": "checkbox",
+          "id": "{{prefix}}_adjust",
+          "label": { "$if": "name", "then": "{{name}}: fine-tune", "else": "Fine-tune" },
+          "default": false,
+          "info": "Weight, size, line height, letter spacing and case of this element. Off = the typography style above."
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "{{prefix}}_weight",
+      "label": "Weight",
+      "options": [
+        { "value": "inherit", "label": "As designed" },
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "700", "label": "Bold (700)" }
+      ],
+      "default": "inherit",
+      "info": "Junction has 300, 400 and 700. Persona has one weight (500) and ignores this, unless custom fonts are on.",
+      "visible_if": "{{ {{scope_settings}}.{{prefix}}_adjust }}"
+    },
+    {
+      "$if": "alias_size && visible_if_scope != 'theme'",
+      "then": { "$setting": "{{alias_size}}" },
+      "else": {
+        "$if": "size",
+        "then": [
+          {
+            "type": "range",
+            "id": "{{prefix}}_size",
+            "label": "Size, desktop",
+            "min": 50,
+            "max": 200,
+            "step": 2,
+            "unit": "%",
+            "default": 100,
+            "info": "As designed, 100% = {{s.info_size}}.",
+            "visible_if": "{{ {{scope_settings}}.{{prefix}}_adjust }}"
+          },
+          {
+            "type": "range",
+            "id": "{{prefix}}_size_m",
+            "label": "Size, mobile",
+            "min": 50,
+            "max": 200,
+            "step": 2,
+            "unit": "%",
+            "default": 100,
+            "info": "{{s.mobile_label}}. As designed, 100% = {{s.info_size_m}}; left at 100% it follows the desktop percentage.",
+            "visible_if": "{{ {{scope_settings}}.{{prefix}}_adjust }}"
+          }
+        ]
+      }
+    },
+    {
+      "type": "select",
+      "id": "{{prefix}}_lh",
+      "label": "Line height",
+      "options": [
+        { "value": "inherit", "label": "As designed" },
+        { "value": "1", "label": "1" },
+        { "value": "1.1", "label": "1.1" },
+        { "value": "1.2", "label": "1.2" },
+        { "value": "1.27", "label": "1.27" },
+        { "value": "1.3", "label": "1.3" },
+        { "value": "1.4", "label": "1.4" },
+        { "value": "1.5", "label": "1.5" },
+        { "value": "1.55", "label": "1.55" },
+        { "value": "1.6", "label": "1.6" },
+        { "value": "1.69", "label": "1.69" },
+        { "value": "1.75", "label": "1.75" },
+        { "value": "1.8", "label": "1.8" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "inherit",
+      "info": "Designed: {{s.lh}}.",
+      "visible_if": "{{ {{scope_settings}}.{{prefix}}_adjust }}"
+    },
+    {
+      "type": "select",
+      "id": "{{prefix}}_ls",
+      "label": "Letter spacing",
+      "options": [
+        { "value": "inherit", "label": "As designed" },
+        { "value": "0", "label": "None" },
+        { "value": "0.02em", "label": "0.02em" },
+        { "value": "0.04em", "label": "0.04em" },
+        { "value": "0.06em", "label": "0.06em" },
+        { "value": "0.08em", "label": "0.08em" },
+        { "value": "0.1em", "label": "0.1em" },
+        { "value": "0.12em", "label": "0.12em" },
+        { "value": "0.14em", "label": "0.14em" },
+        { "value": "0.18em", "label": "0.18em" }
+      ],
+      "default": "inherit",
+      "info": "Designed: {{s.ls}}.",
+      "visible_if": "{{ {{scope_settings}}.{{prefix}}_adjust }}"
+    },
+    {
+      "type": "select",
+      "id": "{{prefix}}_case",
+      "label": "Letter case",
+      "options": [
+        { "value": "inherit", "label": "As designed" },
+        { "value": "uppercase", "label": "Capitals" },
+        { "value": "none", "label": "As typed" },
+        { "value": "capitalize", "label": "Capital at the start of each word" },
+        { "value": "lowercase", "label": "Lower case" }
+      ],
+      "default": "inherit",
+      "info": "Designed: {{s.case_label}}.",
+      "visible_if": "{{ {{scope_settings}}.{{prefix}}_adjust }}"
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "description": "Spacing around one element (EDITOR-ARCHITECTURE.md §5.6), for blocks and product-page parts: <prefix>_space_above / <prefix>_space_below (space_above / space_below without a prefix), ranges 0–max step 2 px whose default is today's literal (above_default / below_default). A kept range with the same id is reused verbatim; one with another id is named with alias_space_above / alias_space_below (PDP title spacing_bottom, variant picker spacing_top). The owner's CSS reads them as margins.",
+  "params": {
+    "prefix": { "default": null, "type": "string", "description": "Element id prefix (none = space_above / space_below)" },
+    "above": { "default": true, "type": "boolean" },
+    "below": { "default": true, "type": "boolean" },
+    "above_default": { "default": 0, "type": "number" },
+    "below_default": { "default": 0, "type": "number" },
+    "max": { "default": 120, "type": "number" },
+    "name": { "default": null, "type": "string", "description": "Element name used in the labels" },
+    "header": { "default": null, "type": "string", "description": "Optional header emitted before the group" },
+    "alias_space_above": { "default": null, "description": "Kept 'space above' range with another id" },
+    "alias_space_below": { "default": null, "description": "Kept 'space below' range with another id" }
+  },
+  "settings": [
+    { "$if": "header", "then": { "header": "{{header}}" } },
+    {
+      "$if": "above",
+      "then": {
+        "$if": "alias_space_above",
+        "then": { "$setting": "{{alias_space_above}}" },
+        "else": {
+          "$if": "prefix",
+          "then": {
+            "$setting": "{{prefix}}_space_above",
+            "$fallback": {
+              "type": "range",
+              "id": "{{prefix}}_space_above",
+              "label": { "$if": "name", "then": "{{name}}: space above", "else": "Space above" },
+              "min": 0,
+              "max": "{{max}}",
+              "step": 2,
+              "unit": "px",
+              "default": "{{above_default}}"
+            }
+          },
+          "else": {
+            "$setting": "space_above",
+            "$fallback": {
+              "type": "range",
+              "id": "space_above",
+              "label": { "$if": "name", "then": "{{name}}: space above", "else": "Space above" },
+              "min": 0,
+              "max": "{{max}}",
+              "step": 2,
+              "unit": "px",
+              "default": "{{above_default}}"
+            }
+          }
+        }
+      }
+    },
+    {
+      "$if": "below",
+      "then": {
+        "$if": "alias_space_below",
+        "then": { "$setting": "{{alias_space_below}}" },
+        "else": {
+          "$if": "prefix",
+          "then": {
+            "$setting": "{{prefix}}_space_below",
+            "$fallback": {
+              "type": "range",
+              "id": "{{prefix}}_space_below",
+              "label": { "$if": "name", "then": "{{name}}: space below", "else": "Space below" },
+              "min": 0,
+              "max": "{{max}}",
+              "step": 2,
+              "unit": "px",
+              "default": "{{below_default}}"
+            }
+          },
+          "else": {
+            "$setting": "space_below",
+            "$fallback": {
+              "type": "range",
+              "id": "space_below",
+              "label": { "$if": "name", "then": "{{name}}: space below", "else": "Space below" },
+              "min": 0,
+              "max": "{{max}}",
+              "step": 2,
+              "unit": "px",
+              "default": "{{below_default}}"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
