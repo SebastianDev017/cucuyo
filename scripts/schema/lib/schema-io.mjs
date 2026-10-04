@@ -63,9 +63,19 @@ export function writeText(abs, text) {
   fs.writeFileSync(abs, text, 'utf8');
 }
 
+/** Drops a leading UTF-8 byte order mark (Windows PowerShell 5.1 writes one by default). */
+export function stripBom(text) {
+  return typeof text === 'string' && text.charCodeAt(0) === 0xfeff ? text.slice(1) : text;
+}
+
+/** Reads a JSON file, tolerating a byte order mark. Throws the native SyntaxError on bad JSON. */
+export function readJSONFile(abs) {
+  return JSON.parse(stripBom(fs.readFileSync(abs, 'utf8')));
+}
+
 export function parseJSON(text, label) {
   try {
-    return JSON.parse(text);
+    return JSON.parse(stripBom(text));
   } catch (err) {
     throw new SchemaIOError(`invalid JSON: ${err.message}`, label);
   }
@@ -76,13 +86,31 @@ export function parseJSON(text, label) {
 const OPEN_TAG = /\{%-?\s*schema\s*-?%\}/g;
 const CLOSE_TAG = /\{%-?\s*endschema\s*-?%\}/g;
 
+// Regions whose content Liquid never parses as tags: {% comment %}, {% doc %}, {% raw %}
+// and inline {% # … %} comments. A "{% schema %}" written inside one of them is text.
+const UNPARSED_REGIONS = [
+  /\{%-?\s*comment\s*-?%\}[\s\S]*?\{%-?\s*endcomment\s*-?%\}/g,
+  /\{%-?\s*doc\s*-?%\}[\s\S]*?\{%-?\s*enddoc\s*-?%\}/g,
+  /\{%-?\s*raw\s*-?%\}[\s\S]*?\{%-?\s*endraw\s*-?%\}/g,
+  /\{%-?\s*#[\s\S]*?%\}/g, // like Liquid, an inline comment ends at the first %}
+];
+
+/** Same-length copy of `source` with comments, {% doc %} and {% raw %} blanked (newlines kept). */
+export function maskUnparsedRegions(source) {
+  let out = source;
+  for (const re of UNPARSED_REGIONS) out = out.replace(re, (m) => m.replace(/[^\n]/g, ' '));
+  return out;
+}
+
 /**
- * Locates the single {% schema %} tag of a Liquid source.
+ * Locates the single {% schema %} tag of a Liquid source (tags written inside comments,
+ * {% doc %} or {% raw %} do not count).
  * Returns null when there is none; throws when there are several or it is unclosed.
  * Offsets: start (tag start) < bodyStart <= bodyEnd < end (end of {% endschema %}).
  */
 export function findSchemaTag(source, file) {
-  const opens = [...source.matchAll(OPEN_TAG)];
+  const masked = maskUnparsedRegions(source);
+  const opens = [...masked.matchAll(OPEN_TAG)];
   if (opens.length === 0) return null;
   if (opens.length > 1) {
     throw new SchemaIOError(`${opens.length} {% schema %} tags found; a file may hold only one`, file);
@@ -98,7 +126,7 @@ export function findSchemaTag(source, file) {
     bodyStart,
     bodyEnd: close.index,
     end: close.index + close[0].length,
-    openTag: open[0],
+    openTag: source.slice(open.index, bodyStart),
     closeTag: close[0],
     body: source.slice(bodyStart, close.index),
   };
@@ -169,31 +197,34 @@ export function parseTemplateJSON(text, file) {
 
 // ------------------------------------------------------------- static blocks
 
-const LIQUID_COMMENTS = [
-  /\{%-?\s*comment\s*-?%\}[\s\S]*?\{%-?\s*endcomment\s*-?%\}/g,
-  /\{%-?\s*doc\s*-?%\}[\s\S]*?\{%-?\s*enddoc\s*-?%\}/g,
-  /\{%-?\s*raw\s*-?%\}[\s\S]*?\{%-?\s*endraw\s*-?%\}/g,
-  /\{%-?\s*#[^%]*-?%\}/g,
-  /\{%-?\s*schema\s*-?%\}[\s\S]*?\{%-?\s*endschema\s*-?%\}/g,
-];
+const SCHEMA_REGION = /\{%-?\s*schema\s*-?%\}[\s\S]*?\{%-?\s*endschema\s*-?%\}/g;
 
 /** Blanks comments, {% doc %}, {% raw %} and the schema body (newlines kept so offsets stay meaningful). */
 export function stripLiquidComments(source) {
-  let out = source;
-  for (const re of LIQUID_COMMENTS) out = out.replace(re, (m) => m.replace(/[^\n]/g, ' '));
-  return out;
+  return maskUnparsedRegions(source).replace(SCHEMA_REGION, (m) => m.replace(/[^\n]/g, ' '));
 }
 
-const CONTENT_FOR_BLOCK = /\bcontent_for\s+(['"])block\1\s*,([^\n%]*)/g;
+const LIQUID_TAG = /\{%-?([\s\S]*?)-?%\}/g;
+const CONTENT_FOR_BLOCK = /^\s*content_for\s+(['"])block\1\s*,([\s\S]*)$/;
 
-/** Every {% content_for 'block', type: '…', id: '…' %} call (type/id null when not a string literal). */
+/**
+ * Every static block call — {% content_for 'block', type: '…', id: '…' %}, its arguments on
+ * one line or several, or a `content_for 'block', …` line inside {% liquid %} — with
+ * type/id null when not a string literal.
+ */
 export function findStaticBlockCalls(source) {
   const calls = [];
-  for (const m of stripLiquidComments(source ?? '').matchAll(CONTENT_FOR_BLOCK)) {
-    const args = m[2];
-    const type = /\btype\s*:\s*(['"])(.*?)\1/.exec(args)?.[2] ?? null;
-    const id = /\bid\s*:\s*(['"])(.*?)\1/.exec(args)?.[2] ?? null;
-    calls.push({ type, id });
+  for (const m of stripLiquidComments(source ?? '').matchAll(LIQUID_TAG)) {
+    const body = m[1];
+    const statements = /^\s*liquid\b/.test(body) ? body.replace(/^\s*liquid\b/, '').split('\n') : [body];
+    for (const statement of statements) {
+      const call = CONTENT_FOR_BLOCK.exec(statement);
+      if (!call) continue;
+      const args = call[2];
+      const type = /(?:^|[\s,])type\s*:\s*(['"])(.*?)\1/.exec(args)?.[2] ?? null;
+      const id = /(?:^|[\s,])id\s*:\s*(['"])(.*?)\1/.exec(args)?.[2] ?? null;
+      calls.push({ type, id });
+    }
   }
   return calls;
 }
@@ -284,7 +315,7 @@ export function loadThemeModel(root, overrides = new Map()) {
 /** Optional locales/en.default.schema.json lookup for "t:" names. */
 export function loadSchemaLocale(root) {
   try {
-    const json = JSON.parse(readText(path.join(root, 'locales', 'en.default.schema.json')));
+    const json = readJSONFile(path.join(root, 'locales', 'en.default.schema.json'));
     return (key) => key.split('.').reduce((v, k) => (isPlainObject(v) ? v[k] : undefined), json);
   } catch {
     return null;

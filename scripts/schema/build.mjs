@@ -18,7 +18,7 @@ import { fileURLToPath } from 'node:url';
 import {
   REPO_ROOT, SCHEMA_DIR, THEME_SETTINGS_FILE, SchemaIOError, deepEqual, displayPath, normalizeEol,
   findSchemaTag, readLiquidSchema, spliceSchemaBody, formatJSONDocument, loadThemeModel, loadSchemaLocale,
-  readThemeCheckSettingsLimit, listManifestFiles, detectKind, resolveTarget, unifiedDiff, parseJSON, MANIFEST_KINDS,
+  readThemeCheckSettingsLimit, listManifestFiles, detectKind, resolveTarget, unifiedDiff, parseJSON, readJSONFile, MANIFEST_KINDS,
 } from './lib/schema-io.mjs';
 import { loadFragments, loadData, expandManifest, manifestProblems, FragmentError } from './lib/fragments.mjs';
 import { validateSchemaFile, validateThemeSettings } from './lib/validate.mjs';
@@ -140,7 +140,7 @@ export function runBuild(options = {}) {
     const problem = (rule, path_, message, target) => loadProblems.push({ rel, manifestFile, target, issue: { level: 'error', rule, file: manifestFile, path: path_, message } });
     let manifest;
     try {
-      manifest = JSON.parse(fs.readFileSync(path.join(manifestsDir, rel), 'utf8'));
+      manifest = readJSONFile(path.join(manifestsDir, rel));
     } catch (err) {
       problem('json', '', `invalid JSON: ${err.message}`);
       continue;

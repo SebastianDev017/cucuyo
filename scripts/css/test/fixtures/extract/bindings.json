@@ -1,0 +1,12 @@
+[
+  { "file": "sections/hero.liquid", "selector": ".title", "property": "font-size", "var": "hero-title-size", "token": "--t-title-size", "media": { "(min-width: 750px) and (max-width: 989.98px)": { "token": [] } }, "note": "the tablet variant reads no token: --t-title-size-m already drives the (max-width: 989px) rule with another value" },
+  { "file": "sections/hero.liquid", "selector": ".title", "property": "color", "var": "hero-title-ink", "token": "--color-heading" },
+  { "file": "sections/hero.liquid", "selector": ".title:hover", "property": "color", "var": ["hero-title-hover-ink", "hero-title-ink"], "token": "--color-link-hover" },
+  { "file": "sections/hero.liquid", "selector": ".title--small", "property": "font-size", "var": [], "token": [], "note": "re-declared verbatim in the same bundle as .title, so that their order (and the 989px variants after both) is kept" },
+  { "file": "snippets/box.liquid", "selector": ".box", "property": ["right", "left"], "var": "box-inset-x" },
+  { "file": "snippets/box.liquid", "selector": ".box", "property": "bottom", "var": "box-inset-y" },
+  { "file": "snippets/box.liquid", "selector": ".box", "property": "padding-top", "var": "box-pt", "note": "the (max-width: 749px) padding shorthand is re-declared verbatim alongside" },
+  { "file": "snippets/label.liquid", "selector": ".label", "property": "font-size", "var": "label-size", "token": "--t-label-size" },
+  { "file": "snippets/label.liquid", "selector": ".label:hover", "property": "color", "var": "label-hover-ink" },
+  { "file": "snippets/media.liquid", "selector": ".media", "property": "aspect-ratio", "var": "media-ratio", "media": { "(min-width: 750px)": { "var": "media-ratio-wide" } } }
+]

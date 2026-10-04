@@ -21,7 +21,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { isDeepStrictEqual } from 'node:util';
-import { isPlainObject, clone, canonicalizeSchema } from './schema-io.mjs';
+import { isPlainObject, clone, canonicalizeSchema, readJSONFile } from './schema-io.mjs';
 
 /** Liquid path of a setting in each visible_if scope. */
 export const SCOPE_SETTINGS = { section: 'section.settings', block: 'block.settings', theme: 'settings' };
@@ -62,7 +62,7 @@ function readFragment(dir, name) {
   if (RESERVED_FRAGMENTS.has(id)) throw new FragmentError(`"${id}" is a reserved name ("ref": "setting" marks a raw setting)`, label);
   let json;
   try {
-    json = JSON.parse(fs.readFileSync(path.join(dir, name), 'utf8'));
+    json = readJSONFile(path.join(dir, name));
   } catch (err) {
     throw new FragmentError(`invalid JSON: ${err.message}`, label);
   }
@@ -113,7 +113,7 @@ export function loadData(stylesFile) {
   if (!stylesFile || !fs.existsSync(stylesFile)) return data;
   let json;
   try {
-    json = JSON.parse(fs.readFileSync(stylesFile, 'utf8'));
+    json = readJSONFile(stylesFile);
   } catch (err) {
     throw new FragmentError(`invalid JSON: ${err.message}`, 'styles.json');
   }

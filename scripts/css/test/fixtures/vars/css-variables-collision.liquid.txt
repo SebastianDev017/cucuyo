@@ -1,0 +1,12 @@
+{%- comment -%}
+  Fixture css-variables with a :root collision: --fixture-gap is also declared
+  on :root in the fixture asset CSS (which loads later and wins), and it is not
+  in the allow-list.
+{%- endcomment -%}
+{% style %}
+  :root {
+    --font-heading: 'Fixture', sans-serif;
+    --card-gap: {{ settings.card_gap | default: 6 }}px;
+    --fixture-gap: {{ settings.fixture_gap | default: 4 }}px;
+  }
+{% endstyle %}

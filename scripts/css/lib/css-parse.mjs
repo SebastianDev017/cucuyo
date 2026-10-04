@@ -589,23 +589,74 @@ export function wrapperLabel(wrappers) {
   return (wrappers || []).map((w) => `@${w.name} ${w.prelude}`).join(' { ');
 }
 
+const CSS_WIDE_KEYWORDS = new Set(['inherit', 'initial', 'unset', 'revert', 'revert-layer']);
+
+/** One identifier / number / hash word of a value, in its comparison form:
+ *  numbers with their unit, hex colours, function names and the CSS-wide
+ *  keywords are ASCII case-insensitive and lower-cased; custom property names
+ *  (--Name), other identifiers (font names, animation names…) keep their case. */
+function normalizeWord(word, isFunction) {
+  if (word.startsWith('--') || word.includes('\\')) return word;
+  if (word[0] === '#') return /^#[0-9A-Fa-f]{3,8}$/.test(word) ? word.toLowerCase() : word;
+  if (isFunction) return word.toLowerCase();
+  if (/^[+-]?(\d|\.\d)/.test(word)) return word.toLowerCase();
+  const lower = word.toLowerCase();
+  return CSS_WIDE_KEYWORDS.has(lower) ? lower : word;
+}
+
 /** Value comparison key: comments removed, whitespace collapsed, no spaces
- *  inside ( ) edges, ", " between arguments. Case is kept. */
+ *  inside ( ) edges, ", " between arguments, " * " and " / " with one space on
+ *  each side (whitespace around those delimiters never changes a value, e.g.
+ *  calc(1.3rem*var(--s,1)) = calc(1.3rem * var(--s, 1)), 3/4 = 3 / 4), and the
+ *  case-insensitive parts lower-cased (units, hex colours, function names,
+ *  CSS-wide keywords: 2REM = 2rem). Strings and unquoted url() contents are kept
+ *  verbatim; + and - are left alone (in calc() they need spaces already). */
 export function normalizeValue(v) {
   const s = collapseWhitespace(stripComments(String(v), ' ')).trim();
   let out = '';
   let i = 0;
+  const trimEnd = () => { out = out.replace(/ +$/, ''); };
   while (i < s.length) {
     const c = s[i];
     if (c === '"' || c === "'") { const j = endOfString(s, i); out += s.slice(i, j); i = j; continue; }
     if (c === '\\') { out += s.slice(i, i + 2); i += 2; continue; }
+    if (isUnquotedUrlAt(s, i)) {
+      const j = endOfUrl(s, i);
+      out += `url(${s.slice(i + 4, s[j - 1] === ')' ? j - 1 : j).trim()})`;
+      i = j;
+      continue;
+    }
     if (c === '(') { out += c; i++; while (s[i] === ' ') i++; continue; }
-    if (c === ')') { out = out.replace(/ +$/, '') + c; i++; continue; }
-    if (c === ',') { out = out.replace(/ +$/, '') + ', '; i++; while (s[i] === ' ') i++; continue; }
+    if (c === ')') { trimEnd(); out += c; i++; continue; }
+    if (c === ',') { trimEnd(); out += ', '; i++; while (s[i] === ' ') i++; continue; }
+    if (c === '*' || c === '/') {
+      trimEnd();
+      out += out.length && !out.endsWith('(') ? ` ${c} ` : `${c} `;
+      i++;
+      while (s[i] === ' ') i++;
+      continue;
+    }
+    if (isIdentChar(c) || c === '#' || (c === '.' && /[0-9]/.test(s[i + 1] || ''))) {
+      let j = i + 1;
+      while (j < s.length) {
+        if (s[j] === '\\') { j += 2; continue; }
+        if (isIdentChar(s[j]) || s[j] === '%' || (s[j] === '.' && /[0-9]/.test(s[j + 1] || ''))) { j++; continue; }
+        break;
+      }
+      out += normalizeWord(s.slice(i, j), s[j] === '(');
+      i = j;
+      continue;
+    }
     out += c;
     i++;
   }
   return out.trim();
+}
+
+/** The space-separated components of a value at nesting depth 0 (outside
+ *  parentheses, strings and url()): "var(--a, 1px) 2px 3px" → 3 components. */
+export function valueComponents(v) {
+  return splitTopLevel(collapseWhitespace(stripComments(String(v), ' ')).trim(), ' ').filter((x) => x !== '');
 }
 
 /** { name, fallback } when the whole value is one var() call, else null.
@@ -849,13 +900,46 @@ export function mayTargetSameElement(selA, selB) {
   return false;
 }
 
+/** True when a compound carries :root itself, or inside :is()/:matches()
+ *  (an argument that is a root selector). Arguments of :not()/:where()/:has()
+ *  and the other functional pseudo-classes are skipped: ':not(:root)' is not
+ *  the root, ':where(:root)' has specificity 0 and loses to css-variables. */
+function hasRootPseudo(comp) {
+  let i = 0;
+  while (i < comp.length) {
+    const ch = comp[i];
+    if (ch === '"' || ch === "'") { i = endOfString(comp, i); continue; }
+    if (ch === '\\') { i += 2; continue; }
+    if (ch === '[') { i = matchBracket(comp, i) + 1; continue; }
+    if (ch === ':') {
+      const element = comp[i + 1] === ':';
+      const from = element ? i + 2 : i + 1;
+      const j = skipIdent(comp, from);
+      const name = comp.slice(from, j).toLowerCase();
+      if (comp[j] === '(') {
+        const close = matchBracket(comp, j);
+        if (!element && ['is', 'matches', '-webkit-any', '-moz-any'].includes(name)
+          && splitTopLevel(comp.slice(j + 1, close), ',').some((s) => s.trim() && isRootSelector(s.trim()))) return true;
+        i = close + 1;
+        continue;
+      }
+      if (!element && name === 'root') return true;
+      i = j;
+      continue;
+    }
+    i++;
+  }
+  return false;
+}
+
 /** True when the selector's subject is the root element and its specificity
- *  is at least :root's (0,1,0): ':root', 'html:root', 'html.js', ':root.x'… */
+ *  is at least :root's (0,1,0): ':root', 'html:root', 'html.js', ':root.x',
+ *  ':is(:root, .x)'… — not ':not(:root)' nor ':where(:root)'. */
 export function isRootSelector(selector) {
   const list = compounds(selector);
   if (list.length !== 1) return false;
   const comp = list[0];
-  if (/:root\b/i.test(comp)) return true;
+  if (hasRootPseudo(comp)) return true;
   if (/^html(?![A-Za-z0-9_-])/i.test(comp)) {
     const sp = specificity(comp);
     return sp[0] > 0 || sp[1] > 0;
@@ -1043,6 +1127,74 @@ export function blankLiquidRegions(text) {
   return out;
 }
 
+/**
+ * Custom property names assigned in the CSS of a Liquid file (the {% style %}
+ * of snippets/css-variables.liquid). Liquid tags are opaque: {% … %} never
+ * opens or closes a block, and a name built with {{ … }} ("--t-{{ id }}-size")
+ * becomes a wildcard pattern. Only declarations count (a name followed by ':'
+ * at the start of a declaration), never var() references.
+ * @returns {{ names: {name, pattern, line, root, selector}[], warnings: string[] }}
+ *   root: the innermost enclosing rule targets the root element (:root, html.x…).
+ */
+export function liquidCustomProps(liquidText) {
+  const text = blankLiquidRegions(normalizeNewlines(stripBom(String(liquidText))));
+  const names = [];
+  const warnings = [];
+  const stack = [];
+  const sameLength = (s) => s.replace(/[^\n]/g, ' ');
+  const stripLiquid = (s) => s.replace(/\{%[\s\S]*?%\}|\{\{[\s\S]*?\}\}/g, ' ');
+  let segStart = 0;
+  const declaration = (start, end) => {
+    const frame = stack[stack.length - 1];
+    if (!frame) return;
+    const seg = text.slice(start, end);
+    if (frame.root && /\{%-?\s*(render|include)\b/.test(seg)) {
+      warnings.push(`line ${lineNumberAt(text, start)}: {% render %} / {% include %} inside a :root block — the custom properties it emits are not checked`);
+    }
+    // blank Liquid tags and comments (same length) so the name keeps its offset
+    const clean = seg.replace(/\{%[\s\S]*?%\}/g, sameLength).replace(/\/\*[\s\S]*?(\*\/|$)/g, sameLength);
+    const m = /^\s*(--(?:[A-Za-z0-9_\-\u0080-￿]|\{\{[\s\S]*?\}\})+)\s*:/.exec(clean);
+    if (m) {
+      const name = m[1];
+      const line = lineNumberAt(text, start + clean.indexOf(name));
+      let pattern = null;
+      if (name.includes('{{')) {
+        const source = name.split(/\{\{[\s\S]*?\}\}/).map((part) => part.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('[A-Za-z0-9_-]+');
+        pattern = new RegExp(`^${source}$`);
+      }
+      names.push({ name, pattern, line, root: frame.root, selector: frame.selector });
+    } else if (/^\s*\{\{[\s\S]*?\}\}\s*:/.test(clean)) {
+      warnings.push(`line ${lineNumberAt(text, start)}: a custom property name built entirely by Liquid is not checked`);
+    }
+  };
+  for (let i = 0; i < text.length; ) {
+    if (text.startsWith('{%', i)) { const j = text.indexOf('%}', i + 2); i = j < 0 ? text.length : j + 2; continue; }
+    if (text.startsWith('{{', i)) { const j = text.indexOf('}}', i + 2); i = j < 0 ? text.length : j + 2; continue; }
+    const c = text[i];
+    if (c === '"' || c === "'") { i = endOfString(text, i); continue; }
+    if (c === '/' && text[i + 1] === '*') { i = endOfComment(text, i); continue; }
+    if (c === '{') {
+      const selector = collapseWhitespace(stripComments(stripLiquid(text.slice(segStart, i)), ' ')).trim();
+      const root = !selector.startsWith('@') && splitTopLevel(selector, ',').some((m) => m.trim() && isRootSelector(m.trim()));
+      stack.push({ root, selector });
+      segStart = i + 1;
+      i++;
+      continue;
+    }
+    if (c === '}') { declaration(segStart, i); stack.pop(); segStart = i + 1; i++; continue; }
+    if (c === ';') { declaration(segStart, i); segStart = i + 1; i++; continue; }
+    i++;
+  }
+  return { names, warnings };
+}
+
+/** True when a complex selector uses a vendor-prefixed pseudo-class or
+ *  pseudo-element (::-webkit-…, :-moz-…): an engine that does not know it
+ *  drops the whole rule it is listed in. */
+export function hasVendorPseudo(selector) {
+  return /::?-(webkit|moz|ms|o)-[A-Za-z]/i.test(stripComments(String(selector), ''));
+}
+
 /** Every {% stylesheet %} block of a Liquid file:
  *  [{ css, line (file line where the CSS text starts), closed }]. */
 export function extractStylesheets(liquid) {
@@ -1057,7 +1209,8 @@ export function extractStylesheets(liquid) {
     closeRe.lastIndex = start;
     const e = closeRe.exec(blanked);
     const end = e ? e.index : text.length;
-    blocks.push({ css: text.slice(start, end), line: lineNumberAt(text, start), closed: !!e, start, end });
+    const css = text.slice(start, end);
+    blocks.push({ css, line: lineNumberAt(text, start), closed: !!e, start, end, liquid: /\{\{|\{%/.test(stripComments(css, ' ')) });
     openRe.lastIndex = e ? e.index + e[0].length : text.length;
   }
   return blocks;

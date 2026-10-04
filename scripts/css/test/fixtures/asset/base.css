@@ -1,0 +1,91 @@
+/* Fixture asset CSS for the scripts/css tests. Modelled on assets/base.css:
+   a selector list shared by two owners, a selector with a desktop rule and two
+   media variants, a shorthand that interacts with a bound longhand, !important,
+   a hover query and a nested @supports > @media. The comments { } ; , strings
+   and the unquoted url() below exercise the tokenizer. */
+
+:root {
+  --fixture-gap: 4px;
+  --card-gap: 5px;
+}
+
+/* ".title" — desktop rule + (max-width: 989px) + (min-width: 750px) and (max-width: 989.98px) */
+.title,
+.subtitle {
+  margin: 0;
+  font-size: calc(1.5rem * var(--heading-scale, 1));
+  line-height: 1.3;
+  color: var(--color-accent);
+}
+
+.title:hover {
+  color: var(--color-muted);
+}
+
+/* a BEM modifier after ".title" with the same specificity (cascade-order case) */
+.title--small {
+  font-size: 1rem;
+}
+
+.box {
+  position: absolute;
+  right: 50px; /* inset; } { , */
+  bottom: 65px;
+  left: 50px;
+  padding-top: 12px;
+  background: url(data:image/svg+xml;utf8,<svg/>) no-repeat;
+}
+
+.box::before {
+  content: "a { b; c }";
+}
+
+.label {
+  font-size: 0.75rem !important;
+  letter-spacing: 0.1em;
+}
+
+@media (max-width: 989px) {
+  .title,
+  .subtitle {
+    font-size: calc(1.3rem * var(--heading-scale, 1));
+  }
+
+  .box {
+    right: 24px;
+    bottom: 28px;
+    left: 24px;
+  }
+}
+
+@media (min-width: 750px) and (max-width: 989.98px) {
+  .title {
+    font-size: 1.4rem;
+    line-height: 1.25;
+  }
+}
+
+@media (max-width: 749px) {
+  .box {
+    padding: 8px 10px;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .label:hover {
+    color: var(--color-accent);
+  }
+}
+
+@supports (aspect-ratio: 1) {
+  @media (min-width: 750px) {
+    .media {
+      aspect-ratio: 3 / 4;
+    }
+  }
+}
+
+@keyframes fixture-spin {
+  from { transform: rotate(0); }
+  to { transform: rotate(1turn); }
+}

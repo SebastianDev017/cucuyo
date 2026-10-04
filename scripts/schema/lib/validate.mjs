@@ -42,7 +42,7 @@ export const SETTING_TYPES = {
   liquid: T(INPUT, ['default', 'info', 'visible_if']),
   metaobject: T([...INPUT, 'metaobject_type'], ['default', 'info']),
   metaobject_list: T([...INPUT, 'metaobject_type'], ['default', 'info', 'limit']),
-  number: T(INPUT, ['default', 'info', 'placeholder', 'visible_if']),
+  number: T(INPUT, ['default', 'info', 'placeholder', 'visible_if', 'min', 'max', 'icon', 'options']),
   page: T(INPUT, ['default', 'info']),
   product: T(INPUT, ['default', 'info']),
   product_list: T(INPUT, ['default', 'info', 'limit']),
@@ -63,6 +63,8 @@ const BLOCK_KEYS = new Set(['name', 'settings', 'blocks', 'presets', 'tag', 'cla
 const SECTION_TAGS = ['article', 'aside', 'div', 'footer', 'header', 'section'];
 const STRING_DEFAULT_TYPES = new Set(['text', 'textarea', 'html', 'liquid', 'url', 'richtext', 'inline_richtext', 'select', 'radio', 'color', 'color_background', 'color_scheme', 'text_alignment', 'video_url', 'font_picker', 'link_list', 'image_picker', 'video']);
 const VI_KEYWORDS = new Set(['and', 'or', 'contains', 'true', 'false', 'nil', 'null', 'blank', 'empty']);
+// Setting icons are Shopify's stable snake_case icon ids (e.g. "layout_columns_2").
+const ICON_ID = /^[a-z0-9]+(?:_[a-z0-9]+)*$/;
 const EPS = 1e-9;
 
 export const NAME_LIMIT = 25;
@@ -199,7 +201,10 @@ export function validateSettingValue(setting, value) {
       return typeof value === 'boolean' ? null : `checkbox value must be true or false (got ${JSON.stringify(value)})`;
     case 'number':
       if (value === null || value === '') return null;
-      return typeof value === 'number' && Number.isFinite(value) ? null : `number value must be a number (got ${JSON.stringify(value)})`;
+      if (typeof value !== 'number' || !Number.isFinite(value)) return `number value must be a number (got ${JSON.stringify(value)})`;
+      if (typeof setting.min === 'number' && value < setting.min - EPS) return `value ${value} is below the minimum ${setting.min}`;
+      if (typeof setting.max === 'number' && value > setting.max + EPS) return `value ${value} is above the maximum ${setting.max}`;
+      return null;
     case 'range': {
       if (typeof value !== 'number' || !Number.isFinite(value)) return `range value must be a number, not ${JSON.stringify(value)}`;
       const step = setting.step ?? 1;
@@ -302,8 +307,9 @@ function checkRange(s, p, r) {
       r.error('range', `${p}.default`, `${name}: default ${s.default} is not on a step: (default − min) = ${fmt(s.default - s.min)} is not a multiple of step ${step}`, s);
     }
   }
-  // Shopify counts a range's "steps" as its selectable values, (max − min) / step + 1:
-  // 0–100 by 1 (101 values) is the documented maximum, 2–4 by 1 (3 values) shipped in this theme.
+  // Shopify's upload limits ("at least 3 steps", "at most 101 steps") count a range's
+  // selectable values, (max − min) / step + 1: 2–4 by 1 (3 values) shipped in production
+  // (related-products, retired in T0.2); read the same way, 0–100 by 1 (101 values) is the maximum.
   const values = Math.floor((s.max - s.min) / step + EPS) + 1;
   if (values < RANGE_MIN_STEPS) {
     r.error('range', p, `${name}: ${s.min}–${s.max} by ${step} gives only ${values} value(s); a range needs at least ${RANGE_MIN_STEPS} steps`, s);
@@ -314,6 +320,41 @@ function checkRange(s, p, r) {
   if (!onStep(s.max - s.min, step)) r.warn('range', p, `${name}: max − min (${fmt(s.max - s.min)}) is not a multiple of step ${step}; the slider cannot reach ${s.max}`, s);
 }
 
+/** number settings: optional min/max/options (at most one decimal digit; default and options within the bounds). */
+function checkNumber(s, p, r) {
+  const name = who(s);
+  for (const key of ['min', 'max', 'default']) {
+    if (!Object.hasOwn(s, key) || typeof s[key] !== 'number') continue;
+    if (!onStep(s[key], 0.1)) r.error('range', `${p}.${key}`, `${name}: ${key} ${s[key]} has more than one decimal digit`, s);
+  }
+  for (const key of ['min', 'max']) {
+    if (Object.hasOwn(s, key) && (typeof s[key] !== 'number' || !Number.isFinite(s[key]))) r.error('range', `${p}.${key}`, `${name}: ${key} must be a number, not ${JSON.stringify(s[key])}`, s);
+  }
+  const min = typeof s.min === 'number' ? s.min : -Infinity;
+  const max = typeof s.max === 'number' ? s.max : Infinity;
+  if (min >= max) r.error('range', p, `${name}: min (${s.min}) must be less than max (${s.max})`, s);
+  const inBounds = (v) => v >= min - EPS && v <= max + EPS;
+  if (typeof s.default === 'number' && !inBounds(s.default)) r.error('range', `${p}.default`, `${name}: default ${s.default} is outside ${fmt(min)}–${fmt(max)}`, s);
+  if (Object.hasOwn(s, 'icon') && (typeof s.icon !== 'string' || !ICON_ID.test(s.icon))) {
+    r.error('setting-shape', `${p}.icon`, `${name}: icon must be one of Shopify's snake_case icon ids such as "layout_columns_2" (got ${JSON.stringify(s.icon)})`, s);
+  }
+  if (!Object.hasOwn(s, 'options')) return;
+  if (!Array.isArray(s.options)) {
+    r.error('select-default', `${p}.options`, `${name}: "options" must be a list`, s);
+    return;
+  }
+  s.options.forEach((o, j) => {
+    const q = `${p}.options[${j}]`;
+    if (!isPlainObject(o) || typeof o.value !== 'number') {
+      r.error('select-default', q, `${name}: each number option needs a numeric "value"`, s);
+      return;
+    }
+    const extra = Object.keys(o).filter((k) => !['value', 'label', 'icon'].includes(k));
+    if (extra.length) r.error('select-default', q, `${name}: unknown option attribute(s) ${extra.join(', ')}`, s);
+    if (!inBounds(o.value)) r.error('select-default', `${q}.value`, `${name}: option value ${o.value} is outside ${fmt(min)}–${fmt(max)}`, s);
+  });
+}
+
 function checkSelect(s, p, r) {
   const name = who(s);
   if (!Array.isArray(s.options) || s.options.length === 0) {
@@ -321,7 +362,7 @@ function checkSelect(s, p, r) {
     return;
   }
   const values = [];
-  const allowed = s.type === 'select' ? ['value', 'label', 'group'] : ['value', 'label'];
+  const allowed = s.type === 'select' ? ['value', 'label', 'group', 'icon'] : ['value', 'label'];
   s.options.forEach((o, j) => {
     const q = `${p}.options[${j}]`;
     if (!isPlainObject(o) || typeof o.value !== 'string' || typeof o.label !== 'string') {
@@ -329,7 +370,13 @@ function checkSelect(s, p, r) {
       return;
     }
     const extra = Object.keys(o).filter((k) => !allowed.includes(k));
-    if (extra.length) r.error('select-default', q, `${name}: unknown option attribute(s) ${extra.join(', ')}`, s);
+    if (extra.includes('icon')) r.error('select-default', `${q}.icon`, `${name}: radio options can't carry an icon (use a select for options with icons)`, s);
+    const unknown = extra.filter((k) => k !== 'icon');
+    if (unknown.length) r.error('select-default', q, `${name}: unknown option attribute(s) ${unknown.join(', ')}`, s);
+    if (Object.hasOwn(o, 'icon') && s.type === 'select' && (typeof o.icon !== 'string' || !ICON_ID.test(o.icon))) {
+      r.error('select-default', `${q}.icon`, `${name}: an option icon must be one of Shopify's snake_case icon ids such as "layout_columns_2" (got ${JSON.stringify(o.icon)})`, s);
+    }
+    if (Object.hasOwn(o, 'group') && typeof o.group !== 'string') r.error('select-default', `${q}.group`, `${name}: an option group must be text`, s);
     if (values.includes(o.value)) r.error('select-default', q, `${name}: duplicate option value "${o.value}"`, s);
     values.push(o.value);
   });
@@ -402,6 +449,7 @@ function validateSettingsArray(list, ctx) {
     }
     if (known) {
       if (s.type === 'range') checkRange(s, p, r);
+      if (s.type === 'number') checkNumber(s, p, r);
       if (s.type === 'select' || s.type === 'radio') checkSelect(s, p, r);
       if (s.type === 'richtext' && typeof s.default === 'string') {
         const why = checkRichtext(s.default);
@@ -557,9 +605,13 @@ function checkPresetSettings(values, defs, path, owner, r) {
 }
 
 function checkPresetBlocks(node, path, container, r, depth) {
-  if (node.blocks === undefined) return;
+  if (node.blocks === undefined) {
+    if (node.block_order !== undefined) r.error('presets', `${path}.block_order`, 'block_order needs "blocks" keyed by block id next to it');
+    return;
+  }
   let entries;
   if (Array.isArray(node.blocks)) {
+    if (node.block_order !== undefined) r.error('presets', `${path}.block_order`, 'block_order is only for blocks keyed by id; with a "blocks" list the list order is the order');
     entries = node.blocks.map((block, j) => ({ block, id: isPlainObject(block) ? block.id : undefined, path: `${path}.blocks[${j}]`, form: 'array' }));
   } else if (isPlainObject(node.blocks)) {
     entries = Object.entries(node.blocks).map(([id, block]) => ({ block, id, path: `${path}.blocks.${id}`, form: 'hash' }));
@@ -630,7 +682,7 @@ function checkPresetBlocks(node, path, container, r, depth) {
     }
     if (!isPlainObject(entry.schema)) continue;
     checkPresetSettings(b.settings, settingMap(entry.schema.settings), `${e.path}.settings`, `blocks/${b.type}.liquid`, r);
-    if (b.blocks !== undefined) checkPresetBlocks(b, e.path, containerOf(entry, container.model), r, depth + 1);
+    if (b.blocks !== undefined || b.block_order !== undefined) checkPresetBlocks(b, e.path, containerOf(entry, container.model), r, depth + 1);
   }
   if (depth === 0 && Number.isInteger(container.maxBlocks) && dynamic > container.maxBlocks) {
     r.error('presets', `${path}.blocks`, `${dynamic} blocks exceed max_blocks (${container.maxBlocks})`);
@@ -691,7 +743,13 @@ export function validateSchemaFile(input) {
       r.error('schema-keys', 'max_blocks', 'max_blocks must be an integer from 1 to 50');
     }
   }
-  for (const key of ['class', 'tag']) if (Object.hasOwn(schema, key) && typeof schema[key] !== 'string') r.error('schema-keys', key, `"${key}" must be text`);
+  if (Object.hasOwn(schema, 'class') && typeof schema.class !== 'string') r.error('schema-keys', 'class', '"class" must be text');
+  if (kind === 'block' && Object.hasOwn(schema, 'tag')) {
+    // A theme block's tag is any element name up to 50 characters, or null (no wrapper element).
+    if (schema.tag !== null && (typeof schema.tag !== 'string' || [...schema.tag].length > 50)) r.error('schema-keys', 'tag', 'a theme block "tag" must be text of at most 50 characters, or null');
+  } else if (Object.hasOwn(schema, 'tag') && typeof schema.tag !== 'string') {
+    r.error('schema-keys', 'tag', '"tag" must be text');
+  }
 
   const staticCalls = findStaticBlockCalls(source);
   const sectionIds = idSet(schema.settings);

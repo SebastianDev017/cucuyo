@@ -551,6 +551,74 @@ test('color-default: dynamic colour defaults must name an existing palette colou
   assert.equal(issues.filter((i) => i.rule === 'color-default').length, 2, list(issues));
 });
 
+// ------------------------------------------- attributes newer than the docs
+
+test('number settings: min/max/options/icon are accepted and checked against their bounds', () => {
+  const ok = check({
+    schema: {
+      name: 'X',
+      settings: [{ type: 'number', id: 'columns', label: 'Columns', min: 1, max: 6, default: 3, icon: 'layout_columns_2', options: [{ value: 2, label: 'Two' }, { value: 3 }] }],
+    },
+  });
+  expectClean(ok);
+  const issues = check({
+    schema: {
+      name: 'X',
+      settings: [
+        { type: 'number', id: 'a', label: 'A', min: 5, max: 1 },
+        { type: 'number', id: 'b', label: 'B', min: 0, max: 10, default: 12, options: [{ value: 11 }, { value: '2' }] },
+        { type: 'number', id: 'c', label: 'C', default: 1.25, icon: 'Layout-Columns' },
+      ],
+    },
+  });
+  expectIssue(issues, { rule: 'range', path: 'settings[0]', includes: 'must be less than max' });
+  expectIssue(issues, { rule: 'range', path: 'settings[1].default', includes: 'outside 0–10' });
+  expectIssue(issues, { rule: 'select-default', path: 'settings[1].options[0].value', includes: 'outside 0–10' });
+  expectIssue(issues, { rule: 'select-default', path: 'settings[1].options[1]', includes: 'numeric "value"' });
+  expectIssue(issues, { rule: 'range', path: 'settings[2].default', includes: 'more than one decimal digit' });
+  expectIssue(issues, { rule: 'setting-shape', path: 'settings[2].icon', includes: 'snake_case icon ids' });
+});
+
+test('select options may carry an icon and a group; radio options may not carry an icon', () => {
+  const issues = check({
+    schema: {
+      name: 'X',
+      settings: [
+        { type: 'select', id: 'layout', label: 'Layout', options: [{ value: 'one', label: 'One', icon: 'layout_column_1', group: 'Columns' }], default: 'one' },
+        { type: 'radio', id: 'side', label: 'Side', options: [{ value: 'left', label: 'Left', icon: 'text_align_left' }], default: 'left' },
+      ],
+    },
+  });
+  expectIssue(issues, { rule: 'select-default', path: 'settings[1].options[0].icon', includes: 'radio options' });
+  assert.equal(issues.filter((i) => i.level === 'error').length, 1, list(issues));
+});
+
+test('theme block tag may be null or a short element name; a section tag must be one of the six', () => {
+  expectClean(check({ kind: 'block', file: 'blocks/heading.liquid', schema: { name: 'Heading', tag: null } }));
+  expectClean(check({ kind: 'block', file: 'blocks/heading.liquid', schema: { name: 'Heading', tag: 'h2' } }));
+  const issues = check({ kind: 'block', file: 'blocks/heading.liquid', schema: { name: 'Heading', tag: 'x'.repeat(51) } });
+  expectIssue(issues, { rule: 'schema-keys', path: 'tag', includes: 'at most 50', file: 'blocks/heading.liquid' });
+  expectIssue(check({ schema: { name: 'X', tag: null } }), { rule: 'schema-keys', path: 'tag', includes: 'tag must be one of' });
+});
+
+test('presets: block_order belongs only to blocks keyed by id', () => {
+  const issues = check({
+    files: { 'blocks/heading.liquid': headingBlock },
+    schema: {
+      name: 'X',
+      blocks: [{ type: 'heading' }],
+      presets: [
+        { name: 'List with order', blocks: [{ type: 'heading' }], block_order: ['a'] },
+        { name: 'Order alone', block_order: ['a'] },
+        { name: 'Keyed', blocks: { a: { type: 'heading' } }, block_order: ['a'] },
+      ],
+    },
+  });
+  expectIssue(issues, { rule: 'presets', path: 'presets[0].block_order', includes: 'only for blocks keyed by id' });
+  expectIssue(issues, { rule: 'presets', path: 'presets[1].block_order', includes: 'needs "blocks"' });
+  assert.equal(issues.filter((i) => i.level === 'error').length, 2, list(issues));
+});
+
 // ------------------------------------------------------------ values
 
 test('validateSettingValue (shared with the template-compat check)', () => {
@@ -569,6 +637,9 @@ test('validateSettingValue (shared with the template-compat check)', () => {
   assert.equal(validateSettingValue({ type: 'richtext' }, '{{ product.metafields.custom.body | metafield_tag }}'), null);
   assert.equal(validateSettingValue({ type: 'text' }, '{{ product.title }}'), null);
   assert.match(validateSettingValue({ type: 'text' }, 4), /must be a string/);
+  assert.equal(validateSettingValue({ type: 'number', min: 1, max: 6 }, 3), null);
+  assert.match(validateSettingValue({ type: 'number', min: 1, max: 6 }, 7), /above the maximum 6/);
+  assert.match(validateSettingValue({ type: 'number' }, '3'), /must be a number/);
 });
 
 test('a realistic section passes every rule', () => {

@@ -19,7 +19,7 @@ node scripts/schema/build.mjs --check                 # the gate: regenerate in 
 node scripts/schema/build.mjs --only sections/home-grid.liquid   # one target (or its manifest path); repeatable
 node scripts/schema/build.mjs --lint                  # also validate every schema no manifest generates yet
 node scripts/schema/import.mjs sections/home-grid.liquid         # existing schema → manifests/sections/home-grid.json
-node --test "scripts/schema/test/*.test.mjs"          # unit tests
+node --test "scripts/schema/test/*.test.mjs"          # unit tests (from the repository root)
 ```
 
 `build.mjs` options: `--root <dir>` (theme root, default the repository), `--manifests <dir>`,
@@ -32,9 +32,12 @@ nothing is written.
 recorded in the manifest), `--kind section|block|theme`, `--root`, `--manifests`, `--force`
 (it never overwrites a manifest otherwise).
 
-Tests: Node 24's `node --test <directory>` runs the directory as a module ("Cannot find
-module …/scripts/schema"), so pass the glob (quoted, Node expands it) or run `node --test`
-from inside `scripts/schema`.
+Tests: Node 24's `node --test <path>` treats every path argument as a test **file**, so
+`node --test scripts/schema` tries to load the folder as a module and fails ("Cannot find
+module …\scripts\schema") before any test runs. Pass the glob (quoted; Node expands it), or
+run a bare `node --test` from inside `scripts/schema` (it discovers `test/*.test.mjs`). Both
+run the same suites: `schema-io`, `fragments`, `validate`, `build` (CLI + gate) and
+`roundtrip`.
 
 ## Folder
 
@@ -274,20 +277,20 @@ file, the path inside the generated schema and the reason, plus the origin when 
 |---|---|---|
 | `json` | a manifest, fragment or schema body is not valid JSON / not an object | §7.3.1 |
 | `name-length` | schema or local block `name` longer than 25 characters (a `t:` key is resolved through locales/en.default.schema.json when present) | §7.3.1, theme check ValidSchemaName |
-| `range` | min/max/step/default not numbers; step ≤ 0 or not a multiple of 0.1; min ≥ max; default outside min–max; `(default − min) % step ≠ 0`; fewer than 3 or more than 101 selectable values ((max − min) / step + 1) — Shopify: "Range settings must have at most 101 steps", so 50–200 by 1 is refused (use step 2 or a narrower range). Warning: max not reachable by the step | §7.3.2 + Shopify upload limits |
-| `select-default` | select/radio without options, duplicate option values, malformed options, default not an option value | §7.3.3 |
+| `range` | min/max/step/default not numbers; step ≤ 0 or not a multiple of 0.1; min ≥ max; default outside min–max; `(default − min) % step ≠ 0`; fewer than 3 or more than 101 selectable values ((max − min) / step + 1) — Shopify: "Range settings must have at most 101 steps", so 50–200 by 1 is refused (use step 2 or a narrower range). Warning: max not reachable by the step. `number` settings: `min`/`max`/`default` with at most one decimal digit, `min < max`, default within the bounds | §7.3.2 + Shopify upload limits |
+| `select-default` | select/radio without options, duplicate option values, malformed options (select options may carry `group` and an `icon` id; radio options may not carry an icon), default not an option value; number `options` outside `min`–`max` | §7.3.3 |
 | `visible-if` | not a single `{{ … }}`; parentheses; a reference to an id that does not exist in its scope (`section.settings.x` in a section or its local blocks, `block.settings.x` in a block, `settings.x` against config/settings_schema.json); `block` from section settings; `section`/`block` in theme settings. Warning: no reference at all | §7.3.3, theme check ValidVisibleIf |
 | `unique-ids` | duplicate ids in a settings array (theme settings: across all panels); duplicate local block types | §7.3.4 |
 | `header-group` | two headers in a row, or a header that ends the list (empty group) | §7.3.4 |
-| `presets` | preset setting ids that do not exist or values that are invalid for the setting; unknown block types; a static block without `id` + `static: true`, or one that matches no `{% content_for 'block', type, id %}` of the Liquid; a statically rendered block whose preset entry lacks `static: true`; more blocks than `max_blocks` / a block `limit`; malformed `block_order` | §7.3.5, theme check SchemaPresetsStaticBlocks |
+| `presets` | preset setting ids that do not exist or values that are invalid for the setting; unknown block types; a static block without `id` + `static: true`, or one that matches no `{% content_for 'block', type, id %}` of the Liquid; a statically rendered block whose preset entry lacks `static: true`; more blocks than `max_blocks` / a block `limit`; malformed `block_order`, or `block_order` next to a `blocks` list / without `blocks` (it belongs only to blocks keyed by id) | §7.3.5, theme check SchemaPresetsStaticBlocks |
 | `theme-blocks` | a section that lists theme blocks (or renders static ones) and also defines local blocks; a theme block file with local block definitions | §7.3.6, theme check ValidLocalBlocks |
 | `private-blocks` | a `_` block used in a preset of a container that does not list it explicitly (`@theme` never covers private blocks); **a `_` block that defines presets and is listed by any section or block — it would appear in that picker** (reported on both sides) | §7.3.6, §3.0 |
 | `richtext` | a richtext default or preset value whose top level is not only `<p>`/`<ul>` (the "whole template 404s" gotcha). Warning: inline_richtext wrapped in block tags | §7.3.7 |
 | `soft-limits` (warning) | more than 40 top-level settings with an id (theme check's ExcessiveSettingsCount; the limit is read from `.theme-check.yml`), more than 120 settings in the file, file over 200 KB | §7.3.8 |
 | `setting-shape` | missing `type`/`id`/`label` or other required attributes, attributes the setting type does not have (theme check's ValidSchema rejects them — includes generator directives left behind and `visible_if` on resource pickers, which do not support it), wrong default types | Shopify theme JSON schemas |
 | `block-target` | a listed theme block, preset block or `content_for 'block'` type with no `blocks/<type>.liquid`; a public block in a preset that the container does not allow | theme check ValidBlockTarget / ValidStaticBlockType |
-| `static-blocks` | one static block id used for two types (warning: non-literal type/id) | theme check UniqueStaticBlockId |
-| `schema-keys` | unknown top-level attributes, invalid `tag`, `limit` ∉ {1, 2}, `max_blocks` ∉ 1–50, theme_info / panel shape | Shopify section/block schema |
+| `static-blocks` | one static block id used for two types (warning: non-literal type/id). Static calls are read from `{% content_for 'block', type: '…', id: '…' %}` with the arguments on one line or several, and from `content_for 'block', …` lines inside `{% liquid %}`; calls inside comments, `{% doc %}` examples, `{% raw %}` and the schema are ignored | theme check UniqueStaticBlockId |
+| `schema-keys` | unknown top-level attributes, invalid `tag` (section: one of article/aside/div/footer/header/section; theme block: any name ≤ 50 characters, or `null`), `limit` ∉ {1, 2}, `max_blocks` ∉ 1–50, theme_info / panel shape | Shopify section/block schema |
 | `color-palette` | `color_palette` outside settings_schema.json, more than one, not 1–20 colours, bad names, non-hex or alpha values | §3.0 |
 | `color-default` | a dynamic colour default that is not exactly `{{ settings.<palette id>.<key> }}` or names a missing palette colour | §3.0 |
 
@@ -322,18 +325,32 @@ The file name `scripts/schema/check-templates.mjs` is reserved; T3.2 writes it
 
 ## Platform facts this tool relies on
 
-* **Theme check reads every `**/*.{liquid,json}` under the root**, scripts/ included, and
-  classifies files by their folder name. A `.liquid` file with `{% schema %}` outside
-  `sections/` or `blocks/` is a `SchemaSectionOrBlockOnly` error, and one inside a folder
-  named `sections`/`blocks` is checked as a real section/block. Hence: no `.liquid` files in
-  this folder (the scratch copy is `home-grid.liquid.txt`), only valid JSON files committed
-  (broken-JSON fixtures live inside the tests), mini themes for tests are created in the OS
-  temp folder.
-* Shopify range limits: at most 101 selectable values, default on a step; `min`, `max`,
-  `step`, `default` must be numbers; `default` is required.
+* **Theme check also reads `.liquid` files under `scripts/`** and classifies them by their
+  folder name (probed with CLI 4.8.4 on a scratch theme, 2026-10-04): `scripts/x/plain.liquid`
+  with a `{% schema %}` → `SchemaSectionOrBlockOnly` error; `scripts/x/sections/bad.liquid`
+  → checked as a real section (`ValidSchemaName` error). A broken JSON file under
+  `scripts/schema/manifests/sections/` and a `.liquid.txt` file were **not** reported. Hence:
+  no `.liquid` files in this folder (the scratch copy is `home-grid.liquid.txt`), only valid
+  JSON committed anyway (broken-JSON fixtures are written by the tests into the OS temp
+  folder), mini themes for tests are created in the OS temp folder. On the real repository
+  `shopify theme check` reports nothing under `scripts/schema`.
+* Shopify range limits: at least 3 and at most 101 selectable values, default on a step;
+  `min`, `max`, `step`, `default` must be numbers; `default` is required; `step` is a
+  multiple of 0.1 (theme check's JSON schema). Neither the docs nor theme check state the
+  step counts — they are upload-time errors; production shipped a 2–4 by 1 range (3
+  values: `related-products` `columns`, retired in T0.2), which fixes the reading of
+  "steps" as selectable values; read the same way, 0–100 by 1 (101 values) is the largest
+  range allowed.
+  This matters for the architecture's 50–200 % size ranges (151 values): they need step 2
+  or a narrower span.
 * Richtext defaults must have `<p>`/`<ul>` top-level elements.
 * A private block that defines presets and is listed by a section is addable in that
   section's picker; statically rendered private blocks define no presets.
 * Theme check's `ExcessiveSettingsCount` warns above 40 top-level settings per section or
   block; with per-element groups most sections will pass 40, so `.theme-check.yml` needs a
-  higher `maxSettings` (see the T0.1 report).
+  higher `maxSettings` (owned by T0.2; the generator reads the value from there, see the
+  T0.1 report).
+* Attribute lists per setting type follow the JSON schemas bundled with Shopify CLI 4.8.4
+  (`@shopify/cli/dist/data/setting.json`, used by theme check's ValidSchema), which are
+  newer than the docs: `number` accepts `min`, `max`, `icon` and `options`; select options
+  accept `icon` (radio options don't); a theme block `tag` may be `null`.

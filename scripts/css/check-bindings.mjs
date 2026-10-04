@@ -6,7 +6,9 @@
 //   (a) coverage   — a bundle that re-declares a property of an asset selector
 //                    re-declares EVERY asset rule that sets it for that selector
 //                    (same @media wrapper, same order, same !important), plus
-//                    the shorthands/longhands that interact with it;
+//                    the shorthands/longhands that interact with it; a variant
+//                    in a query the asset lacks is accepted only for a property
+//                    the asset sets at top level only, after that rule;
 //   (b) fallback   — with no binding variable set, each re-declared value is the
 //                    asset value (the innermost fallback of a var() chain);
 //   (c) uniqueness — no (selector, property) is bound in two theme files;
@@ -16,8 +18,16 @@
 //                    token would be dead), except the allow-list;
 //   (e) report     — bundle selectors that match no asset selector and are not
 //                    new components (blk-*, newsletter*, [data-color-scheme],
-//                    [data-hover-tuned]).
-// Exit 1 on any failed assertion (a–d), with file / selector / property / reason.
+//                    [data-hover-tuned]);
+//   strict         — (on by default; --lenient reports them as warnings)
+//                    cascade order: a later asset rule of equal specificity on
+//                    an element the re-declared selector may also style would
+//                    lose to the bundle; hover default: a new :hover /
+//                    :focus-visible rule does not default to today's value;
+//                    shared token: one :root token read by re-declarations
+//                    whose today-values differ.
+// Exit 1 on any failed assertion (a–d, the strict findings, CSS parse errors,
+// Liquid inside a {% stylesheet %}), with file / selector / property / reason.
 // See README.md. Node standard library only.
 
 import fs from 'node:fs';
@@ -70,6 +80,7 @@ export function scanTheme(root) {
         rules.push(...parsed.rules);
         warnings.push(...parsed.warnings);
         if (!b.closed) warnings.push({ source: file, line: b.line, message: '{% stylesheet %} has no {% endstylesheet %}', severity: 'error' });
+        if (b.liquid) warnings.push({ source: file, line: b.line, message: 'Liquid ({{ }} or {% %}) inside {% stylesheet %} is not rendered by Shopify: values must arrive through custom properties', severity: 'error' });
       }
       files.push({ file, blocks: blocks.length, rules, warnings });
     }
@@ -78,54 +89,14 @@ export function scanTheme(root) {
 }
 
 /** Custom property names assigned inside the :root blocks of css-variables
- *  (Liquid tags are opaque; names built with {{ }} become wildcard patterns). */
+ *  (also inside @media; Liquid tags are opaque; names built with {{ }} become
+ *  wildcard patterns): { names: [{ name, pattern, line }], warnings }. */
 export function rootTokensFromVariables(liquidText) {
-  const text = P.blankLiquidRegions(P.normalizeNewlines(P.stripBom(String(liquidText))));
-  const names = [];
-  const warnings = [];
-  const frames = [];
-  let selStart = 0;
-  const stripLiquid = (s) => s.replace(/\{%[\s\S]*?%\}|\{\{[\s\S]*?\}\}/g, ' ');
-  const collect = (body, bodyStart) => {
-    const clean = P.stripComments(body, ' ');
-    const re = /(^|[;{}\s])(--(?:[A-Za-z0-9_-]|\{\{[\s\S]*?\}\})+)\s*:/g;
-    for (const m of clean.matchAll(re)) {
-      const name = m[2];
-      const line = P.lineNumberAt(text, bodyStart + m.index + m[1].length);
-      if (name.includes('{{')) {
-        const source = name.split(/\{\{[\s\S]*?\}\}/).map((part) => part.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('[A-Za-z0-9_-]+');
-        names.push({ name, pattern: new RegExp(`^${source}$`), line });
-      } else names.push({ name, pattern: null, line });
-    }
-    for (const m of clean.matchAll(/(^|[;{}\s])\{\{[\s\S]*?\}\}\s*:/g)) {
-      warnings.push(`css-variables line ${P.lineNumberAt(text, bodyStart + m.index + m[1].length)}: a custom property name built entirely by Liquid is not checked`);
-    }
+  const r = P.liquidCustomProps(liquidText);
+  return {
+    names: r.names.filter((n) => n.root).map(({ name, pattern, line }) => ({ name, pattern, line })),
+    warnings: r.warnings.map((w) => `css-variables ${w}`),
   };
-  for (let i = 0; i < text.length; ) {
-    if (text.startsWith('{%', i)) { const j = text.indexOf('%}', i + 2); i = j < 0 ? text.length : j + 2; continue; }
-    if (text.startsWith('{{', i)) { const j = text.indexOf('}}', i + 2); i = j < 0 ? text.length : j + 2; continue; }
-    const c = text[i];
-    if (c === '"' || c === "'") { i = P.endOfString(text, i); continue; }
-    if (c === '/' && text[i + 1] === '*') { i = P.endOfComment(text, i); continue; }
-    if (c === '{') {
-      const selector = P.stripComments(stripLiquid(text.slice(selStart, i)), ' ').trim();
-      const root = P.splitTopLevel(selector, ',').some((m) => m.trim() && P.isRootSelector(m.trim()));
-      frames.push({ root, bodyStart: i + 1 });
-      selStart = i + 1;
-      i++;
-      continue;
-    }
-    if (c === '}') {
-      const f = frames.pop();
-      if (f && f.root) collect(text.slice(f.bodyStart, i), f.bodyStart);
-      selStart = i + 1;
-      i++;
-      continue;
-    }
-    if (c === ';') selStart = i + 1;
-    i++;
-  }
-  return { names, warnings };
 }
 
 /** Reads an allow-list: 'none', an inline list "--a,--b", a JSON array (or
@@ -203,7 +174,10 @@ const startsWithVar = (v) => /^var\(/i.test(String(v).trim());
 
 /**
  * @param {{root?: string, cssFiles?: string[], varsFile?: string, allow?: string,
- *          only?: string[], checks?: string[], newMarkers?: string[]}} opts
+ *          only?: string[], checks?: string[], newMarkers?: string[], strict?: boolean}} opts
+ *        strict defaults to true: the cascade-order, hover-default and
+ *        shared-token findings fail (pass strict: false to report them only).
+ *        They belong to (a)/(b) and are skipped when neither is selected.
  */
 export function checkBindings(opts = {}) {
   const root = path.resolve(opts.root || DEFAULT_ROOT);
@@ -212,15 +186,23 @@ export function checkBindings(opts = {}) {
   const inScope = (file) => !only || only.has(file);
   const markers = [...NEW_COMPONENT_MARKERS, ...(opts.newMarkers || [])];
   const allow = loadAllowList(opts.allow);
+  const strict = opts.strict !== false;
+  const strictChecked = checks.has('a') || checks.has('b');
 
   const asset = P.loadAssetCss(root, opts.cssFiles && opts.cssFiles.length ? opts.cssFiles : P.defaultAssetFiles(root));
   const index = P.indexBySelector(asset.rules);
   const theme = scanTheme(root);
+  const varsFile = opts.varsFile ? path.resolve(root, opts.varsFile) : path.join(root, 'snippets', 'css-variables.liquid');
+  const varsText = fs.existsSync(varsFile) ? fs.readFileSync(varsFile, 'utf8') : null;
+  const varsTokens = varsText === null ? null : rootTokensFromVariables(varsText);
+  const isRootToken = (name) => !!varsTokens && varsTokens.names.some((t) => (t.pattern ? t.pattern.test(name) : t.name === name));
 
   const failures = [];
   const warnings = [];
   const designed = [];
+  const findings = []; // strict findings: { kind, file, line?, selector?, property?, reason }
   const fail = (check, f) => failures.push({ check, ...f });
+  const finding = (kind, f) => findings.push({ kind, ...f });
 
   for (const w of asset.warnings) warnings.push(`${w.source}:${w.line}: ${w.message}`);
   for (const f of theme.files) {
@@ -266,6 +248,8 @@ export function checkBindings(opts = {}) {
 
   const redeclared = []; // { file, selKey, member, props, A, B }
   const newPairs = [];   // occurrences whose selector/property the asset never declares
+  const added = [];      // accepted added media variants (see below)
+  const tokenReads = []; // { token, value, file, line, selector, property, wlabel } (shared-token finding)
   let compared = 0;
 
   for (const list of byFileSelector.values()) {
@@ -292,18 +276,43 @@ export function checkBindings(opts = {}) {
       redeclared.push({ file, selKey, member, props: g, A, B });
       if (!inScope(file)) continue;
 
+      // Added variants: when the asset sets this property group for this
+      // selector at top level only, that value holds at every viewport, so a
+      // bundle rule inside a query the asset does not have is allowed AFTER the
+      // re-declared top-level rule(s), provided it renders that same value by
+      // default (EDITOR-ARCHITECTURE.md §6.3: -m overrides, mobile padding).
+      let Bc = B;
+      const pairs = [];
+      if (A.every((a) => !a.wkey)) {
+        let lastTop = -1;
+        B.forEach((b, j) => { if (!b.wkey) lastTop = j; });
+        if (lastTop >= 0) {
+          Bc = B.filter((b, j) => !(b.wkey && j > lastTop));
+          for (const b of B.filter((x, j) => x.wkey && j > lastTop)) {
+            const a = [...A].reverse().find((x) => P.propsRelated(x.prop, b.prop));
+            if (a.prop !== b.prop) {
+              fail('a', { file, line: b.line, selector: member, property: b.property, reason: `added ${where(b.wlabel)} variant: today's ${b.property} of this selector comes from "${a.property}: ${a.value}" (${a.source}:${a.line}); add the variant for ${a.property} instead` });
+            } else if (a.important !== b.important) {
+              fail('a', { file, line: b.line, selector: member, property: b.property, reason: `added ${where(b.wlabel)} variant: !important differs from ${a.source}:${a.line}` });
+            } else {
+              pairs.push([a, b]);
+              added.push({ file, line: b.line, selector: member, property: b.property, query: b.wlabel, asset: `${a.source}:${a.line}` });
+            }
+          }
+        }
+      }
+
       // (a) coverage: same sequence of (wrapper, property, !important)
       const key = (x) => `${x.wkey}\u0001${x.prop}\u0001${x.important ? 1 : 0}`;
       const ka = A.map(key);
-      const kb = B.map(key);
-      let pairs;
+      const kb = Bc.map(key);
       if (ka.length === kb.length && ka.every((k, i) => k === kb[i])) {
-        pairs = A.map((a, i) => [a, B[i]]);
+        pairs.push(...A.map((a, i) => [a, Bc[i]]));
       } else {
         const aligned = lcsAlign(ka, kb);
-        pairs = aligned.map(([i, j]) => [A[i], B[j]]);
+        pairs.push(...aligned.map(([i, j]) => [A[i], Bc[j]]));
         const missing = A.filter((_, i) => !aligned.some(([x]) => x === i));
-        const extra = B.filter((_, j) => !aligned.some(([, y]) => y === j));
+        const extra = Bc.filter((_, j) => !aligned.some(([, y]) => y === j));
         for (const a of missing) {
           const twin = extra.findIndex((b) => key(b) === key(a));
           const impTwin = extra.findIndex((b) => b.wkey === a.wkey && b.prop === a.prop && b.important !== a.important);
@@ -314,11 +323,20 @@ export function checkBindings(opts = {}) {
             const b = extra.splice(impTwin, 1)[0];
             fail('a', { file, line: b.line, selector: member, property: a.property, reason: `!important differs from ${a.source}:${a.line} (${where(a.wlabel)})` });
           } else {
-            fail('a', { file, line: B[0].line, selector: member, property: a.property, reason: `missing ${where(a.wlabel)}: ${a.source}:${a.line} "${a.property}: ${a.value}${a.important ? ' !important' : ''}" is not re-declared — the bundle rule would override it` });
+            const decl = `${a.source}:${a.line} "${a.property}: ${a.value}${a.important ? ' !important' : ''}"`;
+            fail('a', { file, line: B[0].line, selector: member, property: a.property, reason: a.wkey
+              ? `missing ${where(a.wlabel)}: ${decl} is not re-declared — the bundle's rule for this selector comes after the asset CSS and would override it inside that query`
+              : `missing top level: ${decl} is not re-declared — a bound selector/property re-declares every asset rule that sets it, top level included` });
           }
         }
+        const allTop = A.every((x) => !x.wkey);
         for (const b of extra) {
-          fail('a', { file, line: b.line, selector: member, property: b.property, reason: `${where(b.wlabel)} has no counterpart in the asset CSS for this selector (asset rules: ${A.map((x) => `${where(x.wlabel)} ${x.property}`).join(', ')})` });
+          const why = b.wkey && allTop
+            ? `an added ${where(b.wlabel)} variant must come after the re-declared top-level rule`
+            : b.wkey
+              ? `${where(b.wlabel)} has no counterpart in the asset CSS for this selector; added variants are allowed only where the asset sets the property at top level only`
+              : 'top level has no counterpart in the asset CSS for this selector';
+          fail('a', { file, line: b.line, selector: member, property: b.property, reason: `${why} (asset rules: ${A.map((x) => `${where(x.wlabel)} ${x.property}`).join(', ')})` });
         }
       }
 
@@ -329,7 +347,11 @@ export function checkBindings(opts = {}) {
           designed.push({ file, line: b.line, selector: member, property: b.property, asset: a.value, bundle: b.value, source: `${a.source}:${a.line}` });
           continue;
         }
-        const r = P.stripForeignVars(b.value, P.customPropsIn(a.value));
+        const own = P.customPropsIn(a.value);
+        // the first :root token of the chain is what renders at defaults
+        const token = P.varChain(b.value).vars.find((n) => !own.has(n) && isRootToken(n));
+        if (token) tokenReads.push({ token, value: a.value, file, line: b.line, selector: member, property: b.property, wlabel: b.wlabel });
+        const r = P.stripForeignVars(b.value, own);
         if (r.unresolved.length) {
           fail('b', { file, line: b.line, selector: member, property: b.property, reason: `var(${r.unresolved[0]}) has no fallback, so the asset value (${a.source}:${a.line} "${a.value}") is lost when it is unset` });
         } else if (P.normalizeValue(r.value) !== P.normalizeValue(a.value)) {
@@ -370,15 +392,14 @@ export function checkBindings(opts = {}) {
   }
 
   // (d) :root tokens
-  const rootReport = { checked: false, names: 0, collisions: [], allowed: [], unusedAllow: [], file: null };
+  const rootReport = { checked: false, names: 0, collisions: [], allowed: [], unusedAllow: [], scoped: [], file: null };
   if (checks.has('d')) {
-    const varsFile = opts.varsFile ? path.resolve(root, opts.varsFile) : path.join(root, 'snippets', 'css-variables.liquid');
     rootReport.file = P.toPosix(path.relative(root, varsFile)) || varsFile;
-    if (!fs.existsSync(varsFile)) {
+    if (varsTokens === null) {
       fail('d', { file: rootReport.file, reason: 'css-variables file not found: the :root check cannot run' });
     } else {
       rootReport.checked = true;
-      const tokens = rootTokensFromVariables(fs.readFileSync(varsFile, 'utf8'));
+      const tokens = varsTokens;
       warnings.push(...tokens.warnings);
       rootReport.names = new Set(tokens.names.map((t) => t.name)).size;
       const rootDecls = [];
@@ -413,6 +434,16 @@ export function checkBindings(opts = {}) {
         }
       }
       rootReport.unusedAllow = [...allow.names].filter((n) => !rootReport.allowed.some((a) => a.name === n)).sort();
+      // informational: tokens re-mapped on a non-root selector of the asset CSS
+      // (they shadow the token inside that subtree only, usually on purpose)
+      for (const rule of asset.rules) {
+        if (rule.nested || rule.inKeyframes || rule.members.some((m) => P.isRootSelector(m.text))) continue;
+        for (const d of rule.declarations) {
+          if (!d.prop.startsWith('--')) continue;
+          if (!tokens.names.some((t) => (t.pattern ? t.pattern.test(d.prop) : t.name === d.prop))) continue;
+          rootReport.scoped.push({ name: d.prop, where: `${rule.source}:${d.line}`, selector: rule.selector, value: d.value });
+        }
+      }
     }
   }
 
@@ -436,7 +467,7 @@ export function checkBindings(opts = {}) {
     }
   }
 
-  // warnings: cascade order and hover defaults
+  // strict findings: cascade order, hover defaults, shared tokens
   const specCache = new Map();
   const spec = (t) => {
     if (!specCache.has(t)) specCache.set(t, P.specificity(t));
@@ -449,35 +480,144 @@ export function checkBindings(opts = {}) {
     if (!m.has(r.file)) m.set(r.file, new Set());
     for (const p of r.props) m.get(r.file).add(p);
   }
+  const orderChecked = new Set();
   for (const r of redeclared) {
     if (!inScope(r.file)) continue;
     const firstOrder = Math.min(...r.A.map((a) => a.order));
     const mine = spec(r.member);
+    const rel = (p) => [...r.props].some((q) => P.propsRelated(q, p));
     for (const rule of asset.rules) {
       if (rule.order <= firstOrder || rule.nested || rule.inKeyframes) continue;
       for (const m of rule.members) {
         if (m.key === r.selKey || P.compareSpecificity(spec(m.text), mine) !== 0 || !P.mayTargetSameElement(m.text, r.member)) continue;
-        const hits = rule.declarations.filter((d) => [...r.props].some((p) => P.propsRelated(p, d.prop)));
+        const hits = rule.declarations.filter((d) => rel(d.prop));
         if (!hits.length) continue;
         const owners = redeclaredBy.get(m.key);
         const sameFile = owners && owners.has(r.file) && hits.every((d) => [...owners.get(r.file)].some((p) => P.propsRelated(p, d.prop)));
-        if (sameFile) continue;
+        if (sameFile) {
+          // both re-declared in this bundle: their rules must interleave as in
+          // the asset CSS (rules the asset lacks, i.e. added variants, aside)
+          const pairKey = `${r.file}\u0000${[r.selKey, m.key].sort().join('\u0000')}\u0000${[...r.props].sort().join(',')}`;
+          if (orderChecked.has(pairKey)) continue;
+          orderChecked.add(pairKey);
+          const label = (sel, wkey, prop) => `${sel}\u0001${wkey}\u0001${prop}`;
+          const assetSeq = [
+            ...r.A.filter((a) => rel(a.prop)).map((a) => ({ l: label(r.selKey, a.wkey, a.prop), k: a.order * 100000 + a.declIndex, text: `${r.member} ${where(a.wlabel)}` })),
+            ...P.declarationsFor(index, m.key).filter(({ decl }) => rel(decl.prop)).map(({ rule: x, decl, declIndex }) => ({ l: label(m.key, P.wrapperKey(x.wrappers), decl.prop), k: x.order * 100000 + declIndex, text: `${m.text} ${where(P.wrapperLabel(x.wrappers))}` })),
+          ].sort((x, y) => x.k - y.k);
+          // only the rules both sides have: a missing one is (a)'s failure
+          const known = new Set(assetSeq.map((x) => x.l));
+          const bundleSeq = [...(byFileSelector.get(`${r.file}\u0000${r.selKey}`) || []), ...(byFileSelector.get(`${r.file}\u0000${m.key}`) || [])]
+            .filter((o) => rel(o.prop) && known.has(label(o.selKey, o.wkey, o.prop)))
+            .sort((x, y) => x.pos - y.pos);
+          const present = new Set(bundleSeq.map((o) => label(o.selKey, o.wkey, o.prop)));
+          assetSeq.splice(0, assetSeq.length, ...assetSeq.filter((x) => present.has(x.l)));
+          const a = assetSeq.map((x) => x.l).join('\n');
+          const b = bundleSeq.map((o) => label(o.selKey, o.wkey, o.prop)).join('\n');
+          if (a !== b) {
+            const squash = (list) => list.filter((x, i) => i === 0 || x !== list[i - 1]).join(' → ');
+            finding('cascade', {
+              file: r.file,
+              line: bundleSeq.length ? bundleSeq[0].line : undefined,
+              selector: r.member,
+              reason: `cascade order — "${r.member}" and "${m.text}" are both re-declared in ${r.file}, but not in the asset order (asset: ${squash(assetSeq.map((x) => x.text))}; bundle: ${squash(bundleSeq.map((o) => `${o.member} ${where(o.wlabel)}`))}); where both match one element the wrong rule wins`,
+            });
+          }
+          continue;
+        }
         const other = owners ? [...owners.keys()].filter((f) => f !== r.file) : [];
-        warnings.push(`${r.file}: cascade order — ${rule.source}:${rule.line} "${m.text}" sets ${[...new Set(hits.map((d) => d.property))].join(', ')} with the specificity of "${r.member}" after it${other.length ? ` and is re-declared in ${other.join(', ')} (bundle order between files is not guaranteed)` : ''}; where both match one element it wins today and loses to the re-declaration`);
+        const props = [...new Set(hits.map((d) => d.property))].join(', ');
+        finding('cascade', {
+          file: r.file,
+          selector: r.member,
+          reason: `cascade order — ${rule.source}:${rule.line} "${m.text}" sets ${props} with the specificity of "${r.member}" after it${other.length ? ` and is re-declared in ${other.join(', ')} (bundle order between files is not guaranteed: move both into one file)` : ''}; where both match one element it wins today and loses to the re-declaration${other.length ? '' : ` — re-declare "${m.text}" for ${props} in ${r.file} too, after "${r.member}" (verbatim is enough: extract-bindings "var": [], "token": [])`}`,
+        });
       }
     }
   }
+
+  // §6.2: a new state rule (:hover, :focus-visible…) defaults to today's hover
+  // behaviour — the asset's ":hover" rule for the same selector when there is
+  // one, else the normal value — in the media context it sits in.
+  const stateGroups = new Map();
   for (const o of newPairs) {
     if (!inScope(o.file) || !o.member.match(USER_ACTION)) continue;
-    const base = P.canonicalSelector(o.member.replace(USER_ACTION, ''));
-    const normal = P.declarationsFor(index, base).filter(({ decl }) => P.propsRelated(decl.prop, o.prop));
-    if (!normal.length) continue;
-    const values = [...new Set(normal.map(({ decl }) => P.normalizeValue(decl.value)))];
-    const rendered = P.normalizeValue(P.stripForeignVars(o.value, new Set(normal.flatMap(({ decl }) => [...P.customPropsIn(decl.value)]))).value);
-    if (values.length === 1 && values[0] === rendered) continue;
-    warnings.push(values.length > 1
-      ? `${o.file}:${o.line}: ${o.member} { ${o.property} } — the element's ${o.property} differs between rules (${values.join(' | ')}); check the hover default ("${rendered}") in each media context`
-      : `${o.file}:${o.line}: ${o.member} { ${o.property} } defaults to "${rendered}" but the element's ${o.property} is "${values[0]}" today (§6.2: a new hover rule defaults to today's colour)`);
+    const k = `${o.file}\u0000${o.selKey}\u0000${o.prop}`;
+    if (!stateGroups.has(k)) stateGroups.set(k, []);
+    stateGroups.get(k).push(o);
+  }
+  for (const list of stateGroups.values()) {
+    const o0 = list[0];
+    const related = ({ decl }) => P.propsRelated(decl.prop, o0.prop);
+    const base = P.canonicalSelector(o0.member.replace(USER_ACTION, ''));
+    const hover = P.declarationsFor(index, P.canonicalSelector(`${base}:hover`)).filter(related);
+    const ref = hover.length ? hover : P.declarationsFor(index, base).filter(related);
+    if (!ref.length) continue;
+    const what = hover.length ? `hover ${o0.property}` : o0.property;
+    const same = ref.filter(({ decl }) => decl.prop === o0.prop);
+    const at = ({ rule, decl }) => `${rule.source}:${decl.line}`;
+    if (!same.length) {
+      warnings.push(`${o0.file}:${o0.line}: ${o0.member} { ${o0.property} } — today's ${what} comes from ${ref.map((d) => `"${d.decl.property}: ${d.decl.value}" (${at(d)})`).join(', ')}; check its default by hand`);
+      continue;
+    }
+    const ctx = ({ rule }) => P.wrapperKey(rule.wrappers);
+    const keep = new Set(same.flatMap(({ decl }) => [...P.customPropsIn(decl.value)]));
+    const rendered = (o) => P.normalizeValue(P.stripForeignVars(o.value, keep).value);
+    const values = [...new Set(same.map(({ decl }) => P.normalizeValue(decl.value)))];
+    for (const o of list) {
+      let ref1 = null;
+      if (values.length === 1) ref1 = same[same.length - 1];
+      else {
+        // values differ between media contexts: compare with the rule of the
+        // same context, else with the top-level rule
+        const exact = same.filter((d) => ctx(d) === o.wkey);
+        const top = same.filter((d) => ctx(d) === '');
+        ref1 = exact.length ? exact[exact.length - 1] : top.length ? top[top.length - 1] : null;
+      }
+      if (!ref1) {
+        warnings.push(`${o.file}:${o.line}: ${o.member} { ${o.property} } — the element's ${what} differs between media contexts (${values.join(' | ')}) and none is top level or in ${where(o.wlabel)}; check the default ("${rendered(o)}") by hand`);
+        continue;
+      }
+      const expected = P.normalizeValue(ref1.decl.value);
+      if (rendered(o) === expected) continue;
+      const inCtx = values.length > 1 ? ` (${where(P.wrapperLabel(ref1.rule.wrappers))}, ${at(ref1)})` : ` (${at(ref1)})`;
+      finding('hover', { file: o.file, line: o.line, selector: o.member, property: o.property, reason: `hover default: defaults to "${rendered(o)}" but the element's ${what} is "${expected}" today${inCtx}; §6.2: a new state rule defaults to today's hover behaviour` });
+    }
+    if (values.length > 1) {
+      // media contexts whose value differs and where no state rule of the bundle sits
+      const covered = new Set(list.map((o) => o.wkey));
+      for (const d of same) {
+        const k = ctx(d);
+        const v = P.normalizeValue(d.decl.value);
+        if (!k || covered.has(k) || list.some((o) => rendered(o) === v)) continue;
+        warnings.push(`${o0.file}:${o0.line}: ${o0.member} { ${o0.property} } — today's ${what} inside "${P.wrapperLabel(d.rule.wrappers)}" is "${v}" (${at(d)}), and no state rule of this bundle sits in that query; add one defaulting to it if that context can show the state`);
+      }
+    }
+  }
+
+  // shared tokens: a token css-variables assigns on :root has ONE value, so the
+  // re-declarations that read it first (all binding variables unset) must have
+  // the same value today, or all but one change at defaults
+  const byToken = new Map();
+  for (const t of tokenReads) {
+    if (!byToken.has(t.token)) byToken.set(t.token, new Map());
+    const m = byToken.get(t.token);
+    const k = P.normalizeValue(t.value);
+    if (!m.has(k)) m.set(k, []);
+    m.get(k).push(t);
+  }
+  for (const [token, byValue] of [...byToken].sort((a, b) => a[0].localeCompare(b[0]))) {
+    if (byValue.size < 2) continue;
+    const uses = [...byValue.values()];
+    const list = uses.map((ts) => `"${ts[0].value}" at ${ts.map((t) => `${t.file}:${t.line} ${t.selector} { ${t.property} }${t.wlabel ? ` in ${t.wlabel}` : ''}`).join(', ')}`).join('; ');
+    const first = uses[0][0];
+    finding('shared-token', { file: first.file, line: first.line, selector: first.selector, property: first.property, reason: `shared token: ${token} (assigned on :root in css-variables) is read by re-declarations whose values differ today — ${list}; it has one value, so all but one change: give the variant its own token or none (extract-bindings "media" / "media_token")` });
+  }
+  if (strictChecked) {
+    for (const f of findings) {
+      if (strict) fail('strict', f);
+      else warnings.push(`${f.line ? `${f.file}:${f.line}` : f.file}${f.selector ? ` ${f.selector}${f.property ? ` { ${f.property} }` : ''}` : ''}: ${f.reason}`);
+    }
   }
 
   const pairs = (pred) => {
@@ -489,22 +629,27 @@ export function checkBindings(opts = {}) {
   for (const r of redeclared) for (const b of r.B) redeclaredSet.add(`${b.file}\u0000${b.selKey}\u0000${b.prop}`);
   const newSet = new Set(newPairs.map((o) => `${o.file}\u0000${o.selKey}\u0000${o.prop}`));
 
-  const active = failures.filter((f) => f.check === 'parse' || checks.has(f.check));
+  const active = failures.filter((f) => f.check === 'parse' || f.check === 'strict' || checks.has(f.check));
   return {
     root,
     asset: asset.sources,
     theme: { counts: theme.counts, files: theme.files.map((f) => ({ file: f.file, blocks: f.blocks, rules: f.rules.length })) },
     only: only ? [...only] : null,
     checks: [...checks],
+    strict,
+    strict_checked: strictChecked,
+    strict_findings: strictChecked ? findings.length : 0,
     stats: {
       bound_pairs: pairs((o) => startsWithVar(o.value)),
       redeclared_pairs: redeclaredSet.size,
       new_pairs: newSet.size,
+      added_variants: added.length,
       declarations_compared: compared,
     },
     allow: { label: allow.label, names: [...allow.names] },
     root_tokens: rootReport,
     designed,
+    added,
     unknown,
     warnings: [...new Set(warnings)],
     failures: active,
@@ -524,7 +669,7 @@ export function formatReport(r) {
   const total = Object.values(r.theme.counts).reduce((a, b) => a + b, 0);
   const blocks = r.theme.files.reduce((a, f) => a + f.blocks, 0);
   out.push(`${pad('stylesheets')}${blocks} {% stylesheet %} block(s) in ${r.theme.files.length} of ${total} theme files (${Object.entries(r.theme.counts).map(([d, n]) => `${d} ${n}`).join(', ')})`);
-  out.push(`${pad('pairs')}bound ${r.stats.bound_pairs} · re-declared ${r.stats.redeclared_pairs} · new ${r.stats.new_pairs}${r.only ? `   (only: ${r.only.join(', ')})` : ''}`);
+  out.push(`${pad('pairs')}bound ${r.stats.bound_pairs} · re-declared ${r.stats.redeclared_pairs} · new ${r.stats.new_pairs} · added variants ${r.stats.added_variants}${r.only ? `   (only: ${r.only.join(', ')})` : ''}`);
   out.push('');
   const by = (c) => r.failures.filter((f) => f.check === c);
   const line = (label, c, okText) => {
@@ -542,11 +687,9 @@ export function formatReport(r) {
     out.push(`${pad('parse')}FAIL — ${parse.length} problem(s)`);
     for (const f of parse) out.push(`  ${f.file}:${f.line}: ${f.reason}`);
   }
-  const groups = new Set();
-  line('(a) coverage', 'a', `${r.stats.redeclared_pairs} re-declared selector/property pair(s) fully covered`);
+  line('(a) coverage', 'a', `${r.stats.redeclared_pairs} re-declared selector/property pair(s) fully covered${r.added.length ? `, ${r.added.length} added variant(s) listed below` : ''}`);
   line('(b) fallback', 'b', `${r.stats.declarations_compared} declaration(s) compared${r.designed.length ? `, ${r.designed.length} designed value(s) listed below` : ''}`);
   line('(c) uniqueness', 'c', 'no selector/property bound in two files');
-  void groups;
   if (r.checks.includes('d')) {
     const t = r.root_tokens;
     const list = by('d');
@@ -558,11 +701,23 @@ export function formatReport(r) {
     }
     for (const a of t.allowed) out.push(`  allow-listed  ${a.name}  ${a.where}`);
     if (t.unusedAllow.length) out.push(`  note: allow-list entries with no collision (remove them): ${t.unusedAllow.join(', ')}`);
+    for (const s of t.scoped) out.push(`  note: ${s.name} is re-mapped on a non-root selector (${s.where} ${s.selector}: ${s.value}) — scoped, not a collision`);
   } else out.push(`${pad('(d) :root')}skipped`);
   if (r.checks.includes('e')) {
     out.push(`${pad('(e) report')}${r.unknown.length ? `${r.unknown.length} bundle selector(s) match nothing in the asset CSS:` : 'every bundle selector matches an asset selector or a new component'}`);
     for (const u of r.unknown) out.push(`  ${u.file}:${u.line} ${u.selector}  [${u.kind}]`);
   } else out.push(`${pad('(e) report')}skipped`);
+  const strict = by('strict');
+  if (!r.strict_checked) out.push(`${pad('(strict)')}skipped (runs with (a) / (b))`);
+  else if (!r.strict) out.push(`${pad('(strict)')}off (--lenient) — ${r.strict_findings} cascade-order / hover-default / shared-token finding(s) listed under warnings`);
+  else {
+    out.push(`${pad('(strict)')}${strict.length ? `FAIL — ${strict.length} cascade-order / hover-default / shared-token finding(s)` : 'ok — no cascade-order, hover-default or shared-token finding'}`);
+    for (const f of strict) out.push(`  ${f.line ? `${f.file}:${f.line}` : f.file}${f.selector ? ` ${f.selector}${f.property ? ` { ${f.property} }` : ''}` : ''}: ${f.reason}`);
+  }
+  if (r.added.length) {
+    out.push('added variants (a query the asset does not have, for a property it sets at top level only; default = the top-level value):');
+    for (const a of r.added) out.push(`  ${a.file}:${a.line} ${a.selector} { ${a.property} } in ${a.query} (asset ${a.asset})`);
+  }
   if (r.designed.length) {
     out.push('designed values (Stage B1; not failures):');
     for (const d of r.designed) out.push(`  ${d.file}:${d.line} ${d.selector} { ${d.property} }: asset "${d.asset}" (${d.source}) → bundle "${d.bundle}"`);
@@ -584,7 +739,8 @@ const USAGE = `Usage: node scripts/css/check-bindings.mjs [options]
 
 Checks every {% stylesheet %} in sections/, snippets/ and blocks/ against the
 asset CSS: (a) coverage, (b) fallback, (c) uniqueness, (d) :root tokens,
-(e) report of unknown selectors. Exit 1 on any failed assertion.
+(e) report of unknown selectors, and (strict, on by default) cascade order,
+hover defaults and shared tokens. Exit 1 on any failed assertion.
 
 Options
   --only <file>       limit (a), (b), (e) and the warnings to this owning file; (c) to
@@ -597,6 +753,9 @@ Options
   --css <file>        asset stylesheet instead of assets/base.css [+ assets/base-pages.css];
                       repeatable, in cascade order
   --new <marker>      extra selector text that marks a new component for (e) (repeatable)
+  --lenient           report the cascade-order, hover-default and shared-token
+                      findings as warnings instead of failing (alias --no-strict;
+                      --strict, the default, fails on them)
   --root <dir>        theme root (default: the repository containing this script)
   --json              print the result as JSON
   -h, --help          this text
@@ -616,6 +775,8 @@ function parseArgs(argv) {
     };
     if (a === '-h' || a === '--help') opts.help = true;
     else if (a === '--json') opts.json = true;
+    else if (a === '--strict') opts.strict = true;
+    else if (a === '--lenient' || a === '--no-strict') opts.strict = false;
     else if (a === '--only' || a.startsWith('--only=')) opts.only.push(...take('--only').split(',').map((s) => s.trim()).filter(Boolean));
     else if (a === '--checks' || a.startsWith('--checks=')) {
       const list = take('--checks').toLowerCase().split(/[\s,]+/).map((s) => s.replace(/[()]/g, '')).filter(Boolean);
@@ -642,14 +803,16 @@ export function main(argv = process.argv.slice(2), io = { stdout: process.stdout
   if (opts.help) { io.stdout.write(`${USAGE}\n`); return 0; }
   let result;
   try {
+    // paths given on the command line are relative to the working directory
     result = checkBindings({
       root: opts.root,
-      cssFiles: opts.css,
-      varsFile: opts.vars,
+      cssFiles: opts.css.map((f) => path.resolve(f)),
+      varsFile: opts.vars ? path.resolve(opts.vars) : undefined,
       allow: opts.allow,
       only: opts.only,
       checks: opts.checks,
       newMarkers: opts.newMarkers,
+      strict: opts.strict,
     });
   } catch (err) {
     io.stderr.write(`check-bindings: ${err.message}\n`);

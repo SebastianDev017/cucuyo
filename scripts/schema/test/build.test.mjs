@@ -261,6 +261,23 @@ test('config/settings_schema.json: import, rebuild, and theme-scope visible_if f
   assert.ok(fs.readFileSync(path.join(root, 'config/settings_schema.json'), 'utf8').endsWith(']\n'));
 });
 
+test('manifests, fragments and settings_schema.json saved with a UTF-8 byte order mark (PowerShell 5.1) are read', () => {
+  const BOM = '﻿';
+  const root = fixtureTheme();
+  const settingsPath = path.join(root, 'config/settings_schema.json');
+  fs.writeFileSync(settingsPath, BOM + fs.readFileSync(settingsPath, 'utf8'));
+  const manifests = path.join(root, '_manifests');
+  const fragments = path.join(root, '_fragments');
+  write(fragments, { 'grp.json': BOM + JSON.stringify({ params: { prefix: { required: true } }, settings: [{ type: 'text', id: '{{prefix}}_note', label: 'Note' }] }) });
+  write(manifests, {
+    'sections/fixture.json': BOM + JSON.stringify({ file: 'sections/fixture.liquid', schema: { name: 'Fixture', tag: 'section', settings: [{ ref: 'setting', type: 'text', id: 'heading', label: 'Heading' }, { ref: 'grp', prefix: 'cta' }] } }),
+  });
+  const r = run(BUILD, ['--root', root, '--manifests', manifests, '--fragments', fragments, '--lint']);
+  assert.equal(r.code, 0, r.all);
+  assert.match(r.out, /wrote +sections\/fixture\.liquid \(schema changed/);
+  assert.deepEqual(readLiquidSchema(fs.readFileSync(path.join(root, 'sections/fixture.liquid'), 'utf8')).schema.settings.map((s) => s.id), ['heading', 'cta_note']);
+});
+
 test('import refuses to overwrite a manifest without --force; usage errors exit 2', () => {
   const root = fixtureTheme();
   const manifests = path.join(root, '_manifests');

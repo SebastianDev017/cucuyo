@@ -1,0 +1,35 @@
+{%- comment -%}
+  Fixture css-variables. :root tokens (--card-gap also sits on :root in the
+  fixture asset CSS: it is in the default allow-list), a name built by Liquid,
+  a scheme block (not :root) and a :root block inside @media.
+  A commented-out declaration must be ignored: :root { --fixture-gap: 1px; }
+{%- endcomment -%}
+{% style %}
+  @font-face {
+    font-family: 'Fixture';
+    src: url('{{ 'fixture.woff2' | asset_url }}') format('woff2');
+  }
+
+  :root {
+    --font-heading: 'Fixture', sans-serif;
+    --color-accent: {% if settings.color_accent != blank %}{{ settings.color_accent }}{% else %}#623827{% endif %};
+    --card-gap: {{ settings.card_gap | default: 6 }}px;
+    /* --fixture-gap: 2px; (a CSS comment: not a declaration) */
+    --t-title-size: calc(1.5rem * var(--heading-scale, 1));
+    --t-title-size-m: calc(1.3rem * var(--heading-scale, 1));
+    {%- for style in styles %}
+    --t-{{ style }}-lh: 1.3;
+    {%- endfor %}
+  }
+
+  [data-color-scheme="accent"] {
+    --color-heading: #F9F6F2;
+    --color-link-hover: #F9F6F2;
+  }
+
+  @media (max-width: 749px) {
+    :root {
+      --page-margin: {{ settings.page_margin_mobile | default: 10 }}px;
+    }
+  }
+{% endstyle %}

@@ -1,0 +1,19 @@
+<h2 class="title">{{ section.settings.heading }}</h2>
+
+{% stylesheet %}
+.title {
+  font-size: var(--promo-title-size, calc(1.5rem * var(--heading-scale, 1)));
+}
+
+@media (max-width: 989px) {
+  .title {
+    font-size: var(--promo-title-size-m, var(--promo-title-size, calc(1.3rem * var(--heading-scale, 1))));
+  }
+}
+
+@media (min-width: 750px) and (max-width: 989.98px) {
+  .title {
+    font-size: var(--promo-title-size-m, var(--promo-title-size, 1.4rem));
+  }
+}
+{% endstylesheet %}

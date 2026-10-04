@@ -24,3 +24,10 @@ AssetSizeJavaScript:
 # these two files.
 AssetSizeCSS:
   threshold_in_bytes: 130000
+
+# Every section now carries per-element typography, padding and colour
+# groups (scripts/schema generates them; visible_if keeps the panels short),
+# so the default 40-setting ceiling would warn on almost every file. The
+# generator reads the same number and warns at the same threshold.
+ExcessiveSettingsCount:
+  maxSettings: 120
