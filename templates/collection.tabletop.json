@@ -19,6 +19,7 @@
         "media": {
           "type": "media",
           "settings": {
+            "image": "shopify://shop_images/GH_CK_PLTR_02_1.png",
             "draft_asset": "pdf-decor-62cd.jpg",
             "alt_text": "",
             "heading": "",
