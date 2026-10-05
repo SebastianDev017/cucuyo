@@ -85,8 +85,8 @@
         "draft_asset": "",
         "alt_text": "",
         "image_link": "",
-        "heading": "CUCUYO CHEETAH PILLOW",
-        "body": "spotted cheetahs and pink cats living in harmony.",
+        "heading": "CHEETAH PILLOW",
+        "body": "Spotted cheetahs and pink cats living in harmony.",
         "cta_label": "EXPLORE THE CUCUYO COLLECTION",
         "link": "shopify://collections/cucuyo",
         "header_tone": "ink",
@@ -110,7 +110,7 @@
             "body": "upgrade the builder grade with new hardware",
             "cta_label": "SEE MARBLE FLOWER DOOR PULLS",
             "label": "",
-            "label_tone": "light",
+            "label_tone": "dark",
             "link": "shopify://products/marble-flower-door-pulls",
             "scrim": false
           }
