@@ -91,7 +91,7 @@
         "link": "",
         "header_tone": "ink",
         "text_position": "center",
-        "show_icon": true,
+        "show_icon": false,
         "overlay_body": "",
         "overlay_cta_label": "",
         "overlay_link": "",
