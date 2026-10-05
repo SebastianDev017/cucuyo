@@ -22,7 +22,7 @@
             "image": "shopify://shop_images/BBB_BL_03.png",
             "draft_asset": "",
             "heading": "",
-            "body": "Form shines in this collection of functional goodies",
+            "body": "Form shines in this functional object.",
             "cta_label": "SEE BALL BOY BOWL",
             "label": "",
             "label_tone": "light",
@@ -81,8 +81,8 @@
     "note_tablescaping": {
       "type": "home-note",
       "settings": {
-        "heading": "TABLESCAPING 101",
-        "body": "style your table the way you’d style a room—or an outfit",
+        "heading": "TABLESCAPING",
+        "body": "Style your table the way you’d style a room—or an outfit.",
         "link_label": "",
         "link": "",
         "padding_top": 208,
@@ -181,7 +181,7 @@
             "draft_asset": "",
             "alt_text": "",
             "heading": "",
-            "body": "shop vintage pieces, one and done",
+            "body": "Shop vintage pieces, one and done.",
             "cta_label": "SEE DUCK WOVEN TRAYS",
             "link": "shopify://products/duck-woven-baskets",
             "tone": "light",
