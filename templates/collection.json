@@ -17,9 +17,32 @@
         "columns_mobile": "2",
         "feature_first": false
       }
+    },
+    "image_text_7zMrwk": {
+      "type": "image-text",
+      "name": "Text beside image",
+      "settings": {
+        "image_side": "left",
+        "image": "shopify://shop_images/CH_PW_07.png",
+        "draft_asset": "",
+        "alt_text": "",
+        "image_link": "",
+        "heading": "CUCUYO HOME COLLECTION",
+        "body": "At Cucuyo, we are drawn to all that is eclectic, collected, imperfect, and artisanal. We believe in being a steady reminder of the past while embracing the technologies, ideas, and modern designs shaping our world today.",
+        "cta_label": "",
+        "link": "",
+        "header_tone": "ink",
+        "text_position": "bottom_left",
+        "show_icon": true,
+        "overlay_body": "",
+        "overlay_cta_label": "",
+        "overlay_link": "",
+        "overlay_tone": "light"
+      }
     }
   },
   "order": [
+    "image_text_7zMrwk",
     "main"
   ]
 }
