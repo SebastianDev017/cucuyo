@@ -17,7 +17,7 @@
           "settings": {
             "draft_asset": "pdf2-landing-1-1.jpg",
             "heading": "",
-            "body": "A spontaneous meeting between luxury and the eclectic",
+            "body": "A spontaneous meeting between luxury and the eclectic.",
             "cta_label": "EXPLORE THE CUCUYO COLLECTION",
             "label": "",
             "label_tone": "light",
@@ -31,7 +31,7 @@
             "image": "shopify://shop_images/FLR_PB_06_21cfbaa3-5310-4c3a-9bde-650219c24d3d.png",
             "draft_asset": "",
             "heading": "",
-            "body": "A lifted bowl for a collection of coconuts",
+            "body": "A lifted bowl for a collection of coconuts.",
             "cta_label": "SEE FLEUR PEDESTAL BOWL",
             "label": "",
             "label_tone": "light",
@@ -146,7 +146,7 @@
       "type": "home-note",
       "settings": {
         "heading": "THE GIFT EDIT",
-        "body": "For the people who appreciate something a little unexpected.\nObjects with character, chosen for the pleasure of giving.",
+        "body": "For the people who appreciate something a little unexpected.",
         "link_label": "EXPLORE GIFTS",
         "link": "shopify://collections/gifts-under-50",
         "padding_top": 208,
@@ -163,7 +163,7 @@
             "draft_asset": "",
             "alt_text": "",
             "heading": "",
-            "body": "A place for the palms",
+            "body": "A place for the palms.",
             "cta_label": "SEE WABI SABI VASE",
             "link": "shopify://products/wabi-sabi-vase",
             "tone": "light",
@@ -337,7 +337,7 @@
           "settings": {
             "draft_asset": "pdf2-landing-6-1.jpg",
             "heading": "",
-            "body": "the beauty’s in the dinnerware details",
+            "body": "The beauty’s in the dinnerware details.",
             "cta_label": "EXPLORE TABLETOP",
             "label": "",
             "label_tone": "light",
@@ -465,7 +465,7 @@
     "note_season": {
       "type": "home-note",
       "settings": {
-        "heading": "TIS THE SEASON",
+        "heading": "'TIS THE SEASON",
         "body": "A piece of decor for this seasons rituals, gatherings, and traditions.",
         "link_label": "SHOP SEASONAL DECOR",
         "link": "shopify://collections/seasonal",
@@ -481,7 +481,7 @@
           "settings": {
             "draft_asset": "pdf2-landing-8-1.jpg",
             "heading": "",
-            "body": "all things spooky and kooky",
+            "body": "All things spooky and kooky.",
             "cta_label": "SEE CLAY AND WIRE SPIDERS",
             "label": "",
             "label_tone": "light",
@@ -495,7 +495,7 @@
             "image": "shopify://shop_images/WC_CT02.png",
             "draft_asset": "",
             "heading": "",
-            "body": "a different format for this holiday staple",
+            "body": "A different format for this holiday staple.",
             "cta_label": "SEE WOVEN CANE CHRISTMAS TREE",
             "label": "",
             "label_tone": "light",
