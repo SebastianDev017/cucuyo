@@ -605,16 +605,6 @@
         "padding_bottom": 0,
         "header_tone": "ink"
       }
-    },
-    "newsletter": {
-      "type": "newsletter",
-      "settings": {
-        "heading": "15% off to start.",
-        "text": "get early access to new finds and the occasional unsolicited tablescaping tips",
-        "width": 464,
-        "padding_top": 320,
-        "padding_bottom": 96
-      }
     }
   },
   "order": [
@@ -627,7 +617,6 @@
     "row_tabletop",
     "note_season",
     "hero_season",
-    "row_season",
-    "newsletter"
+    "row_season"
   ]
 }

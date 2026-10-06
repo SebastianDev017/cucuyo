@@ -17,7 +17,7 @@
         "column_1": {
           "type": "menu",
           "settings": {
-            "heading": "About",
+            "heading": "Shop",
             "menu": "categories-footer",
             "fallback_links": "contact\nabout\ninterior design\ninstagram"
           }
@@ -25,15 +25,33 @@
         "column_3": {
           "type": "menu",
           "settings": {
-            "heading": "Policies",
+            "heading": "Legal",
             "menu": "legal",
             "fallback_links": "Privacy\nCookies\nterms of service\nappointments"
+          }
+        },
+        "explore": {
+          "type": "text",
+          "settings": {
+            "heading": "Explore",
+            "content": "<p><a href=\"/pages/interior-design\" title=\"Interior Design\">Interior Design</a></p>",
+            "show_instagram": true
+          }
+        },
+        "contact": {
+          "type": "text",
+          "settings": {
+            "heading": "Contact",
+            "content": "<p>1553 San Ignacio Avenue,<br/>Coral Gables, FL</p><p><a href=\"mailto:nicky@cucuyohome.com\" title=\"mailto:nicky@cucuyohome.com\">nicky@cucuyohome.com</a></p>",
+            "show_instagram": false
           }
         }
       },
       "block_order": [
         "column_1",
-        "column_3"
+        "column_3",
+        "explore",
+        "contact"
       ],
       "settings": {
         "footer_layout": "columns",
