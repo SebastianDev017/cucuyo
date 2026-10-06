@@ -13,14 +13,23 @@
 {%- endcomment -%}
 
 {%- assign mark_width = section.settings.mark_width | default: 300 -%}
-{%- assign logo_style = section.settings.logo_style | default: 'stacked' -%}
-<footer class="site-footer" style="--footer-mark-width: {{ mark_width }}px; --footer-stacked-width: {{ section.settings.stacked_width | default: 116 }}px; --footer-stacked-width-m: {{ section.settings.stacked_width_mobile | default: 140 }}px;">
+{%- liquid
+  assign logo_style = section.settings.logo_style | default: 'image'
+  assign layout = section.settings.footer_layout | default: 'split'
+  assign brand_width = section.settings.brand_width | default: 790
+-%}
+<footer class="site-footer site-footer--{{ layout }}" style="--footer-mark-width: {{ mark_width }}px; --footer-brand-width: {{ brand_width }}px; --footer-stacked-width: {{ section.settings.stacked_width | default: 116 }}px; --footer-stacked-width-m: {{ section.settings.stacked_width_mobile | default: 140 }}px;">
   <div class="site-footer__inner">
+    <div class="site-footer__brand">
     <div class="site-footer__mark{% if logo_style == 'stacked' %} site-footer__mark--stacked{% endif %}" aria-hidden="true">
       {%- if logo_style == 'stacked' -%}
         <img src="{{ 'cucuyo-home-stacked.svg' | asset_url }}" width="123" height="122" alt="" loading="lazy">
       {%- elsif section.settings.mark_image -%}
-        {%- capture mark_sizes -%}(min-width: 750px) {{ mark_width }}px, min({{ mark_width }}px, 62vw){%- endcapture -%}
+        {%- if layout == 'split' -%}
+          {%- capture mark_sizes -%}(min-width: 990px) min({{ brand_width }}px, 55vw), 100vw{%- endcapture -%}
+        {%- else -%}
+          {%- capture mark_sizes -%}(min-width: 750px) {{ mark_width }}px, min({{ mark_width }}px, 62vw){%- endcapture -%}
+        {%- endif -%}
         {{-
           section.settings.mark_image
           | image_url: width: 1200
@@ -29,6 +38,10 @@
       {%- else -%}
         <img src="{{ 'figma-footer-mark.png' | asset_url }}" width="162" height="145" alt="" loading="lazy">
       {%- endif -%}
+    </div>
+    {%- if section.settings.copyright != blank -%}
+      <p class="site-footer__copyright">&copy;{{ section.settings.copyright | escape }} {{ 'now' | date: '%Y' }}</p>
+    {%- endif -%}
     </div>
 
     <div class="site-footer__columns">
@@ -67,7 +80,7 @@
     {%- if section.settings.show_newsletter -%}
       <div class="site-footer__newsletter">
         {% render 'newsletter-form', form_id: 'FooterNewsletter', input_id: 'NewsletterEmail' %}
-        {%- if section.settings.newsletter_note != blank -%}
+        {%- if section.settings.show_newsletter_note and section.settings.newsletter_note != blank -%}
           <p class="site-footer__note">{{ section.settings.newsletter_note }}</p>
         {%- endif -%}
       </div>
@@ -82,13 +95,42 @@
   "settings": [
     {
       "type": "select",
+      "id": "footer_layout",
+      "label": "Layout",
+      "options": [
+        { "value": "split", "label": "Large logo left, links and sign-up right" },
+        { "value": "columns", "label": "Three columns (previous)" }
+      ],
+      "default": "split"
+    },
+    {
+      "type": "select",
       "id": "logo_style",
       "label": "Logo",
       "options": [
-        { "value": "stacked", "label": "Cucuyo Home stacked logo" },
-        { "value": "image", "label": "Uploaded image" }
+        { "value": "image", "label": "Uploaded image (CUCUYO brush logo)" },
+        { "value": "stacked", "label": "Cucuyo Home stacked logo" }
       ],
-      "default": "stacked"
+      "default": "image"
+    },
+    {
+      "type": "range",
+      "id": "brand_width",
+      "label": "Logo width",
+      "min": 300,
+      "max": 1000,
+      "step": 10,
+      "unit": "px",
+      "default": 790,
+      "info": "Large-logo layout. Phones use the full width.",
+      "visible_if": "{{ section.settings.footer_layout == 'split' and section.settings.logo_style == 'image' }}"
+    },
+    {
+      "type": "text",
+      "id": "copyright",
+      "label": "Copyright line",
+      "default": "CUCUYO HOME",
+      "info": "Shown as ©TEXT and the current year, under the logo. Empty hides it."
     },
     {
       "type": "range",
@@ -121,7 +163,7 @@
     {
       "type": "range",
       "id": "mark_width",
-      "label": "Logo width",
+      "label": "Logo width (three-column layout)",
       "min": 80,
       "max": 400,
       "step": 10,
@@ -134,6 +176,12 @@
       "id": "show_newsletter",
       "label": "Show newsletter signup",
       "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_newsletter_note",
+      "label": "Show the note under the sign-up",
+      "default": false
     },
     {
       "type": "text",
@@ -185,6 +233,131 @@
   @media (max-width: 749px) {
     .site-footer__mark.site-footer__mark--stacked {
       width: var(--footer-stacked-width-m, 140px);
+    }
+  }
+
+  /* Large-logo layout (Eugenia, 2026-10-05), measured on her frame at 1440:
+     the brush logo ≈790px on the left with the copyright 12px under it; on
+     the right a 384px column: two link columns (5:3, 16px brown, 29px lines)
+     and, 24px under them, the email field and the button stacked (44px each,
+     4px apart, words 13px in). Links and logo share the same top. */
+  .site-footer.site-footer--split {
+    padding-top: 64px;
+  }
+
+  .site-footer.site-footer--split .site-footer__inner {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 384px);
+    grid-template-areas: 'brand links' 'brand form';
+    grid-template-rows: auto 1fr;
+    column-gap: 64px;
+    row-gap: 24px;
+    align-items: start;
+  }
+
+  .site-footer.site-footer--split .site-footer__brand {
+    grid-area: brand;
+  }
+
+  .site-footer.site-footer--split .site-footer__mark:not(.site-footer__mark--stacked) {
+    width: min(var(--footer-brand-width, 790px), 100%);
+  }
+
+  .site-footer__copyright {
+    margin: 12px 0 0 6px;
+    font-family: var(--font-heading);
+    font-weight: var(--font-heading-weight, 500);
+    font-size: 0.6875rem;
+    letter-spacing: 0;
+    line-height: 1.3;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .site-footer.site-footer--split .site-footer__columns {
+    grid-area: links;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 3fr);
+    column-gap: 0;
+    row-gap: 0;
+    width: 100%;
+  }
+
+  .site-footer.site-footer--split .site-footer__link {
+    font-size: calc(1.111rem * var(--body-scale, 1));
+    line-height: 1.8;
+    letter-spacing: 0;
+    color: var(--color-accent);
+  }
+
+  .site-footer.site-footer--split .site-footer__newsletter {
+    grid-area: form;
+    justify-self: stretch;
+    width: 100%;
+  }
+
+  .site-footer.site-footer--split .newsletter-form__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+
+  .site-footer.site-footer--split .newsletter-form__row .field,
+  .site-footer.site-footer--split .newsletter-form__row .button {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    height: 44px;
+    padding: 0 13px;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 400;
+    text-align: left;
+  }
+
+  .site-footer.site-footer--split .newsletter-form__row .field {
+    border: 1px solid var(--color-accent);
+    background: #fff;
+    color: var(--color-accent);
+  }
+
+  .site-footer.site-footer--split .newsletter-form__row .field::placeholder {
+    color: var(--color-accent);
+    opacity: 1;
+  }
+
+  .site-footer.site-footer--split .newsletter-form__row .button {
+    height: 45px;
+    border: none;
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+
+  @media (min-width: 1200px) {
+    .site-footer.site-footer--split {
+      padding-inline: max(var(--page-margin), 64px);
+    }
+  }
+
+  /* Below 990px the two halves stack: logo and copyright, links, sign-up. */
+  @media (max-width: 989px) {
+    .site-footer.site-footer--split .site-footer__inner {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas: 'brand' 'links' 'form';
+      grid-template-rows: auto;
+      row-gap: 32px;
+    }
+
+    .site-footer.site-footer--split .site-footer__newsletter {
+      max-width: 480px;
+    }
+  }
+
+  @media (max-width: 749px) {
+    .site-footer.site-footer--split {
+      padding-top: 56px;
+    }
+
+    .site-footer.site-footer--split .site-footer__columns {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     }
   }
 {% endstylesheet %}
