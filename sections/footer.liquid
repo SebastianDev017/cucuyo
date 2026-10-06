@@ -75,6 +75,22 @@
               {%- endif -%}
             </ul>
           </nav>
+        {%- when 'text' -%}
+          <div class="site-footer__col site-footer__col--text" {{ block.shopify_attributes }}>
+            {%- if layout == 'columns' and block.settings.heading != blank -%}
+              <h2 class="site-footer__heading">{{ block.settings.heading | escape }}</h2>
+            {%- endif -%}
+            {%- if block.settings.content != blank -%}
+              <div class="site-footer__text">{{ block.settings.content }}</div>
+            {%- endif -%}
+            {%- if block.settings.show_instagram and section.settings.instagram_url != blank -%}
+              <p class="site-footer__text">
+                <a href="{{ section.settings.instagram_url }}" class="site-footer__link" target="_blank" rel="noopener">
+                  {{- section.settings.instagram_label | default: 'Instagram' | escape -}}
+                </a>
+              </p>
+            {%- endif -%}
+          </div>
       {%- endcase -%}
     {%- endfor -%}
   </div>
@@ -104,11 +120,6 @@
       {{ columns_html }}
       <div class="site-footer__bottom">
         {{ copyright_html }}
-        {%- if section.settings.instagram_url != blank -%}
-          <a href="{{ section.settings.instagram_url }}" class="site-footer__social" target="_blank" rel="noopener">
-            {{- section.settings.instagram_label | default: 'Instagram' | escape -}}
-          </a>
-        {%- endif -%}
       </div>
     {%- else -%}
       <div class="site-footer__brand">
@@ -245,7 +256,7 @@
       "type": "url",
       "id": "instagram_url",
       "label": "Instagram link",
-      "info": "Classic layout: shows the word below at the bottom right."
+      "info": "Shown as a line of every text column that has 'Add the Instagram link' on."
     },
     {
       "type": "text",
@@ -262,8 +273,8 @@
         {
           "type": "text",
           "id": "heading",
-          "label": "Accessible name",
-          "info": "Not displayed — names this column for screen readers"
+          "label": "Title",
+          "info": "Shown above the links in the classic layout (in capitals); in the large-logo layout it only names the column for screen readers."
         },
         {
           "type": "link_list",
@@ -275,6 +286,30 @@
           "id": "fallback_links",
           "label": "Draft labels",
           "info": "One label per line. Shown only while no menu is selected."
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text column",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Text",
+          "info": "Address, email, links — anything short."
+        },
+        {
+          "type": "checkbox",
+          "id": "show_instagram",
+          "label": "Add the Instagram link",
+          "info": "Uses the Instagram link in the footer settings.",
+          "default": false
         }
       ]
     }
@@ -591,5 +626,37 @@
     .site-footer.site-footer--columns .site-footer__bottom {
       margin-top: 48px;
     }
+  }
+
+  /* Full screen width on large screens, and capital titles like NEWSLETTER
+     (Eugenia, 2026-10-06). */
+  .site-footer.site-footer--columns .site-footer__inner {
+    max-width: none;
+  }
+
+  .site-footer.site-footer--columns .site-footer__heading {
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .site-footer__text {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    line-height: 1.85;
+    color: var(--color-accent);
+  }
+
+  .site-footer__text p {
+    margin: 0 0 12px;
+  }
+
+  .site-footer__text p:last-child {
+    margin-bottom: 0;
+  }
+
+  .site-footer__text a {
+    color: inherit;
+    text-decoration: none;
   }
 {% endstylesheet %}
