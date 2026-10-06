@@ -1,15 +1,15 @@
 {%- comment -%}
-  Footer — the brand mark on the left, three columns of lowercase links,
-  newsletter (email field + accent Subscribe button + microcopy note) on the
-  right. Columns are menu-driven; until the menus exist in Admin, each column
-  falls back to its draft labels (one per line) so the layout always matches
-  the design.
-
-  Layout per Eugenia's screenshot (2026-09-29), measured on it: the mark much
-  larger (a fifth of the width, "Logo width" below), the three areas centred
-  on one line, the links starting a third of the way across, and the email
-  field and the button as two boxes of the same width with a gap between
-  them, the note right-aligned under the button.
+  Footer, two layouts (Footer > Layout):
+  - "columns" (Jen and Eugenia, 2026-10-06, after chloe.com): the CUCUYO logo
+    on top, exactly as wide as the newsletter column under it; then the
+    newsletter (title, line, email + Subscribe) on the left and the link
+    columns with visible titles on the right; at the bottom the copyright on
+    the left and an "Instagram" word link on the right. Links and copyright
+    12px.
+  - "split": the large logo on the left with the links and sign-up on the
+    right (2026-10-05 version).
+  Columns are menu-driven; until a menu is picked, each column falls back to
+  its draft labels (one per line).
 {%- endcomment -%}
 
 {%- assign mark_width = section.settings.mark_width | default: 300 -%}
@@ -17,73 +17,113 @@
   assign logo_style = section.settings.logo_style | default: 'image'
   assign layout = section.settings.footer_layout | default: 'split'
   assign brand_width = section.settings.brand_width | default: 790
+  assign year = 'now' | date: '%Y'
 -%}
-<footer class="site-footer site-footer--{{ layout }}" style="--footer-mark-width: {{ mark_width }}px; --footer-brand-width: {{ brand_width }}px; --footer-stacked-width: {{ section.settings.stacked_width | default: 116 }}px; --footer-stacked-width-m: {{ section.settings.stacked_width_mobile | default: 140 }}px;">
-  <div class="site-footer__inner">
-    <div class="site-footer__brand">
-    <div class="site-footer__mark{% if logo_style == 'stacked' %} site-footer__mark--stacked{% endif %}" aria-hidden="true">
-      {%- if logo_style == 'stacked' -%}
-        <img src="{{ 'cucuyo-home-stacked.svg' | asset_url }}" width="123" height="122" alt="" loading="lazy">
-      {%- elsif section.settings.mark_image -%}
-        {%- if layout == 'split' -%}
+
+{%- capture mark_html -%}
+  <div class="site-footer__mark{% if logo_style == 'stacked' %} site-footer__mark--stacked{% endif %}" aria-hidden="true">
+    {%- if logo_style == 'stacked' -%}
+      <img src="{{ 'cucuyo-home-stacked.svg' | asset_url }}" width="123" height="122" alt="" loading="lazy">
+    {%- elsif section.settings.mark_image -%}
+      {%- case layout -%}
+        {%- when 'split' -%}
           {%- capture mark_sizes -%}(min-width: 990px) min({{ brand_width }}px, 55vw), 100vw{%- endcapture -%}
         {%- else -%}
-          {%- capture mark_sizes -%}(min-width: 750px) {{ mark_width }}px, min({{ mark_width }}px, 62vw){%- endcapture -%}
-        {%- endif -%}
-        {{-
-          section.settings.mark_image
-          | image_url: width: 1200
-          | image_tag: widths: '300, 450, 600, 900, 1200', sizes: mark_sizes, alt: '', loading: 'lazy'
-        -}}
-      {%- else -%}
-        <img src="{{ 'figma-footer-mark.png' | asset_url }}" width="162" height="145" alt="" loading="lazy">
-      {%- endif -%}
-    </div>
-    {%- if section.settings.copyright != blank -%}
-      <p class="site-footer__copyright">&copy;{{ section.settings.copyright | escape }} {{ 'now' | date: '%Y' }}</p>
+          {%- capture mark_sizes -%}(min-width: 1200px) 25vw, (min-width: 750px) 40vw, 60vw{%- endcapture -%}
+      {%- endcase -%}
+      {{-
+        section.settings.mark_image
+        | image_url: width: 1200
+        | image_tag: widths: '300, 450, 600, 900, 1200', sizes: mark_sizes, alt: '', loading: 'lazy'
+      -}}
+    {%- else -%}
+      <img src="{{ 'figma-footer-mark.png' | asset_url }}" width="162" height="145" alt="" loading="lazy">
     {%- endif -%}
-    </div>
+  </div>
+{%- endcapture -%}
 
-    <div class="site-footer__columns">
-      {%- for block in section.blocks -%}
-        {%- case block.type -%}
-          {%- when 'menu' -%}
-            {%- capture links_label -%}{{ 'sections.footer.links_label' | t }}{%- endcapture -%}
-            {%- liquid
-              if block.settings.heading != blank
-                assign col_label = block.settings.heading
-              else
-                assign col_label = links_label | append: ' ' | append: forloop.index
-              endif
-            -%}
-            <nav class="site-footer__col" aria-label="{{ col_label | strip }}" {{ block.shopify_attributes }}>
-              <ul class="site-footer__links" role="list">
-                {%- if block.settings.menu != blank -%}
-                  {%- for link in block.settings.menu.links -%}
-                    <li><a href="{{ link.url }}" class="site-footer__link">{{ link.title }}</a></li>
-                  {%- endfor -%}
-                {%- else -%}
-                  {%- assign fallback_lines = block.settings.fallback_links | newline_to_br | split: '<br />' -%}
-                  {%- for line in fallback_lines -%}
-                    {%- assign label = line | strip -%}
-                    {%- if label != blank -%}
-                      <li><a href="#" class="site-footer__link">{{ label }}</a></li>
-                    {%- endif -%}
-                  {%- endfor -%}
-                {%- endif -%}
-              </ul>
-            </nav>
-        {%- endcase -%}
-      {%- endfor -%}
-    </div>
+{%- capture columns_html -%}
+  <div class="site-footer__columns">
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'menu' -%}
+          {%- capture links_label -%}{{ 'sections.footer.links_label' | t }}{%- endcapture -%}
+          {%- liquid
+            if block.settings.heading != blank
+              assign col_label = block.settings.heading
+            else
+              assign col_label = links_label | append: ' ' | append: forloop.index
+            endif
+          -%}
+          <nav class="site-footer__col" aria-label="{{ col_label | strip }}" {{ block.shopify_attributes }}>
+            {%- if layout == 'columns' and block.settings.heading != blank -%}
+              <h2 class="site-footer__heading">{{ block.settings.heading | escape }}</h2>
+            {%- endif -%}
+            <ul class="site-footer__links" role="list">
+              {%- if block.settings.menu != blank -%}
+                {%- for link in block.settings.menu.links -%}
+                  <li><a href="{{ link.url }}" class="site-footer__link">{{ link.title }}</a></li>
+                {%- endfor -%}
+              {%- else -%}
+                {%- assign fallback_lines = block.settings.fallback_links | newline_to_br | split: '<br />' -%}
+                {%- for line in fallback_lines -%}
+                  {%- assign label = line | strip -%}
+                  {%- if label != blank -%}
+                    <li><a href="#" class="site-footer__link">{{ label }}</a></li>
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- endif -%}
+            </ul>
+          </nav>
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+{%- endcapture -%}
 
-    {%- if section.settings.show_newsletter -%}
-      <div class="site-footer__newsletter">
-        {% render 'newsletter-form', form_id: 'FooterNewsletter', input_id: 'NewsletterEmail' %}
-        {%- if section.settings.show_newsletter_note and section.settings.newsletter_note != blank -%}
-          <p class="site-footer__note">{{ section.settings.newsletter_note }}</p>
+{%- capture copyright_html -%}
+  {%- if section.settings.copyright != blank -%}
+    <p class="site-footer__copyright">&copy;{{ section.settings.copyright | escape }} {{ year }}</p>
+  {%- endif -%}
+{%- endcapture -%}
+
+<footer class="site-footer site-footer--{{ layout }}" style="--footer-mark-width: {{ mark_width }}px; --footer-brand-width: {{ brand_width }}px; --footer-stacked-width: {{ section.settings.stacked_width | default: 116 }}px; --footer-stacked-width-m: {{ section.settings.stacked_width_mobile | default: 140 }}px;">
+  <div class="site-footer__inner">
+    {%- if layout == 'columns' -%}
+      <div class="site-footer__brand">{{ mark_html }}</div>
+      {%- if section.settings.show_newsletter -%}
+        <div class="site-footer__newsletter">
+          {%- if section.settings.newsletter_heading != blank -%}
+            <h2 class="site-footer__newsletter-heading">{{ section.settings.newsletter_heading | escape }}</h2>
+          {%- endif -%}
+          {%- if section.settings.newsletter_note != blank -%}
+            <p class="site-footer__intro">{{ section.settings.newsletter_note }}</p>
+          {%- endif -%}
+          {% render 'newsletter-form', form_id: 'FooterNewsletter', input_id: 'NewsletterEmail' %}
+        </div>
+      {%- endif -%}
+      {{ columns_html }}
+      <div class="site-footer__bottom">
+        {{ copyright_html }}
+        {%- if section.settings.instagram_url != blank -%}
+          <a href="{{ section.settings.instagram_url }}" class="site-footer__social" target="_blank" rel="noopener">
+            {{- section.settings.instagram_label | default: 'Instagram' | escape -}}
+          </a>
         {%- endif -%}
       </div>
+    {%- else -%}
+      <div class="site-footer__brand">
+        {{ mark_html }}
+        {{ copyright_html }}
+      </div>
+      {{ columns_html }}
+      {%- if section.settings.show_newsletter -%}
+        <div class="site-footer__newsletter">
+          {% render 'newsletter-form', form_id: 'FooterNewsletter', input_id: 'NewsletterEmail' %}
+          {%- if section.settings.show_newsletter_note and section.settings.newsletter_note != blank -%}
+            <p class="site-footer__note">{{ section.settings.newsletter_note }}</p>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
     {%- endif -%}
   </div>
 </footer>
@@ -99,7 +139,7 @@
       "label": "Layout",
       "options": [
         { "value": "split", "label": "Large logo left, links and sign-up right" },
-        { "value": "columns", "label": "Three columns (previous)" }
+        { "value": "columns", "label": "Logo on top, newsletter and link columns (classic)" }
       ],
       "default": "split"
     },
@@ -178,6 +218,13 @@
       "default": true
     },
     {
+      "type": "text",
+      "id": "newsletter_heading",
+      "label": "Newsletter title",
+      "default": "Newsletter",
+      "info": "Classic layout: shown above the sign-up line."
+    },
+    {
       "type": "checkbox",
       "id": "show_newsletter_note",
       "label": "Show the note under the sign-up",
@@ -187,7 +234,24 @@
       "type": "text",
       "id": "newsletter_note",
       "label": "Newsletter note",
+      "info": "Classic layout: the line above the email field. Large-logo layout: the note under the button (when shown).",
       "default": "Sign up to our newsletter to receive exclusive offers."
+    },
+    {
+      "type": "header",
+      "content": "Instagram"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Instagram link",
+      "info": "Classic layout: shows the word below at the bottom right."
+    },
+    {
+      "type": "text",
+      "id": "instagram_label",
+      "label": "Link text",
+      "default": "Instagram"
     }
   ],
   "blocks": [
@@ -358,6 +422,174 @@
 
     .site-footer.site-footer--split .site-footer__columns {
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+  }
+
+  /* Classic layout (Jen and Eugenia, 2026-10-06, after chloe.com), at 1440:
+     the logo on top, as wide as the newsletter column under it (a quarter of
+     the content width); 80px down, the newsletter column on the left and the
+     link columns from a third of the way across; 96px down, the copyright left
+     and the Instagram word right. Links, titles and copyright 12px. */
+  .site-footer.site-footer--columns {
+    padding: 64px var(--page-margin) 40px;
+  }
+
+  .site-footer.site-footer--columns .site-footer__inner {
+    grid-template-columns: minmax(0, 25fr) minmax(0, 9fr) minmax(0, 66fr);
+    grid-template-areas: 'brand . .' 'news . links' 'bottom bottom bottom';
+    gap: 0;
+    align-items: start;
+  }
+
+  .site-footer.site-footer--columns .site-footer__brand {
+    grid-area: brand;
+    margin-bottom: 80px;
+  }
+
+  .site-footer.site-footer--columns .site-footer__mark:not(.site-footer__mark--stacked) {
+    width: 100%;
+  }
+
+  .site-footer.site-footer--columns .site-footer__newsletter {
+    grid-area: news;
+    justify-self: stretch;
+    width: 100%;
+  }
+
+  .site-footer__newsletter-heading {
+    margin: 0 0 8px;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    line-height: 1.4;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .site-footer__intro {
+    margin: 0 0 16px;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: var(--color-accent);
+  }
+
+  .site-footer.site-footer--columns .newsletter-form__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0;
+  }
+
+  .site-footer.site-footer--columns .newsletter-form__row .field,
+  .site-footer.site-footer--columns .newsletter-form__row .button {
+    box-sizing: border-box;
+    min-width: 0;
+    height: 46px;
+    padding: 0 16px;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 400;
+  }
+
+  .site-footer.site-footer--columns .newsletter-form__row .field {
+    border: 1px solid var(--color-accent);
+    border-inline-end: none;
+    background: #fff;
+    color: var(--color-accent);
+  }
+
+  .site-footer.site-footer--columns .newsletter-form__row .field::placeholder {
+    color: var(--color-accent);
+    opacity: 1;
+  }
+
+  .site-footer.site-footer--columns .newsletter-form__row .button {
+    border: 1px solid var(--color-accent);
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+
+  .site-footer.site-footer--columns .site-footer__columns {
+    grid-area: links;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: 24px;
+    row-gap: 32px;
+    width: 100%;
+  }
+
+  .site-footer__heading {
+    margin: 0 0 10px;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    letter-spacing: 0;
+    color: var(--color-accent);
+  }
+
+  .site-footer.site-footer--columns .site-footer__link {
+    font-size: 0.75rem;
+    line-height: 1.85;
+    letter-spacing: 0;
+    color: var(--color-accent);
+  }
+
+  .site-footer.site-footer--columns .site-footer__bottom {
+    grid-area: bottom;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px 24px;
+    margin-top: 96px;
+  }
+
+  .site-footer.site-footer--columns .site-footer__copyright {
+    margin: 0;
+    font-size: 0.75rem;
+  }
+
+  .site-footer__social {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    line-height: 1.4;
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  @media (max-width: 1199.98px) {
+    .site-footer.site-footer--columns .site-footer__inner {
+      grid-template-columns: minmax(0, 40fr) minmax(0, 6fr) minmax(0, 54fr);
+    }
+
+    .site-footer.site-footer--columns .site-footer__columns {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 749px) {
+    .site-footer.site-footer--columns {
+      padding: 48px var(--page-margin) 32px;
+    }
+
+    .site-footer.site-footer--columns .site-footer__inner {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas: 'brand' 'news' 'links' 'bottom';
+    }
+
+    .site-footer.site-footer--columns .site-footer__brand {
+      width: 60%;
+      margin-bottom: 40px;
+    }
+
+    .site-footer.site-footer--columns .site-footer__columns {
+      margin-top: 40px;
+    }
+
+    .site-footer.site-footer--columns .site-footer__bottom {
+      margin-top: 48px;
     }
   }
 {% endstylesheet %}
