@@ -13,14 +13,15 @@
       "type": "page-split",
       "settings": {
         "title": "Interior design services",
+        "title_style": "product",
         "text": "<p>Our path into interior design was propelled by a love of pattern, finding, curating, and expression in every interior we encounter. We love working closely with our clients to understand what makes a home truly feel like theirs then bringing that story to life in a way that feels personal, collected, and entirely their own.</p><p>At Cucuyo, we are drawn to all that is eclectic, collected, imperfect, and artisanal. We believe in being a steady reminder of the past while embracing the technologies, ideas, and modern designs shaping our world today. We appreciate the beauty of a handmade object, the character of something aged, and the potential of an old house waiting to shine again.</p><p>Our philosophy is simple: fix it first. Restore it, rethink it, give it another life and if it still doesn’t work, then let’s try something new.</p><p>That same philosophy guides the pieces we curate for our shop. Everything is chosen with intention, whether it’s a vintage find, a new piece created using traditional or handmade techniques, or something we design and make ourselves at Cucuyo. We look for objects with character pieces that feel a little different, have a story to tell, and can become something cherished in your home for years to come.</p>",
         "text_size": 14,
+        "text_position": "center",
+        "image": "shopify://shop_images/CH_cover_8f00ee84-b3f0-42c4-9bfb-729fe915da73.jpg",
         "alt_text": "A living room with a white-beamed vaulted ceiling, a pair of rattan armchairs, a coral sofa and a patterned rug",
         "image_side": "left",
         "draft_asset": "interior-living-room-2600.jpg",
-        "draft_asset_small": "interior-living-room-1400.jpg",
-        "title_style": "product",
-        "text_position": "center"
+        "draft_asset_small": "interior-living-room-1400.jpg"
       }
     }
   },
