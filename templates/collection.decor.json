@@ -104,7 +104,7 @@
         "image_1": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/MF_DP_03.png",
+            "image": "shopify://shop_images/MF_DP_03_3111ae5b-3d98-4432-8ccc-3fd969cfc40e.png",
             "draft_asset": "",
             "heading": "",
             "body": "Upgrade the builder grade with new hardware.",
@@ -118,7 +118,7 @@
         "image_2": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/MF_DP_02.png",
+            "image": "shopify://shop_images/MF_DP_02.jpg",
             "draft_asset": "",
             "heading": "",
             "body": "",
