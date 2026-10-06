@@ -18,7 +18,7 @@
           "type": "menu",
           "settings": {
             "heading": "About",
-            "menu": "main",
+            "menu": "categories-footer",
             "fallback_links": "contact\nabout\ninterior design\ninstagram"
           }
         },
@@ -36,9 +36,16 @@
         "column_3"
       ],
       "settings": {
+        "footer_layout": "split",
+        "logo_style": "image",
+        "brand_width": 790,
+        "copyright": "CUCUYO HOME",
+        "stacked_width": 116,
+        "stacked_width_mobile": 140,
         "mark_image": "shopify://shop_images/cucuyo-footer.svg",
         "mark_width": 300,
         "show_newsletter": true,
+        "show_newsletter_note": false,
         "newsletter_note": "Sign up to our newsletter to receive exclusive offers."
       }
     }
