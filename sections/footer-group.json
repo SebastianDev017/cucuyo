@@ -36,7 +36,7 @@
         "column_3"
       ],
       "settings": {
-        "footer_layout": "split",
+        "footer_layout": "columns",
         "logo_style": "image",
         "brand_width": 790,
         "copyright": "CUCUYO HOME",
