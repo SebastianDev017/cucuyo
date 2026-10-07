@@ -121,10 +121,63 @@
         "products_to_show": 10,
         "per_view": 4
       }
+    },
+    "category_tiles_XWDP4K": {
+      "type": "category-tiles",
+      "blocks": {
+        "tile_6FNKiE": {
+          "type": "tile",
+          "settings": {
+            "collection": "",
+            "draft_asset": "",
+            "label": "Tableware",
+            "link": ""
+          }
+        },
+        "tile_NfWmi8": {
+          "type": "tile",
+          "settings": {
+            "collection": "",
+            "draft_asset": "",
+            "label": "Lighting",
+            "link": ""
+          }
+        },
+        "tile_6Q3jtC": {
+          "type": "tile",
+          "settings": {
+            "collection": "",
+            "draft_asset": "",
+            "label": "Storage",
+            "link": ""
+          }
+        },
+        "tile_yCK4nb": {
+          "type": "tile",
+          "settings": {
+            "collection": "",
+            "draft_asset": "",
+            "label": "Linens",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "tile_6FNKiE",
+        "tile_NfWmi8",
+        "tile_6Q3jtC",
+        "tile_yCK4nb"
+      ],
+      "name": "Category tiles",
+      "settings": {
+        "heading": "Shop by category",
+        "columns_desktop": 4
+      }
     }
   },
   "order": [
     "main",
-    "you_may_like"
+    "you_may_like",
+    "category_tiles_XWDP4K"
   ]
 }
