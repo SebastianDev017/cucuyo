@@ -40,7 +40,7 @@
 {%- endcapture -%}
 
 <section
-  class="main-search{% if photo_on %} main-search--photo{% endif %}"
+  class="main-search{% if photo_on %} main-search--photo{% endif %}{% if search.performed %} main-search--searched{% endif %}"
   {% if photo_on %}
     style="--search-photo-h: {{ photo_height }}; --search-photo-pos: {{ section.settings.image_position }};"
   {% endif %}
@@ -161,6 +161,20 @@
 
   .main-search--photo .main-search__results {
     margin-top: 48px;
+  }
+
+  /* Before searching the photo is the last thing on the page: no 112px of
+     page padding under it, and half the footer's air above the logo on
+     larger screens (still follows the footer's Spacing slider). Otherwise
+     it read as a white hole between the photo and the footer (2026-10-07). */
+  .template-search main:has(.main-search--photo:not(.main-search--searched)) {
+    padding-bottom: 0;
+  }
+
+  @media (min-width: 750px) {
+    .template-search:has(.main-search--photo:not(.main-search--searched)) .site-footer.site-footer--columns {
+      padding-top: calc(var(--footer-pad-top, 160px) / 2);
+    }
   }
 {% endstylesheet %}
 
