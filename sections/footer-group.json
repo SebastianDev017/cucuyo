@@ -65,7 +65,7 @@
         "show_newsletter": true,
         "newsletter_heading": "Newsletter",
         "show_newsletter_note": false,
-        "newsletter_note": "Sign up for exclusive offers and early access to new product launches.",
+        "newsletter_note": "Sign up for exclusive offers and early access to new products.",
         "footer_pad_top": 160,
         "footer_pad_top_mobile": 48,
         "footer_brand_gap": 80,
