@@ -420,13 +420,17 @@ body.header-light .site-header[data-header-state='top'] :is(
     margin-left: auto;
   }
 
-  /* The row's own links (Header → Menu text size, 17px by default; Eugenia
-     asked for them larger, 2026-09-29). Top level only: the SHOP panel keeps
-     its own step down. Capped at 18px in the editor because at 1200px the row
-     has 47px to spare at 18px and none at 19. */
+  /* The row's own links (Header → Menu text size). Top level only: the SHOP
+     panel keeps its own step down. The size scales with the screen and the
+     editor's value is the ceiling: 1.25vw is 15px at 1200 and 16px at 1280.
+     With 'Vases & Vessels' in the menu the row needs about 1234px at 17px, so
+     at a fixed size it broke between 1200 and 1240 (that link on two lines,
+     About against Search — Eugenia, 2026-10-07); at 15px it has ~50px spare
+     at 1200. nowrap keeps any long item on one line. */
   .site-header__nav--primary > ul > li > a,
   .site-header__nav--primary > ul > li > details > summary {
-    font-size: var(--header-link-size, 0.9375rem);
+    font-size: min(var(--header-link-size, 0.9375rem), 1.25vw);
+    white-space: nowrap;
   }
 
   /* Without JS there are no scroll states; rather than leave one row of

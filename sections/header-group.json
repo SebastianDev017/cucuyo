@@ -20,7 +20,7 @@
         "show_account": true,
         "drawer_note": "Sign up to our newsletter to receive exclusive offers.",
         "drawer_show_wordmark": false,
-        "menu_size": 17,
+        "menu_size": 16,
         "transparent_ink_home": "#ffffff",
         "transparent_scrim_home": false,
         "transparent_ink_pages": ""
