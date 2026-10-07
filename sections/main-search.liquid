@@ -5,11 +5,26 @@
   search.results (products render as cards, pages/articles as quiet bordered
   tiles), and there is NO oversized lead slot — that only makes sense with a
   collection's curated sort order. The search form itself is untouched.
+
+  Photo (Eugenia, 2026-10-07): a full-width band right under the header with
+  the form centred on it; the page title stays for screen readers only. Once
+  there are results the band shortens (Photo height with results; 0 drops
+  it). With no photo picked it shows the sea view shipped with the theme.
 {%- endcomment -%}
 
-<section class="main-search">
-  <h1 class="main-search__title">{{ 'general.search.title' | t }}</h1>
+{%- liquid
+  assign photo_on = section.settings.show_image
+  if search.performed and section.settings.image_height_results == 0
+    assign photo_on = false
+  endif
+  if search.performed
+    assign photo_height = section.settings.image_height_results | append: 'px'
+  else
+    assign photo_height = section.settings.image_height | append: 'vh'
+  endif
+-%}
 
+{%- capture search_form -%}
   <form action="{{ routes.search_url }}" method="get" role="search" class="search-form">
     <label class="visually-hidden" for="SearchInput">{{ 'general.search.title' | t }}</label>
     <input
@@ -22,8 +37,60 @@
     >
     <button type="submit" class="button">{{ 'general.search.submit' | t }}</button>
   </form>
+{%- endcapture -%}
+
+<section
+  class="main-search{% if photo_on %} main-search--photo{% endif %}"
+  {% if photo_on %}
+    style="--search-photo-h: {{ photo_height }}; --search-photo-pos: {{ section.settings.image_position }};"
+  {% endif %}
+>
+  {%- if photo_on -%}
+    <div class="main-search__hero">
+      {%- liquid
+        if search.performed
+          assign photo_loading = 'lazy'
+          assign photo_priority = 'auto'
+        else
+          assign photo_loading = 'eager'
+          assign photo_priority = 'high'
+        endif
+      -%}
+      {%- if section.settings.image != blank -%}
+        {{
+          section.settings.image
+          | image_url: width: 3000
+          | image_tag:
+            class: 'main-search__photo',
+            alt: '',
+            sizes: '100vw',
+            widths: '750, 1100, 1500, 2000, 2600, 3000',
+            loading: photo_loading,
+            fetchpriority: photo_priority
+        }}
+      {%- else -%}
+        <img
+          class="main-search__photo"
+          src="{{ 'search-sea-1800.jpg' | asset_url }}"
+          srcset="{{ 'search-sea-1200.jpg' | asset_url }} 1200w, {{ 'search-sea-1800.jpg' | asset_url }} 1800w, {{ 'search-sea-2600.jpg' | asset_url }} 2600w"
+          sizes="100vw"
+          width="2600"
+          height="3482"
+          alt=""
+          loading="{{ photo_loading }}"
+          fetchpriority="{{ photo_priority }}"
+        >
+      {%- endif -%}
+      <h1 class="main-search__title visually-hidden">{{ 'general.search.title' | t }}</h1>
+      {{ search_form }}
+    </div>
+  {%- else -%}
+    <h1 class="main-search__title">{{ 'general.search.title' | t }}</h1>
+    {{ search_form }}
+  {%- endif -%}
 
   {%- if search.performed -%}
+    <div class="main-search__results">
     {%- paginate search.results by section.settings.results_per_page -%}
       {%- if search.results.size > 0 -%}
         <p class="main-search__count">
@@ -50,8 +117,52 @@
 
       {% render 'pagination', paginate: paginate %}
     {%- endpaginate -%}
+    </div>
   {%- endif -%}
 </section>
+
+{% stylesheet %}
+  /* Photo band: full width right under the header's white band, whatever
+     main's padding (the shared clearance, the page margins) says. */
+  .main-search--photo .main-search__hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--search-photo-h, 72vh);
+    min-height: 260px;
+    margin: calc(var(--header-panel, var(--nav-clearance)) - var(--nav-clearance))
+      calc(-1 * var(--page-margin)) 0 calc(-1 * var(--sidebar-gutter));
+    padding: 0 var(--page-margin);
+    overflow: hidden;
+  }
+
+  .main-search__photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--search-photo-pos, center);
+  }
+
+  .main-search--photo .search-form {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    margin: 0;
+    padding: 2px;
+    background: #fff;
+  }
+
+  .main-search--photo .search-form .field {
+    background: #fff;
+  }
+
+  .main-search--photo .main-search__results {
+    margin-top: 48px;
+  }
+{% endstylesheet %}
 
 {% schema %}
 {
@@ -84,6 +195,55 @@
         { "value": "2", "label": "2" }
       ],
       "default": "1"
+    },
+    {
+      "type": "header",
+      "content": "Photo"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "label": "Show a photo behind the search",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Photo",
+      "info": "Empty shows the sea view that comes with the theme."
+    },
+    {
+      "type": "range",
+      "id": "image_height",
+      "label": "Photo height",
+      "min": 40,
+      "max": 100,
+      "step": 2,
+      "unit": "vh",
+      "default": 72,
+      "info": "Before searching, as a share of the screen height."
+    },
+    {
+      "type": "range",
+      "id": "image_height_results",
+      "label": "Photo height with results",
+      "min": 0,
+      "max": 600,
+      "step": 20,
+      "unit": "px",
+      "default": 320,
+      "info": "Once there are results. 0 hides the photo then."
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Photo focus",
+      "options": [
+        { "value": "center top", "label": "Top" },
+        { "value": "center", "label": "Center" },
+        { "value": "center bottom", "label": "Bottom" }
+      ],
+      "default": "center"
     }
   ]
 }
