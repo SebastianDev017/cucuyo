@@ -102,7 +102,7 @@
   {%- endif -%}
 {%- endcapture -%}
 
-<footer class="site-footer site-footer--{{ layout }}" style="--footer-mark-width: {{ mark_width }}px; --footer-brand-width: {{ brand_width }}px; --footer-stacked-width: {{ section.settings.stacked_width | default: 116 }}px; --footer-stacked-width-m: {{ section.settings.stacked_width_mobile | default: 140 }}px;">
+<footer class="site-footer site-footer--{{ layout }}" style="--footer-mark-width: {{ mark_width }}px; --footer-brand-width: {{ brand_width }}px; --footer-stacked-width: {{ section.settings.stacked_width | default: 116 }}px; --footer-stacked-width-m: {{ section.settings.stacked_width_mobile | default: 140 }}px; --footer-pad-top: {{ section.settings.footer_pad_top | default: 160 }}px; --footer-pad-top-m: {{ section.settings.footer_pad_top_mobile | default: 48 }}px; --footer-brand-gap: {{ section.settings.footer_brand_gap | default: 80 }}px; --footer-copy-gap: {{ section.settings.footer_copy_gap | default: 32 }}px; --footer-pad-bottom: {{ section.settings.footer_pad_bottom | default: 40 }}px;">
   <div class="site-footer__inner">
     {%- if layout == 'columns' -%}
       <div class="site-footer__brand">{{ mark_html }}</div>
@@ -247,6 +247,70 @@
       "label": "Newsletter note",
       "info": "Classic layout: the line above the email field. Large-logo layout: the note under the button (when shown).",
       "default": "Sign up to our newsletter to receive exclusive offers."
+    },
+    {
+      "type": "header",
+      "content": "Spacing",
+      "info": "Classic layout (logo on top)."
+    },
+    {
+      "type": "range",
+      "id": "footer_pad_top",
+      "label": "Space above the logo",
+      "min": 0,
+      "max": 240,
+      "step": 8,
+      "unit": "px",
+      "default": 160,
+      "info": "Computers and tablets.",
+      "visible_if": "{{ section.settings.footer_layout == 'columns' }}"
+    },
+    {
+      "type": "range",
+      "id": "footer_pad_top_mobile",
+      "label": "Space above the logo on phones",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 48,
+      "visible_if": "{{ section.settings.footer_layout == 'columns' }}"
+    },
+    {
+      "type": "range",
+      "id": "footer_brand_gap",
+      "label": "Space between the logo and the newsletter",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 80,
+      "info": "Computers and tablets.",
+      "visible_if": "{{ section.settings.footer_layout == 'columns' }}"
+    },
+    {
+      "type": "range",
+      "id": "footer_copy_gap",
+      "label": "Space between the email field and the copyright",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 32,
+      "info": "Computers and tablets. On phones the copyright stays at the end, under the links.",
+      "visible_if": "{{ section.settings.footer_layout == 'columns' }}"
+    },
+    {
+      "type": "range",
+      "id": "footer_pad_bottom",
+      "label": "Space below the copyright",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 40,
+      "info": "Computers and tablets.",
+      "visible_if": "{{ section.settings.footer_layout == 'columns' }}"
     },
     {
       "type": "header",
@@ -461,24 +525,28 @@
   }
 
   /* Classic layout (Jen and Eugenia, 2026-10-06, after chloe.com), at 1440:
-     the logo on top, as wide as the newsletter column under it (a quarter of
-     the content width); 80px down, the newsletter column on the left and the
-     link columns from a third of the way across; 96px down, the copyright left
-     and the Instagram word right. Links, titles and copyright 12px. */
+     160px of air above the logo; the logo as wide as the newsletter column
+     under it (a quarter of the content width); 80px down, the newsletter
+     column on the left and the link columns from a third of the way across;
+     the copyright 32px under the email field. Every gap is a Spacing slider
+     in the section. Links, titles and copyright 12px. The copyright row is a
+     flexible track so the taller link columns stretch it, not the newsletter
+     row above it. */
   .site-footer.site-footer--columns {
-    padding: 64px var(--page-margin) 40px;
+    padding: var(--footer-pad-top, 160px) var(--page-margin) var(--footer-pad-bottom, 40px);
   }
 
   .site-footer.site-footer--columns .site-footer__inner {
     grid-template-columns: minmax(0, 25fr) minmax(0, 9fr) minmax(0, 66fr);
-    grid-template-areas: 'brand . .' 'news . links' 'bottom bottom bottom';
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas: 'brand . .' 'news . links' 'bottom . links';
     gap: 0;
     align-items: start;
   }
 
   .site-footer.site-footer--columns .site-footer__brand {
     grid-area: brand;
-    margin-bottom: 80px;
+    margin-bottom: var(--footer-brand-gap, 80px);
   }
 
   .site-footer.site-footer--columns .site-footer__mark:not(.site-footer__mark--stacked) {
@@ -577,7 +645,7 @@
     justify-content: space-between;
     align-items: baseline;
     gap: 12px 24px;
-    margin-top: 96px;
+    margin-top: var(--footer-copy-gap, 32px);
   }
 
   .site-footer.site-footer--columns .site-footer__copyright {
@@ -606,11 +674,12 @@
 
   @media (max-width: 749px) {
     .site-footer.site-footer--columns {
-      padding: 48px var(--page-margin) 32px;
+      padding: var(--footer-pad-top-m, 48px) var(--page-margin) 32px;
     }
 
     .site-footer.site-footer--columns .site-footer__inner {
       grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: none;
       grid-template-areas: 'brand' 'news' 'links' 'bottom';
     }
 
