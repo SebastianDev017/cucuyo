@@ -19,7 +19,7 @@
           "settings": {
             "heading": "Shop",
             "menu": "categories-footer",
-            "fallback_links": "contact\nabout\ninterior design\ninstagram"
+            "fallback_links": ""
           }
         },
         "column_3": {
@@ -66,6 +66,11 @@
         "newsletter_heading": "Newsletter",
         "show_newsletter_note": false,
         "newsletter_note": "Sign up to our newsletter to receive exclusive offers.",
+        "footer_pad_top": 160,
+        "footer_pad_top_mobile": 48,
+        "footer_brand_gap": 80,
+        "footer_copy_gap": 32,
+        "footer_pad_bottom": 40,
         "instagram_url": "",
         "instagram_label": "Instagram"
       }
