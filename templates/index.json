@@ -15,13 +15,14 @@
         "image_1": {
           "type": "image",
           "settings": {
+            "image": "shopify://shop_images/CH_PW_07.png",
             "draft_asset": "pdf2-landing-1-1.jpg",
             "heading": "",
-            "body": "A spontaneous meeting between luxury and the eclectic.",
-            "cta_label": "EXPLORE THE CUCUYO COLLECTION",
+            "body": "Spotted cheetahs and pink cats living in harmony.",
+            "cta_label": "SEE CHEETAH PILLOW",
             "label": "",
-            "label_tone": "light",
-            "link": "shopify://collections/cucuyo",
+            "label_tone": "dark",
+            "link": "shopify://products/cheetah-pillow",
             "scrim": false
           }
         },
