@@ -13,6 +13,27 @@
       "type": "mosaic-heading",
       "settings": {}
     },
+    "collection_note": {
+      "type": "image-text",
+      "settings": {
+        "image_side": "left",
+        "image": "shopify://shop_images/PC_CH_09.jpg",
+        "draft_asset": "",
+        "alt_text": "",
+        "image_link": "",
+        "heading": "CUSTOM CUCUYO",
+        "body": "A spontaneous meeting between luxury and the eclectic.",
+        "cta_label": "EXPLORE THE COLLECTION",
+        "link": "shopify://collections/cucuyo",
+        "header_tone": "ink",
+        "text_position": "center",
+        "show_icon": true,
+        "overlay_body": "",
+        "overlay_cta_label": "",
+        "overlay_link": "shopify://products/cheetah-pillow",
+        "overlay_tone": "light"
+      }
+    },
     "hero_lamps": {
       "type": "home-hero",
       "blocks": {
@@ -75,27 +96,6 @@
         "padding_top": 0,
         "padding_bottom": 0,
         "header_tone": "ink"
-      }
-    },
-    "collection_note": {
-      "type": "image-text",
-      "settings": {
-        "image_side": "left",
-        "image": "shopify://shop_images/CH_PW_07.png",
-        "draft_asset": "",
-        "alt_text": "",
-        "image_link": "",
-        "heading": "CHEETAH PILLOW",
-        "body": "Spotted cheetahs and pink cats living in harmony.",
-        "cta_label": "EXPLORE THE CUCUYO COLLECTION",
-        "link": "shopify://collections/cucuyo",
-        "header_tone": "ink",
-        "text_position": "center",
-        "show_icon": true,
-        "overlay_body": "",
-        "overlay_cta_label": "",
-        "overlay_link": "shopify://products/cheetah-pillow",
-        "overlay_tone": "light"
       }
     },
     "hero_hardware": {
@@ -166,9 +166,9 @@
   },
   "order": [
     "heading",
+    "collection_note",
     "hero_lamps",
     "dynamic_collection_kaPnUc",
-    "collection_note",
     "hero_hardware",
     "dynamic_collection_V9hLYH"
   ]
