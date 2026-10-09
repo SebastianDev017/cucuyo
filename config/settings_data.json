@@ -28,6 +28,28 @@
     "enable_scroll_animations": true,
     "enable_smooth_scroll": true,
     "favicon": "shopify://shop_images/CH_favicon_1_-Photoroom.png",
+    "sections": {
+      "newsletter-popup": {
+        "type": "newsletter-popup",
+        "custom_css": [],
+        "settings": {
+          "enabled": true,
+          "delay": 3,
+          "days": 7,
+          "show_icon": true,
+          "heading": "Welcome",
+          "text": "<p>Use code <strong>WELCOME</strong> at checkout for 10% off for a limited time!</p>",
+          "placeholder": "",
+          "button_label": "",
+          "footnote": "",
+          "success_text": "<p>Thank you for signing up.</p>",
+          "discount_code": "",
+          "color_background": "#5d3f1f",
+          "color_text": "#ffffff",
+          "color_detail": "#5D3F1F"
+        }
+      }
+    },
     "content_for_index": []
   },
   "presets": {
