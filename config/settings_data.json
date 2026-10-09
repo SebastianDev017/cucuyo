@@ -31,14 +31,17 @@
     "sections": {
       "newsletter-popup": {
         "type": "newsletter-popup",
-        "custom_css": [],
+        "custom_css": [
+          "h2 {font-size: 60px; line-height: 1.2em;}",
+          "h3 {font-size: 24px; line-height: 1.2em;}"
+        ],
         "settings": {
           "enabled": true,
           "delay": 3,
           "days": 7,
           "show_icon": true,
-          "heading": "Welcome",
-          "text": "<p>Use code <strong>WELCOME</strong> at checkout for 10% off for a limited time!</p>",
+          "heading": "WELCOME",
+          "text": "<h3>Use code CUCUYO10 at checkout for 10% off for a limited time!</h3>",
           "placeholder": "",
           "button_label": "",
           "footnote": "",
@@ -46,7 +49,7 @@
           "discount_code": "",
           "color_background": "#5d3f1f",
           "color_text": "#ffffff",
-          "color_detail": "#5D3F1F"
+          "color_detail": "#5d3f1f"
         }
       }
     },
