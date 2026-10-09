@@ -12,20 +12,6 @@
     "hero_collection": {
       "type": "home-hero",
       "blocks": {
-        "image_2": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/FLR_PB_06_21cfbaa3-5310-4c3a-9bde-650219c24d3d.png",
-            "draft_asset": "",
-            "heading": "",
-            "body": "A lifted bowl for a collection of coconuts.",
-            "cta_label": "SEE FLEUR PEDESTAL BOWL",
-            "label": "",
-            "label_tone": "light",
-            "link": "shopify://products/fleur-pedestal-bowl",
-            "scrim": false
-          }
-        },
         "image_1": {
           "type": "image",
           "settings": {
@@ -39,11 +25,25 @@
             "link": "shopify://products/cheetah-pillow",
             "scrim": false
           }
+        },
+        "image_2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/FLR_PB_06_21cfbaa3-5310-4c3a-9bde-650219c24d3d.png",
+            "draft_asset": "",
+            "heading": "",
+            "body": "A lifted bowl for a collection of coconuts.",
+            "cta_label": "SEE FLEUR PEDESTAL BOWL",
+            "label": "",
+            "label_tone": "light",
+            "link": "shopify://products/fleur-pedestal-bowl",
+            "scrim": false
+          }
         }
       },
       "block_order": [
-        "image_2",
-        "image_1"
+        "image_1",
+        "image_2"
       ],
       "settings": {
         "header_tone": "light",
