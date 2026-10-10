@@ -27,7 +27,7 @@
     "swatch_margin": 8,
     "enable_scroll_animations": true,
     "enable_smooth_scroll": true,
-    "favicon": "shopify://shop_images/IG_profile_Images_Dark-50.png",
+    "favicon": "shopify://shop_images/CH_favicon_1.png",
     "sections": {
       "newsletter-popup": {
         "type": "newsletter-popup",
